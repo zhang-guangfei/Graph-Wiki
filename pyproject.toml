@@ -1,0 +1,30 @@
+[project]
+name = "graph-wiki"
+version = "0.1.0"
+description = "从源代码自动构建业务域知识图谱和 Wiki 文档"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "OPS Team" }]
+dependencies = [
+    "graphifyy>=0.3.10",
+    "networkx>=3.0",
+    "anthropic>=0.30.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+graph-wiki = "graph_wiki.pipeline:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
