@@ -318,7 +318,9 @@ def _cmd_build(args):
         _write_json(output_base / "workbench-data.json", ProductDataService(output_base).export_workbench_data())
 
         print(f"\n完成. {output_base / 'wiki' / 'index.md'} | {output_base / 'domain_graph.html'}")
-        print(f"  build-report.json: {report['quality']['status']}")
+        print(f"  build.status: {report['build']['status']}")
+        print(f"  artifactStatus: {report['build'].get('artifactStatus', report['quality']['status'])}")
+        print(f"  productQuality.deepReadingStatus: {report['productQuality']['deepReadingStatus']}")
     except Exception as e:
         timings["total_seconds"] = round(time.perf_counter() - total_started, 4)
         _write_failure_report(

@@ -67,6 +67,16 @@ output/svn-platform/domain_graph.html
 python -m pytest -q
 ```
 
+## 发布质量门禁
+
+发布或合并前运行同一条本地/CI 门禁。它会执行 pytest、Workbench TypeScript build、`fullstack-enterprise` 构建、`svn-platform` 构建与前端 smoke，并显式校验 `build-report.json` 中的 `build.status` 与 `productQuality.deepReadingStatus`：
+
+```powershell
+python scripts/release_quality_gate.py
+```
+
+判定口径：`build.status=passed` 只代表流水线执行成功；`productQuality.deepReadingStatus` 才代表 Domain Read Model v1 是否能支撑“流程 → 规则 → 证据”的产品阅读路径。
+
 ## 运行 Workbench 前端
 
 先构建一份产物，确保输出目录里存在 `workbench-data.json`：
