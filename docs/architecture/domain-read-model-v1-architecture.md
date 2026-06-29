@@ -278,7 +278,7 @@ wiki/{domain}/evidence.md       # 证据索引
 }
 ```
 
-不能再用单一 `quality.status` 混淆“构建成功”和“产品合格”。
+不能再用单一 `quality.status` 混淆“构建成功”和“产品合格”。发布/CI 门禁应调用 `scripts/release_quality_gate.py`，并同时检查 fullstack-enterprise 与 svn-platform smoke 输出的 `productQuality`。
 
 ---
 

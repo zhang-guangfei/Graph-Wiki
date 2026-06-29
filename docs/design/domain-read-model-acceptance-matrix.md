@@ -87,14 +87,30 @@ tests/test_workbench_domain_reading_contract.py
 
 ## 5. 验证命令
 
+推荐使用统一发布门禁脚本，避免人工只检查 `build.status` 而漏看 `productQuality`：
+
 ```bash
-. .venv/bin/activate
+python3 scripts/release_quality_gate.py
+```
+
+CI 使用同一入口：`.github/workflows/release-quality-gate.yml`。
+
+该脚本必须顺序覆盖：
+
+```bash
 python3 -m pytest -q
 cd workbench && npm ci && npm run build
 python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/fullstack-enterprise
 python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
 python3 scripts/release_quality_gate.py --output-root output/release-quality-gate
 ```
+
+如果需要手工复核，必须同时读取每个 smoke 输出的：
+
+- `build-report.json.build.status == passed`：只代表流水线执行成功。
+- `build-report.json.productQuality == domain-read-model.json.quality`：代表产品深度阅读质量。
+- `productQuality.deepReadingStatus` 与 `productQuality.coreDomainEvidenceStatus` 不得为 `failed`。
+- `workbench-data.json.schema.source == domain-read-model.json`。
 
 ---
 

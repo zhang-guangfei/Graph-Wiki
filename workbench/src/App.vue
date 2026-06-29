@@ -307,14 +307,29 @@ function evidenceTone(domain: DomainDetail, ref: string) {
               <details v-if="activeDomain.fieldRules.length" open class="field-rule-panel">
                 <summary>字段规则 {{ activeDomain.fieldRules.length }}</summary>
                 <article v-for="fieldRule in activeDomain.fieldRules" :key="fieldRule.fieldRuleId" class="field-rule-row">
-                  <strong>{{ fieldRule.fieldId }}</strong>
+                  <div class="field-rule-heading">
+                    <strong>{{ fieldRule.fieldId }}</strong>
+                    <span class="status" :class="statusTone(fieldRule.status)">{{ statusLabel(fieldRule.status) }}</span>
+                  </div>
                   <p>{{ fieldRule.statement }}</p>
+                  <p v-if="fieldRule.partialReason" class="muted-text">部分原因：{{ fieldRule.partialReason }}</p>
                   <div class="field-chain">
-                    <span v-for="item in fieldRule.chain" :key="fieldRule.fieldRuleId + item.layer + item.ref">
+                    <span v-for="item in fieldRule.chain" :key="fieldRule.fieldRuleId + item.layer + item.ref" :title="item.ref">
                       {{ item.layer }}
                     </span>
                   </div>
                 </article>
+              </details>
+
+              <details v-if="activeDomain.evidence.length" open class="evidence-panel">
+                <summary>证据面板 {{ activeDomain.evidence.length }}</summary>
+                <div class="evidence-grid">
+                  <article v-for="item in activeDomain.evidence" :key="item.id || item.label" class="evidence-card">
+                    <span class="status" :class="statusTone(item.status)">{{ item.type }}</span>
+                    <strong>{{ item.label }}</strong>
+                    <small>{{ item.sourcePath || item.path || item.id }}</small>
+                  </article>
+                </div>
               </details>
             </section>
 

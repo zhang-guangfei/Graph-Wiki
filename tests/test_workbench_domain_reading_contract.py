@@ -72,6 +72,8 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
     assert detail["deepReadingPath"]["order"] == ["flows", "rules", "evidence"]
     assert detail["flows"][0]["steps"][0]["evidenceRefs"] == ["api:POST:/orders"]
     assert detail["rules"]["items"][0]["statement"] == "创建订单必须调用后端。"
+    assert detail["spec"]["status"] == "placeholder"
+    assert detail["fieldFlows"]["status"] == "ready"
     assert detail["fieldRules"][0]["fieldId"] == "orders.customer_id"
     assert detail["fieldRules"][0]["mapping"]["dto"] == {
         "className": "CreateOrderRequest",
