@@ -376,7 +376,12 @@ def _build_field_rules(
             "fieldId": f"{table}.{column}",
             "statement": _field_rule_statement(entry, table, column),
             "chain": chain,
-            "mapping": _field_rule_mapping(entry, api, api_evidence_ref, callers),
+            "mapping": _field_mapping(entry, api, table, column, callers),
+            "chainCompleteness": {
+                "presentLayers": sorted(present_layers),
+                "missingRequiredLayers": missing_layers,
+                "missingOptionalLayers": optional_missing,
+            },
             "evidenceRefs": _unique(evidence_refs),
             "status": status,
             "confidence": round(confidence, 4),
@@ -733,6 +738,42 @@ def _field_rule_statement(entry: dict[str, Any], table: str, column: str) -> str
         pieces.append(f"Entity {entity}")
     pieces.append(f"数据库字段 {table}.{column}")
     return " 经由 ".join(pieces) + " 形成字段链路。"
+
+
+def _field_mapping(
+    entry: dict[str, Any],
+    api: dict[str, Any],
+    table: str,
+    column: str,
+    callers: list[Any],
+) -> dict[str, Any]:
+    """Expose machine-readable field-chain metadata for Workbench consumers."""
+    return {
+        "api": {
+            "method": api.get("method", ""),
+            "url": api.get("url", ""),
+            "functionName": entry.get("api_function") or api.get("function", ""),
+        },
+        "dto": {
+            "className": entry.get("dto_class", ""),
+            "field": entry.get("dto_field", ""),
+            "sourcePath": entry.get("dto_file", ""),
+        },
+        "entity": {
+            "className": entry.get("entity_class", ""),
+            "field": entry.get("entity_field", ""),
+            "sourcePath": entry.get("entity_file", ""),
+        },
+        "database": {
+            "table": table,
+            "column": column,
+        },
+        "frontendCallers": [
+            caller.get("page", "") if isinstance(caller, dict) else str(caller)
+            for caller in callers
+            if caller
+        ],
+    }
 
 
 def _rule_type(api: dict[str, Any]) -> str:

@@ -180,6 +180,16 @@ class ProductDataService:
         }
 
     def list_apis(self, domain_key: str | None = None) -> list[dict[str, Any]]:
+        read_model = self._domain_read_model()
+        if read_model:
+            result = []
+            evidence_index = read_model.get("evidenceIndex", {})
+            for domain in read_model.get("domains", []):
+                if domain_key and domain.get("domainKey") != domain_key:
+                    continue
+                result.extend(_apis_from_read_model(domain, evidence_index))
+            return result
+
         result = []
         for item in self._apis():
             domain = item.get("domain", "")
@@ -227,24 +237,7 @@ class ProductDataService:
             for domain in read_model.get("domains", []):
                 if domain_key and domain.get("domainKey") != domain_key:
                     continue
-                for rule in domain.get("fieldRules", []):
-                    table, _, column = str(rule.get("fieldId", "")).partition(".")
-                    api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
-                    method, url = _method_url_from_api_ref(api_ref)
-                    mapping = _field_rule_mapping_from_read_model(rule, method, url)
-                    result.append({
-                        "fieldId": rule.get("fieldId", ""),
-                        "domainKey": domain.get("domainKey", ""),
-                        "table": table,
-                        "column": column,
-                        "api": mapping["api"],
-                        "dto": mapping["dto"],
-                        "entity": mapping["entity"],
-                        "frontendCallers": mapping["frontendCallers"],
-                        "confidence": rule.get("confidence", 0),
-                        "confidenceLabel": _confidence_label(rule.get("confidence")),
-                        "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
-                    })
+                result.extend(_field_flow_items_from_read_model(domain, evidence_index))
             return result
 
         field_map = self._read_json("field-map.json", {})
@@ -353,11 +346,20 @@ class ProductDataService:
             if _matches(needle, api["url"], api["businessUse"], api.get("backend", {}).get("method", "")):
                 results.append(_search_result("api", api["apiId"], api["url"], api["businessUse"], api["domainKey"]))
 
-        for domain in self._domains():
-            for point in domain.get("business_points", []):
-                title = _business_title(point.get("name", ""))
-                if _matches(needle, point.get("name", ""), title, point.get("entry_file", "")):
-                    results.append(_search_result("business_point", point.get("name", ""), title, point.get("entry_file", ""), _domain_key(domain)))
+        read_model = self._domain_read_model()
+        if read_model:
+            for domain in read_model.get("domains", []):
+                domain_key = domain.get("domainKey", "unknown")
+                for flow in domain.get("flows", []):
+                    title = flow.get("title", flow.get("flowId", ""))
+                    if _matches(needle, flow.get("flowId", ""), title, flow.get("summary", "")):
+                        results.append(_search_result("business_point", flow.get("flowId", ""), title, flow.get("summary", ""), domain_key))
+        else:
+            for domain in self._domains():
+                for point in domain.get("business_points", []):
+                    title = _business_title(point.get("name", ""))
+                    if _matches(needle, point.get("name", ""), title, point.get("entry_file", "")):
+                        results.append(_search_result("business_point", point.get("name", ""), title, point.get("entry_file", ""), _domain_key(domain)))
 
         for field in self.list_fields():
             if _matches(needle, field["fieldId"], field["api"]["url"], field["dto"]["className"]):
@@ -505,18 +507,33 @@ def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: di
     for rule in domain.get("fieldRules", []):
         field_id = rule.get("fieldId", "")
         table, _, column = field_id.partition(".")
+        mapping = rule.get("mapping", {}) if isinstance(rule.get("mapping"), dict) else {}
+        api_mapping = mapping.get("api", {}) if isinstance(mapping.get("api"), dict) else {}
+        dto_mapping = mapping.get("dto", {}) if isinstance(mapping.get("dto"), dict) else {}
+        entity_mapping = mapping.get("entity", {}) if isinstance(mapping.get("entity"), dict) else {}
+        database_mapping = mapping.get("database", {}) if isinstance(mapping.get("database"), dict) else {}
         api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
         method, url = _method_url_from_api_ref(api_ref)
         mapping = _field_rule_mapping_from_read_model(rule, method, url)
         result.append({
             "fieldId": field_id,
             "domainKey": domain.get("domainKey", ""),
-            "table": table,
-            "column": column,
-            "api": mapping["api"],
-            "dto": mapping["dto"],
-            "entity": mapping["entity"],
-            "frontendCallers": mapping["frontendCallers"],
+            "table": database_mapping.get("table") or table,
+            "column": database_mapping.get("column") or column,
+            "api": {
+                "method": api_mapping.get("method") or method,
+                "url": api_mapping.get("url") or url,
+                "functionName": api_mapping.get("functionName", ""),
+            },
+            "dto": {
+                "className": dto_mapping.get("className", ""),
+                "field": dto_mapping.get("field", ""),
+            },
+            "entity": {
+                "className": entity_mapping.get("className", ""),
+                "field": entity_mapping.get("field", ""),
+            },
+            "frontendCallers": mapping.get("frontendCallers", []) if isinstance(mapping.get("frontendCallers"), list) else [],
             "confidence": rule.get("confidence", 0),
             "confidenceLabel": _confidence_label(rule.get("confidence")),
             "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
