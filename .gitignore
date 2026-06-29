@@ -49,3 +49,4 @@ workbench/public/workbench-data.json
 # Local frontend dependency installs for smoke builds.
 **/node_modules/
 tests/svn-platform/package-lock.json
+tests/svn-platform/dist/

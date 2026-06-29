@@ -115,3 +115,43 @@ def test_workbench_domain_page_keeps_backward_compatible_field_mapping_fallback(
     assert field_flow["dto"] == {"className": "", "field": "", "file": ""}
     assert field_flow["entity"] == {"className": "", "field": "", "file": ""}
     assert field_flow["frontendCallers"] == []
+
+
+def test_workbench_read_model_statuses_use_contract_values_and_preserve_partial_field_flows(tmp_path: Path):
+    model = {
+        "schema": {"version": "domain-read-model-v1"},
+        "project": {"projectName": "Fixture", "sourceRoot": "fixture"},
+        "evidenceIndex": {
+            "field:orders.status": {"id": "field:orders.status", "type": "field", "label": "orders.status", "path": "field-map.json", "confidence": 0.7, "status": "partial"},
+        },
+        "domains": [{
+            "domainKey": "order",
+            "displayName": "订单管理",
+            "summary": "处理订单。",
+            "core": True,
+            "flows": [],
+            "rules": [],
+            "fieldRules": [{
+                "fieldRuleId": "fr-partial",
+                "fieldId": "orders.status",
+                "statement": "status 字段链路不完整。",
+                "chain": [{"layer": "db", "ref": "field:orders.status"}],
+                "evidenceRefs": ["field:orders.status"],
+                "status": "partial",
+                "confidence": 0.7,
+                "partialReason": "缺少 DTO/entity 映射",
+            }],
+            "evidenceRefs": ["field:orders.status"],
+            "quality": {"deepReadingStatus": "warning"},
+        }],
+        "quality": {"deepReadingStatus": "warning", "coreDomainEvidenceStatus": "warning", "ruleCorrectnessRisk": "medium", "warnings": [], "errors": []},
+    }
+    (tmp_path / "domain-read-model.json").write_text(json.dumps(model, ensure_ascii=False), encoding="utf-8")
+    (tmp_path / "build-report.json").write_text(json.dumps({"project": {"root": "fixture"}, "build": {"status": "passed"}, "quality": {"status": "warning"}, "productQuality": model["quality"]}, ensure_ascii=False), encoding="utf-8")
+
+    detail = ProductDataService(tmp_path).export_workbench_data()["domainDetails"]["order"]
+
+    assert detail["rules"]["status"] in {"placeholder", "ready", "missing"}
+    assert detail["rules"]["status"] == "missing"
+    assert detail["spec"]["status"] in {"placeholder", "ready", "missing"}
+    assert detail["fieldFlows"]["status"] == "partial"
