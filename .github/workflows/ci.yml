@@ -1,0 +1,41 @@
+name: Graph-Wiki CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  release-quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: workbench/package-lock.json
+
+      - name: Install Python package
+        run: python -m pip install -e '.[dev]'
+
+      - name: Run release quality gate
+        run: python scripts/release_quality_gate.py --output-root output/release-quality-gate
+
+      - name: Upload release gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-quality-gate-report
+          path: output/release-quality-gate/release-quality-gate-report.json
+          if-no-files-found: ignore

@@ -93,6 +93,7 @@ python3 -m pytest -q
 cd workbench && npm ci && npm run build
 python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/fullstack-enterprise
 python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
+python3 scripts/release_quality_gate.py --output-root output/release-quality-gate
 ```
 
 ---
@@ -109,3 +110,26 @@ python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir ou
 - `EvidenceRef` 当前已验证格式和 `evidenceIndex` 引用存在性；`source:<path>#<symbol>` 的符号级精确定位仍需后续独立 gate 补强。
 - Workbench 当前已展示 flow / rule chip / field rule chain；最终“证据面板”还需要继续增强为可筛选、可定位的独立面板。
 - `build.status=passed` 只代表流水线执行成功；Phase 3/4/5 acceptance 或 `productQuality` warning/failed 必须单独展示，不能被发布说明省略。
+
+
+## 8. Release / CI 质量门禁固化
+
+本轮新增 `scripts/release_quality_gate.py` 作为本地 release gate 和 CI job 的共同入口。 GitHub Actions 入口为 `.github/workflows/ci.yml`。默认不可跳过任何步骤；`--skip-*` 仅允许本地定位问题，不能用于发布证据。
+
+脚本必须输出：
+
+- pytest 命令结果；
+- Workbench `npm ci` 与 `npm run build` 结果；
+- `fullstack-enterprise` 与 `svn-platform` 两个 smoke build 结果；
+- 每个 build 的 `build.status`、`productQuality`、phase gate status；
+- `release-quality-gate-report.json`，用于审计。
+
+发布判定必须同时满足：
+
+1. 命令均通过；
+2. `build.status == passed`；
+3. `productQuality.deepReadingStatus != failed`；
+4. `productQuality.coreDomainEvidenceStatus != failed`；
+5. `workbench-data.schema.source == domain-read-model.json`；
+6. 核心域 flow / rule / fieldRule 的 `evidenceRefs` 均可解析到 `evidenceIndex`；
+7. phase gates 单独列出，不得用 `build.status` 代替。

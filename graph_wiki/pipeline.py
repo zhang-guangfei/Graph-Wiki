@@ -363,10 +363,11 @@ def _cmd_update(args):
         G = merge_graph(extraction, "graph.json", prune_sources=changed_code + deleted)
     else:
         import networkx as nx
-        G = nx.node_link_graph(
-            __import__("json").loads(Path("graph.json").read_text(encoding="utf-8")),
-            edges="links",
-        )
+        graph_data = __import__("json").loads(Path("graph.json").read_text(encoding="utf-8"))
+        try:
+            G = nx.node_link_graph(graph_data, edges="links")
+        except TypeError:
+            G = nx.node_link_graph(graph_data, link="links")
     if args.recluster:
         domains = business_cluster(G, root)
     else:

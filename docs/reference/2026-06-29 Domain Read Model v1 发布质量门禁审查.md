@@ -50,3 +50,52 @@ python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir ou
 2. 为 Java/Spring 规则抽取补充更细粒度夹具：validation 注解、权限判断、状态流转、金额计算、库存扣减。
 3. 为 Vue/React/TS 增加字段来源识别夹具：表单组件、组合式 API、fetch/axios wrapper、TS interface。
 4. 将发布质量门禁固化为一条本地脚本或 CI job，统一输出 pytest、Workbench build、企业夹具 build、SVN smoke build 结果。
+
+## 追加：工程化交付门禁固化（2026-06-29）
+
+本轮将发布门禁固化为本地可执行脚本，并通过 `.github/workflows/ci.yml` 作为 PR/分支 CI 入口：
+
+```bash
+python3 scripts/release_quality_gate.py --output-root output/release-quality-gate
+```
+
+脚本默认顺序执行并记录证据：
+
+1. `python3 -m pytest -q`
+2. `cd workbench && npm ci && npm run build`
+3. `python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir <output>/fullstack-enterprise`
+4. `python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir <output>/svn-platform`
+5. 校验两个 build 输出的 `domain-read-model.json`、`workbench-data.json`、`build-report.json`。
+
+关键判定口径：
+
+- `build.status=passed` 只说明流水线执行成功。
+- `productQuality.deepReadingStatus` / `coreDomainEvidenceStatus` 才说明业务域深读体验是否可交付。
+- `quality.phase3`、`quality.phase4`、`quality.phase5` 是阶段能力门禁，必须单独审查；不得被 `build.status` 或 `quality.status` 覆盖。
+- `workbench-data.schema.source` 必须为 `domain-read-model.json`，否则 Workbench v1 业务域详情页不算通过。
+
+脚本输出 `release-quality-gate-report.json`，作为最终交付验收证据索引。
+
+## 最终交付风险审计（2026-06-29）
+
+### 剩余 blocker
+
+当前未发现必须阻塞 Domain Read Model v1 主线交付的工程 blocker。以下事项不阻塞本轮，但应进入下一轮 backlog：
+
+- `export.py` 仍存在旧 Wiki 产物路径，尚未完全改为从 `domain-read-model.json` 派生。
+- 规则抽取仍以 deterministic heuristic 为主；复杂权限、状态机、金额计算、库存扣减需要更多企业夹具。
+- `source:<path>#<symbol>` 已有格式与引用存在性门禁，但符号级精准定位仍需独立 gate。
+- Workbench 证据面板已支撑流程→规则→证据路径，但可筛选、可定位的证据浏览还需增强。
+
+### 架构不变量
+
+- Domain Read Model v1 的产品真相源是 `domain-read-model.json`。
+- Workbench v1 业务域详情页只能从 `ProductDataService(domain-read-model.json)` 派生，不得直接拼接 legacy artifacts。
+- 每个 flow step / rule / fieldRule 必须有 `evidenceRefs`，且引用必须能在 `evidenceIndex` 中解析。
+- `build.status`、`productQuality.*`、phase gates 是三个不同层级的信号，发布说明和 CI 输出必须分开展示。
+- 本轮清理后 `tests/svn-platform/node_modules` 和 `tests/svn-platform/package-lock.json` 不再作为源码仓库跟踪对象。
+
+### 下一步建议
+
+- 需要一次 Ralph 或 Code Review：建议需要。理由是本轮触及发布门禁、文档契约、仓库污染清理和验证脚本，适合由独立 reviewer 复核“是否存在口径漂移或隐藏跳过”。
+- 若进入下一迭代，优先任务应是把 Wiki 域页从 `domain-read-model.json` 派生，并补强规则抽取夹具。
