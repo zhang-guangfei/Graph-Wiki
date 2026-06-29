@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDeliveryPlanConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDeliveryPlanConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="current_cycle" jdbcType="VARCHAR" property="currentCycle" />
+    <result column="cycle_describe" jdbcType="VARCHAR" property="cycleDescribe" />
+    <result column="calculation_formula" jdbcType="VARCHAR" property="calculationFormula" />
+    <result column="days" jdbcType="INTEGER" property="days" />
+    <result column="workDay" jdbcType="INTEGER" property="workday" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="reliability" jdbcType="VARCHAR" property="reliability" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, current_cycle, cycle_describe, calculation_formula, days, workDay, cre_time, 
+    creator, reliability
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_delivery_plan_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfigExample">
+    delete from dbo.ops_delivery_plan_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfig">
+    insert into dbo.ops_delivery_plan_config (id, current_cycle, cycle_describe, 
+      calculation_formula, days, workDay, 
+      cre_time, creator, reliability
+      )
+    values (#{id,jdbcType=BIGINT}, #{currentCycle,jdbcType=VARCHAR}, #{cycleDescribe,jdbcType=VARCHAR}, 
+      #{calculationFormula,jdbcType=VARCHAR}, #{days,jdbcType=INTEGER}, #{workday,jdbcType=INTEGER}, 
+      #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, #{reliability,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfig">
+    insert into dbo.ops_delivery_plan_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="currentCycle != null">
+        current_cycle,
+      </if>
+      <if test="cycleDescribe != null">
+        cycle_describe,
+      </if>
+      <if test="calculationFormula != null">
+        calculation_formula,
+      </if>
+      <if test="days != null">
+        days,
+      </if>
+      <if test="workday != null">
+        workDay,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="reliability != null">
+        reliability,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="currentCycle != null">
+        #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleDescribe != null">
+        #{cycleDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="calculationFormula != null">
+        #{calculationFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="days != null">
+        #{days,jdbcType=INTEGER},
+      </if>
+      <if test="workday != null">
+        #{workday,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="reliability != null">
+        #{reliability,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_delivery_plan_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_delivery_plan_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.currentCycle != null">
+        current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleDescribe != null">
+        cycle_describe = #{record.cycleDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calculationFormula != null">
+        calculation_formula = #{record.calculationFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="record.days != null">
+        days = #{record.days,jdbcType=INTEGER},
+      </if>
+      <if test="record.workday != null">
+        workDay = #{record.workday,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.reliability != null">
+        reliability = #{record.reliability,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_delivery_plan_config
+    set id = #{record.id,jdbcType=BIGINT},
+      current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      cycle_describe = #{record.cycleDescribe,jdbcType=VARCHAR},
+      calculation_formula = #{record.calculationFormula,jdbcType=VARCHAR},
+      days = #{record.days,jdbcType=INTEGER},
+      workDay = #{record.workday,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      reliability = #{record.reliability,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfig">
+    update dbo.ops_delivery_plan_config
+    <set>
+      <if test="currentCycle != null">
+        current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleDescribe != null">
+        cycle_describe = #{cycleDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="calculationFormula != null">
+        calculation_formula = #{calculationFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="days != null">
+        days = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="workday != null">
+        workDay = #{workday,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="reliability != null">
+        reliability = #{reliability,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanConfig">
+    update dbo.ops_delivery_plan_config
+    set current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      cycle_describe = #{cycleDescribe,jdbcType=VARCHAR},
+      calculation_formula = #{calculationFormula,jdbcType=VARCHAR},
+      days = #{days,jdbcType=INTEGER},
+      workDay = #{workday,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      reliability = #{reliability,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

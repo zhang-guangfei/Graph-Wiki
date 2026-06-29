@@ -1,0 +1,151 @@
+server:
+  port: 8104
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: report-service
+  devtools:
+    remote:
+      restart:
+        enabled: false
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.2.45
+                port: 5672
+                username: opsUser
+                password: opsSales**
+                virtual-host: /
+      default-binder: defaultRabbit
+      bindings:
+        inventory-supplier-sender:
+          binder: defaultRabbit
+          destination: inventory-supplier-exchange
+          content-type: application/json
+        inventory-supplier-receiver:
+          binder: defaultRabbit
+          destination: inventory-supplier-exchange
+          content-type: application/json
+          group: inventory-supplier-group
+      rabbit:
+        bindings:
+          inventory-supplier-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 200
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.2.38:1433;DatabaseName=ops_core;Application Name=orderService
+          username: App_Sales_OPS
+          password: ENC(6L+XhJWPMD7l6iq7asJsfF2ORIdxLncuHbEI8jhmhAhlT1wUVCm9Ab9UAIJUUyLLLNtYdnVhGF04q11ZJAi9/Q==)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        reportdb:
+          url: jdbc:sqlserver://10.116.2.38:1433;DatabaseName=ops_report
+          username: App_Sales_OPS
+          password: ENC(6L+XhJWPMD7l6iq7asJsfF2ORIdxLncuHbEI8jhmhAhlT1wUVCm9Ab9UAIJUUyLLLNtYdnVhGF04q11ZJAi9/Q==)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.2.38:1433;DatabaseName=ops_ui;Application Name=orderService
+          username: App_Sales_OPS
+          password: ENC(6L+XhJWPMD7l6iq7asJsfF2ORIdxLncuHbEI8jhmhAhlT1wUVCm9Ab9UAIJUUyLLLNtYdnVhGF04q11ZJAi9/Q==)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        smcdb30:
+          url: jdbc:sqlserver://10.116.32.17:1433;DatabaseName=smcdb30;Application Name=orderService
+          username: App_Sales_Common
+          password: x60afcb567517hdsf1a5d4d34gf5ds3d
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  redis:
+    lettuce:
+      pool:
+        min-idle: 32
+        max-idle: 64
+        max-active: 128
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      cluster:
+        nodes: 10.116.0.36:1001,10.116.32.150:1002,10.116.33.140:1003,10.116.1.192:1004,10.116.1.238:1006,10.116.1.198:1005
+        max-redirects: 6
+      database: 0
+      password: "04Hw!@RQ"
+      timeout: 25000
+      timeToLive: 120
+
+  # 邮箱配置
+  mail:
+    host: smtp-legacy.partner.outlook.cn
+    username: salessql@smc.com.cn
+    password: D0p3v0i1
+    port: 587
+    defalut-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+    max-size: 50MB
+    max-history: 7
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: product-service, cpfr-service, shareapp-service
+  ConnectTimeout: 10000
+  ReadTimeout: 1800000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 7200000
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.2.44:9000/manage/oauth/token
+      user-authorization-uri: http://10.116.2.44:9000/manage/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.2.44:9000/manage/oauth/check_token
+menhu:
+  url: http://10.116.2.26:8081
+jasypt:
+  encryptor:
+    password: salesops

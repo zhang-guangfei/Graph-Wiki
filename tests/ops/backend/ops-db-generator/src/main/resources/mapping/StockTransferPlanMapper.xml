@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.StockTransferPlanMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.StockTransferPlan">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="plan_no" jdbcType="VARCHAR" property="planNo" />
+    <result column="associate_no" jdbcType="VARCHAR" property="associateNo" />
+    <result column="associate_no_item" jdbcType="INTEGER" property="associateNoItem" />
+    <result column="associate_no_splitNo" jdbcType="INTEGER" property="associateNoSplitno" />
+    <result column="init_inv_type_code" jdbcType="VARCHAR" property="initInvTypeCode" />
+    <result column="init_customer_no" jdbcType="VARCHAR" property="initCustomerNo" />
+    <result column="init_inv_type_value" jdbcType="VARCHAR" property="initInvTypeValue" />
+    <result column="goal_inv_type_code" jdbcType="VARCHAR" property="goalInvTypeCode" />
+    <result column="goal_customer_no" jdbcType="VARCHAR" property="goalCustomerNo" />
+    <result column="goal_inv_type_value" jdbcType="VARCHAR" property="goalInvTypeValue" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="plan_qty" jdbcType="INTEGER" property="planQty" />
+    <result column="finish_qty" jdbcType="INTEGER" property="finishQty" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="NVARCHAR" property="updator" />
+    <result column="doId" jdbcType="VARCHAR" property="doid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, plan_no, associate_no, associate_no_item, associate_no_splitNo, init_inv_type_code, 
+    init_customer_no, init_inv_type_value, goal_inv_type_code, goal_customer_no, goal_inv_type_value, 
+    modelno, plan_qty, finish_qty, status, delflag, create_time, creator, update_time, 
+    updator, doId
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.stock_transfer_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanExample">
+    delete from dbo.stock_transfer_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.StockTransferPlan">
+    insert into dbo.stock_transfer_plan (id, plan_no, associate_no, 
+      associate_no_item, associate_no_splitNo, init_inv_type_code, 
+      init_customer_no, init_inv_type_value, goal_inv_type_code, 
+      goal_customer_no, goal_inv_type_value, modelno, 
+      plan_qty, finish_qty, status, 
+      delflag, create_time, creator, 
+      update_time, updator, doId
+      )
+    values (#{id,jdbcType=BIGINT}, #{planNo,jdbcType=VARCHAR}, #{associateNo,jdbcType=VARCHAR}, 
+      #{associateNoItem,jdbcType=INTEGER}, #{associateNoSplitno,jdbcType=INTEGER}, #{initInvTypeCode,jdbcType=VARCHAR}, 
+      #{initCustomerNo,jdbcType=VARCHAR}, #{initInvTypeValue,jdbcType=VARCHAR}, #{goalInvTypeCode,jdbcType=VARCHAR}, 
+      #{goalCustomerNo,jdbcType=VARCHAR}, #{goalInvTypeValue,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{planQty,jdbcType=INTEGER}, #{finishQty,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{delflag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=NVARCHAR}, #{doid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.StockTransferPlan">
+    insert into dbo.stock_transfer_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="planNo != null">
+        plan_no,
+      </if>
+      <if test="associateNo != null">
+        associate_no,
+      </if>
+      <if test="associateNoItem != null">
+        associate_no_item,
+      </if>
+      <if test="associateNoSplitno != null">
+        associate_no_splitNo,
+      </if>
+      <if test="initInvTypeCode != null">
+        init_inv_type_code,
+      </if>
+      <if test="initCustomerNo != null">
+        init_customer_no,
+      </if>
+      <if test="initInvTypeValue != null">
+        init_inv_type_value,
+      </if>
+      <if test="goalInvTypeCode != null">
+        goal_inv_type_code,
+      </if>
+      <if test="goalCustomerNo != null">
+        goal_customer_no,
+      </if>
+      <if test="goalInvTypeValue != null">
+        goal_inv_type_value,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="planQty != null">
+        plan_qty,
+      </if>
+      <if test="finishQty != null">
+        finish_qty,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="doid != null">
+        doId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="associateNo != null">
+        #{associateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="associateNoItem != null">
+        #{associateNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="associateNoSplitno != null">
+        #{associateNoSplitno,jdbcType=INTEGER},
+      </if>
+      <if test="initInvTypeCode != null">
+        #{initInvTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="initCustomerNo != null">
+        #{initCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="initInvTypeValue != null">
+        #{initInvTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="goalInvTypeCode != null">
+        #{goalInvTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goalCustomerNo != null">
+        #{goalCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goalInvTypeValue != null">
+        #{goalInvTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="planQty != null">
+        #{planQty,jdbcType=INTEGER},
+      </if>
+      <if test="finishQty != null">
+        #{finishQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="doid != null">
+        #{doid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanExample" resultType="java.lang.Long">
+    select count(*) from dbo.stock_transfer_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.stock_transfer_plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.planNo != null">
+        plan_no = #{record.planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.associateNo != null">
+        associate_no = #{record.associateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.associateNoItem != null">
+        associate_no_item = #{record.associateNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.associateNoSplitno != null">
+        associate_no_splitNo = #{record.associateNoSplitno,jdbcType=INTEGER},
+      </if>
+      <if test="record.initInvTypeCode != null">
+        init_inv_type_code = #{record.initInvTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.initCustomerNo != null">
+        init_customer_no = #{record.initCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.initInvTypeValue != null">
+        init_inv_type_value = #{record.initInvTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goalInvTypeCode != null">
+        goal_inv_type_code = #{record.goalInvTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goalCustomerNo != null">
+        goal_customer_no = #{record.goalCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goalInvTypeValue != null">
+        goal_inv_type_value = #{record.goalInvTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planQty != null">
+        plan_qty = #{record.planQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishQty != null">
+        finish_qty = #{record.finishQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.doid != null">
+        doId = #{record.doid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.stock_transfer_plan
+    set id = #{record.id,jdbcType=BIGINT},
+      plan_no = #{record.planNo,jdbcType=VARCHAR},
+      associate_no = #{record.associateNo,jdbcType=VARCHAR},
+      associate_no_item = #{record.associateNoItem,jdbcType=INTEGER},
+      associate_no_splitNo = #{record.associateNoSplitno,jdbcType=INTEGER},
+      init_inv_type_code = #{record.initInvTypeCode,jdbcType=VARCHAR},
+      init_customer_no = #{record.initCustomerNo,jdbcType=VARCHAR},
+      init_inv_type_value = #{record.initInvTypeValue,jdbcType=VARCHAR},
+      goal_inv_type_code = #{record.goalInvTypeCode,jdbcType=VARCHAR},
+      goal_customer_no = #{record.goalCustomerNo,jdbcType=VARCHAR},
+      goal_inv_type_value = #{record.goalInvTypeValue,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      plan_qty = #{record.planQty,jdbcType=INTEGER},
+      finish_qty = #{record.finishQty,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=NVARCHAR},
+      doId = #{record.doid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

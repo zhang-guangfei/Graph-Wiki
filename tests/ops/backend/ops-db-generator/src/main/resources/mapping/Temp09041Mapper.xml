@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.Temp09041Mapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Temp09041">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="pco_item" jdbcType="INTEGER" property="pcoItem" />
+    <result column="sub_modelno" jdbcType="VARCHAR" property="subModelno" />
+    <result column="sub_qty" jdbcType="INTEGER" property="subQty" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="inventory_table_type" jdbcType="VARCHAR" property="inventoryTableType" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="wait_type" jdbcType="VARCHAR" property="waitType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="gather_warehouse_code" jdbcType="VARCHAR" property="gatherWarehouseCode" />
+    <result column="handle_status" jdbcType="INTEGER" property="handleStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, do_id, pco_id, order_id, order_item, pco_item, sub_modelno, sub_qty, inventory_id, 
+    inventory_table_type, inventory_status, wait_type, warehouse_code, gather_warehouse_code, 
+    handle_status, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.Temp09041Example" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.temp0904_1
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.temp0904_1
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.temp0904_1
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.Temp09041Example">
+    delete from dbo.temp0904_1
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Temp09041">
+    insert into dbo.temp0904_1 (id, do_id, pco_id, 
+      order_id, order_item, pco_item, 
+      sub_modelno, sub_qty, inventory_id, 
+      inventory_table_type, inventory_status, wait_type, 
+      warehouse_code, gather_warehouse_code, handle_status, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{doId,jdbcType=VARCHAR}, #{pcoId,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, #{pcoItem,jdbcType=INTEGER}, 
+      #{subModelno,jdbcType=VARCHAR}, #{subQty,jdbcType=INTEGER}, #{inventoryId,jdbcType=BIGINT}, 
+      #{inventoryTableType,jdbcType=VARCHAR}, #{inventoryStatus,jdbcType=VARCHAR}, #{waitType,jdbcType=VARCHAR}, 
+      #{warehouseCode,jdbcType=VARCHAR}, #{gatherWarehouseCode,jdbcType=VARCHAR}, #{handleStatus,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Temp09041">
+    insert into dbo.temp0904_1
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="pcoItem != null">
+        pco_item,
+      </if>
+      <if test="subModelno != null">
+        sub_modelno,
+      </if>
+      <if test="subQty != null">
+        sub_qty,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="inventoryTableType != null">
+        inventory_table_type,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="waitType != null">
+        wait_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="gatherWarehouseCode != null">
+        gather_warehouse_code,
+      </if>
+      <if test="handleStatus != null">
+        handle_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="subModelno != null">
+        #{subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="subQty != null">
+        #{subQty,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryTableType != null">
+        #{inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="waitType != null">
+        #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gatherWarehouseCode != null">
+        #{gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null">
+        #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.Temp09041Example" resultType="java.lang.Long">
+    select count(*) from dbo.temp0904_1
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.temp0904_1
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoItem != null">
+        pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.subModelno != null">
+        sub_modelno = #{record.subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subQty != null">
+        sub_qty = #{record.subQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventoryTableType != null">
+        inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waitType != null">
+        wait_type = #{record.waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gatherWarehouseCode != null">
+        gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleStatus != null">
+        handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.temp0904_1
+    set id = #{record.id,jdbcType=BIGINT},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      sub_modelno = #{record.subModelno,jdbcType=VARCHAR},
+      sub_qty = #{record.subQty,jdbcType=INTEGER},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      wait_type = #{record.waitType,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=VARCHAR},
+      handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Temp09041">
+    update dbo.temp0904_1
+    <set>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        pco_item = #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="subModelno != null">
+        sub_modelno = #{subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="subQty != null">
+        sub_qty = #{subQty,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryTableType != null">
+        inventory_table_type = #{inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="waitType != null">
+        wait_type = #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gatherWarehouseCode != null">
+        gather_warehouse_code = #{gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null">
+        handle_status = #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Temp09041">
+    update dbo.temp0904_1
+    set do_id = #{doId,jdbcType=VARCHAR},
+      pco_id = #{pcoId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      pco_item = #{pcoItem,jdbcType=INTEGER},
+      sub_modelno = #{subModelno,jdbcType=VARCHAR},
+      sub_qty = #{subQty,jdbcType=INTEGER},
+      inventory_id = #{inventoryId,jdbcType=BIGINT},
+      inventory_table_type = #{inventoryTableType,jdbcType=VARCHAR},
+      inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      wait_type = #{waitType,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      gather_warehouse_code = #{gatherWarehouseCode,jdbcType=VARCHAR},
+      handle_status = #{handleStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

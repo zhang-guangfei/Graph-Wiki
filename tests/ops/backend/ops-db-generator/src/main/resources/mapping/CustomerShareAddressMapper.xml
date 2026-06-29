@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.extdao.CustomerShareAddressDao">
+  <resultMap id="BaseResultMap" type="com.sales.ops.dto.customer.CustomerPostalAddress">
+    <result column="customerNo" jdbcType="VARCHAR" property="customerNo"/>
+    <result column="orderNumber" jdbcType="INTEGER" property="orderNumber"/>
+    <result column="addressId" jdbcType="INTEGER" property="addressId"/>
+    <result column="type" jdbcType="VARCHAR" property="type"/>
+    <result column="province" jdbcType="VARCHAR" property="province"/>
+    <result column="city" jdbcType="VARCHAR" property="city"/>
+    <result column="region" jdbcType="VARCHAR" property="region"/>
+    <result column="address" jdbcType="VARCHAR" property="address"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    customerNo, orderNumber, addressId, type, province, city, region, address
+  </sql>
+
+  <!-- 根据客户代码查询客户通讯地址信息 -->
+  <select id="selectCustomerPostalAddressByCustomerNo" parameterType="java.util.List" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM ops_address_type p
+    LEFT JOIN ops_address_details a on a.id = p.addressId
+    WHERE p.type = '0' AND p.CustomerNo IN
+    <foreach collection="list" item="item" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <!-- 根据区域代码查询区域名称信息 -->
+  <select id="selectAreaNameByCityCode" parameterType="java.util.List" resultType="com.sales.ops.dto.customer.NationalArea">
+    SELECT * FROM ops_national_area WHERE code IN
+    <foreach collection="list" item="item" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

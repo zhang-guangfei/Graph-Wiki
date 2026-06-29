@@ -1,0 +1,17 @@
+.consult-tab {
+  .el-tabs__item {
+    height: 26px !important;
+    line-height: 26px !important;
+  }
+  .el-tabs__header {
+    margin: 0px 0px 5px 0;
+  }
+  .el-tabs--border-card > .el-tabs__content {
+    padding-top: 5px;
+  }
+}
+.primary-table-line {
+  .vxe-header--row {
+    padding: 5px;
+  }
+}

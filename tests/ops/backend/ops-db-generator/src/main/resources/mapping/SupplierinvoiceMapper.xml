@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SupplierinvoiceMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Supplierinvoice">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="GZId" jdbcType="INTEGER" property="gzid" />
+    <result column="InvoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="SupplierCode" jdbcType="CHAR" property="suppliercode" />
+    <result column="OrderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="ShipDate" jdbcType="TIMESTAMP" property="shipdate" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="CaseNo" jdbcType="VARCHAR" property="caseno" />
+    <result column="Barcode" jdbcType="NVARCHAR" property="barcode" />
+    <result column="Price" jdbcType="DECIMAL" property="price" />
+    <result column="Status" jdbcType="SMALLINT" property="status" />
+    <result column="OriginCode" jdbcType="VARCHAR" property="origincode" />
+    <result column="OriginCountry" jdbcType="VARCHAR" property="origincountry" />
+    <result column="Unit" jdbcType="VARCHAR" property="unit" />
+    <result column="NoRef" jdbcType="VARCHAR" property="noref" />
+    <result column="ProductCode" jdbcType="VARCHAR" property="productcode" />
+    <result column="TransType" jdbcType="CHAR" property="transtype" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ImpTime" jdbcType="TIMESTAMP" property="imptime" />
+    <result column="Weight" jdbcType="DECIMAL" property="weight" />
+    <result column="ModelENName" jdbcType="NVARCHAR" property="modelenname" />
+    <result column="OrderType" jdbcType="CHAR" property="ordertype" />
+    <result column="TariffRate" jdbcType="DECIMAL" property="tariffrate" />
+    <result column="CNName" jdbcType="NVARCHAR" property="cnname" />
+    <result column="UpdTime" jdbcType="TIMESTAMP" property="updtime" />
+    <result column="JPHSCode" jdbcType="VARCHAR" property="jphscode" />
+    <result column="CNHSCode" jdbcType="VARCHAR" property="cnhscode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, GZId, InvoiceNo, SupplierCode, OrderNo, ShipDate, ModelNo, Quantity, CaseNo, 
+    Barcode, Price, Status, OriginCode, OriginCountry, Unit, NoRef, ProductCode, TransType, 
+    Remark, ImpTime, Weight, ModelENName, OrderType, TariffRate, CNName, UpdTime, JPHSCode, 
+    CNHSCode
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SupplierinvoiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._SupplierInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._SupplierInvoice
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo._SupplierInvoice
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SupplierinvoiceExample">
+    delete from dbo._SupplierInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Supplierinvoice">
+    insert into dbo._SupplierInvoice (Id, GZId, InvoiceNo, 
+      SupplierCode, OrderNo, ShipDate, 
+      ModelNo, Quantity, CaseNo, 
+      Barcode, Price, Status, 
+      OriginCode, OriginCountry, Unit, 
+      NoRef, ProductCode, TransType, 
+      Remark, ImpTime, Weight, 
+      ModelENName, OrderType, TariffRate, 
+      CNName, UpdTime, JPHSCode, 
+      CNHSCode)
+    values (#{id,jdbcType=INTEGER}, #{gzid,jdbcType=INTEGER}, #{invoiceno,jdbcType=VARCHAR}, 
+      #{suppliercode,jdbcType=CHAR}, #{orderno,jdbcType=VARCHAR}, #{shipdate,jdbcType=TIMESTAMP}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{caseno,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=NVARCHAR}, #{price,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT}, 
+      #{origincode,jdbcType=VARCHAR}, #{origincountry,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{noref,jdbcType=VARCHAR}, #{productcode,jdbcType=VARCHAR}, #{transtype,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{imptime,jdbcType=TIMESTAMP}, #{weight,jdbcType=DECIMAL}, 
+      #{modelenname,jdbcType=NVARCHAR}, #{ordertype,jdbcType=CHAR}, #{tariffrate,jdbcType=DECIMAL}, 
+      #{cnname,jdbcType=NVARCHAR}, #{updtime,jdbcType=TIMESTAMP}, #{jphscode,jdbcType=VARCHAR}, 
+      #{cnhscode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Supplierinvoice">
+    insert into dbo._SupplierInvoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="gzid != null">
+        GZId,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="suppliercode != null">
+        SupplierCode,
+      </if>
+      <if test="orderno != null">
+        OrderNo,
+      </if>
+      <if test="shipdate != null">
+        ShipDate,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="caseno != null">
+        CaseNo,
+      </if>
+      <if test="barcode != null">
+        Barcode,
+      </if>
+      <if test="price != null">
+        Price,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="origincode != null">
+        OriginCode,
+      </if>
+      <if test="origincountry != null">
+        OriginCountry,
+      </if>
+      <if test="unit != null">
+        Unit,
+      </if>
+      <if test="noref != null">
+        NoRef,
+      </if>
+      <if test="productcode != null">
+        ProductCode,
+      </if>
+      <if test="transtype != null">
+        TransType,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="imptime != null">
+        ImpTime,
+      </if>
+      <if test="weight != null">
+        Weight,
+      </if>
+      <if test="modelenname != null">
+        ModelENName,
+      </if>
+      <if test="ordertype != null">
+        OrderType,
+      </if>
+      <if test="tariffrate != null">
+        TariffRate,
+      </if>
+      <if test="cnname != null">
+        CNName,
+      </if>
+      <if test="updtime != null">
+        UpdTime,
+      </if>
+      <if test="jphscode != null">
+        JPHSCode,
+      </if>
+      <if test="cnhscode != null">
+        CNHSCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gzid != null">
+        #{gzid,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null">
+        #{suppliercode,jdbcType=CHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipdate != null">
+        #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="caseno != null">
+        #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="origincode != null">
+        #{origincode,jdbcType=VARCHAR},
+      </if>
+      <if test="origincountry != null">
+        #{origincountry,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="noref != null">
+        #{noref,jdbcType=VARCHAR},
+      </if>
+      <if test="productcode != null">
+        #{productcode,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="imptime != null">
+        #{imptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="modelenname != null">
+        #{modelenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="ordertype != null">
+        #{ordertype,jdbcType=CHAR},
+      </if>
+      <if test="tariffrate != null">
+        #{tariffrate,jdbcType=DECIMAL},
+      </if>
+      <if test="cnname != null">
+        #{cnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="updtime != null">
+        #{updtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jphscode != null">
+        #{jphscode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnhscode != null">
+        #{cnhscode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SupplierinvoiceExample" resultType="java.lang.Long">
+    select count(*) from dbo._SupplierInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._SupplierInvoice
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.gzid != null">
+        GZId = #{record.gzid,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliercode != null">
+        SupplierCode = #{record.suppliercode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderno != null">
+        OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipdate != null">
+        ShipDate = #{record.shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.caseno != null">
+        CaseNo = #{record.caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.barcode != null">
+        Barcode = #{record.barcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.price != null">
+        Price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.origincode != null">
+        OriginCode = #{record.origincode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origincountry != null">
+        OriginCountry = #{record.origincountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        Unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noref != null">
+        NoRef = #{record.noref,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productcode != null">
+        ProductCode = #{record.productcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transtype != null">
+        TransType = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imptime != null">
+        ImpTime = #{record.imptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.weight != null">
+        Weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.modelenname != null">
+        ModelENName = #{record.modelenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ordertype != null">
+        OrderType = #{record.ordertype,jdbcType=CHAR},
+      </if>
+      <if test="record.tariffrate != null">
+        TariffRate = #{record.tariffrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cnname != null">
+        CNName = #{record.cnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updtime != null">
+        UpdTime = #{record.updtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jphscode != null">
+        JPHSCode = #{record.jphscode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cnhscode != null">
+        CNHSCode = #{record.cnhscode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._SupplierInvoice
+    set Id = #{record.id,jdbcType=INTEGER},
+      GZId = #{record.gzid,jdbcType=INTEGER},
+      InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      SupplierCode = #{record.suppliercode,jdbcType=CHAR},
+      OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      ShipDate = #{record.shipdate,jdbcType=TIMESTAMP},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      CaseNo = #{record.caseno,jdbcType=VARCHAR},
+      Barcode = #{record.barcode,jdbcType=NVARCHAR},
+      Price = #{record.price,jdbcType=DECIMAL},
+      Status = #{record.status,jdbcType=SMALLINT},
+      OriginCode = #{record.origincode,jdbcType=VARCHAR},
+      OriginCountry = #{record.origincountry,jdbcType=VARCHAR},
+      Unit = #{record.unit,jdbcType=VARCHAR},
+      NoRef = #{record.noref,jdbcType=VARCHAR},
+      ProductCode = #{record.productcode,jdbcType=VARCHAR},
+      TransType = #{record.transtype,jdbcType=CHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      ImpTime = #{record.imptime,jdbcType=TIMESTAMP},
+      Weight = #{record.weight,jdbcType=DECIMAL},
+      ModelENName = #{record.modelenname,jdbcType=NVARCHAR},
+      OrderType = #{record.ordertype,jdbcType=CHAR},
+      TariffRate = #{record.tariffrate,jdbcType=DECIMAL},
+      CNName = #{record.cnname,jdbcType=NVARCHAR},
+      UpdTime = #{record.updtime,jdbcType=TIMESTAMP},
+      JPHSCode = #{record.jphscode,jdbcType=VARCHAR},
+      CNHSCode = #{record.cnhscode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Supplierinvoice">
+    update dbo._SupplierInvoice
+    <set>
+      <if test="gzid != null">
+        GZId = #{gzid,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null">
+        SupplierCode = #{suppliercode,jdbcType=CHAR},
+      </if>
+      <if test="orderno != null">
+        OrderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipdate != null">
+        ShipDate = #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelno != null">
+        ModelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        Quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="caseno != null">
+        CaseNo = #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        Barcode = #{barcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="price != null">
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="origincode != null">
+        OriginCode = #{origincode,jdbcType=VARCHAR},
+      </if>
+      <if test="origincountry != null">
+        OriginCountry = #{origincountry,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        Unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="noref != null">
+        NoRef = #{noref,jdbcType=VARCHAR},
+      </if>
+      <if test="productcode != null">
+        ProductCode = #{productcode,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        TransType = #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="imptime != null">
+        ImpTime = #{imptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null">
+        Weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="modelenname != null">
+        ModelENName = #{modelenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="ordertype != null">
+        OrderType = #{ordertype,jdbcType=CHAR},
+      </if>
+      <if test="tariffrate != null">
+        TariffRate = #{tariffrate,jdbcType=DECIMAL},
+      </if>
+      <if test="cnname != null">
+        CNName = #{cnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="updtime != null">
+        UpdTime = #{updtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jphscode != null">
+        JPHSCode = #{jphscode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnhscode != null">
+        CNHSCode = #{cnhscode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Supplierinvoice">
+    update dbo._SupplierInvoice
+    set GZId = #{gzid,jdbcType=INTEGER},
+      InvoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      SupplierCode = #{suppliercode,jdbcType=CHAR},
+      OrderNo = #{orderno,jdbcType=VARCHAR},
+      ShipDate = #{shipdate,jdbcType=TIMESTAMP},
+      ModelNo = #{modelno,jdbcType=VARCHAR},
+      Quantity = #{quantity,jdbcType=INTEGER},
+      CaseNo = #{caseno,jdbcType=VARCHAR},
+      Barcode = #{barcode,jdbcType=NVARCHAR},
+      Price = #{price,jdbcType=DECIMAL},
+      Status = #{status,jdbcType=SMALLINT},
+      OriginCode = #{origincode,jdbcType=VARCHAR},
+      OriginCountry = #{origincountry,jdbcType=VARCHAR},
+      Unit = #{unit,jdbcType=VARCHAR},
+      NoRef = #{noref,jdbcType=VARCHAR},
+      ProductCode = #{productcode,jdbcType=VARCHAR},
+      TransType = #{transtype,jdbcType=CHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      ImpTime = #{imptime,jdbcType=TIMESTAMP},
+      Weight = #{weight,jdbcType=DECIMAL},
+      ModelENName = #{modelenname,jdbcType=NVARCHAR},
+      OrderType = #{ordertype,jdbcType=CHAR},
+      TariffRate = #{tariffrate,jdbcType=DECIMAL},
+      CNName = #{cnname,jdbcType=NVARCHAR},
+      UpdTime = #{updtime,jdbcType=TIMESTAMP},
+      JPHSCode = #{jphscode,jdbcType=VARCHAR},
+      CNHSCode = #{cnhscode,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

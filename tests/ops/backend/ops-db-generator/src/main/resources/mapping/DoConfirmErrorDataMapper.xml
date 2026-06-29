@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.DoConfirmErrorDataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.DoConfirmErrorData">
+    <result column="out_qty" jdbcType="NVARCHAR" property="outQty" />
+    <result column="delivery_no" jdbcType="NVARCHAR" property="deliveryNo" />
+    <result column="handle_status" jdbcType="INTEGER" property="handleStatus" />
+    <result column="handle_msg" jdbcType="VARCHAR" property="handleMsg" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    out_qty, delivery_no, handle_status, handle_msg, insert_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.DoConfirmErrorDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.do_confirm_error_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.DoConfirmErrorDataExample">
+    delete from dbo.do_confirm_error_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.DoConfirmErrorData">
+    insert into dbo.do_confirm_error_data (out_qty, delivery_no, handle_status, 
+      handle_msg, insert_time)
+    values (#{outQty,jdbcType=NVARCHAR}, #{deliveryNo,jdbcType=NVARCHAR}, #{handleStatus,jdbcType=INTEGER}, 
+      #{handleMsg,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.DoConfirmErrorData">
+    insert into dbo.do_confirm_error_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="outQty != null">
+        out_qty,
+      </if>
+      <if test="deliveryNo != null">
+        delivery_no,
+      </if>
+      <if test="handleStatus != null">
+        handle_status,
+      </if>
+      <if test="handleMsg != null">
+        handle_msg,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="outQty != null">
+        #{outQty,jdbcType=NVARCHAR},
+      </if>
+      <if test="deliveryNo != null">
+        #{deliveryNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="handleStatus != null">
+        #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="handleMsg != null">
+        #{handleMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.DoConfirmErrorDataExample" resultType="java.lang.Long">
+    select count(*) from dbo.do_confirm_error_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.do_confirm_error_data
+    <set>
+      <if test="record.outQty != null">
+        out_qty = #{record.outQty,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.deliveryNo != null">
+        delivery_no = #{record.deliveryNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.handleStatus != null">
+        handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.handleMsg != null">
+        handle_msg = #{record.handleMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insertTime != null">
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.do_confirm_error_data
+    set out_qty = #{record.outQty,jdbcType=NVARCHAR},
+      delivery_no = #{record.deliveryNo,jdbcType=NVARCHAR},
+      handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      handle_msg = #{record.handleMsg,jdbcType=VARCHAR},
+      insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

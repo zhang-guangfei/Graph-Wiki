@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInqbDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInqbDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="inqb_apply_no" jdbcType="VARCHAR" property="inqbApplyNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="split_type" jdbcType="VARCHAR" property="splitType" />
+    <result column="task_no" jdbcType="VARCHAR" property="taskNo" />
+    <result column="bom_id" jdbcType="VARCHAR" property="bomId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="stock_code" jdbcType="VARCHAR" property="stockCode" />
+    <result column="handle_result" jdbcType="VARCHAR" property="handleResult" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="use_qty" jdbcType="INTEGER" property="useQty" />
+    <result column="expected_delivery_date" jdbcType="INTEGER" property="expectedDeliveryDate" />
+    <result column="end_user" jdbcType="VARCHAR" property="endUser" />
+    <result column="user_dept" jdbcType="VARCHAR" property="userDept" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
+    <result column="reply_dept" jdbcType="VARCHAR" property="replyDept" />
+    <result column="reply_supplier_dept" jdbcType="VARCHAR" property="replySupplierDept" />
+    <result column="reply_no" jdbcType="VARCHAR" property="replyNo" />
+    <result column="reply_delivery_days" jdbcType="INTEGER" property="replyDeliveryDays" />
+    <result column="reply_accept_hl" jdbcType="VARCHAR" property="replyAcceptHl" />
+    <result column="reply_user" jdbcType="VARCHAR" property="replyUser" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    <result column="reply_reason_code" jdbcType="VARCHAR" property="replyReasonCode" />
+    <result column="reply_reason" jdbcType="NVARCHAR" property="replyReason" />
+    <result column="reply_remark" jdbcType="VARCHAR" property="replyRemark" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, inqb_apply_no, item_no, split_type, task_no, bom_id, supplier_code, stock_code, 
+    handle_result, model_no, quantity, use_qty, expected_delivery_date, end_user, user_dept, 
+    status, expiration_date, reply_dept, reply_supplier_dept, reply_no, reply_delivery_days, 
+    reply_accept_hl, reply_user, reply_time, reply_reason_code, reply_reason, reply_remark, 
+    remark, create_user, create_time, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInqbDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inqb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inqb_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inqb_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInqbDetailExample">
+    delete from dbo.ops_inqb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInqbDetail">
+    insert into dbo.ops_inqb_detail (id, inqb_apply_no, item_no, 
+      split_type, task_no, bom_id, 
+      supplier_code, stock_code, handle_result, 
+      model_no, quantity, use_qty, 
+      expected_delivery_date, end_user, user_dept, 
+      status, expiration_date, reply_dept, 
+      reply_supplier_dept, reply_no, reply_delivery_days, 
+      reply_accept_hl, reply_user, reply_time, 
+      reply_reason_code, reply_reason, reply_remark, 
+      remark, create_user, create_time, 
+      update_user, update_time)
+    values (#{id,jdbcType=BIGINT}, #{inqbApplyNo,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{splitType,jdbcType=VARCHAR}, #{taskNo,jdbcType=VARCHAR}, #{bomId,jdbcType=VARCHAR}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{stockCode,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, 
+      #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{useQty,jdbcType=INTEGER}, 
+      #{expectedDeliveryDate,jdbcType=INTEGER}, #{endUser,jdbcType=VARCHAR}, #{userDept,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{expirationDate,jdbcType=TIMESTAMP}, #{replyDept,jdbcType=VARCHAR}, 
+      #{replySupplierDept,jdbcType=VARCHAR}, #{replyNo,jdbcType=VARCHAR}, #{replyDeliveryDays,jdbcType=INTEGER}, 
+      #{replyAcceptHl,jdbcType=VARCHAR}, #{replyUser,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, 
+      #{replyReasonCode,jdbcType=VARCHAR}, #{replyReason,jdbcType=NVARCHAR}, #{replyRemark,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInqbDetail">
+    insert into dbo.ops_inqb_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inqbApplyNo != null">
+        inqb_apply_no,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="splitType != null">
+        split_type,
+      </if>
+      <if test="taskNo != null">
+        task_no,
+      </if>
+      <if test="bomId != null">
+        bom_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="handleResult != null">
+        handle_result,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="useQty != null">
+        use_qty,
+      </if>
+      <if test="expectedDeliveryDate != null">
+        expected_delivery_date,
+      </if>
+      <if test="endUser != null">
+        end_user,
+      </if>
+      <if test="userDept != null">
+        user_dept,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="replyDept != null">
+        reply_dept,
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept,
+      </if>
+      <if test="replyNo != null">
+        reply_no,
+      </if>
+      <if test="replyDeliveryDays != null">
+        reply_delivery_days,
+      </if>
+      <if test="replyAcceptHl != null">
+        reply_accept_hl,
+      </if>
+      <if test="replyUser != null">
+        reply_user,
+      </if>
+      <if test="replyTime != null">
+        reply_time,
+      </if>
+      <if test="replyReasonCode != null">
+        reply_reason_code,
+      </if>
+      <if test="replyReason != null">
+        reply_reason,
+      </if>
+      <if test="replyRemark != null">
+        reply_remark,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="inqbApplyNo != null">
+        #{inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitType != null">
+        #{splitType,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNo != null">
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bomId != null">
+        #{bomId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleResult != null">
+        #{handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="useQty != null">
+        #{useQty,jdbcType=INTEGER},
+      </if>
+      <if test="expectedDeliveryDate != null">
+        #{expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="endUser != null">
+        #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userDept != null">
+        #{userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyDept != null">
+        #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replySupplierDept != null">
+        #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDays != null">
+        #{replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="replyAcceptHl != null">
+        #{replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUser != null">
+        #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyReasonCode != null">
+        #{replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyReason != null">
+        #{replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        #{replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInqbDetailExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inqb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inqb_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.inqbApplyNo != null">
+        inqb_apply_no = #{record.inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitType != null">
+        split_type = #{record.splitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskNo != null">
+        task_no = #{record.taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bomId != null">
+        bom_id = #{record.bomId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierCode != null">
+        supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleResult != null">
+        handle_result = #{record.handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.useQty != null">
+        use_qty = #{record.useQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.expectedDeliveryDate != null">
+        expected_delivery_date = #{record.expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.endUser != null">
+        end_user = #{record.endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDept != null">
+        user_dept = #{record.userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expirationDate != null">
+        expiration_date = #{record.expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replyDept != null">
+        reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replySupplierDept != null">
+        reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyNo != null">
+        reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyDeliveryDays != null">
+        reply_delivery_days = #{record.replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyAcceptHl != null">
+        reply_accept_hl = #{record.replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyUser != null">
+        reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyTime != null">
+        reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replyReasonCode != null">
+        reply_reason_code = #{record.replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyReason != null">
+        reply_reason = #{record.replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.replyRemark != null">
+        reply_remark = #{record.replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inqb_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      inqb_apply_no = #{record.inqbApplyNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      split_type = #{record.splitType,jdbcType=VARCHAR},
+      task_no = #{record.taskNo,jdbcType=VARCHAR},
+      bom_id = #{record.bomId,jdbcType=VARCHAR},
+      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      handle_result = #{record.handleResult,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      use_qty = #{record.useQty,jdbcType=INTEGER},
+      expected_delivery_date = #{record.expectedDeliveryDate,jdbcType=INTEGER},
+      end_user = #{record.endUser,jdbcType=VARCHAR},
+      user_dept = #{record.userDept,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      expiration_date = #{record.expirationDate,jdbcType=TIMESTAMP},
+      reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      reply_delivery_days = #{record.replyDeliveryDays,jdbcType=INTEGER},
+      reply_accept_hl = #{record.replyAcceptHl,jdbcType=VARCHAR},
+      reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      reply_reason_code = #{record.replyReasonCode,jdbcType=VARCHAR},
+      reply_reason = #{record.replyReason,jdbcType=NVARCHAR},
+      reply_remark = #{record.replyRemark,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInqbDetail">
+    update dbo.ops_inqb_detail
+    <set>
+      <if test="inqbApplyNo != null">
+        inqb_apply_no = #{inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitType != null">
+        split_type = #{splitType,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNo != null">
+        task_no = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bomId != null">
+        bom_id = #{bomId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleResult != null">
+        handle_result = #{handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="useQty != null">
+        use_qty = #{useQty,jdbcType=INTEGER},
+      </if>
+      <if test="expectedDeliveryDate != null">
+        expected_delivery_date = #{expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="endUser != null">
+        end_user = #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userDept != null">
+        user_dept = #{userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyDept != null">
+        reply_dept = #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        reply_no = #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDays != null">
+        reply_delivery_days = #{replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="replyAcceptHl != null">
+        reply_accept_hl = #{replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUser != null">
+        reply_user = #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyReasonCode != null">
+        reply_reason_code = #{replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyReason != null">
+        reply_reason = #{replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInqbDetail">
+    update dbo.ops_inqb_detail
+    set inqb_apply_no = #{inqbApplyNo,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      split_type = #{splitType,jdbcType=VARCHAR},
+      task_no = #{taskNo,jdbcType=VARCHAR},
+      bom_id = #{bomId,jdbcType=VARCHAR},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      handle_result = #{handleResult,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      use_qty = #{useQty,jdbcType=INTEGER},
+      expected_delivery_date = #{expectedDeliveryDate,jdbcType=INTEGER},
+      end_user = #{endUser,jdbcType=VARCHAR},
+      user_dept = #{userDept,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+      reply_dept = #{replyDept,jdbcType=VARCHAR},
+      reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      reply_no = #{replyNo,jdbcType=VARCHAR},
+      reply_delivery_days = #{replyDeliveryDays,jdbcType=INTEGER},
+      reply_accept_hl = #{replyAcceptHl,jdbcType=VARCHAR},
+      reply_user = #{replyUser,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_reason_code = #{replyReasonCode,jdbcType=VARCHAR},
+      reply_reason = #{replyReason,jdbcType=NVARCHAR},
+      reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

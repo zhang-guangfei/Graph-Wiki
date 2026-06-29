@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.BatchInsertEstimateResultDao">
+
+
+  <insert id="batchInsert"  parameterType="List" useGeneratedKeys="false">
+    <foreach item="item" index="index" collection="list"
+             separator=";">
+      INSERT INTO ops_delivery_estimate_result
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        association_key,
+        model_no,
+        quantity_level,
+          qty,
+        dept_no,
+        customer_no,
+        <if test="item.endUser != null and item.endUser !='' " >
+          end_user ,
+        </if>
+        <if test="item.pplNo != null and item.pplNo !=''" >
+          ppl_no ,
+        </if>
+        <if test="item.projectNo!= null and item.projectNo!=''" >
+          project_no ,
+        </if>
+        <if test="item.groupCustomerNo!= null and item.groupCustomerNo!=''" >
+          group_customer_no ,
+        </if>
+        <if test="item.salesInfoNo!= null and item.salesInfoNo!=''" >
+          sales_info_no ,
+        </if>
+        <if test="item.deliveryDays!= null " >
+            delivery_days,
+        </if>
+          <if test="item.gatherWarehouseCode!= null " >
+              gather_warehouse_code,
+          </if>
+        instock,
+        create_user,
+        create_time,
+        <if test="item.allotResult!= null and item.allotResult!=''" >
+            allot_result,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          #{item.associationKey,jdbcType=VARCHAR}, #{item.modelNo,jdbcType=VARCHAR},
+          #{item.quantityLevel,jdbcType=VARCHAR},#{item.qty,jdbcType=VARCHAR}, #{item.deptNo,jdbcType=VARCHAR}, #{item.customerNo,jdbcType=VARCHAR},
+          <if test="item.endUser!= null and item.endUser!=''" >
+             #{item.endUser,jdbcType=VARCHAR},
+          </if>
+          <if test="item.pplNo!= null and item.pplNo!=''" >
+             #{item.pplNo,jdbcType=VARCHAR},
+          </if>
+          <if test="item.projectNo!= null and item.projectNo!=''" >
+             #{item.projectNo,jdbcType=VARCHAR},
+          </if>
+          <if test="item.groupCustomerNo!= null and item.groupCustomerNo!=''" >
+             #{item.groupCustomerNo,jdbcType=VARCHAR},
+          </if>
+          <if test="item.salesInfoNo!= null and item.salesInfoNo!=''" >
+             #{item.salesInfoNo,jdbcType=VARCHAR},
+          </if>
+          <if test="item.deliveryDays!= null " >
+            #{item.deliveryDays,jdbcType=INTEGER},
+          </if>
+          <if test="item.gatherWarehouseCode!= null " >
+              #{item.gatherWarehouseCode,jdbcType=INTEGER},
+          </if>
+          #{item.instock,jdbcType=INTEGER},
+          #{item.createUser,jdbcType=VARCHAR},
+          #{item.createTime,jdbcType=TIMESTAMP},
+          <if test="item.allotResult!= null and item.allotResult!=''" >
+            #{item.allotResult,jdbcType=VARCHAR},
+          </if>
+      </trim>
+    </foreach>
+  </insert>
+
+
+    <insert id="batchInsertByValues"  parameterType="List" useGeneratedKeys="false">
+            INSERT INTO ops_delivery_estimate_result (
+                association_key,
+                model_no,
+                quantity_level,
+                qty,
+                dept_no,
+                customer_no,
+                end_user ,
+                ppl_no ,
+                project_no ,
+                group_customer_no ,
+                sales_info_no ,
+                delivery_days,
+                gather_warehouse_code,
+                instock,
+                create_user,
+                create_time,
+                allot_result) values
+            <foreach item="item" index="index" collection="list"
+                      separator=",">
+                ( #{item.associationKey,jdbcType=VARCHAR},
+                #{item.modelNo,jdbcType=VARCHAR},
+                #{item.quantityLevel,jdbcType=VARCHAR},
+                #{item.qty,jdbcType=INTEGER},
+                #{item.deptNo,jdbcType=VARCHAR},
+                #{item.customerNo,jdbcType=VARCHAR},
+                #{item.endUser,jdbcType=VARCHAR},
+                #{item.pplNo,jdbcType=VARCHAR},
+                #{item.projectNo,jdbcType=VARCHAR},
+                #{item.groupCustomerNo,jdbcType=VARCHAR},
+                #{item.salesInfoNo,jdbcType=VARCHAR},
+                #{item.deliveryDays,jdbcType=INTEGER},
+                #{item.gatherWarehouseCode,jdbcType=VARCHAR},
+                #{item.instock,jdbcType=INTEGER},
+                #{item.createUser,jdbcType=VARCHAR},
+                #{item.createTime,jdbcType=TIMESTAMP},
+                #{item.allotResult,jdbcType=VARCHAR})
+            </foreach>
+    </insert>
+
+
+    <insert id="batchInsertErrorMsgNotice"  parameterType="List" useGeneratedKeys="false">
+        <foreach item="item" index="index" collection="list"
+                 separator=";">
+            INSERT INTO error_msg_notice
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                result_key,
+                model_no,
+                key_msg,
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{item.resultKey,jdbcType=VARCHAR},
+                #{item.modelNo,jdbcType=VARCHAR},
+                #{item.keyMsg,jdbcType=VARCHAR},
+
+            </trim>
+        </foreach>
+    </insert>
+
+</mapper>

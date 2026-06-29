@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductEosTempMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductEosTemp">
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="dataSource" jdbcType="VARCHAR" property="datasource" />
+    <result column="eos_type" jdbcType="VARCHAR" property="eosType" />
+    <result column="warningDate" jdbcType="DATE" property="warningdate" />
+    <result column="eos_date" jdbcType="DATE" property="eosDate" />
+    <result column="modelNo_recommend" jdbcType="VARCHAR" property="modelnoRecommend" />
+    <result column="priority_level" jdbcType="VARCHAR" property="priorityLevel" />
+    <result column="describe" jdbcType="NVARCHAR" property="describe" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="stopDate" jdbcType="DATE" property="stopdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, dataSource, eos_type, warningDate, eos_date, modelNo_recommend, priority_level, 
+    describe, updateTime, stopDate
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductEosTempExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_eos_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_eos_temp
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.product_eos_temp
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductEosTempExample">
+    delete from dbo.product_eos_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductEosTemp">
+    insert into dbo.product_eos_temp (ModelNo, dataSource, eos_type, 
+      warningDate, eos_date, modelNo_recommend, 
+      priority_level, describe, updateTime, 
+      stopDate)
+    values (#{modelno,jdbcType=VARCHAR}, #{datasource,jdbcType=VARCHAR}, #{eosType,jdbcType=VARCHAR}, 
+      #{warningdate,jdbcType=DATE}, #{eosDate,jdbcType=DATE}, #{modelnoRecommend,jdbcType=VARCHAR}, 
+      #{priorityLevel,jdbcType=VARCHAR}, #{describe,jdbcType=NVARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{stopdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductEosTemp">
+    insert into dbo.product_eos_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="datasource != null">
+        dataSource,
+      </if>
+      <if test="eosType != null">
+        eos_type,
+      </if>
+      <if test="warningdate != null">
+        warningDate,
+      </if>
+      <if test="eosDate != null">
+        eos_date,
+      </if>
+      <if test="modelnoRecommend != null">
+        modelNo_recommend,
+      </if>
+      <if test="priorityLevel != null">
+        priority_level,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="stopdate != null">
+        stopDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="datasource != null">
+        #{datasource,jdbcType=VARCHAR},
+      </if>
+      <if test="eosType != null">
+        #{eosType,jdbcType=VARCHAR},
+      </if>
+      <if test="warningdate != null">
+        #{warningdate,jdbcType=DATE},
+      </if>
+      <if test="eosDate != null">
+        #{eosDate,jdbcType=DATE},
+      </if>
+      <if test="modelnoRecommend != null">
+        #{modelnoRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityLevel != null">
+        #{priorityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopdate != null">
+        #{stopdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductEosTempExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_eos_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_eos_temp
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.datasource != null">
+        dataSource = #{record.datasource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eosType != null">
+        eos_type = #{record.eosType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warningdate != null">
+        warningDate = #{record.warningdate,jdbcType=DATE},
+      </if>
+      <if test="record.eosDate != null">
+        eos_date = #{record.eosDate,jdbcType=DATE},
+      </if>
+      <if test="record.modelnoRecommend != null">
+        modelNo_recommend = #{record.modelnoRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priorityLevel != null">
+        priority_level = #{record.priorityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describe != null">
+        describe = #{record.describe,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stopdate != null">
+        stopDate = #{record.stopdate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_eos_temp
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      dataSource = #{record.datasource,jdbcType=VARCHAR},
+      eos_type = #{record.eosType,jdbcType=VARCHAR},
+      warningDate = #{record.warningdate,jdbcType=DATE},
+      eos_date = #{record.eosDate,jdbcType=DATE},
+      modelNo_recommend = #{record.modelnoRecommend,jdbcType=VARCHAR},
+      priority_level = #{record.priorityLevel,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=NVARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      stopDate = #{record.stopdate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductEosTemp">
+    update dbo.product_eos_temp
+    <set>
+      <if test="datasource != null">
+        dataSource = #{datasource,jdbcType=VARCHAR},
+      </if>
+      <if test="eosType != null">
+        eos_type = #{eosType,jdbcType=VARCHAR},
+      </if>
+      <if test="warningdate != null">
+        warningDate = #{warningdate,jdbcType=DATE},
+      </if>
+      <if test="eosDate != null">
+        eos_date = #{eosDate,jdbcType=DATE},
+      </if>
+      <if test="modelnoRecommend != null">
+        modelNo_recommend = #{modelnoRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityLevel != null">
+        priority_level = #{priorityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopdate != null">
+        stopDate = #{stopdate,jdbcType=DATE},
+      </if>
+    </set>
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductEosTemp">
+    update dbo.product_eos_temp
+    set dataSource = #{datasource,jdbcType=VARCHAR},
+      eos_type = #{eosType,jdbcType=VARCHAR},
+      warningDate = #{warningdate,jdbcType=DATE},
+      eos_date = #{eosDate,jdbcType=DATE},
+      modelNo_recommend = #{modelnoRecommend,jdbcType=VARCHAR},
+      priority_level = #{priorityLevel,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=NVARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      stopDate = #{stopdate,jdbcType=DATE}
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+</mapper>

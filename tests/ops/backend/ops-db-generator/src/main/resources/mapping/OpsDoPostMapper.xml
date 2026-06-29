@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDoPostMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDoPost">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="carried" jdbcType="VARCHAR" property="carried" />
+    <result column="express_code" jdbcType="VARCHAR" property="expressCode" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="barCode" jdbcType="VARCHAR" property="barcode" />
+    <result column="package_code" jdbcType="NVARCHAR" property="packageCode" />
+    <result column="msg_id" jdbcType="VARCHAR" property="msgId" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="do_type" jdbcType="VARCHAR" property="doType" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="express_child_no" jdbcType="VARCHAR" property="expressChildNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, do_id, warehouse_code, carried, express_code, qty, barCode, package_code, msg_id, 
+    modelno, do_type, delflag, cre_time, creator, modify_time, modifier, express_child_no
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDoPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_do_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_do_post
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_do_post
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDoPostExample">
+    delete from dbo.ops_do_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDoPost">
+    insert into dbo.ops_do_post (id, do_id, warehouse_code, 
+      carried, express_code, qty, 
+      barCode, package_code, msg_id, 
+      modelno, do_type, delflag, 
+      cre_time, creator, modify_time, 
+      modifier, express_child_no)
+    values (#{id,jdbcType=BIGINT}, #{doId,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, 
+      #{carried,jdbcType=VARCHAR}, #{expressCode,jdbcType=VARCHAR}, #{qty,jdbcType=INTEGER}, 
+      #{barcode,jdbcType=VARCHAR}, #{packageCode,jdbcType=NVARCHAR}, #{msgId,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{doType,jdbcType=VARCHAR}, #{delflag,jdbcType=INTEGER}, 
+      #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=NVARCHAR}, #{expressChildNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDoPost">
+    insert into dbo.ops_do_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="carried != null">
+        carried,
+      </if>
+      <if test="expressCode != null">
+        express_code,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="barcode != null">
+        barCode,
+      </if>
+      <if test="packageCode != null">
+        package_code,
+      </if>
+      <if test="msgId != null">
+        msg_id,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="doType != null">
+        do_type,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="expressChildNo != null">
+        express_child_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carried != null">
+        #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageCode != null">
+        #{packageCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null">
+        #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="expressChildNo != null">
+        #{expressChildNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDoPostExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_do_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_do_post
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carried != null">
+        carried = #{record.carried,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressCode != null">
+        express_code = #{record.expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.barcode != null">
+        barCode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageCode != null">
+        package_code = #{record.packageCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.msgId != null">
+        msg_id = #{record.msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doType != null">
+        do_type = #{record.doType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.expressChildNo != null">
+        express_child_no = #{record.expressChildNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_do_post
+    set id = #{record.id,jdbcType=BIGINT},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      carried = #{record.carried,jdbcType=VARCHAR},
+      express_code = #{record.expressCode,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      barCode = #{record.barcode,jdbcType=VARCHAR},
+      package_code = #{record.packageCode,jdbcType=NVARCHAR},
+      msg_id = #{record.msgId,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      do_type = #{record.doType,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      express_child_no = #{record.expressChildNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsDoPost">
+    update dbo.ops_do_post
+    <set>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carried != null">
+        carried = #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        barCode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageCode != null">
+        package_code = #{packageCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="msgId != null">
+        msg_id = #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        modelno = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null">
+        do_type = #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="expressChildNo != null">
+        express_child_no = #{expressChildNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsDoPost">
+    update dbo.ops_do_post
+    set do_id = #{doId,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      carried = #{carried,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      qty = #{qty,jdbcType=INTEGER},
+      barCode = #{barcode,jdbcType=VARCHAR},
+      package_code = #{packageCode,jdbcType=NVARCHAR},
+      msg_id = #{msgId,jdbcType=VARCHAR},
+      modelno = #{modelno,jdbcType=VARCHAR},
+      do_type = #{doType,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      express_child_no = #{expressChildNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

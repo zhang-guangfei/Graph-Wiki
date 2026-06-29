@@ -1,0 +1,9 @@
+server:
+  port: 8025
+  servlet:
+    context-path: /ops-job-executor
+spring:
+  application:
+    name: ops-job-executor
+  profiles:
+    active: test

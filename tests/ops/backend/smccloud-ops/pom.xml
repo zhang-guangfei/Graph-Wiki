@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.smc.smccloud</groupId>
+        <artifactId>smccloud-master</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>com.smc.smccloud.ops</groupId>
+    <artifactId>smccloud-ops</artifactId>
+    <name>smccloud-ops</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <modules>
+        <module>smccloud-ops-job</module>
+        <module>smccloud-ops-base</module>
+        <module>smccloud-ops-order</module>
+        <module>smccloud-ops-cpfr</module>
+        <module>smccloud-ops-product</module>
+        <module>smccloud-ops-shareapp</module>
+        <module>smccloud-ops-adapter</module>
+        <module>smccloud-ops-report</module>
+        <module>smccloud-ops-common</module>
+    </modules>
+
+    <!--依赖声明-->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- nacos-discovery -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- nacos-config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+        </dependency>
+
+        <!-- mybatis-plus start -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- mybatis-plus end -->
+
+        <!-- alibaba fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <!--druid数据源-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- postgresql -->
+        <!--<dependency>-->
+        <!--<groupId>org.postgresql</groupId>-->
+        <!--<artifactId>postgresql</artifactId>-->
+        <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+
+        <!-- mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!-- Excel -->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.poi</groupId>-->
+        <!--<artifactId>poi</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
+
+        <!-- hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+
+        <!-- xxl-job-core -->
+        <!--<dependency>-->
+        <!--<groupId>com.xuxueli</groupId>-->
+        <!--<artifactId>xxl-job-core</artifactId>-->
+        <!--</dependency>-->
+
+        <!--spring-cloud-starter-openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+
+        <!--spring-cloud-starter-netflix-hystrix -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+
+        <!--spring-boot-starter-websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>2.3.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>com.github.yulichang</groupId>-->
+        <!--<artifactId>mybatis-plus-join</artifactId>-->
+        <!--</dependency>-->
+        <!-- redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- smccloud start-->
+        <dependency>
+            <groupId>com.smc.smccloud.core</groupId>
+            <artifactId>smccloud-core-entity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.core</groupId>
+            <artifactId>smccloud-core-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.core</groupId>
+            <artifactId>smccloud-core-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.smc.smccloud.api</groupId>
+            <artifactId>smccloud-auth-api</artifactId>
+        </dependency>
+        <!-- smccloud end-->
+        <dependency>
+            <groupId>com.github.apiggs</groupId>
+            <artifactId>apiggs-maven-plugin</artifactId>
+            <version>1.6</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.barbecue</groupId>
+            <artifactId>barbecue</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <!--打包配置mvn package docker:build -DpushImage-->
+    <build>
+        <finalName>app</finalName>
+        <plugins>
+            <!-- 插件一定要在其他构建插件之上，否则打包文件会有问题。 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>buildnumber-maven-plugin</artifactId>
+            <version>1.4</version>
+            <configuration>
+            <timestampFormat>yyyyMMdd</timestampFormat>
+            <items>
+            <item>timestamp</item>
+            </items>
+            </configuration>
+            <executions>
+            <execution>
+            <goals>
+            <goal>create-timestamp</goal>
+            </goals>
+            </execution>
+            </executions>
+            <inherited>false</inherited>
+            </plugin>
+
+            <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>1.4.13</version>
+            <executions>
+            <execution>
+            <id>default</id>
+            <goals>
+            <goal>build</goal>
+            <goal>push</goal>
+            </goals>
+            </execution>
+            </executions>
+            <configuration>
+            <repository>smc/${project.artifactId}</repository>
+            <tag>${project.version}</tag>
+            <buildArgs>
+            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+            </buildArgs>
+            </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>com.github.apiggs</groupId>
+                <artifactId>apiggs-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>apiggs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!--<configuration>-->
+                <!--&lt;!&ndash; options in there &ndash;&gt;-->
+                <!--<id>index</id>-->
+                <!--<title>样品订单管理功能API文档</title>-->
+                <!--<production>smccloud-ops-shareapp</production>-->
+                <!--<out>target/docs</out>-->
+                <!--<dependency>../smccloud-ops/smccloud-ops-shareapp/src/main/java</dependency>-->
+                <!--<version>1.0.0</version>-->
+                <!--<description>-->
+                <!--=========-->
+                <!--</description>-->
+                <!--</configuration>-->
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

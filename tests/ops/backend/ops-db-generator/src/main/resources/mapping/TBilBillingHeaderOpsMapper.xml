@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TBilBillingHeaderOpsMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TBilBillingHeaderOps">
+    <result column="organizationid" jdbcType="NVARCHAR" property="organizationid" />
+    <result column="billingno" jdbcType="NVARCHAR" property="billingno" />
+    <result column="customerid" jdbcType="NVARCHAR" property="customerid" />
+    <result column="carrierid" jdbcType="NVARCHAR" property="carrierid" />
+    <result column="billingtype" jdbcType="NVARCHAR" property="billingtype" />
+    <result column="billmonth" jdbcType="TIMESTAMP" property="billmonth" />
+    <result column="billdatefm" jdbcType="TIMESTAMP" property="billdatefm" />
+    <result column="billdateto" jdbcType="TIMESTAMP" property="billdateto" />
+    <result column="status" jdbcType="NVARCHAR" property="status" />
+    <result column="totalamount" jdbcType="DECIMAL" property="totalamount" />
+    <result column="discountstart" jdbcType="DECIMAL" property="discountstart" />
+    <result column="discountrate" jdbcType="DECIMAL" property="discountrate" />
+    <result column="adjustedamount" jdbcType="DECIMAL" property="adjustedamount" />
+    <result column="adjustnotes" jdbcType="NVARCHAR" property="adjustnotes" />
+    <result column="currencytype" jdbcType="NVARCHAR" property="currencytype" />
+    <result column="currencyrate" jdbcType="DECIMAL" property="currencyrate" />
+    <result column="totalbillingamount" jdbcType="DECIMAL" property="totalbillingamount" />
+    <result column="invoiceamount" jdbcType="DECIMAL" property="invoiceamount" />
+    <result column="invoicestatus" jdbcType="NVARCHAR" property="invoicestatus" />
+    <result column="createbranchid" jdbcType="NVARCHAR" property="createbranchid" />
+    <result column="settlementbranchid" jdbcType="NVARCHAR" property="settlementbranchid" />
+    <result column="tariffid" jdbcType="NVARCHAR" property="tariffid" />
+    <result column="taxrate" jdbcType="DECIMAL" property="taxrate" />
+    <result column="paymentmethod" jdbcType="NVARCHAR" property="paymentmethod" />
+    <result column="notes" jdbcType="NVARCHAR" property="notes" />
+    <result column="udf01" jdbcType="NVARCHAR" property="udf01" />
+    <result column="udf02" jdbcType="NVARCHAR" property="udf02" />
+    <result column="udf03" jdbcType="NVARCHAR" property="udf03" />
+    <result column="udf04" jdbcType="NVARCHAR" property="udf04" />
+    <result column="udf05" jdbcType="NVARCHAR" property="udf05" />
+    <result column="currentversion" jdbcType="INTEGER" property="currentversion" />
+    <result column="oprseqflag" jdbcType="NVARCHAR" property="oprseqflag" />
+    <result column="addwho" jdbcType="NVARCHAR" property="addwho" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="editwho" jdbcType="NVARCHAR" property="editwho" />
+    <result column="edittime" jdbcType="TIMESTAMP" property="edittime" />
+    <result column="edisendflag" jdbcType="NVARCHAR" property="edisendflag" />
+    <result column="edierrordescr" jdbcType="NVARCHAR" property="edierrordescr" />
+    <result column="ediSendTime" jdbcType="TIMESTAMP" property="edisendtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.TBilBillingHeaderOps">
+    <result column="notetext" jdbcType="LONGVARCHAR" property="notetext" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    organizationid, billingno, customerid, carrierid, billingtype, billmonth, billdatefm, 
+    billdateto, status, totalamount, discountstart, discountrate, adjustedamount, adjustnotes, 
+    currencytype, currencyrate, totalbillingamount, invoiceamount, invoicestatus, createbranchid, 
+    settlementbranchid, tariffid, taxrate, paymentmethod, notes, udf01, udf02, udf03, 
+    udf04, udf05, currentversion, oprseqflag, addwho, addtime, editwho, edittime, edisendflag, 
+    edierrordescr, ediSendTime
+  </sql>
+  <sql id="Blob_Column_List">
+    notetext
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOpsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.T_BIL_BILLING_HEADER_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOpsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.T_BIL_BILLING_HEADER_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOpsExample">
+    delete from dbo.T_BIL_BILLING_HEADER_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOps">
+    insert into dbo.T_BIL_BILLING_HEADER_OPS (organizationid, billingno, customerid, 
+      carrierid, billingtype, billmonth, 
+      billdatefm, billdateto, status, 
+      totalamount, discountstart, discountrate, 
+      adjustedamount, adjustnotes, currencytype, 
+      currencyrate, totalbillingamount, invoiceamount, 
+      invoicestatus, createbranchid, settlementbranchid, 
+      tariffid, taxrate, paymentmethod, 
+      notes, udf01, udf02, 
+      udf03, udf04, udf05, 
+      currentversion, oprseqflag, addwho, 
+      addtime, editwho, edittime, 
+      edisendflag, edierrordescr, ediSendTime, 
+      notetext)
+    values (#{organizationid,jdbcType=NVARCHAR}, #{billingno,jdbcType=NVARCHAR}, #{customerid,jdbcType=NVARCHAR}, 
+      #{carrierid,jdbcType=NVARCHAR}, #{billingtype,jdbcType=NVARCHAR}, #{billmonth,jdbcType=TIMESTAMP}, 
+      #{billdatefm,jdbcType=TIMESTAMP}, #{billdateto,jdbcType=TIMESTAMP}, #{status,jdbcType=NVARCHAR}, 
+      #{totalamount,jdbcType=DECIMAL}, #{discountstart,jdbcType=DECIMAL}, #{discountrate,jdbcType=DECIMAL}, 
+      #{adjustedamount,jdbcType=DECIMAL}, #{adjustnotes,jdbcType=NVARCHAR}, #{currencytype,jdbcType=NVARCHAR}, 
+      #{currencyrate,jdbcType=DECIMAL}, #{totalbillingamount,jdbcType=DECIMAL}, #{invoiceamount,jdbcType=DECIMAL}, 
+      #{invoicestatus,jdbcType=NVARCHAR}, #{createbranchid,jdbcType=NVARCHAR}, #{settlementbranchid,jdbcType=NVARCHAR}, 
+      #{tariffid,jdbcType=NVARCHAR}, #{taxrate,jdbcType=DECIMAL}, #{paymentmethod,jdbcType=NVARCHAR}, 
+      #{notes,jdbcType=NVARCHAR}, #{udf01,jdbcType=NVARCHAR}, #{udf02,jdbcType=NVARCHAR}, 
+      #{udf03,jdbcType=NVARCHAR}, #{udf04,jdbcType=NVARCHAR}, #{udf05,jdbcType=NVARCHAR}, 
+      #{currentversion,jdbcType=INTEGER}, #{oprseqflag,jdbcType=NVARCHAR}, #{addwho,jdbcType=NVARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{editwho,jdbcType=NVARCHAR}, #{edittime,jdbcType=TIMESTAMP}, 
+      #{edisendflag,jdbcType=NVARCHAR}, #{edierrordescr,jdbcType=NVARCHAR}, #{edisendtime,jdbcType=TIMESTAMP}, 
+      #{notetext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOps">
+    insert into dbo.T_BIL_BILLING_HEADER_OPS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="organizationid != null">
+        organizationid,
+      </if>
+      <if test="billingno != null">
+        billingno,
+      </if>
+      <if test="customerid != null">
+        customerid,
+      </if>
+      <if test="carrierid != null">
+        carrierid,
+      </if>
+      <if test="billingtype != null">
+        billingtype,
+      </if>
+      <if test="billmonth != null">
+        billmonth,
+      </if>
+      <if test="billdatefm != null">
+        billdatefm,
+      </if>
+      <if test="billdateto != null">
+        billdateto,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="totalamount != null">
+        totalamount,
+      </if>
+      <if test="discountstart != null">
+        discountstart,
+      </if>
+      <if test="discountrate != null">
+        discountrate,
+      </if>
+      <if test="adjustedamount != null">
+        adjustedamount,
+      </if>
+      <if test="adjustnotes != null">
+        adjustnotes,
+      </if>
+      <if test="currencytype != null">
+        currencytype,
+      </if>
+      <if test="currencyrate != null">
+        currencyrate,
+      </if>
+      <if test="totalbillingamount != null">
+        totalbillingamount,
+      </if>
+      <if test="invoiceamount != null">
+        invoiceamount,
+      </if>
+      <if test="invoicestatus != null">
+        invoicestatus,
+      </if>
+      <if test="createbranchid != null">
+        createbranchid,
+      </if>
+      <if test="settlementbranchid != null">
+        settlementbranchid,
+      </if>
+      <if test="tariffid != null">
+        tariffid,
+      </if>
+      <if test="taxrate != null">
+        taxrate,
+      </if>
+      <if test="paymentmethod != null">
+        paymentmethod,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="udf01 != null">
+        udf01,
+      </if>
+      <if test="udf02 != null">
+        udf02,
+      </if>
+      <if test="udf03 != null">
+        udf03,
+      </if>
+      <if test="udf04 != null">
+        udf04,
+      </if>
+      <if test="udf05 != null">
+        udf05,
+      </if>
+      <if test="currentversion != null">
+        currentversion,
+      </if>
+      <if test="oprseqflag != null">
+        oprseqflag,
+      </if>
+      <if test="addwho != null">
+        addwho,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="editwho != null">
+        editwho,
+      </if>
+      <if test="edittime != null">
+        edittime,
+      </if>
+      <if test="edisendflag != null">
+        edisendflag,
+      </if>
+      <if test="edierrordescr != null">
+        edierrordescr,
+      </if>
+      <if test="edisendtime != null">
+        ediSendTime,
+      </if>
+      <if test="notetext != null">
+        notetext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="organizationid != null">
+        #{organizationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="billingno != null">
+        #{billingno,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerid != null">
+        #{customerid,jdbcType=NVARCHAR},
+      </if>
+      <if test="carrierid != null">
+        #{carrierid,jdbcType=NVARCHAR},
+      </if>
+      <if test="billingtype != null">
+        #{billingtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="billmonth != null">
+        #{billmonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billdatefm != null">
+        #{billdatefm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billdateto != null">
+        #{billdateto,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="totalamount != null">
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountstart != null">
+        #{discountstart,jdbcType=DECIMAL},
+      </if>
+      <if test="discountrate != null">
+        #{discountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustedamount != null">
+        #{adjustedamount,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustnotes != null">
+        #{adjustnotes,jdbcType=NVARCHAR},
+      </if>
+      <if test="currencytype != null">
+        #{currencytype,jdbcType=NVARCHAR},
+      </if>
+      <if test="currencyrate != null">
+        #{currencyrate,jdbcType=DECIMAL},
+      </if>
+      <if test="totalbillingamount != null">
+        #{totalbillingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceamount != null">
+        #{invoiceamount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoicestatus != null">
+        #{invoicestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="createbranchid != null">
+        #{createbranchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="settlementbranchid != null">
+        #{settlementbranchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="tariffid != null">
+        #{tariffid,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxrate != null">
+        #{taxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentmethod != null">
+        #{paymentmethod,jdbcType=NVARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf01 != null">
+        #{udf01,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf02 != null">
+        #{udf02,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf03 != null">
+        #{udf03,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf04 != null">
+        #{udf04,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf05 != null">
+        #{udf05,jdbcType=NVARCHAR},
+      </if>
+      <if test="currentversion != null">
+        #{currentversion,jdbcType=INTEGER},
+      </if>
+      <if test="oprseqflag != null">
+        #{oprseqflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="addwho != null">
+        #{addwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editwho != null">
+        #{editwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edisendflag != null">
+        #{edisendflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="edierrordescr != null">
+        #{edierrordescr,jdbcType=NVARCHAR},
+      </if>
+      <if test="edisendtime != null">
+        #{edisendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notetext != null">
+        #{notetext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TBilBillingHeaderOpsExample" resultType="java.lang.Long">
+    select count(*) from dbo.T_BIL_BILLING_HEADER_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.T_BIL_BILLING_HEADER_OPS
+    <set>
+      <if test="record.organizationid != null">
+        organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.billingno != null">
+        billingno = #{record.billingno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerid != null">
+        customerid = #{record.customerid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.carrierid != null">
+        carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.billingtype != null">
+        billingtype = #{record.billingtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.billmonth != null">
+        billmonth = #{record.billmonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.billdatefm != null">
+        billdatefm = #{record.billdatefm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.billdateto != null">
+        billdateto = #{record.billdateto,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.totalamount != null">
+        totalamount = #{record.totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discountstart != null">
+        discountstart = #{record.discountstart,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discountrate != null">
+        discountrate = #{record.discountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.adjustedamount != null">
+        adjustedamount = #{record.adjustedamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.adjustnotes != null">
+        adjustnotes = #{record.adjustnotes,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.currencytype != null">
+        currencytype = #{record.currencytype,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.currencyrate != null">
+        currencyrate = #{record.currencyrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalbillingamount != null">
+        totalbillingamount = #{record.totalbillingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.invoiceamount != null">
+        invoiceamount = #{record.invoiceamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.invoicestatus != null">
+        invoicestatus = #{record.invoicestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createbranchid != null">
+        createbranchid = #{record.createbranchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.settlementbranchid != null">
+        settlementbranchid = #{record.settlementbranchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.tariffid != null">
+        tariffid = #{record.tariffid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taxrate != null">
+        taxrate = #{record.taxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentmethod != null">
+        paymentmethod = #{record.paymentmethod,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.notes != null">
+        notes = #{record.notes,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf01 != null">
+        udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf02 != null">
+        udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf03 != null">
+        udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf04 != null">
+        udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf05 != null">
+        udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.currentversion != null">
+        currentversion = #{record.currentversion,jdbcType=INTEGER},
+      </if>
+      <if test="record.oprseqflag != null">
+        oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.addwho != null">
+        addwho = #{record.addwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editwho != null">
+        editwho = #{record.editwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.edittime != null">
+        edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.edisendflag != null">
+        edisendflag = #{record.edisendflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.edierrordescr != null">
+        edierrordescr = #{record.edierrordescr,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.edisendtime != null">
+        ediSendTime = #{record.edisendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.notetext != null">
+        notetext = #{record.notetext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.T_BIL_BILLING_HEADER_OPS
+    set organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      billingno = #{record.billingno,jdbcType=NVARCHAR},
+      customerid = #{record.customerid,jdbcType=NVARCHAR},
+      carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      billingtype = #{record.billingtype,jdbcType=NVARCHAR},
+      billmonth = #{record.billmonth,jdbcType=TIMESTAMP},
+      billdatefm = #{record.billdatefm,jdbcType=TIMESTAMP},
+      billdateto = #{record.billdateto,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=NVARCHAR},
+      totalamount = #{record.totalamount,jdbcType=DECIMAL},
+      discountstart = #{record.discountstart,jdbcType=DECIMAL},
+      discountrate = #{record.discountrate,jdbcType=DECIMAL},
+      adjustedamount = #{record.adjustedamount,jdbcType=DECIMAL},
+      adjustnotes = #{record.adjustnotes,jdbcType=NVARCHAR},
+      currencytype = #{record.currencytype,jdbcType=NVARCHAR},
+      currencyrate = #{record.currencyrate,jdbcType=DECIMAL},
+      totalbillingamount = #{record.totalbillingamount,jdbcType=DECIMAL},
+      invoiceamount = #{record.invoiceamount,jdbcType=DECIMAL},
+      invoicestatus = #{record.invoicestatus,jdbcType=NVARCHAR},
+      createbranchid = #{record.createbranchid,jdbcType=NVARCHAR},
+      settlementbranchid = #{record.settlementbranchid,jdbcType=NVARCHAR},
+      tariffid = #{record.tariffid,jdbcType=NVARCHAR},
+      taxrate = #{record.taxrate,jdbcType=DECIMAL},
+      paymentmethod = #{record.paymentmethod,jdbcType=NVARCHAR},
+      notes = #{record.notes,jdbcType=NVARCHAR},
+      udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      currentversion = #{record.currentversion,jdbcType=INTEGER},
+      oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{record.addwho,jdbcType=NVARCHAR},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      editwho = #{record.editwho,jdbcType=NVARCHAR},
+      edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      edisendflag = #{record.edisendflag,jdbcType=NVARCHAR},
+      edierrordescr = #{record.edierrordescr,jdbcType=NVARCHAR},
+      ediSendTime = #{record.edisendtime,jdbcType=TIMESTAMP},
+      notetext = #{record.notetext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.T_BIL_BILLING_HEADER_OPS
+    set organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      billingno = #{record.billingno,jdbcType=NVARCHAR},
+      customerid = #{record.customerid,jdbcType=NVARCHAR},
+      carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      billingtype = #{record.billingtype,jdbcType=NVARCHAR},
+      billmonth = #{record.billmonth,jdbcType=TIMESTAMP},
+      billdatefm = #{record.billdatefm,jdbcType=TIMESTAMP},
+      billdateto = #{record.billdateto,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=NVARCHAR},
+      totalamount = #{record.totalamount,jdbcType=DECIMAL},
+      discountstart = #{record.discountstart,jdbcType=DECIMAL},
+      discountrate = #{record.discountrate,jdbcType=DECIMAL},
+      adjustedamount = #{record.adjustedamount,jdbcType=DECIMAL},
+      adjustnotes = #{record.adjustnotes,jdbcType=NVARCHAR},
+      currencytype = #{record.currencytype,jdbcType=NVARCHAR},
+      currencyrate = #{record.currencyrate,jdbcType=DECIMAL},
+      totalbillingamount = #{record.totalbillingamount,jdbcType=DECIMAL},
+      invoiceamount = #{record.invoiceamount,jdbcType=DECIMAL},
+      invoicestatus = #{record.invoicestatus,jdbcType=NVARCHAR},
+      createbranchid = #{record.createbranchid,jdbcType=NVARCHAR},
+      settlementbranchid = #{record.settlementbranchid,jdbcType=NVARCHAR},
+      tariffid = #{record.tariffid,jdbcType=NVARCHAR},
+      taxrate = #{record.taxrate,jdbcType=DECIMAL},
+      paymentmethod = #{record.paymentmethod,jdbcType=NVARCHAR},
+      notes = #{record.notes,jdbcType=NVARCHAR},
+      udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      currentversion = #{record.currentversion,jdbcType=INTEGER},
+      oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{record.addwho,jdbcType=NVARCHAR},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      editwho = #{record.editwho,jdbcType=NVARCHAR},
+      edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      edisendflag = #{record.edisendflag,jdbcType=NVARCHAR},
+      edierrordescr = #{record.edierrordescr,jdbcType=NVARCHAR},
+      ediSendTime = #{record.edisendtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,1177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.Customer2delMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Customer2del">
+    <id column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="UserNo" jdbcType="CHAR" property="userno" />
+    <result column="CstmName" jdbcType="NVARCHAR" property="cstmname" />
+    <result column="CstmType" jdbcType="CHAR" property="cstmtype" />
+    <result column="CstmGrade" jdbcType="NVARCHAR" property="cstmgrade" />
+    <result column="StateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="IndCode" jdbcType="VARCHAR" property="indcode" />
+    <result column="PrjCode" jdbcType="CHAR" property="prjcode" />
+    <result column="EtpOfJp" jdbcType="CHAR" property="etpofjp" />
+    <result column="LgealRep" jdbcType="NVARCHAR" property="lgealrep" />
+    <result column="CAddress1" jdbcType="NVARCHAR" property="caddress1" />
+    <result column="CAddress2" jdbcType="NVARCHAR" property="caddress2" />
+    <result column="PostCode" jdbcType="CHAR" property="postcode" />
+    <result column="TelNoFirst" jdbcType="VARCHAR" property="telnofirst" />
+    <result column="TelNoLast" jdbcType="VARCHAR" property="telnolast" />
+    <result column="FaxNoFirst" jdbcType="VARCHAR" property="faxnofirst" />
+    <result column="FaxNoLast" jdbcType="VARCHAR" property="faxnolast" />
+    <result column="ContactPsn" jdbcType="NVARCHAR" property="contactpsn" />
+    <result column="ContPsnDuty" jdbcType="NVARCHAR" property="contpsnduty" />
+    <result column="ContDept" jdbcType="VARCHAR" property="contdept" />
+    <result column="Bank" jdbcType="NVARCHAR" property="bank" />
+    <result column="TaxNo" jdbcType="VARCHAR" property="taxno" />
+    <result column="AccountNo" jdbcType="VARCHAR" property="accountno" />
+    <result column="DeptCode" jdbcType="VARCHAR" property="deptcode" />
+    <result column="PsnSMCID" jdbcType="VARCHAR" property="psnsmcid" />
+    <result column="PriceLvl" jdbcType="CHAR" property="pricelvl" />
+    <result column="FileDate" jdbcType="TIMESTAMP" property="filedate" />
+    <result column="UpdDate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="ObInvoice" jdbcType="CHAR" property="obinvoice" />
+    <result column="EAddress" jdbcType="VARCHAR" property="eaddress" />
+    <result column="InvFlag" jdbcType="CHAR" property="invflag" />
+    <result column="Remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="Requirement" jdbcType="DECIMAL" property="requirement" />
+    <result column="AgentNo" jdbcType="CHAR" property="agentno" />
+    <result column="StockFlag" jdbcType="CHAR" property="stockflag" />
+    <result column="InvAgent" jdbcType="CHAR" property="invagent" />
+    <result column="VIPCode" jdbcType="VARCHAR" property="vipcode" />
+    <result column="Laji" jdbcType="CHAR" property="laji" />
+    <result column="VIPCode_Cn" jdbcType="CHAR" property="vipcodeCn" />
+    <result column="EndUser_Type" jdbcType="CHAR" property="enduserType" />
+    <result column="Beijian" jdbcType="BIT" property="beijian" />
+    <result column="PeiTao" jdbcType="BIT" property="peitao" />
+    <result column="Phone_first" jdbcType="VARCHAR" property="phoneFirst" />
+    <result column="Phone_Last" jdbcType="VARCHAR" property="phoneLast" />
+    <result column="Restrict_Cust" jdbcType="CHAR" property="restrictCust" />
+    <result column="Delivery_Flag" jdbcType="CHAR" property="deliveryFlag" />
+    <result column="AgentType" jdbcType="CHAR" property="agenttype" />
+    <result column="DeliveryType" jdbcType="CHAR" property="deliverytype" />
+    <result column="LicenceNo" jdbcType="NVARCHAR" property="licenceno" />
+    <result column="NoLicence" jdbcType="BIT" property="nolicence" />
+    <result column="BelongedGroup" jdbcType="VARCHAR" property="belongedgroup" />
+    <result column="StatementEmail" jdbcType="VARCHAR" property="statementemail" />
+    <result column="InvoiceAddress" jdbcType="NVARCHAR" property="invoiceaddress" />
+    <result column="IndCode_GroupId" jdbcType="VARCHAR" property="indcodeGroupid" />
+    <result column="IndCode_PointRate" jdbcType="VARCHAR" property="indcodePointrate" />
+    <result column="UnUse_Flag" jdbcType="CHAR" property="unuseFlag" />
+    <result column="CustomerNO_NC" jdbcType="NCHAR" property="customernoNc" />
+    <result column="RiskTip" jdbcType="NVARCHAR" property="risktip" />
+    <result column="SurvivalStatusDescription" jdbcType="NVARCHAR" property="survivalstatusdescription" />
+    <result column="RegisteredCapital" jdbcType="NVARCHAR" property="registeredcapital" />
+    <result column="ContributedCapital" jdbcType="NVARCHAR" property="contributedcapital" />
+    <result column="CompanyTypeDescription" jdbcType="NVARCHAR" property="companytypedescription" />
+    <result column="MarketCategoryCode" jdbcType="CHAR" property="marketcategorycode" />
+    <result column="HLCode" jdbcType="VARCHAR" property="hlcode" />
+    <result column="TradeCompanyId" jdbcType="NVARCHAR" property="tradecompanyid" />
+    <result column="SMCGroupID" jdbcType="NVARCHAR" property="smcgroupid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CustomerNo, UserNo, CstmName, CstmType, CstmGrade, StateCode, IndCode, PrjCode, EtpOfJp, 
+    LgealRep, CAddress1, CAddress2, PostCode, TelNoFirst, TelNoLast, FaxNoFirst, FaxNoLast, 
+    ContactPsn, ContPsnDuty, ContDept, Bank, TaxNo, AccountNo, DeptCode, PsnSMCID, PriceLvl, 
+    FileDate, UpdDate, ObInvoice, EAddress, InvFlag, Remark, Requirement, AgentNo, StockFlag, 
+    InvAgent, VIPCode, Laji, VIPCode_Cn, EndUser_Type, Beijian, PeiTao, Phone_first, 
+    Phone_Last, Restrict_Cust, Delivery_Flag, AgentType, DeliveryType, LicenceNo, NoLicence, 
+    BelongedGroup, StatementEmail, InvoiceAddress, IndCode_GroupId, IndCode_PointRate, 
+    UnUse_Flag, CustomerNO_NC, RiskTip, SurvivalStatusDescription, RegisteredCapital, 
+    ContributedCapital, CompanyTypeDescription, MarketCategoryCode, HLCode, TradeCompanyId, 
+    SMCGroupID
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.Customer2delExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.Customer_2del
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.Customer_2del
+    where CustomerNo = #{customerno,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.Customer_2del
+    where CustomerNo = #{customerno,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.Customer2delExample">
+    delete from dbo.Customer_2del
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Customer2del">
+    insert into dbo.Customer_2del (CustomerNo, UserNo, CstmName, 
+      CstmType, CstmGrade, StateCode, 
+      IndCode, PrjCode, EtpOfJp, 
+      LgealRep, CAddress1, CAddress2, 
+      PostCode, TelNoFirst, TelNoLast, 
+      FaxNoFirst, FaxNoLast, ContactPsn, 
+      ContPsnDuty, ContDept, Bank, 
+      TaxNo, AccountNo, DeptCode, 
+      PsnSMCID, PriceLvl, FileDate, 
+      UpdDate, ObInvoice, EAddress, 
+      InvFlag, Remark, Requirement, 
+      AgentNo, StockFlag, InvAgent, 
+      VIPCode, Laji, VIPCode_Cn, 
+      EndUser_Type, Beijian, PeiTao, 
+      Phone_first, Phone_Last, Restrict_Cust, 
+      Delivery_Flag, AgentType, DeliveryType, 
+      LicenceNo, NoLicence, BelongedGroup, 
+      StatementEmail, InvoiceAddress, IndCode_GroupId, 
+      IndCode_PointRate, UnUse_Flag, CustomerNO_NC, 
+      RiskTip, SurvivalStatusDescription, RegisteredCapital, 
+      ContributedCapital, CompanyTypeDescription, 
+      MarketCategoryCode, HLCode, TradeCompanyId, 
+      SMCGroupID)
+    values (#{customerno,jdbcType=CHAR}, #{userno,jdbcType=CHAR}, #{cstmname,jdbcType=NVARCHAR}, 
+      #{cstmtype,jdbcType=CHAR}, #{cstmgrade,jdbcType=NVARCHAR}, #{statecode,jdbcType=VARCHAR}, 
+      #{indcode,jdbcType=VARCHAR}, #{prjcode,jdbcType=CHAR}, #{etpofjp,jdbcType=CHAR}, 
+      #{lgealrep,jdbcType=NVARCHAR}, #{caddress1,jdbcType=NVARCHAR}, #{caddress2,jdbcType=NVARCHAR}, 
+      #{postcode,jdbcType=CHAR}, #{telnofirst,jdbcType=VARCHAR}, #{telnolast,jdbcType=VARCHAR}, 
+      #{faxnofirst,jdbcType=VARCHAR}, #{faxnolast,jdbcType=VARCHAR}, #{contactpsn,jdbcType=NVARCHAR}, 
+      #{contpsnduty,jdbcType=NVARCHAR}, #{contdept,jdbcType=VARCHAR}, #{bank,jdbcType=NVARCHAR}, 
+      #{taxno,jdbcType=VARCHAR}, #{accountno,jdbcType=VARCHAR}, #{deptcode,jdbcType=VARCHAR}, 
+      #{psnsmcid,jdbcType=VARCHAR}, #{pricelvl,jdbcType=CHAR}, #{filedate,jdbcType=TIMESTAMP}, 
+      #{upddate,jdbcType=TIMESTAMP}, #{obinvoice,jdbcType=CHAR}, #{eaddress,jdbcType=VARCHAR}, 
+      #{invflag,jdbcType=CHAR}, #{remark,jdbcType=NVARCHAR}, #{requirement,jdbcType=DECIMAL}, 
+      #{agentno,jdbcType=CHAR}, #{stockflag,jdbcType=CHAR}, #{invagent,jdbcType=CHAR}, 
+      #{vipcode,jdbcType=VARCHAR}, #{laji,jdbcType=CHAR}, #{vipcodeCn,jdbcType=CHAR}, 
+      #{enduserType,jdbcType=CHAR}, #{beijian,jdbcType=BIT}, #{peitao,jdbcType=BIT}, 
+      #{phoneFirst,jdbcType=VARCHAR}, #{phoneLast,jdbcType=VARCHAR}, #{restrictCust,jdbcType=CHAR}, 
+      #{deliveryFlag,jdbcType=CHAR}, #{agenttype,jdbcType=CHAR}, #{deliverytype,jdbcType=CHAR}, 
+      #{licenceno,jdbcType=NVARCHAR}, #{nolicence,jdbcType=BIT}, #{belongedgroup,jdbcType=VARCHAR}, 
+      #{statementemail,jdbcType=VARCHAR}, #{invoiceaddress,jdbcType=NVARCHAR}, #{indcodeGroupid,jdbcType=VARCHAR}, 
+      #{indcodePointrate,jdbcType=VARCHAR}, #{unuseFlag,jdbcType=CHAR}, #{customernoNc,jdbcType=NCHAR}, 
+      #{risktip,jdbcType=NVARCHAR}, #{survivalstatusdescription,jdbcType=NVARCHAR}, #{registeredcapital,jdbcType=NVARCHAR}, 
+      #{contributedcapital,jdbcType=NVARCHAR}, #{companytypedescription,jdbcType=NVARCHAR}, 
+      #{marketcategorycode,jdbcType=CHAR}, #{hlcode,jdbcType=VARCHAR}, #{tradecompanyid,jdbcType=NVARCHAR}, 
+      #{smcgroupid,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Customer2del">
+    insert into dbo.Customer_2del
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="userno != null">
+        UserNo,
+      </if>
+      <if test="cstmname != null">
+        CstmName,
+      </if>
+      <if test="cstmtype != null">
+        CstmType,
+      </if>
+      <if test="cstmgrade != null">
+        CstmGrade,
+      </if>
+      <if test="statecode != null">
+        StateCode,
+      </if>
+      <if test="indcode != null">
+        IndCode,
+      </if>
+      <if test="prjcode != null">
+        PrjCode,
+      </if>
+      <if test="etpofjp != null">
+        EtpOfJp,
+      </if>
+      <if test="lgealrep != null">
+        LgealRep,
+      </if>
+      <if test="caddress1 != null">
+        CAddress1,
+      </if>
+      <if test="caddress2 != null">
+        CAddress2,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="telnofirst != null">
+        TelNoFirst,
+      </if>
+      <if test="telnolast != null">
+        TelNoLast,
+      </if>
+      <if test="faxnofirst != null">
+        FaxNoFirst,
+      </if>
+      <if test="faxnolast != null">
+        FaxNoLast,
+      </if>
+      <if test="contactpsn != null">
+        ContactPsn,
+      </if>
+      <if test="contpsnduty != null">
+        ContPsnDuty,
+      </if>
+      <if test="contdept != null">
+        ContDept,
+      </if>
+      <if test="bank != null">
+        Bank,
+      </if>
+      <if test="taxno != null">
+        TaxNo,
+      </if>
+      <if test="accountno != null">
+        AccountNo,
+      </if>
+      <if test="deptcode != null">
+        DeptCode,
+      </if>
+      <if test="psnsmcid != null">
+        PsnSMCID,
+      </if>
+      <if test="pricelvl != null">
+        PriceLvl,
+      </if>
+      <if test="filedate != null">
+        FileDate,
+      </if>
+      <if test="upddate != null">
+        UpdDate,
+      </if>
+      <if test="obinvoice != null">
+        ObInvoice,
+      </if>
+      <if test="eaddress != null">
+        EAddress,
+      </if>
+      <if test="invflag != null">
+        InvFlag,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="requirement != null">
+        Requirement,
+      </if>
+      <if test="agentno != null">
+        AgentNo,
+      </if>
+      <if test="stockflag != null">
+        StockFlag,
+      </if>
+      <if test="invagent != null">
+        InvAgent,
+      </if>
+      <if test="vipcode != null">
+        VIPCode,
+      </if>
+      <if test="laji != null">
+        Laji,
+      </if>
+      <if test="vipcodeCn != null">
+        VIPCode_Cn,
+      </if>
+      <if test="enduserType != null">
+        EndUser_Type,
+      </if>
+      <if test="beijian != null">
+        Beijian,
+      </if>
+      <if test="peitao != null">
+        PeiTao,
+      </if>
+      <if test="phoneFirst != null">
+        Phone_first,
+      </if>
+      <if test="phoneLast != null">
+        Phone_Last,
+      </if>
+      <if test="restrictCust != null">
+        Restrict_Cust,
+      </if>
+      <if test="deliveryFlag != null">
+        Delivery_Flag,
+      </if>
+      <if test="agenttype != null">
+        AgentType,
+      </if>
+      <if test="deliverytype != null">
+        DeliveryType,
+      </if>
+      <if test="licenceno != null">
+        LicenceNo,
+      </if>
+      <if test="nolicence != null">
+        NoLicence,
+      </if>
+      <if test="belongedgroup != null">
+        BelongedGroup,
+      </if>
+      <if test="statementemail != null">
+        StatementEmail,
+      </if>
+      <if test="invoiceaddress != null">
+        InvoiceAddress,
+      </if>
+      <if test="indcodeGroupid != null">
+        IndCode_GroupId,
+      </if>
+      <if test="indcodePointrate != null">
+        IndCode_PointRate,
+      </if>
+      <if test="unuseFlag != null">
+        UnUse_Flag,
+      </if>
+      <if test="customernoNc != null">
+        CustomerNO_NC,
+      </if>
+      <if test="risktip != null">
+        RiskTip,
+      </if>
+      <if test="survivalstatusdescription != null">
+        SurvivalStatusDescription,
+      </if>
+      <if test="registeredcapital != null">
+        RegisteredCapital,
+      </if>
+      <if test="contributedcapital != null">
+        ContributedCapital,
+      </if>
+      <if test="companytypedescription != null">
+        CompanyTypeDescription,
+      </if>
+      <if test="marketcategorycode != null">
+        MarketCategoryCode,
+      </if>
+      <if test="hlcode != null">
+        HLCode,
+      </if>
+      <if test="tradecompanyid != null">
+        TradeCompanyId,
+      </if>
+      <if test="smcgroupid != null">
+        SMCGroupID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=CHAR},
+      </if>
+      <if test="cstmname != null">
+        #{cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="cstmtype != null">
+        #{cstmtype,jdbcType=CHAR},
+      </if>
+      <if test="cstmgrade != null">
+        #{cstmgrade,jdbcType=NVARCHAR},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="indcode != null">
+        #{indcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjcode != null">
+        #{prjcode,jdbcType=CHAR},
+      </if>
+      <if test="etpofjp != null">
+        #{etpofjp,jdbcType=CHAR},
+      </if>
+      <if test="lgealrep != null">
+        #{lgealrep,jdbcType=NVARCHAR},
+      </if>
+      <if test="caddress1 != null">
+        #{caddress1,jdbcType=NVARCHAR},
+      </if>
+      <if test="caddress2 != null">
+        #{caddress2,jdbcType=NVARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="telnofirst != null">
+        #{telnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="telnolast != null">
+        #{telnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="faxnofirst != null">
+        #{faxnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="faxnolast != null">
+        #{faxnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="contpsnduty != null">
+        #{contpsnduty,jdbcType=NVARCHAR},
+      </if>
+      <if test="contdept != null">
+        #{contdept,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxno != null">
+        #{taxno,jdbcType=VARCHAR},
+      </if>
+      <if test="accountno != null">
+        #{accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptcode != null">
+        #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="psnsmcid != null">
+        #{psnsmcid,jdbcType=VARCHAR},
+      </if>
+      <if test="pricelvl != null">
+        #{pricelvl,jdbcType=CHAR},
+      </if>
+      <if test="filedate != null">
+        #{filedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="obinvoice != null">
+        #{obinvoice,jdbcType=CHAR},
+      </if>
+      <if test="eaddress != null">
+        #{eaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invflag != null">
+        #{invflag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="requirement != null">
+        #{requirement,jdbcType=DECIMAL},
+      </if>
+      <if test="agentno != null">
+        #{agentno,jdbcType=CHAR},
+      </if>
+      <if test="stockflag != null">
+        #{stockflag,jdbcType=CHAR},
+      </if>
+      <if test="invagent != null">
+        #{invagent,jdbcType=CHAR},
+      </if>
+      <if test="vipcode != null">
+        #{vipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="laji != null">
+        #{laji,jdbcType=CHAR},
+      </if>
+      <if test="vipcodeCn != null">
+        #{vipcodeCn,jdbcType=CHAR},
+      </if>
+      <if test="enduserType != null">
+        #{enduserType,jdbcType=CHAR},
+      </if>
+      <if test="beijian != null">
+        #{beijian,jdbcType=BIT},
+      </if>
+      <if test="peitao != null">
+        #{peitao,jdbcType=BIT},
+      </if>
+      <if test="phoneFirst != null">
+        #{phoneFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneLast != null">
+        #{phoneLast,jdbcType=VARCHAR},
+      </if>
+      <if test="restrictCust != null">
+        #{restrictCust,jdbcType=CHAR},
+      </if>
+      <if test="deliveryFlag != null">
+        #{deliveryFlag,jdbcType=CHAR},
+      </if>
+      <if test="agenttype != null">
+        #{agenttype,jdbcType=CHAR},
+      </if>
+      <if test="deliverytype != null">
+        #{deliverytype,jdbcType=CHAR},
+      </if>
+      <if test="licenceno != null">
+        #{licenceno,jdbcType=NVARCHAR},
+      </if>
+      <if test="nolicence != null">
+        #{nolicence,jdbcType=BIT},
+      </if>
+      <if test="belongedgroup != null">
+        #{belongedgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="statementemail != null">
+        #{statementemail,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceaddress != null">
+        #{invoiceaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="indcodeGroupid != null">
+        #{indcodeGroupid,jdbcType=VARCHAR},
+      </if>
+      <if test="indcodePointrate != null">
+        #{indcodePointrate,jdbcType=VARCHAR},
+      </if>
+      <if test="unuseFlag != null">
+        #{unuseFlag,jdbcType=CHAR},
+      </if>
+      <if test="customernoNc != null">
+        #{customernoNc,jdbcType=NCHAR},
+      </if>
+      <if test="risktip != null">
+        #{risktip,jdbcType=NVARCHAR},
+      </if>
+      <if test="survivalstatusdescription != null">
+        #{survivalstatusdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="registeredcapital != null">
+        #{registeredcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="contributedcapital != null">
+        #{contributedcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="companytypedescription != null">
+        #{companytypedescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="marketcategorycode != null">
+        #{marketcategorycode,jdbcType=CHAR},
+      </if>
+      <if test="hlcode != null">
+        #{hlcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradecompanyid != null">
+        #{tradecompanyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="smcgroupid != null">
+        #{smcgroupid,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.Customer2delExample" resultType="java.lang.Long">
+    select count(*) from dbo.Customer_2del
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.Customer_2del
+    <set>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.userno != null">
+        UserNo = #{record.userno,jdbcType=CHAR},
+      </if>
+      <if test="record.cstmname != null">
+        CstmName = #{record.cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cstmtype != null">
+        CstmType = #{record.cstmtype,jdbcType=CHAR},
+      </if>
+      <if test="record.cstmgrade != null">
+        CstmGrade = #{record.cstmgrade,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.statecode != null">
+        StateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indcode != null">
+        IndCode = #{record.indcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjcode != null">
+        PrjCode = #{record.prjcode,jdbcType=CHAR},
+      </if>
+      <if test="record.etpofjp != null">
+        EtpOfJp = #{record.etpofjp,jdbcType=CHAR},
+      </if>
+      <if test="record.lgealrep != null">
+        LgealRep = #{record.lgealrep,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.caddress1 != null">
+        CAddress1 = #{record.caddress1,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.caddress2 != null">
+        CAddress2 = #{record.caddress2,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=CHAR},
+      </if>
+      <if test="record.telnofirst != null">
+        TelNoFirst = #{record.telnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telnolast != null">
+        TelNoLast = #{record.telnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faxnofirst != null">
+        FaxNoFirst = #{record.faxnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faxnolast != null">
+        FaxNoLast = #{record.faxnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactpsn != null">
+        ContactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.contpsnduty != null">
+        ContPsnDuty = #{record.contpsnduty,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.contdept != null">
+        ContDept = #{record.contdept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bank != null">
+        Bank = #{record.bank,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taxno != null">
+        TaxNo = #{record.taxno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountno != null">
+        AccountNo = #{record.accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptcode != null">
+        DeptCode = #{record.deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.psnsmcid != null">
+        PsnSMCID = #{record.psnsmcid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricelvl != null">
+        PriceLvl = #{record.pricelvl,jdbcType=CHAR},
+      </if>
+      <if test="record.filedate != null">
+        FileDate = #{record.filedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.upddate != null">
+        UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.obinvoice != null">
+        ObInvoice = #{record.obinvoice,jdbcType=CHAR},
+      </if>
+      <if test="record.eaddress != null">
+        EAddress = #{record.eaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invflag != null">
+        InvFlag = #{record.invflag,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.requirement != null">
+        Requirement = #{record.requirement,jdbcType=DECIMAL},
+      </if>
+      <if test="record.agentno != null">
+        AgentNo = #{record.agentno,jdbcType=CHAR},
+      </if>
+      <if test="record.stockflag != null">
+        StockFlag = #{record.stockflag,jdbcType=CHAR},
+      </if>
+      <if test="record.invagent != null">
+        InvAgent = #{record.invagent,jdbcType=CHAR},
+      </if>
+      <if test="record.vipcode != null">
+        VIPCode = #{record.vipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.laji != null">
+        Laji = #{record.laji,jdbcType=CHAR},
+      </if>
+      <if test="record.vipcodeCn != null">
+        VIPCode_Cn = #{record.vipcodeCn,jdbcType=CHAR},
+      </if>
+      <if test="record.enduserType != null">
+        EndUser_Type = #{record.enduserType,jdbcType=CHAR},
+      </if>
+      <if test="record.beijian != null">
+        Beijian = #{record.beijian,jdbcType=BIT},
+      </if>
+      <if test="record.peitao != null">
+        PeiTao = #{record.peitao,jdbcType=BIT},
+      </if>
+      <if test="record.phoneFirst != null">
+        Phone_first = #{record.phoneFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneLast != null">
+        Phone_Last = #{record.phoneLast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restrictCust != null">
+        Restrict_Cust = #{record.restrictCust,jdbcType=CHAR},
+      </if>
+      <if test="record.deliveryFlag != null">
+        Delivery_Flag = #{record.deliveryFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.agenttype != null">
+        AgentType = #{record.agenttype,jdbcType=CHAR},
+      </if>
+      <if test="record.deliverytype != null">
+        DeliveryType = #{record.deliverytype,jdbcType=CHAR},
+      </if>
+      <if test="record.licenceno != null">
+        LicenceNo = #{record.licenceno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.nolicence != null">
+        NoLicence = #{record.nolicence,jdbcType=BIT},
+      </if>
+      <if test="record.belongedgroup != null">
+        BelongedGroup = #{record.belongedgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statementemail != null">
+        StatementEmail = #{record.statementemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceaddress != null">
+        InvoiceAddress = #{record.invoiceaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.indcodeGroupid != null">
+        IndCode_GroupId = #{record.indcodeGroupid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indcodePointrate != null">
+        IndCode_PointRate = #{record.indcodePointrate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unuseFlag != null">
+        UnUse_Flag = #{record.unuseFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.customernoNc != null">
+        CustomerNO_NC = #{record.customernoNc,jdbcType=NCHAR},
+      </if>
+      <if test="record.risktip != null">
+        RiskTip = #{record.risktip,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.survivalstatusdescription != null">
+        SurvivalStatusDescription = #{record.survivalstatusdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.registeredcapital != null">
+        RegisteredCapital = #{record.registeredcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.contributedcapital != null">
+        ContributedCapital = #{record.contributedcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.companytypedescription != null">
+        CompanyTypeDescription = #{record.companytypedescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.marketcategorycode != null">
+        MarketCategoryCode = #{record.marketcategorycode,jdbcType=CHAR},
+      </if>
+      <if test="record.hlcode != null">
+        HLCode = #{record.hlcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradecompanyid != null">
+        TradeCompanyId = #{record.tradecompanyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.smcgroupid != null">
+        SMCGroupID = #{record.smcgroupid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.Customer_2del
+    set CustomerNo = #{record.customerno,jdbcType=CHAR},
+      UserNo = #{record.userno,jdbcType=CHAR},
+      CstmName = #{record.cstmname,jdbcType=NVARCHAR},
+      CstmType = #{record.cstmtype,jdbcType=CHAR},
+      CstmGrade = #{record.cstmgrade,jdbcType=NVARCHAR},
+      StateCode = #{record.statecode,jdbcType=VARCHAR},
+      IndCode = #{record.indcode,jdbcType=VARCHAR},
+      PrjCode = #{record.prjcode,jdbcType=CHAR},
+      EtpOfJp = #{record.etpofjp,jdbcType=CHAR},
+      LgealRep = #{record.lgealrep,jdbcType=NVARCHAR},
+      CAddress1 = #{record.caddress1,jdbcType=NVARCHAR},
+      CAddress2 = #{record.caddress2,jdbcType=NVARCHAR},
+      PostCode = #{record.postcode,jdbcType=CHAR},
+      TelNoFirst = #{record.telnofirst,jdbcType=VARCHAR},
+      TelNoLast = #{record.telnolast,jdbcType=VARCHAR},
+      FaxNoFirst = #{record.faxnofirst,jdbcType=VARCHAR},
+      FaxNoLast = #{record.faxnolast,jdbcType=VARCHAR},
+      ContactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      ContPsnDuty = #{record.contpsnduty,jdbcType=NVARCHAR},
+      ContDept = #{record.contdept,jdbcType=VARCHAR},
+      Bank = #{record.bank,jdbcType=NVARCHAR},
+      TaxNo = #{record.taxno,jdbcType=VARCHAR},
+      AccountNo = #{record.accountno,jdbcType=VARCHAR},
+      DeptCode = #{record.deptcode,jdbcType=VARCHAR},
+      PsnSMCID = #{record.psnsmcid,jdbcType=VARCHAR},
+      PriceLvl = #{record.pricelvl,jdbcType=CHAR},
+      FileDate = #{record.filedate,jdbcType=TIMESTAMP},
+      UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      ObInvoice = #{record.obinvoice,jdbcType=CHAR},
+      EAddress = #{record.eaddress,jdbcType=VARCHAR},
+      InvFlag = #{record.invflag,jdbcType=CHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
+      Requirement = #{record.requirement,jdbcType=DECIMAL},
+      AgentNo = #{record.agentno,jdbcType=CHAR},
+      StockFlag = #{record.stockflag,jdbcType=CHAR},
+      InvAgent = #{record.invagent,jdbcType=CHAR},
+      VIPCode = #{record.vipcode,jdbcType=VARCHAR},
+      Laji = #{record.laji,jdbcType=CHAR},
+      VIPCode_Cn = #{record.vipcodeCn,jdbcType=CHAR},
+      EndUser_Type = #{record.enduserType,jdbcType=CHAR},
+      Beijian = #{record.beijian,jdbcType=BIT},
+      PeiTao = #{record.peitao,jdbcType=BIT},
+      Phone_first = #{record.phoneFirst,jdbcType=VARCHAR},
+      Phone_Last = #{record.phoneLast,jdbcType=VARCHAR},
+      Restrict_Cust = #{record.restrictCust,jdbcType=CHAR},
+      Delivery_Flag = #{record.deliveryFlag,jdbcType=CHAR},
+      AgentType = #{record.agenttype,jdbcType=CHAR},
+      DeliveryType = #{record.deliverytype,jdbcType=CHAR},
+      LicenceNo = #{record.licenceno,jdbcType=NVARCHAR},
+      NoLicence = #{record.nolicence,jdbcType=BIT},
+      BelongedGroup = #{record.belongedgroup,jdbcType=VARCHAR},
+      StatementEmail = #{record.statementemail,jdbcType=VARCHAR},
+      InvoiceAddress = #{record.invoiceaddress,jdbcType=NVARCHAR},
+      IndCode_GroupId = #{record.indcodeGroupid,jdbcType=VARCHAR},
+      IndCode_PointRate = #{record.indcodePointrate,jdbcType=VARCHAR},
+      UnUse_Flag = #{record.unuseFlag,jdbcType=CHAR},
+      CustomerNO_NC = #{record.customernoNc,jdbcType=NCHAR},
+      RiskTip = #{record.risktip,jdbcType=NVARCHAR},
+      SurvivalStatusDescription = #{record.survivalstatusdescription,jdbcType=NVARCHAR},
+      RegisteredCapital = #{record.registeredcapital,jdbcType=NVARCHAR},
+      ContributedCapital = #{record.contributedcapital,jdbcType=NVARCHAR},
+      CompanyTypeDescription = #{record.companytypedescription,jdbcType=NVARCHAR},
+      MarketCategoryCode = #{record.marketcategorycode,jdbcType=CHAR},
+      HLCode = #{record.hlcode,jdbcType=VARCHAR},
+      TradeCompanyId = #{record.tradecompanyid,jdbcType=NVARCHAR},
+      SMCGroupID = #{record.smcgroupid,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Customer2del">
+    update dbo.Customer_2del
+    <set>
+      <if test="userno != null">
+        UserNo = #{userno,jdbcType=CHAR},
+      </if>
+      <if test="cstmname != null">
+        CstmName = #{cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="cstmtype != null">
+        CstmType = #{cstmtype,jdbcType=CHAR},
+      </if>
+      <if test="cstmgrade != null">
+        CstmGrade = #{cstmgrade,jdbcType=NVARCHAR},
+      </if>
+      <if test="statecode != null">
+        StateCode = #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="indcode != null">
+        IndCode = #{indcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjcode != null">
+        PrjCode = #{prjcode,jdbcType=CHAR},
+      </if>
+      <if test="etpofjp != null">
+        EtpOfJp = #{etpofjp,jdbcType=CHAR},
+      </if>
+      <if test="lgealrep != null">
+        LgealRep = #{lgealrep,jdbcType=NVARCHAR},
+      </if>
+      <if test="caddress1 != null">
+        CAddress1 = #{caddress1,jdbcType=NVARCHAR},
+      </if>
+      <if test="caddress2 != null">
+        CAddress2 = #{caddress2,jdbcType=NVARCHAR},
+      </if>
+      <if test="postcode != null">
+        PostCode = #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="telnofirst != null">
+        TelNoFirst = #{telnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="telnolast != null">
+        TelNoLast = #{telnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="faxnofirst != null">
+        FaxNoFirst = #{faxnofirst,jdbcType=VARCHAR},
+      </if>
+      <if test="faxnolast != null">
+        FaxNoLast = #{faxnolast,jdbcType=VARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        ContactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="contpsnduty != null">
+        ContPsnDuty = #{contpsnduty,jdbcType=NVARCHAR},
+      </if>
+      <if test="contdept != null">
+        ContDept = #{contdept,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        Bank = #{bank,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxno != null">
+        TaxNo = #{taxno,jdbcType=VARCHAR},
+      </if>
+      <if test="accountno != null">
+        AccountNo = #{accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptcode != null">
+        DeptCode = #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="psnsmcid != null">
+        PsnSMCID = #{psnsmcid,jdbcType=VARCHAR},
+      </if>
+      <if test="pricelvl != null">
+        PriceLvl = #{pricelvl,jdbcType=CHAR},
+      </if>
+      <if test="filedate != null">
+        FileDate = #{filedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upddate != null">
+        UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="obinvoice != null">
+        ObInvoice = #{obinvoice,jdbcType=CHAR},
+      </if>
+      <if test="eaddress != null">
+        EAddress = #{eaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invflag != null">
+        InvFlag = #{invflag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="requirement != null">
+        Requirement = #{requirement,jdbcType=DECIMAL},
+      </if>
+      <if test="agentno != null">
+        AgentNo = #{agentno,jdbcType=CHAR},
+      </if>
+      <if test="stockflag != null">
+        StockFlag = #{stockflag,jdbcType=CHAR},
+      </if>
+      <if test="invagent != null">
+        InvAgent = #{invagent,jdbcType=CHAR},
+      </if>
+      <if test="vipcode != null">
+        VIPCode = #{vipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="laji != null">
+        Laji = #{laji,jdbcType=CHAR},
+      </if>
+      <if test="vipcodeCn != null">
+        VIPCode_Cn = #{vipcodeCn,jdbcType=CHAR},
+      </if>
+      <if test="enduserType != null">
+        EndUser_Type = #{enduserType,jdbcType=CHAR},
+      </if>
+      <if test="beijian != null">
+        Beijian = #{beijian,jdbcType=BIT},
+      </if>
+      <if test="peitao != null">
+        PeiTao = #{peitao,jdbcType=BIT},
+      </if>
+      <if test="phoneFirst != null">
+        Phone_first = #{phoneFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneLast != null">
+        Phone_Last = #{phoneLast,jdbcType=VARCHAR},
+      </if>
+      <if test="restrictCust != null">
+        Restrict_Cust = #{restrictCust,jdbcType=CHAR},
+      </if>
+      <if test="deliveryFlag != null">
+        Delivery_Flag = #{deliveryFlag,jdbcType=CHAR},
+      </if>
+      <if test="agenttype != null">
+        AgentType = #{agenttype,jdbcType=CHAR},
+      </if>
+      <if test="deliverytype != null">
+        DeliveryType = #{deliverytype,jdbcType=CHAR},
+      </if>
+      <if test="licenceno != null">
+        LicenceNo = #{licenceno,jdbcType=NVARCHAR},
+      </if>
+      <if test="nolicence != null">
+        NoLicence = #{nolicence,jdbcType=BIT},
+      </if>
+      <if test="belongedgroup != null">
+        BelongedGroup = #{belongedgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="statementemail != null">
+        StatementEmail = #{statementemail,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceaddress != null">
+        InvoiceAddress = #{invoiceaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="indcodeGroupid != null">
+        IndCode_GroupId = #{indcodeGroupid,jdbcType=VARCHAR},
+      </if>
+      <if test="indcodePointrate != null">
+        IndCode_PointRate = #{indcodePointrate,jdbcType=VARCHAR},
+      </if>
+      <if test="unuseFlag != null">
+        UnUse_Flag = #{unuseFlag,jdbcType=CHAR},
+      </if>
+      <if test="customernoNc != null">
+        CustomerNO_NC = #{customernoNc,jdbcType=NCHAR},
+      </if>
+      <if test="risktip != null">
+        RiskTip = #{risktip,jdbcType=NVARCHAR},
+      </if>
+      <if test="survivalstatusdescription != null">
+        SurvivalStatusDescription = #{survivalstatusdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="registeredcapital != null">
+        RegisteredCapital = #{registeredcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="contributedcapital != null">
+        ContributedCapital = #{contributedcapital,jdbcType=NVARCHAR},
+      </if>
+      <if test="companytypedescription != null">
+        CompanyTypeDescription = #{companytypedescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="marketcategorycode != null">
+        MarketCategoryCode = #{marketcategorycode,jdbcType=CHAR},
+      </if>
+      <if test="hlcode != null">
+        HLCode = #{hlcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradecompanyid != null">
+        TradeCompanyId = #{tradecompanyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="smcgroupid != null">
+        SMCGroupID = #{smcgroupid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Customer2del">
+    update dbo.Customer_2del
+    set UserNo = #{userno,jdbcType=CHAR},
+      CstmName = #{cstmname,jdbcType=NVARCHAR},
+      CstmType = #{cstmtype,jdbcType=CHAR},
+      CstmGrade = #{cstmgrade,jdbcType=NVARCHAR},
+      StateCode = #{statecode,jdbcType=VARCHAR},
+      IndCode = #{indcode,jdbcType=VARCHAR},
+      PrjCode = #{prjcode,jdbcType=CHAR},
+      EtpOfJp = #{etpofjp,jdbcType=CHAR},
+      LgealRep = #{lgealrep,jdbcType=NVARCHAR},
+      CAddress1 = #{caddress1,jdbcType=NVARCHAR},
+      CAddress2 = #{caddress2,jdbcType=NVARCHAR},
+      PostCode = #{postcode,jdbcType=CHAR},
+      TelNoFirst = #{telnofirst,jdbcType=VARCHAR},
+      TelNoLast = #{telnolast,jdbcType=VARCHAR},
+      FaxNoFirst = #{faxnofirst,jdbcType=VARCHAR},
+      FaxNoLast = #{faxnolast,jdbcType=VARCHAR},
+      ContactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      ContPsnDuty = #{contpsnduty,jdbcType=NVARCHAR},
+      ContDept = #{contdept,jdbcType=VARCHAR},
+      Bank = #{bank,jdbcType=NVARCHAR},
+      TaxNo = #{taxno,jdbcType=VARCHAR},
+      AccountNo = #{accountno,jdbcType=VARCHAR},
+      DeptCode = #{deptcode,jdbcType=VARCHAR},
+      PsnSMCID = #{psnsmcid,jdbcType=VARCHAR},
+      PriceLvl = #{pricelvl,jdbcType=CHAR},
+      FileDate = #{filedate,jdbcType=TIMESTAMP},
+      UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      ObInvoice = #{obinvoice,jdbcType=CHAR},
+      EAddress = #{eaddress,jdbcType=VARCHAR},
+      InvFlag = #{invflag,jdbcType=CHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      Requirement = #{requirement,jdbcType=DECIMAL},
+      AgentNo = #{agentno,jdbcType=CHAR},
+      StockFlag = #{stockflag,jdbcType=CHAR},
+      InvAgent = #{invagent,jdbcType=CHAR},
+      VIPCode = #{vipcode,jdbcType=VARCHAR},
+      Laji = #{laji,jdbcType=CHAR},
+      VIPCode_Cn = #{vipcodeCn,jdbcType=CHAR},
+      EndUser_Type = #{enduserType,jdbcType=CHAR},
+      Beijian = #{beijian,jdbcType=BIT},
+      PeiTao = #{peitao,jdbcType=BIT},
+      Phone_first = #{phoneFirst,jdbcType=VARCHAR},
+      Phone_Last = #{phoneLast,jdbcType=VARCHAR},
+      Restrict_Cust = #{restrictCust,jdbcType=CHAR},
+      Delivery_Flag = #{deliveryFlag,jdbcType=CHAR},
+      AgentType = #{agenttype,jdbcType=CHAR},
+      DeliveryType = #{deliverytype,jdbcType=CHAR},
+      LicenceNo = #{licenceno,jdbcType=NVARCHAR},
+      NoLicence = #{nolicence,jdbcType=BIT},
+      BelongedGroup = #{belongedgroup,jdbcType=VARCHAR},
+      StatementEmail = #{statementemail,jdbcType=VARCHAR},
+      InvoiceAddress = #{invoiceaddress,jdbcType=NVARCHAR},
+      IndCode_GroupId = #{indcodeGroupid,jdbcType=VARCHAR},
+      IndCode_PointRate = #{indcodePointrate,jdbcType=VARCHAR},
+      UnUse_Flag = #{unuseFlag,jdbcType=CHAR},
+      CustomerNO_NC = #{customernoNc,jdbcType=NCHAR},
+      RiskTip = #{risktip,jdbcType=NVARCHAR},
+      SurvivalStatusDescription = #{survivalstatusdescription,jdbcType=NVARCHAR},
+      RegisteredCapital = #{registeredcapital,jdbcType=NVARCHAR},
+      ContributedCapital = #{contributedcapital,jdbcType=NVARCHAR},
+      CompanyTypeDescription = #{companytypedescription,jdbcType=NVARCHAR},
+      MarketCategoryCode = #{marketcategorycode,jdbcType=CHAR},
+      HLCode = #{hlcode,jdbcType=VARCHAR},
+      TradeCompanyId = #{tradecompanyid,jdbcType=NVARCHAR},
+      SMCGroupID = #{smcgroupid,jdbcType=NVARCHAR}
+    where CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+</mapper>

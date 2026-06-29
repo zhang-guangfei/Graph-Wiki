@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsOrderDeliveryMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsOrderDelivery">
+    <id column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <id column="rorder_item" jdbcType="INTEGER" property="rorderItem" />
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="customerName" jdbcType="NVARCHAR" property="customername" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="postcode" jdbcType="VARCHAR" property="postcode" />
+    <result column="address" jdbcType="NVARCHAR" property="address" />
+    <result column="contactPsn" jdbcType="NVARCHAR" property="contactpsn" />
+    <result column="telNo" jdbcType="VARCHAR" property="telno" />
+    <result column="idCard" jdbcType="VARCHAR" property="idcard" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="NVARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="NVARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rorder_no, rorder_item, customerNo, customerName, province, city, region, postcode, 
+    address, contactPsn, telNo, idCard, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsOrderDeliveryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_delivery
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsOrderDeliveryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_delivery
+    where rorder_no = #{rorderNo,jdbcType=VARCHAR}
+      and rorder_item = #{rorderItem,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsOrderDeliveryKey">
+    delete from dbo.ops_order_delivery
+    where rorder_no = #{rorderNo,jdbcType=VARCHAR}
+      and rorder_item = #{rorderItem,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsOrderDeliveryExample">
+    delete from dbo.ops_order_delivery
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsOrderDelivery">
+    insert into dbo.ops_order_delivery (rorder_no, rorder_item, customerNo, 
+      customerName, province, city, 
+      region, postcode, address, 
+      contactPsn, telNo, idCard, 
+      create_time, create_user, update_time, 
+      update_user)
+    values (#{rorderNo,jdbcType=VARCHAR}, #{rorderItem,jdbcType=INTEGER}, #{customerno,jdbcType=VARCHAR}, 
+      #{customername,jdbcType=NVARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{address,jdbcType=NVARCHAR}, 
+      #{contactpsn,jdbcType=NVARCHAR}, #{telno,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsOrderDelivery">
+    insert into dbo.ops_order_delivery
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="customername != null">
+        customerName,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="postcode != null">
+        postcode,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="contactpsn != null">
+        contactPsn,
+      </if>
+      <if test="telno != null">
+        telNo,
+      </if>
+      <if test="idcard != null">
+        idCard,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null">
+        #{customername,jdbcType=NVARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="telno != null">
+        #{telno,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsOrderDeliveryExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_order_delivery
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_order_delivery
+    <set>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customername != null">
+        customerName = #{record.customername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        postcode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.contactpsn != null">
+        contactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.telno != null">
+        telNo = #{record.telno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null">
+        idCard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_order_delivery
+    set rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      customerNo = #{record.customerno,jdbcType=VARCHAR},
+      customerName = #{record.customername,jdbcType=NVARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      postcode = #{record.postcode,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=NVARCHAR},
+      contactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      telNo = #{record.telno,jdbcType=VARCHAR},
+      idCard = #{record.idcard,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsOrderDelivery">
+    update dbo.ops_order_delivery
+    <set>
+      <if test="customerno != null">
+        customerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null">
+        customerName = #{customername,jdbcType=NVARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        contactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="telno != null">
+        telNo = #{telno,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where rorder_no = #{rorderNo,jdbcType=VARCHAR}
+      and rorder_item = #{rorderItem,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsOrderDelivery">
+    update dbo.ops_order_delivery
+    set customerNo = #{customerno,jdbcType=VARCHAR},
+      customerName = #{customername,jdbcType=NVARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=NVARCHAR},
+      contactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      telNo = #{telno,jdbcType=VARCHAR},
+      idCard = #{idcard,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=NVARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=NVARCHAR}
+    where rorder_no = #{rorderNo,jdbcType=VARCHAR}
+      and rorder_item = #{rorderItem,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.AdapterOpsTranslationConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.AdapterOpsTranslationConfig">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="adapter_code" jdbcType="VARCHAR" property="adapterCode" />
+    <result column="ops_code" jdbcType="VARCHAR" property="opsCode" />
+    <result column="info" jdbcType="NVARCHAR" property="info" />
+    <result column="code_type" jdbcType="VARCHAR" property="codeType" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_user" jdbcType="NVARCHAR" property="insertUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="NVARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, adapter_code, ops_code, info, code_type, insert_time, insert_user, update_time, 
+    update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.AdapterOpsTranslationConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.adapter_ops_translation_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.AdapterOpsTranslationConfigExample">
+    delete from dbo.adapter_ops_translation_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.AdapterOpsTranslationConfig">
+    insert into dbo.adapter_ops_translation_config (id, adapter_code, ops_code, 
+      info, code_type, insert_time, 
+      insert_user, update_time, update_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{adapterCode,jdbcType=VARCHAR}, #{opsCode,jdbcType=VARCHAR}, 
+      #{info,jdbcType=NVARCHAR}, #{codeType,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{insertUser,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.AdapterOpsTranslationConfig">
+    insert into dbo.adapter_ops_translation_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="adapterCode != null">
+        adapter_code,
+      </if>
+      <if test="opsCode != null">
+        ops_code,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="codeType != null">
+        code_type,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+      <if test="insertUser != null">
+        insert_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="adapterCode != null">
+        #{adapterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opsCode != null">
+        #{opsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=NVARCHAR},
+      </if>
+      <if test="codeType != null">
+        #{codeType,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertUser != null">
+        #{insertUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.AdapterOpsTranslationConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.adapter_ops_translation_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.adapter_ops_translation_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.adapterCode != null">
+        adapter_code = #{record.adapterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opsCode != null">
+        ops_code = #{record.opsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.info != null">
+        info = #{record.info,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.codeType != null">
+        code_type = #{record.codeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insertTime != null">
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.insertUser != null">
+        insert_user = #{record.insertUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.adapter_ops_translation_config
+    set id = #{record.id,jdbcType=BIGINT},
+      adapter_code = #{record.adapterCode,jdbcType=VARCHAR},
+      ops_code = #{record.opsCode,jdbcType=VARCHAR},
+      info = #{record.info,jdbcType=NVARCHAR},
+      code_type = #{record.codeType,jdbcType=VARCHAR},
+      insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+      insert_user = #{record.insertUser,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

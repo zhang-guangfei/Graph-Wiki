@@ -1,0 +1,12 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  main:
+    #允许存在多个Feign调用相同Service的接口
+    allow-bean-definition-overriding: true
+  application:
+    name: product-service
+  profiles:
+    active: test

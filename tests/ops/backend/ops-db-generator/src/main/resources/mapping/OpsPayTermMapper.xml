@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPayTermMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPayTerm">
+    <id column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="CreditTerm" jdbcType="INTEGER" property="creditterm" />
+    <result column="CreditGrade" jdbcType="CHAR" property="creditgrade" />
+    <result column="PayTerm" jdbcType="VARCHAR" property="payterm" />
+    <result column="CreditLimit" jdbcType="DECIMAL" property="creditlimit" />
+    <result column="GraceLimit" jdbcType="DECIMAL" property="gracelimit" />
+    <result column="AdjustLimit" jdbcType="DECIMAL" property="adjustlimit" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CreateUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CustomerNo, CreditTerm, CreditGrade, PayTerm, CreditLimit, GraceLimit, AdjustLimit, 
+    CreateTime, CreateUser, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPayTermExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_pay_term
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_pay_term
+    where CustomerNo = #{customerno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_pay_term
+    where CustomerNo = #{customerno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPayTermExample">
+    delete from dbo.ops_pay_term
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPayTerm">
+    insert into dbo.ops_pay_term (CustomerNo, CreditTerm, CreditGrade, 
+      PayTerm, CreditLimit, GraceLimit, 
+      AdjustLimit, CreateTime, CreateUser, 
+      UpdateTime, UpdateUser)
+    values (#{customerno,jdbcType=VARCHAR}, #{creditterm,jdbcType=INTEGER}, #{creditgrade,jdbcType=CHAR}, 
+      #{payterm,jdbcType=VARCHAR}, #{creditlimit,jdbcType=DECIMAL}, #{gracelimit,jdbcType=DECIMAL}, 
+      #{adjustlimit,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPayTerm">
+    insert into dbo.ops_pay_term
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="creditterm != null">
+        CreditTerm,
+      </if>
+      <if test="creditgrade != null">
+        CreditGrade,
+      </if>
+      <if test="payterm != null">
+        PayTerm,
+      </if>
+      <if test="creditlimit != null">
+        CreditLimit,
+      </if>
+      <if test="gracelimit != null">
+        GraceLimit,
+      </if>
+      <if test="adjustlimit != null">
+        AdjustLimit,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="createuser != null">
+        CreateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="creditterm != null">
+        #{creditterm,jdbcType=INTEGER},
+      </if>
+      <if test="creditgrade != null">
+        #{creditgrade,jdbcType=CHAR},
+      </if>
+      <if test="payterm != null">
+        #{payterm,jdbcType=VARCHAR},
+      </if>
+      <if test="creditlimit != null">
+        #{creditlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="gracelimit != null">
+        #{gracelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustlimit != null">
+        #{adjustlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPayTermExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_pay_term
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_pay_term
+    <set>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditterm != null">
+        CreditTerm = #{record.creditterm,jdbcType=INTEGER},
+      </if>
+      <if test="record.creditgrade != null">
+        CreditGrade = #{record.creditgrade,jdbcType=CHAR},
+      </if>
+      <if test="record.payterm != null">
+        PayTerm = #{record.payterm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditlimit != null">
+        CreditLimit = #{record.creditlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gracelimit != null">
+        GraceLimit = #{record.gracelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.adjustlimit != null">
+        AdjustLimit = #{record.adjustlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuser != null">
+        UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_pay_term
+    set CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      CreditTerm = #{record.creditterm,jdbcType=INTEGER},
+      CreditGrade = #{record.creditgrade,jdbcType=CHAR},
+      PayTerm = #{record.payterm,jdbcType=VARCHAR},
+      CreditLimit = #{record.creditlimit,jdbcType=DECIMAL},
+      GraceLimit = #{record.gracelimit,jdbcType=DECIMAL},
+      AdjustLimit = #{record.adjustlimit,jdbcType=DECIMAL},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPayTerm">
+    update dbo.ops_pay_term
+    <set>
+      <if test="creditterm != null">
+        CreditTerm = #{creditterm,jdbcType=INTEGER},
+      </if>
+      <if test="creditgrade != null">
+        CreditGrade = #{creditgrade,jdbcType=CHAR},
+      </if>
+      <if test="payterm != null">
+        PayTerm = #{payterm,jdbcType=VARCHAR},
+      </if>
+      <if test="creditlimit != null">
+        CreditLimit = #{creditlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="gracelimit != null">
+        GraceLimit = #{gracelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustlimit != null">
+        AdjustLimit = #{adjustlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CreateUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CustomerNo = #{customerno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPayTerm">
+    update dbo.ops_pay_term
+    set CreditTerm = #{creditterm,jdbcType=INTEGER},
+      CreditGrade = #{creditgrade,jdbcType=CHAR},
+      PayTerm = #{payterm,jdbcType=VARCHAR},
+      CreditLimit = #{creditlimit,jdbcType=DECIMAL},
+      GraceLimit = #{gracelimit,jdbcType=DECIMAL},
+      AdjustLimit = #{adjustlimit,jdbcType=DECIMAL},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where CustomerNo = #{customerno,jdbcType=VARCHAR}
+  </update>
+</mapper>

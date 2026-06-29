@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoDestinationConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoDestinationConfig">
+    <result column="orderType" jdbcType="VARCHAR" property="ordertype" />
+    <result column="productType" jdbcType="INTEGER" property="producttype" />
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="smccode" jdbcType="VARCHAR" property="smccode" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="supplierid" jdbcType="CHAR" property="supplierid" />
+    <result column="warehouseid" jdbcType="VARCHAR" property="warehouseid" />
+    <result column="manufactureAccepter" jdbcType="NVARCHAR" property="manufactureaccepter" />
+    <result column="hopeReceiveWarehouse" jdbcType="VARCHAR" property="hopereceivewarehouse" />
+    <result column="wmTag" jdbcType="VARCHAR" property="wmtag" />
+    <result column="sub_code" jdbcType="VARCHAR" property="subCode" />
+    <result column="trans_type" jdbcType="CHAR" property="transType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    orderType, productType, customerNo, smccode, updateTime, supplierid, warehouseid, 
+    manufactureAccepter, hopeReceiveWarehouse, wmTag, sub_code, trans_type
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoDestinationConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_destination_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoDestinationConfigExample">
+    delete from dbo.ops_po_destination_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoDestinationConfig">
+    insert into dbo.ops_po_destination_config (orderType, productType, customerNo, 
+      smccode, updateTime, supplierid, 
+      warehouseid, manufactureAccepter, hopeReceiveWarehouse, 
+      wmTag, sub_code, trans_type
+      )
+    values (#{ordertype,jdbcType=VARCHAR}, #{producttype,jdbcType=INTEGER}, #{customerno,jdbcType=VARCHAR}, 
+      #{smccode,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{supplierid,jdbcType=CHAR}, 
+      #{warehouseid,jdbcType=VARCHAR}, #{manufactureaccepter,jdbcType=NVARCHAR}, #{hopereceivewarehouse,jdbcType=VARCHAR}, 
+      #{wmtag,jdbcType=VARCHAR}, #{subCode,jdbcType=VARCHAR}, #{transType,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoDestinationConfig">
+    insert into dbo.ops_po_destination_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ordertype != null">
+        orderType,
+      </if>
+      <if test="producttype != null">
+        productType,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="smccode != null">
+        smccode,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="supplierid != null">
+        supplierid,
+      </if>
+      <if test="warehouseid != null">
+        warehouseid,
+      </if>
+      <if test="manufactureaccepter != null">
+        manufactureAccepter,
+      </if>
+      <if test="hopereceivewarehouse != null">
+        hopeReceiveWarehouse,
+      </if>
+      <if test="wmtag != null">
+        wmTag,
+      </if>
+      <if test="subCode != null">
+        sub_code,
+      </if>
+      <if test="transType != null">
+        trans_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ordertype != null">
+        #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="producttype != null">
+        #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=CHAR},
+      </if>
+      <if test="warehouseid != null">
+        #{warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="manufactureaccepter != null">
+        #{manufactureaccepter,jdbcType=NVARCHAR},
+      </if>
+      <if test="hopereceivewarehouse != null">
+        #{hopereceivewarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="wmtag != null">
+        #{wmtag,jdbcType=VARCHAR},
+      </if>
+      <if test="subCode != null">
+        #{subCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null">
+        #{transType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoDestinationConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_destination_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_destination_config
+    <set>
+      <if test="record.ordertype != null">
+        orderType = #{record.ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.producttype != null">
+        productType = #{record.producttype,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smccode != null">
+        smccode = #{record.smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.supplierid != null">
+        supplierid = #{record.supplierid,jdbcType=CHAR},
+      </if>
+      <if test="record.warehouseid != null">
+        warehouseid = #{record.warehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manufactureaccepter != null">
+        manufactureAccepter = #{record.manufactureaccepter,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.hopereceivewarehouse != null">
+        hopeReceiveWarehouse = #{record.hopereceivewarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wmtag != null">
+        wmTag = #{record.wmtag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subCode != null">
+        sub_code = #{record.subCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transType != null">
+        trans_type = #{record.transType,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_destination_config
+    set orderType = #{record.ordertype,jdbcType=VARCHAR},
+      productType = #{record.producttype,jdbcType=INTEGER},
+      customerNo = #{record.customerno,jdbcType=VARCHAR},
+      smccode = #{record.smccode,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      supplierid = #{record.supplierid,jdbcType=CHAR},
+      warehouseid = #{record.warehouseid,jdbcType=VARCHAR},
+      manufactureAccepter = #{record.manufactureaccepter,jdbcType=NVARCHAR},
+      hopeReceiveWarehouse = #{record.hopereceivewarehouse,jdbcType=VARCHAR},
+      wmTag = #{record.wmtag,jdbcType=VARCHAR},
+      sub_code = #{record.subCode,jdbcType=VARCHAR},
+      trans_type = #{record.transType,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

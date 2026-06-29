@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.sales.ops.db.batchdao.AddBatchOrderInventoryLogDao">
+
+	<insert id="insertBatch"
+		parameterType="com.sales.ops.db.entity.OpsRequestpurchase"
+		useGeneratedKeys="false">
+		INSERT INTO
+		ops_requestPurchase(orderNo,itemNo,splitItemNo,stateCode,mergeflag,customerNo,
+		userNo,deptNo,apply_dept_no,inqNo,ordType,modelNo,quantity,stdPrice,specMark,
+		shikomiAnswerNo,shikomiRemainQty,hopeDeliveryDate,remark,salesInfoNo,requestTime,
+		productTag,productTagRemark,requestWarehouseId,purchaseType,orderDate,supplierId,
+		purchaseWarehouseId,transType,hopeExportDate,smcCode,isLot,interceptMsg,netWeight,
+		notUseShikomi,releaseReason,isEdited,productType,warehouseType,industryCode,
+		inventoryTypeCode,ppl,projectCode,groupCustomerNo,wmTag,hsCode,supplierPartNo,
+		importFobPriceOriginal,importCurrencyId,inventoryPropertyId,serverremark,supplierInventory,
+		corderNO,iseven,minpackunit,nonstandard_sized_product,qtyImport,finishTime,updateTime,
+		inspectionType,shikomiRelease)
+		values
+		<foreach item="item" index="index" collection="list"
+			separator=",">
+			(#{item.orderno},#{item.itemno},#{item.splitItemno},#{item.statecode},#{item.mergeflag},
+			#{item.customerno},#{item.userno},#{item.deptno},#{item.applydeptno},#{item.inqNo},#{item.ordtype},
+			#{item.modelno},#{item.quantity},#{item.stdPrice},#{item.specMark},#{item.shikomiAnswerNo},
+			#{item.shikomiRemainQty},#{item.hopeDeliveryDate},#{item.remark},#{item.salesInfoNo},#{item.requestTime},
+			#{item.productTag},#{item.productTagRemark},#{item.requestWarehouseId},#{item.purchaseType},
+			#{item.orderDate},#{item.supplierId},#{item.purchaseWarehouseId},#{item.transType},
+			#{item.hopeExportDate},#{item.smcCode},#{item.isLot},#{item.interceptMsg},#{item.netWeight},
+			#{item.notUseShikomi},#{item.releaseReason},#{item.isEdited},#{item.productType},#{item.warehouseType},
+			#{item.industryCode},#{item.inventoryTypeCode},#{item.ppl},#{item.projectCode},#{item.groupCustomerNo},
+			#{item.wmTag},#{item.hsCode},#{item.supplierPartNo},#{item.importFobPriceOriginal},
+			#{item.importCurrencyId},#{item.inventoryPropertyId},#{item.serverremark},#{item.supplierInventory},
+			#{item.corderNO},#{item.iseven},#{item.minpackunit},#{item.nonstandardsizedproduct},#{item.qtyImport},
+			#{item.finishTime},#{item.updateTime},#{item.inspectionType},#{item.shikomiRelease} )
+		</foreach>
+	</insert>
+
+</mapper>

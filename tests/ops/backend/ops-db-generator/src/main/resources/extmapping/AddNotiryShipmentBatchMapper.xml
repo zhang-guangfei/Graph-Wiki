@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.AddNotifyShipmentBatchDao">
+
+    <insert id="insert"  parameterType="com.sales.ops.dto.replacement.NotifyShipmentPlanDto" useGeneratedKeys="false">
+            INSERT INTO notify_shipment_plan
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                plan_no,
+                order_fno,
+                order_id,
+                order_item,
+                plan_qty,
+                <if test="logisticsQty != null and logisticsQty !='' " >
+                    logistics_qty ,
+                </if>
+                hope_date,
+                wl_date,
+                modelno,
+                status,
+                version,
+                delflag,
+                create_time,
+                creator,
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{planNo,jdbcType=VARCHAR},
+                #{orderFno,jdbcType=VARCHAR},
+                #{orderId,jdbcType=VARCHAR},
+                #{orderItem,jdbcType=VARCHAR},
+                #{planQty,jdbcType=INTEGER},
+                <if test="logisticsQty!= null and logisticsQty!=''" >
+                    #{logisticsQty,jdbcType=INTEGER},
+                </if>
+                #{hopeDate,jdbcType=TIMESTAMP},
+                #{wlDate,jdbcType=TIMESTAMP},
+                #{modelNo,jdbcType=VARCHAR},
+                #{status,jdbcType=INTEGER},
+                #{version,jdbcType=INTEGER},
+                #{delflag,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{creator,jdbcType=VARCHAR},
+            </trim>
+
+    </insert>
+
+  <insert id="batchInsert"  parameterType="List" useGeneratedKeys="false">
+    <foreach item="item" index="index" collection="list"
+             separator=";">
+      INSERT INTO notify_shipment_plan
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+          plan_no,
+          order_fno,
+          order_id,
+          order_item,
+          plan_qty,
+        <if test="item.logisticsQty != null and item.logisticsQty !='' " >
+            logistics_qty ,
+        </if>
+          hope_date,
+          wl_date,
+          modelno,
+          status,
+          version,
+          delflag,
+          create_time,
+          creator,
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          #{item.planNo,jdbcType=VARCHAR},
+          #{item.orderFno,jdbcType=VARCHAR},
+          #{item.orderId,jdbcType=VARCHAR},
+          #{item.orderItem,jdbcType=VARCHAR},
+          #{item.planQty,jdbcType=INTEGER},
+          <if test="item.logisticsQty!= null and item.logisticsQty!=''" >
+             #{item.logisticsQty,jdbcType=INTEGER},
+          </if>
+          #{item.hopeDate,jdbcType=TIMESTAMP},
+          #{item.wlDate,jdbcType=TIMESTAMP},
+          #{item.modelNo,jdbcType=VARCHAR},
+          #{item.status,jdbcType=INTEGER},
+          {item.version,jdbcType=INTEGER},
+          #{item.delflag,jdbcType=INTEGER},
+          #{item.createTime,jdbcType=TIMESTAMP},
+          #{item.creator,jdbcType=VARCHAR},
+      </trim>
+    </foreach>
+  </insert>
+
+
+    <insert id="batchInsertItem"  parameterType="List" useGeneratedKeys="false">
+        <foreach item="item" index="index" collection="list"
+                 separator=";">
+            INSERT INTO notify_shipment_plan_item
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                plan_no,
+                do_id,
+                <if test="item.pcoId != null and item.pcoId !='' " >
+                    pco_Id ,
+                </if>
+                qty,
+                status,
+                version,
+                delflag,
+                create_time,
+                creator,
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{item.planNo,jdbcType=VARCHAR},
+                #{item.doId,jdbcType=VARCHAR},
+                <if test="item.pcoId!= null and item.pcoId!=''" >
+                    #{item.pcoId,jdbcType=VARCHAR},
+                </if>
+                #{item.qty,jdbcType=INTEGER},
+                #{item.status,jdbcType=INTEGER},
+                #{item.version,jdbcType=INTEGER},
+                #{item.delflag,jdbcType=INTEGER},
+                #{item.createTime,jdbcType=TIMESTAMP},
+                #{item.creator,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductRestrictCustomerWhitelistMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductRestrictCustomerWhitelist">
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="MainCustomer" jdbcType="BIT" property="maincustomer" />
+    <result column="Remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="CreateId" jdbcType="VARCHAR" property="createid" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, CustomerNo, MainCustomer, Remark, CreateId, CreateTime, UpdateUser, UpdateTime, 
+    is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelistExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_restrict_customer_whitelist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelistKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_restrict_customer_whitelist
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelistKey">
+    delete from dbo.product_restrict_customer_whitelist
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelistExample">
+    delete from dbo.product_restrict_customer_whitelist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelist">
+    insert into dbo.product_restrict_customer_whitelist (ModelNo, CustomerNo, MainCustomer, 
+      Remark, CreateId, CreateTime, 
+      UpdateUser, UpdateTime, is_deleted)
+    values (#{modelno,jdbcType=VARCHAR}, #{customerno,jdbcType=CHAR}, #{maincustomer,jdbcType=BIT}, 
+      #{remark,jdbcType=NVARCHAR}, #{createid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelist">
+    insert into dbo.product_restrict_customer_whitelist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="maincustomer != null">
+        MainCustomer,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="createid != null">
+        CreateId,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="maincustomer != null">
+        #{maincustomer,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createid != null">
+        #{createid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelistExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_restrict_customer_whitelist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_restrict_customer_whitelist
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.maincustomer != null">
+        MainCustomer = #{record.maincustomer,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createid != null">
+        CreateId = #{record.createid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuser != null">
+        UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_restrict_customer_whitelist
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      MainCustomer = #{record.maincustomer,jdbcType=BIT},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
+      CreateId = #{record.createid,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelist">
+    update dbo.product_restrict_customer_whitelist
+    <set>
+      <if test="maincustomer != null">
+        MainCustomer = #{maincustomer,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createid != null">
+        CreateId = #{createid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductRestrictCustomerWhitelist">
+    update dbo.product_restrict_customer_whitelist
+    set MainCustomer = #{maincustomer,jdbcType=BIT},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreateId = #{createid,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+</mapper>

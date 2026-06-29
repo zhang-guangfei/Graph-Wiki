@@ -1,0 +1,228 @@
+/**
+  <div class="base-index">
+    // 个性化内容
+    <div class="search-title-content"> // 查询模块样式
+      // 输入框样式
+      <el-input class="search-input-class" type="text" size="small" placeholder="请输入" round clearable />
+      // 下拉选择框样式
+      <el-select class="search-select-class" size="small" placeholder="请选择" clearable />
+      // 日期选择组件样式
+      <el-date-picker class="search-date-picker-class" type="daterange" size="small" range-separator="-"start-placeholder="开始日期" end-placeholder="结束日期"/>
+    </div>
+  </div>
+*/
+.message_div {
+  .el-scrollbar{
+    .el-scrollbar__wrap{
+      overflow-x: hidden;
+      overflow-y: visible
+    }
+  }
+}
+.base-index{
+
+  .el-button--mini {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+  .el-button--mini.is-circle {
+    padding: 3px;
+  }
+  .base-index .sum {
+    width: 80px;
+    font-size: 10px;
+  }
+  .vxe-table.size--mini {
+    font-size: 12px;
+  }
+
+  .vxe-table.size--mini .vxe-body--column.col--ellipsis, .vxe-table.size--mini .vxe-footer--column.col--ellipsis, .vxe-table.size--mini .vxe-header--column.col--ellipsis, .vxe-table.vxe-editable.size--mini .vxe-body--column {
+    line-height: 26px;
+    height: 26px;
+    padding: 2px 0px 2px 2px;
+  }
+  
+  .vxe-table.size--mini .vxe-body--column:not(.col--ellipsis), .vxe-table.size--mini .vxe-footer--column:not(.col--ellipsis), .vxe-table.size--mini .vxe-header--column:not(.col--ellipsis) {
+    padding: 2px 0px 2px 2px;
+  }
+  
+  .vxe-checkbox .vxe-checkbox--label, .vxe-radio-button .vxe-radio--label, .vxe-radio .vxe-radio--label, .vxe-table .vxe-body--column.col--ellipsis:not(.col--actived)>.vxe-cell, .vxe-table .vxe-footer--column.col--ellipsis:not(.col--actived)>.vxe-cell, .vxe-table .vxe-header--column.col--ellipsis:not(.col--actived)>.vxe-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 26px;
+    height: 26px;
+    padding: 0px;
+  }
+
+  .vxe-table--render-default .vxe-body--column.col--valid-error .vxe-cell--valid .vxe-cell--valid-msg {
+    padding: 0px 5px;
+  }
+  .vxe-header--row {
+    color: rgba(26,24,24,0.938);
+    background-color: #edf1f3;
+    padding: 0px;
+    font-size: 12px;
+  }
+
+  .el-tabs__item {
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+  }
+  
+  .sum {
+    width: 80px;
+    font-size: 12px;
+  }
+
+  .detail {
+    width: 50px;
+    font-size: 12px;
+  }
+
+  .el-form-item__label {
+    width: 80px;
+    text-align: right;
+    font-size: 12px;
+  }
+  .base-text{
+    width: 200px;
+    margin: 5px 0;
+    text-align: left;
+    padding-left: 5px;
+    display: inline-block;
+    border: 1px solid rgba(212, 208, 208, 0.774);
+  }
+  .base-h3{
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  .el-checkbox__label {
+    font-size: 12px;
+  }
+  // .base-h4{
+  //   font-size: 1em;
+  //   font-weight: bold;
+  // }
+  .list-content{
+    padding: 0px 15px;
+    .el-form-item__label {
+      width: 120px;
+      text-align: right;
+      font-size: 12px;
+      line-height: 26px;
+    }
+    .el-form-item {
+      margin-bottom: 0px;
+    }
+    .hx-div {
+      .el-form-item {
+        margin-bottom: 2px;
+      }
+    }
+    .el-radio__label {
+      font-size: 12px;
+      padding-left: 10px;
+    }
+  }
+  .card-text-display{
+    padding: 10px 15px 0px 15px;
+    .el-col{
+      padding: 5px;
+      .el-form-item__label{
+        width: 88px;
+        // text-align-last: justify;
+        text-align: right;
+        font-size: 12px;
+      }
+      .el-form-item {
+        margin-bottom:0px;
+      }
+    }
+  }
+  .search-title-content {
+    padding: 10px 15px 0px 15px;
+    text-align: left;
+    .el-card__body {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .el-radio__label {
+      font-size: 14px;
+      padding-left: 1px;
+    }
+    .search-input-class{
+      width: 215px;
+    }
+    .search-select-class{
+      width: 215px;
+    }
+    .search-date-picker-class {
+      width: 215px;
+    }
+    .el-form-item {
+      margin-bottom: 0px;
+      vertical-align: middle;
+    }
+    .el-form-item--small .el-form-item__label {
+      margin: 4px 0px;
+      line-height: 26px;
+      font-size: 12px;
+    }
+  }
+  .position-right-bottom {
+    right:25px;
+    bottom:25px;
+    position:fixed;
+  }
+}
+
+.single-border-input {
+  // margin-left: 5px;
+  // padding: 0 2px;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  outline: none;
+  border-bottom-width: 1px;
+  .el-input--mini .el-input__inner {
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    height: 26px;
+    padding: 0 5px;
+    line-height: 26px;
+    font-size: 12px;
+    
+    /*outline: medium;*/
+  }
+  .el-input.is-disabled .el-input__inner {
+    color: black;
+    text-align:center;
+  }
+  .el-input-number.is-without-controls .el-input__inner {
+    padding: 0;
+  }
+}
+.ready-only-input {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  margin-left: 5px;
+  padding: 0 2px;
+  border-bottom-width: 1px !important;
+  background-color: #F5F7FA !important;
+  border-color: #dfe4ed !important;
+  outline: none;
+  width: 40px !important;
+  height: 26px !important;
+  text-align: center;
+}
+.vxe-table--render-default .vxe-table--border-line{
+  z-index: 6;
+}

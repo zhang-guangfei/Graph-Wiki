@@ -1,0 +1,47 @@
+.public-dialog{
+  .el-dialog__header{
+    height: 30px;
+    line-height: 30px;
+    vertical-align: midddle;
+    align-items: center;
+    padding: 0px 10px;
+    margin: 0px;
+    // background-color: #2ba6f3;
+    background-color: #5C91C4;
+    .el-dialog__title{
+      color:white;
+      font-size: 15px;
+    }
+    .el-dialog__headerbtn{
+      top: 6px;
+      padding: 0px;
+      margin: 0px;
+      background-color: white;
+      width: 20px;
+    }
+  }
+  .el-dialog__body{
+    padding: 10px 10px;
+    font-size: 12px;
+    .consult-edit-form {
+      .el-form-item__label {
+        font-size: 12px;
+      }
+    }
+  }
+}
+.msg-dialog {
+  .el-dialog__body {
+    padding: 0px;
+  }
+}
+.vxe-table--tooltip-wrapper.vxe-table--valid-error {
+	z-index: 3000 !important;
+}
+.vxe-input--panel.size--mini {
+	z-index: 3000 !important;
+}
+.el-cascader-menu__wrap{
+  height: 400px !important;
+}
+

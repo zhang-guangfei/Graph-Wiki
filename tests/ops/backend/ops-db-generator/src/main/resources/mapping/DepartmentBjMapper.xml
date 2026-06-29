@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.DepartmentBjMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.DepartmentBj">
+    <result column="DeptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="DeptDesc" jdbcType="VARCHAR" property="deptdesc" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="PostCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="TeleNo" jdbcType="VARCHAR" property="teleno" />
+    <result column="FaxNo" jdbcType="VARCHAR" property="faxno" />
+    <result column="EmailAddr" jdbcType="VARCHAR" property="emailaddr" />
+    <result column="RelaCode" jdbcType="VARCHAR" property="relacode" />
+    <result column="FilePath" jdbcType="VARCHAR" property="filepath" />
+    <result column="StateFlag" jdbcType="VARCHAR" property="stateflag" />
+    <result column="StockCode" jdbcType="VARCHAR" property="stockcode" />
+    <result column="LocationNo" jdbcType="VARCHAR" property="locationno" />
+    <result column="SuperIntendent" jdbcType="VARCHAR" property="superintendent" />
+    <result column="InsidePsn" jdbcType="VARCHAR" property="insidepsn" />
+    <result column="UpdDate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="EmailAddr1" jdbcType="VARCHAR" property="emailaddr1" />
+    <result column="InvFlag" jdbcType="VARCHAR" property="invflag" />
+    <result column="PostAddress" jdbcType="VARCHAR" property="postaddress" />
+    <result column="Bank" jdbcType="VARCHAR" property="bank" />
+    <result column="AccountNo" jdbcType="VARCHAR" property="accountno" />
+    <result column="TaxNo" jdbcType="VARCHAR" property="taxno" />
+    <result column="KFangID" jdbcType="VARCHAR" property="kfangid" />
+    <result column="YGid" jdbcType="VARCHAR" property="ygid" />
+    <result column="SHid" jdbcType="VARCHAR" property="shid" />
+    <result column="DlvFlag" jdbcType="VARCHAR" property="dlvflag" />
+    <result column="InvAmount" jdbcType="DECIMAL" property="invamount" />
+    <result column="EmpInvoice" jdbcType="VARCHAR" property="empinvoice" />
+    <result column="DlvFlag_Bj" jdbcType="VARCHAR" property="dlvflagBj" />
+    <result column="DlvFlag_CN" jdbcType="VARCHAR" property="dlvflagCn" />
+    <result column="EmpDelivery" jdbcType="VARCHAR" property="empdelivery" />
+    <result column="DeptInvNo" jdbcType="VARCHAR" property="deptinvno" />
+    <result column="FeeCode" jdbcType="VARCHAR" property="feecode" />
+    <result column="SampleOrdNo" jdbcType="VARCHAR" property="sampleordno" />
+    <result column="DlvEntire_Flag" jdbcType="VARCHAR" property="dlventireFlag" />
+    <result column="DeptLevel" jdbcType="VARCHAR" property="deptlevel" />
+    <result column="EmpOrdProcess" jdbcType="VARCHAR" property="empordprocess" />
+    <result column="StateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="Email_Sample" jdbcType="VARCHAR" property="emailSample" />
+    <result column="AreaCode" jdbcType="VARCHAR" property="areacode" />
+    <result column="SupDeptNo" jdbcType="VARCHAR" property="supdeptno" />
+    <result column="QPrice_Answer" jdbcType="VARCHAR" property="qpriceAnswer" />
+    <result column="DepartCode" jdbcType="VARCHAR" property="departcode" />
+    <result column="Cust_Answer" jdbcType="VARCHAR" property="custAnswer" />
+    <result column="OrganizationId" jdbcType="VARCHAR" property="organizationid" />
+    <result column="IntegrateSPS" jdbcType="BIT" property="integratesps" />
+    <result column="AdministrativeStateFlag" jdbcType="VARCHAR" property="administrativestateflag" />
+    <result column="TradeCompanyId" jdbcType="VARCHAR" property="tradecompanyid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DeptNo, DeptDesc, Address, PostCode, TeleNo, FaxNo, EmailAddr, RelaCode, FilePath, 
+    StateFlag, StockCode, LocationNo, SuperIntendent, InsidePsn, UpdDate, EmailAddr1, 
+    InvFlag, PostAddress, Bank, AccountNo, TaxNo, KFangID, YGid, SHid, DlvFlag, InvAmount, 
+    EmpInvoice, DlvFlag_Bj, DlvFlag_CN, EmpDelivery, DeptInvNo, FeeCode, SampleOrdNo, 
+    DlvEntire_Flag, DeptLevel, EmpOrdProcess, StateCode, Email_Sample, AreaCode, SupDeptNo, 
+    QPrice_Answer, DepartCode, Cust_Answer, OrganizationId, IntegrateSPS, AdministrativeStateFlag, 
+    TradeCompanyId
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.DepartmentBjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.department_BJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.DepartmentBjExample">
+    delete from dbo.department_BJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.DepartmentBj">
+    insert into dbo.department_BJ (DeptNo, DeptDesc, Address, 
+      PostCode, TeleNo, FaxNo, 
+      EmailAddr, RelaCode, FilePath, 
+      StateFlag, StockCode, LocationNo, 
+      SuperIntendent, InsidePsn, UpdDate, 
+      EmailAddr1, InvFlag, PostAddress, 
+      Bank, AccountNo, TaxNo, 
+      KFangID, YGid, SHid, 
+      DlvFlag, InvAmount, EmpInvoice, 
+      DlvFlag_Bj, DlvFlag_CN, EmpDelivery, 
+      DeptInvNo, FeeCode, SampleOrdNo, 
+      DlvEntire_Flag, DeptLevel, EmpOrdProcess, 
+      StateCode, Email_Sample, AreaCode, 
+      SupDeptNo, QPrice_Answer, DepartCode, 
+      Cust_Answer, OrganizationId, IntegrateSPS, 
+      AdministrativeStateFlag, TradeCompanyId
+      )
+    values (#{deptno,jdbcType=VARCHAR}, #{deptdesc,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=VARCHAR}, #{teleno,jdbcType=VARCHAR}, #{faxno,jdbcType=VARCHAR}, 
+      #{emailaddr,jdbcType=VARCHAR}, #{relacode,jdbcType=VARCHAR}, #{filepath,jdbcType=VARCHAR}, 
+      #{stateflag,jdbcType=VARCHAR}, #{stockcode,jdbcType=VARCHAR}, #{locationno,jdbcType=VARCHAR}, 
+      #{superintendent,jdbcType=VARCHAR}, #{insidepsn,jdbcType=VARCHAR}, #{upddate,jdbcType=TIMESTAMP}, 
+      #{emailaddr1,jdbcType=VARCHAR}, #{invflag,jdbcType=VARCHAR}, #{postaddress,jdbcType=VARCHAR}, 
+      #{bank,jdbcType=VARCHAR}, #{accountno,jdbcType=VARCHAR}, #{taxno,jdbcType=VARCHAR}, 
+      #{kfangid,jdbcType=VARCHAR}, #{ygid,jdbcType=VARCHAR}, #{shid,jdbcType=VARCHAR}, 
+      #{dlvflag,jdbcType=VARCHAR}, #{invamount,jdbcType=DECIMAL}, #{empinvoice,jdbcType=VARCHAR}, 
+      #{dlvflagBj,jdbcType=VARCHAR}, #{dlvflagCn,jdbcType=VARCHAR}, #{empdelivery,jdbcType=VARCHAR}, 
+      #{deptinvno,jdbcType=VARCHAR}, #{feecode,jdbcType=VARCHAR}, #{sampleordno,jdbcType=VARCHAR}, 
+      #{dlventireFlag,jdbcType=VARCHAR}, #{deptlevel,jdbcType=VARCHAR}, #{empordprocess,jdbcType=VARCHAR}, 
+      #{statecode,jdbcType=VARCHAR}, #{emailSample,jdbcType=VARCHAR}, #{areacode,jdbcType=VARCHAR}, 
+      #{supdeptno,jdbcType=VARCHAR}, #{qpriceAnswer,jdbcType=VARCHAR}, #{departcode,jdbcType=VARCHAR}, 
+      #{custAnswer,jdbcType=VARCHAR}, #{organizationid,jdbcType=VARCHAR}, #{integratesps,jdbcType=BIT}, 
+      #{administrativestateflag,jdbcType=VARCHAR}, #{tradecompanyid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.DepartmentBj">
+    insert into dbo.department_BJ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="deptdesc != null">
+        DeptDesc,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="teleno != null">
+        TeleNo,
+      </if>
+      <if test="faxno != null">
+        FaxNo,
+      </if>
+      <if test="emailaddr != null">
+        EmailAddr,
+      </if>
+      <if test="relacode != null">
+        RelaCode,
+      </if>
+      <if test="filepath != null">
+        FilePath,
+      </if>
+      <if test="stateflag != null">
+        StateFlag,
+      </if>
+      <if test="stockcode != null">
+        StockCode,
+      </if>
+      <if test="locationno != null">
+        LocationNo,
+      </if>
+      <if test="superintendent != null">
+        SuperIntendent,
+      </if>
+      <if test="insidepsn != null">
+        InsidePsn,
+      </if>
+      <if test="upddate != null">
+        UpdDate,
+      </if>
+      <if test="emailaddr1 != null">
+        EmailAddr1,
+      </if>
+      <if test="invflag != null">
+        InvFlag,
+      </if>
+      <if test="postaddress != null">
+        PostAddress,
+      </if>
+      <if test="bank != null">
+        Bank,
+      </if>
+      <if test="accountno != null">
+        AccountNo,
+      </if>
+      <if test="taxno != null">
+        TaxNo,
+      </if>
+      <if test="kfangid != null">
+        KFangID,
+      </if>
+      <if test="ygid != null">
+        YGid,
+      </if>
+      <if test="shid != null">
+        SHid,
+      </if>
+      <if test="dlvflag != null">
+        DlvFlag,
+      </if>
+      <if test="invamount != null">
+        InvAmount,
+      </if>
+      <if test="empinvoice != null">
+        EmpInvoice,
+      </if>
+      <if test="dlvflagBj != null">
+        DlvFlag_Bj,
+      </if>
+      <if test="dlvflagCn != null">
+        DlvFlag_CN,
+      </if>
+      <if test="empdelivery != null">
+        EmpDelivery,
+      </if>
+      <if test="deptinvno != null">
+        DeptInvNo,
+      </if>
+      <if test="feecode != null">
+        FeeCode,
+      </if>
+      <if test="sampleordno != null">
+        SampleOrdNo,
+      </if>
+      <if test="dlventireFlag != null">
+        DlvEntire_Flag,
+      </if>
+      <if test="deptlevel != null">
+        DeptLevel,
+      </if>
+      <if test="empordprocess != null">
+        EmpOrdProcess,
+      </if>
+      <if test="statecode != null">
+        StateCode,
+      </if>
+      <if test="emailSample != null">
+        Email_Sample,
+      </if>
+      <if test="areacode != null">
+        AreaCode,
+      </if>
+      <if test="supdeptno != null">
+        SupDeptNo,
+      </if>
+      <if test="qpriceAnswer != null">
+        QPrice_Answer,
+      </if>
+      <if test="departcode != null">
+        DepartCode,
+      </if>
+      <if test="custAnswer != null">
+        Cust_Answer,
+      </if>
+      <if test="organizationid != null">
+        OrganizationId,
+      </if>
+      <if test="integratesps != null">
+        IntegrateSPS,
+      </if>
+      <if test="administrativestateflag != null">
+        AdministrativeStateFlag,
+      </if>
+      <if test="tradecompanyid != null">
+        TradeCompanyId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptdesc != null">
+        #{deptdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="teleno != null">
+        #{teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="faxno != null">
+        #{faxno,jdbcType=VARCHAR},
+      </if>
+      <if test="emailaddr != null">
+        #{emailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="relacode != null">
+        #{relacode,jdbcType=VARCHAR},
+      </if>
+      <if test="filepath != null">
+        #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="stateflag != null">
+        #{stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="superintendent != null">
+        #{superintendent,jdbcType=VARCHAR},
+      </if>
+      <if test="insidepsn != null">
+        #{insidepsn,jdbcType=VARCHAR},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emailaddr1 != null">
+        #{emailaddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="invflag != null">
+        #{invflag,jdbcType=VARCHAR},
+      </if>
+      <if test="postaddress != null">
+        #{postaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountno != null">
+        #{accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="taxno != null">
+        #{taxno,jdbcType=VARCHAR},
+      </if>
+      <if test="kfangid != null">
+        #{kfangid,jdbcType=VARCHAR},
+      </if>
+      <if test="ygid != null">
+        #{ygid,jdbcType=VARCHAR},
+      </if>
+      <if test="shid != null">
+        #{shid,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvflag != null">
+        #{dlvflag,jdbcType=VARCHAR},
+      </if>
+      <if test="invamount != null">
+        #{invamount,jdbcType=DECIMAL},
+      </if>
+      <if test="empinvoice != null">
+        #{empinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvflagBj != null">
+        #{dlvflagBj,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvflagCn != null">
+        #{dlvflagCn,jdbcType=VARCHAR},
+      </if>
+      <if test="empdelivery != null">
+        #{empdelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="deptinvno != null">
+        #{deptinvno,jdbcType=VARCHAR},
+      </if>
+      <if test="feecode != null">
+        #{feecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleordno != null">
+        #{sampleordno,jdbcType=VARCHAR},
+      </if>
+      <if test="dlventireFlag != null">
+        #{dlventireFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="deptlevel != null">
+        #{deptlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="empordprocess != null">
+        #{empordprocess,jdbcType=VARCHAR},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="emailSample != null">
+        #{emailSample,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null">
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="supdeptno != null">
+        #{supdeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="qpriceAnswer != null">
+        #{qpriceAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="departcode != null">
+        #{departcode,jdbcType=VARCHAR},
+      </if>
+      <if test="custAnswer != null">
+        #{custAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationid != null">
+        #{organizationid,jdbcType=VARCHAR},
+      </if>
+      <if test="integratesps != null">
+        #{integratesps,jdbcType=BIT},
+      </if>
+      <if test="administrativestateflag != null">
+        #{administrativestateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="tradecompanyid != null">
+        #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.DepartmentBjExample" resultType="java.lang.Long">
+    select count(*) from dbo.department_BJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.department_BJ
+    <set>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptdesc != null">
+        DeptDesc = #{record.deptdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teleno != null">
+        TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faxno != null">
+        FaxNo = #{record.faxno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailaddr != null">
+        EmailAddr = #{record.emailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relacode != null">
+        RelaCode = #{record.relacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filepath != null">
+        FilePath = #{record.filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stateflag != null">
+        StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockcode != null">
+        StockCode = #{record.stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locationno != null">
+        LocationNo = #{record.locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superintendent != null">
+        SuperIntendent = #{record.superintendent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insidepsn != null">
+        InsidePsn = #{record.insidepsn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upddate != null">
+        UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.emailaddr1 != null">
+        EmailAddr1 = #{record.emailaddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invflag != null">
+        InvFlag = #{record.invflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postaddress != null">
+        PostAddress = #{record.postaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bank != null">
+        Bank = #{record.bank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountno != null">
+        AccountNo = #{record.accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxno != null">
+        TaxNo = #{record.taxno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kfangid != null">
+        KFangID = #{record.kfangid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ygid != null">
+        YGid = #{record.ygid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shid != null">
+        SHid = #{record.shid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvflag != null">
+        DlvFlag = #{record.dlvflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invamount != null">
+        InvAmount = #{record.invamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.empinvoice != null">
+        EmpInvoice = #{record.empinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvflagBj != null">
+        DlvFlag_Bj = #{record.dlvflagBj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvflagCn != null">
+        DlvFlag_CN = #{record.dlvflagCn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empdelivery != null">
+        EmpDelivery = #{record.empdelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptinvno != null">
+        DeptInvNo = #{record.deptinvno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feecode != null">
+        FeeCode = #{record.feecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sampleordno != null">
+        SampleOrdNo = #{record.sampleordno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlventireFlag != null">
+        DlvEntire_Flag = #{record.dlventireFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptlevel != null">
+        DeptLevel = #{record.deptlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empordprocess != null">
+        EmpOrdProcess = #{record.empordprocess,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statecode != null">
+        StateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailSample != null">
+        Email_Sample = #{record.emailSample,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null">
+        AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supdeptno != null">
+        SupDeptNo = #{record.supdeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qpriceAnswer != null">
+        QPrice_Answer = #{record.qpriceAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departcode != null">
+        DepartCode = #{record.departcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custAnswer != null">
+        Cust_Answer = #{record.custAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationid != null">
+        OrganizationId = #{record.organizationid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.integratesps != null">
+        IntegrateSPS = #{record.integratesps,jdbcType=BIT},
+      </if>
+      <if test="record.administrativestateflag != null">
+        AdministrativeStateFlag = #{record.administrativestateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradecompanyid != null">
+        TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.department_BJ
+    set DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      DeptDesc = #{record.deptdesc,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      FaxNo = #{record.faxno,jdbcType=VARCHAR},
+      EmailAddr = #{record.emailaddr,jdbcType=VARCHAR},
+      RelaCode = #{record.relacode,jdbcType=VARCHAR},
+      FilePath = #{record.filepath,jdbcType=VARCHAR},
+      StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      StockCode = #{record.stockcode,jdbcType=VARCHAR},
+      LocationNo = #{record.locationno,jdbcType=VARCHAR},
+      SuperIntendent = #{record.superintendent,jdbcType=VARCHAR},
+      InsidePsn = #{record.insidepsn,jdbcType=VARCHAR},
+      UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      EmailAddr1 = #{record.emailaddr1,jdbcType=VARCHAR},
+      InvFlag = #{record.invflag,jdbcType=VARCHAR},
+      PostAddress = #{record.postaddress,jdbcType=VARCHAR},
+      Bank = #{record.bank,jdbcType=VARCHAR},
+      AccountNo = #{record.accountno,jdbcType=VARCHAR},
+      TaxNo = #{record.taxno,jdbcType=VARCHAR},
+      KFangID = #{record.kfangid,jdbcType=VARCHAR},
+      YGid = #{record.ygid,jdbcType=VARCHAR},
+      SHid = #{record.shid,jdbcType=VARCHAR},
+      DlvFlag = #{record.dlvflag,jdbcType=VARCHAR},
+      InvAmount = #{record.invamount,jdbcType=DECIMAL},
+      EmpInvoice = #{record.empinvoice,jdbcType=VARCHAR},
+      DlvFlag_Bj = #{record.dlvflagBj,jdbcType=VARCHAR},
+      DlvFlag_CN = #{record.dlvflagCn,jdbcType=VARCHAR},
+      EmpDelivery = #{record.empdelivery,jdbcType=VARCHAR},
+      DeptInvNo = #{record.deptinvno,jdbcType=VARCHAR},
+      FeeCode = #{record.feecode,jdbcType=VARCHAR},
+      SampleOrdNo = #{record.sampleordno,jdbcType=VARCHAR},
+      DlvEntire_Flag = #{record.dlventireFlag,jdbcType=VARCHAR},
+      DeptLevel = #{record.deptlevel,jdbcType=VARCHAR},
+      EmpOrdProcess = #{record.empordprocess,jdbcType=VARCHAR},
+      StateCode = #{record.statecode,jdbcType=VARCHAR},
+      Email_Sample = #{record.emailSample,jdbcType=VARCHAR},
+      AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      SupDeptNo = #{record.supdeptno,jdbcType=VARCHAR},
+      QPrice_Answer = #{record.qpriceAnswer,jdbcType=VARCHAR},
+      DepartCode = #{record.departcode,jdbcType=VARCHAR},
+      Cust_Answer = #{record.custAnswer,jdbcType=VARCHAR},
+      OrganizationId = #{record.organizationid,jdbcType=VARCHAR},
+      IntegrateSPS = #{record.integratesps,jdbcType=BIT},
+      AdministrativeStateFlag = #{record.administrativestateflag,jdbcType=VARCHAR},
+      TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

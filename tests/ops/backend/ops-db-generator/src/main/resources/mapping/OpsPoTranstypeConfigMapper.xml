@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoTranstypeConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoTranstypeConfig">
+    <id column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="matchType" jdbcType="BIT" property="matchtype" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="transtype" jdbcType="CHAR" property="transtype" />
+    <result column="compareGreater" jdbcType="BIT" property="comparegreater" />
+    <result column="compareQuantity" jdbcType="INTEGER" property="comparequantity" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    modelNo, matchType, type, remark, updateTime, transtype, compareGreater, compareQuantity
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_transtype_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_transtype_config
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_po_transtype_config
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfigExample">
+    delete from dbo.ops_po_transtype_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfig">
+    insert into dbo.ops_po_transtype_config (modelNo, matchType, type, 
+      remark, updateTime, transtype, 
+      compareGreater, compareQuantity)
+    values (#{modelno,jdbcType=VARCHAR}, #{matchtype,jdbcType=BIT}, #{type,jdbcType=CHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{transtype,jdbcType=CHAR}, 
+      #{comparegreater,jdbcType=BIT}, #{comparequantity,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfig">
+    insert into dbo.ops_po_transtype_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="matchtype != null">
+        matchType,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="transtype != null">
+        transtype,
+      </if>
+      <if test="comparegreater != null">
+        compareGreater,
+      </if>
+      <if test="comparequantity != null">
+        compareQuantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="matchtype != null">
+        #{matchtype,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="comparegreater != null">
+        #{comparegreater,jdbcType=BIT},
+      </if>
+      <if test="comparequantity != null">
+        #{comparequantity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_transtype_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_transtype_config
+    <set>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchtype != null">
+        matchType = #{record.matchtype,jdbcType=BIT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.transtype != null">
+        transtype = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.comparegreater != null">
+        compareGreater = #{record.comparegreater,jdbcType=BIT},
+      </if>
+      <if test="record.comparequantity != null">
+        compareQuantity = #{record.comparequantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_transtype_config
+    set modelNo = #{record.modelno,jdbcType=VARCHAR},
+      matchType = #{record.matchtype,jdbcType=BIT},
+      type = #{record.type,jdbcType=CHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      transtype = #{record.transtype,jdbcType=CHAR},
+      compareGreater = #{record.comparegreater,jdbcType=BIT},
+      compareQuantity = #{record.comparequantity,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfig">
+    update dbo.ops_po_transtype_config
+    <set>
+      <if test="matchtype != null">
+        matchType = #{matchtype,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transtype != null">
+        transtype = #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="comparegreater != null">
+        compareGreater = #{comparegreater,jdbcType=BIT},
+      </if>
+      <if test="comparequantity != null">
+        compareQuantity = #{comparequantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoTranstypeConfig">
+    update dbo.ops_po_transtype_config
+    set matchType = #{matchtype,jdbcType=BIT},
+      type = #{type,jdbcType=CHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      transtype = #{transtype,jdbcType=CHAR},
+      compareGreater = #{comparegreater,jdbcType=BIT},
+      compareQuantity = #{comparequantity,jdbcType=INTEGER}
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+</mapper>

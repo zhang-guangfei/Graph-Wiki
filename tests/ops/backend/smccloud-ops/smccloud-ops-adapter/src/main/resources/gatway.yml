@@ -1,0 +1,121 @@
+server:
+  port: 9000
+ops:
+  auth:
+    enable: false
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.2.44:9000/manage/oauth/token
+      user-authorization-uri: http://10.116.2.44:9000/manage/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.2.44:9000/manage/oauth/check_token
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+logging:
+  level:
+    com.alibaba.nacos: error
+#     org.springframework.cloud.gateway: trace
+#     org.springframework.http.server.reactive: debug
+#     org.springframework.web.reactive: debug
+#     reactor.ipc.netty: debug
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin Access-Control-Allow-Headers Access-Control-Allow-Methods
+      httpclient:
+        connection-timeout: 600000
+        response-timeout: 600s
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOrigins: '*'
+            allowedHeaders: '*'
+            allowedMethods: '*'
+            allowed-methods:
+              - OPTIONS
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            maxAge: 1800
+      routes:
+        - id: auth-service-route
+          uri: lb://auth-service
+          predicates:
+            - Path=/manage/**
+          filters:
+            - StripPrefix=1
+        - id: order-service-route
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+        - id: product-service-route
+          uri: lb://product-service
+          predicates:
+            - Path=/product/**
+        - id: common-service-route
+          uri: lb://common-service
+          predicates:
+            - Path=/common/**
+        - id: cpfr-service-route
+          uri: lb://cpfr-service
+          predicates:
+            - Path=/cpfr/**
+        - id: shareapp-service-route
+          uri: lb://shareapp-service
+          predicates:
+            - Path=/shareapp/**
+        - id: report-service-route
+          uri: lb://report-service
+          predicates:
+            - Path=/report/**
+        - id: po-service-route
+          uri: lb://po-service
+          predicates:
+            - Path=/po/**
+          filters:
+            - StripPrefix=1
+        - id: wm-service-route
+          uri: lb://wm-service
+          predicates:
+            - Path=/wm/**
+          filters:
+            - StripPrefix=1
+        - id: mdm-service-route
+          uri: lb://salesOPSMdm
+          predicates:
+            - Path=/salesOPSMdm/**
+        - id: ops-api-route
+          uri: lb://opsApi
+          predicates:
+            - Path=/fl/opsApi/**
+          filters:
+            - StripPrefix=1
+        - id: ba-service-route
+          uri: lb://ba-service
+          predicates:
+            - Path=/ba/**
+          filters:
+            - StripPrefix=1

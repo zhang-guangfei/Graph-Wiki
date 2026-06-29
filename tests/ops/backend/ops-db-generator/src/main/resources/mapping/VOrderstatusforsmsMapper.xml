@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.VOrderstatusforsmsMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.VOrderstatusforsms">
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="ORorderNo" jdbcType="VARCHAR" property="ororderno" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="rorder_fno" jdbcType="VARCHAR" property="rorderFno" />
+    <result column="rorder_item" jdbcType="INTEGER" property="rorderItem" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="exp_qty" jdbcType="INTEGER" property="expQty" />
+    <result column="ROrdDate" jdbcType="TIMESTAMP" property="rorddate" />
+    <result column="eprice" jdbcType="DECIMAL" property="eprice" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rorder_no, ORorderNo, update_time, rorder_fno, rorder_item, quantity, model_no, status, 
+    dlv_date, exp_qty, ROrdDate, eprice, price, discount
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.VOrderstatusforsmsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.v_orderStatusForSMS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.VOrderstatusforsmsExample">
+    delete from dbo.v_orderStatusForSMS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.VOrderstatusforsms">
+    insert into dbo.v_orderStatusForSMS (rorder_no, ORorderNo, update_time, 
+      rorder_fno, rorder_item, quantity, 
+      model_no, status, dlv_date, 
+      exp_qty, ROrdDate, eprice, 
+      price, discount)
+    values (#{rorderNo,jdbcType=VARCHAR}, #{ororderno,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{rorderFno,jdbcType=VARCHAR}, #{rorderItem,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
+      #{modelNo,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{dlvDate,jdbcType=TIMESTAMP}, 
+      #{expQty,jdbcType=INTEGER}, #{rorddate,jdbcType=TIMESTAMP}, #{eprice,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.VOrderstatusforsms">
+    insert into dbo.v_orderStatusForSMS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="ororderno != null">
+        ORorderNo,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="rorderFno != null">
+        rorder_fno,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="dlvDate != null">
+        dlv_date,
+      </if>
+      <if test="expQty != null">
+        exp_qty,
+      </if>
+      <if test="rorddate != null">
+        ROrdDate,
+      </if>
+      <if test="eprice != null">
+        eprice,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ororderno != null">
+        #{ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rorderFno != null">
+        #{rorderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="dlvDate != null">
+        #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expQty != null">
+        #{expQty,jdbcType=INTEGER},
+      </if>
+      <if test="rorddate != null">
+        #{rorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.VOrderstatusforsmsExample" resultType="java.lang.Long">
+    select count(*) from dbo.v_orderStatusForSMS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.v_orderStatusForSMS
+    <set>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ororderno != null">
+        ORorderNo = #{record.ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rorderFno != null">
+        rorder_fno = #{record.rorderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.dlvDate != null">
+        dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expQty != null">
+        exp_qty = #{record.expQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.rorddate != null">
+        ROrdDate = #{record.rorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eprice != null">
+        eprice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.v_orderStatusForSMS
+    set rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      ORorderNo = #{record.ororderno,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      rorder_fno = #{record.rorderFno,jdbcType=VARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=SMALLINT},
+      dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      exp_qty = #{record.expQty,jdbcType=INTEGER},
+      ROrdDate = #{record.rorddate,jdbcType=TIMESTAMP},
+      eprice = #{record.eprice,jdbcType=DECIMAL},
+      price = #{record.price,jdbcType=DECIMAL},
+      discount = #{record.discount,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

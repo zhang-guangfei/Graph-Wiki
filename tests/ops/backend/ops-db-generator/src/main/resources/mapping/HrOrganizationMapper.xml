@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.HrOrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.HrOrganization">
+    <id column="Id" jdbcType="CHAR" property="id" />
+    <result column="ParentId" jdbcType="CHAR" property="parentid" />
+    <result column="Name" jdbcType="NVARCHAR" property="name" />
+    <result column="FullName" jdbcType="NVARCHAR" property="fullname" />
+    <result column="Level" jdbcType="VARCHAR" property="level" />
+    <result column="Status" jdbcType="CHAR" property="status" />
+    <result column="SalesCustomized" jdbcType="BIT" property="salescustomized" />
+    <result column="CompanyCode" jdbcType="NVARCHAR" property="companycode" />
+    <result column="CompanyName" jdbcType="NVARCHAR" property="companyname" />
+    <result column="unitCode" jdbcType="VARCHAR" property="unitcode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, ParentId, Name, FullName, Level, Status, SalesCustomized, CompanyCode, CompanyName, 
+    unitCode
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.HrOrganizationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.hr_organization
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.hr_organization
+    where Id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.hr_organization
+    where Id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.HrOrganizationExample">
+    delete from dbo.hr_organization
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.HrOrganization">
+    insert into dbo.hr_organization (Id, ParentId, Name, 
+      FullName, Level, Status, 
+      SalesCustomized, CompanyCode, CompanyName, 
+      unitCode)
+    values (#{id,jdbcType=CHAR}, #{parentid,jdbcType=CHAR}, #{name,jdbcType=NVARCHAR}, 
+      #{fullname,jdbcType=NVARCHAR}, #{level,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{salescustomized,jdbcType=BIT}, #{companycode,jdbcType=NVARCHAR}, #{companyname,jdbcType=NVARCHAR}, 
+      #{unitcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.HrOrganization">
+    insert into dbo.hr_organization
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="parentid != null">
+        ParentId,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="fullname != null">
+        FullName,
+      </if>
+      <if test="level != null">
+        Level,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="salescustomized != null">
+        SalesCustomized,
+      </if>
+      <if test="companycode != null">
+        CompanyCode,
+      </if>
+      <if test="companyname != null">
+        CompanyName,
+      </if>
+      <if test="unitcode != null">
+        unitCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=NVARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="salescustomized != null">
+        #{salescustomized,jdbcType=BIT},
+      </if>
+      <if test="companycode != null">
+        #{companycode,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null">
+        #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitcode != null">
+        #{unitcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.HrOrganizationExample" resultType="java.lang.Long">
+    select count(*) from dbo.hr_organization
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.hr_organization
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.parentid != null">
+        ParentId = #{record.parentid,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.fullname != null">
+        FullName = #{record.fullname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.level != null">
+        Level = #{record.level,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.salescustomized != null">
+        SalesCustomized = #{record.salescustomized,jdbcType=BIT},
+      </if>
+      <if test="record.companycode != null">
+        CompanyCode = #{record.companycode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.companyname != null">
+        CompanyName = #{record.companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.unitcode != null">
+        unitCode = #{record.unitcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.hr_organization
+    set Id = #{record.id,jdbcType=CHAR},
+      ParentId = #{record.parentid,jdbcType=CHAR},
+      Name = #{record.name,jdbcType=NVARCHAR},
+      FullName = #{record.fullname,jdbcType=NVARCHAR},
+      Level = #{record.level,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=CHAR},
+      SalesCustomized = #{record.salescustomized,jdbcType=BIT},
+      CompanyCode = #{record.companycode,jdbcType=NVARCHAR},
+      CompanyName = #{record.companyname,jdbcType=NVARCHAR},
+      unitCode = #{record.unitcode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.HrOrganization">
+    update dbo.hr_organization
+    <set>
+      <if test="parentid != null">
+        ParentId = #{parentid,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        Name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="fullname != null">
+        FullName = #{fullname,jdbcType=NVARCHAR},
+      </if>
+      <if test="level != null">
+        Level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="salescustomized != null">
+        SalesCustomized = #{salescustomized,jdbcType=BIT},
+      </if>
+      <if test="companycode != null">
+        CompanyCode = #{companycode,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null">
+        CompanyName = #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitcode != null">
+        unitCode = #{unitcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.HrOrganization">
+    update dbo.hr_organization
+    set ParentId = #{parentid,jdbcType=CHAR},
+      Name = #{name,jdbcType=NVARCHAR},
+      FullName = #{fullname,jdbcType=NVARCHAR},
+      Level = #{level,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=CHAR},
+      SalesCustomized = #{salescustomized,jdbcType=BIT},
+      CompanyCode = #{companycode,jdbcType=NVARCHAR},
+      CompanyName = #{companyname,jdbcType=NVARCHAR},
+      unitCode = #{unitcode,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.MigInventoryAgentMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.MigInventoryAgent">
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="QtyOpenning" jdbcType="INTEGER" property="qtyopenning" />
+    <result column="QtyOnHand" jdbcType="INTEGER" property="qtyonhand" />
+    <result column="QtyImport" jdbcType="INTEGER" property="qtyimport" />
+    <result column="QtyExport" jdbcType="INTEGER" property="qtyexport" />
+    <result column="QtyPrepare" jdbcType="INTEGER" property="qtyprepare" />
+    <result column="InDate" jdbcType="TIMESTAMP" property="indate" />
+    <result column="OutDate" jdbcType="TIMESTAMP" property="outdate" />
+    <result column="StockCode" jdbcType="CHAR" property="stockcode" />
+    <result column="OrdMinQty" jdbcType="INTEGER" property="ordminqty" />
+    <result column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="LocationNo" jdbcType="NVARCHAR" property="locationno" />
+    <result column="Inserttime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="ParentCode" jdbcType="VARCHAR" property="parentcode" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.MigInventoryAgent">
+    <result column="OptRec" jdbcType="LONGVARCHAR" property="optrec" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, QtyOpenning, QtyOnHand, QtyImport, QtyExport, QtyPrepare, InDate, OutDate, 
+    StockCode, OrdMinQty, CustomerNo, LocationNo, Inserttime, ParentCode
+  </sql>
+  <sql id="Blob_Column_List">
+    OptRec
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.MigInventoryAgentExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.mig_Inventory_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.MigInventoryAgentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.mig_Inventory_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.MigInventoryAgentExample">
+    delete from dbo.mig_Inventory_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.MigInventoryAgent">
+    insert into dbo.mig_Inventory_agent (ModelNo, QtyOpenning, QtyOnHand, 
+      QtyImport, QtyExport, QtyPrepare, 
+      InDate, OutDate, StockCode, 
+      OrdMinQty, CustomerNo, LocationNo, 
+      Inserttime, ParentCode, OptRec
+      )
+    values (#{modelno,jdbcType=VARCHAR}, #{qtyopenning,jdbcType=INTEGER}, #{qtyonhand,jdbcType=INTEGER}, 
+      #{qtyimport,jdbcType=INTEGER}, #{qtyexport,jdbcType=INTEGER}, #{qtyprepare,jdbcType=INTEGER}, 
+      #{indate,jdbcType=TIMESTAMP}, #{outdate,jdbcType=TIMESTAMP}, #{stockcode,jdbcType=CHAR}, 
+      #{ordminqty,jdbcType=INTEGER}, #{customerno,jdbcType=CHAR}, #{locationno,jdbcType=NVARCHAR}, 
+      #{inserttime,jdbcType=TIMESTAMP}, #{parentcode,jdbcType=VARCHAR}, #{optrec,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.MigInventoryAgent">
+    insert into dbo.mig_Inventory_agent
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="qtyopenning != null">
+        QtyOpenning,
+      </if>
+      <if test="qtyonhand != null">
+        QtyOnHand,
+      </if>
+      <if test="qtyimport != null">
+        QtyImport,
+      </if>
+      <if test="qtyexport != null">
+        QtyExport,
+      </if>
+      <if test="qtyprepare != null">
+        QtyPrepare,
+      </if>
+      <if test="indate != null">
+        InDate,
+      </if>
+      <if test="outdate != null">
+        OutDate,
+      </if>
+      <if test="stockcode != null">
+        StockCode,
+      </if>
+      <if test="ordminqty != null">
+        OrdMinQty,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="locationno != null">
+        LocationNo,
+      </if>
+      <if test="inserttime != null">
+        Inserttime,
+      </if>
+      <if test="parentcode != null">
+        ParentCode,
+      </if>
+      <if test="optrec != null">
+        OptRec,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyopenning != null">
+        #{qtyopenning,jdbcType=INTEGER},
+      </if>
+      <if test="qtyonhand != null">
+        #{qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="qtyimport != null">
+        #{qtyimport,jdbcType=INTEGER},
+      </if>
+      <if test="qtyexport != null">
+        #{qtyexport,jdbcType=INTEGER},
+      </if>
+      <if test="qtyprepare != null">
+        #{qtyprepare,jdbcType=INTEGER},
+      </if>
+      <if test="indate != null">
+        #{indate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outdate != null">
+        #{outdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="ordminqty != null">
+        #{ordminqty,jdbcType=INTEGER},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=NVARCHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentcode != null">
+        #{parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="optrec != null">
+        #{optrec,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.MigInventoryAgentExample" resultType="java.lang.Long">
+    select count(*) from dbo.mig_Inventory_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.mig_Inventory_agent
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyopenning != null">
+        QtyOpenning = #{record.qtyopenning,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyonhand != null">
+        QtyOnHand = #{record.qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyimport != null">
+        QtyImport = #{record.qtyimport,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyexport != null">
+        QtyExport = #{record.qtyexport,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyprepare != null">
+        QtyPrepare = #{record.qtyprepare,jdbcType=INTEGER},
+      </if>
+      <if test="record.indate != null">
+        InDate = #{record.indate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outdate != null">
+        OutDate = #{record.outdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stockcode != null">
+        StockCode = #{record.stockcode,jdbcType=CHAR},
+      </if>
+      <if test="record.ordminqty != null">
+        OrdMinQty = #{record.ordminqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.locationno != null">
+        LocationNo = #{record.locationno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inserttime != null">
+        Inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.parentcode != null">
+        ParentCode = #{record.parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optrec != null">
+        OptRec = #{record.optrec,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.mig_Inventory_agent
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      QtyOpenning = #{record.qtyopenning,jdbcType=INTEGER},
+      QtyOnHand = #{record.qtyonhand,jdbcType=INTEGER},
+      QtyImport = #{record.qtyimport,jdbcType=INTEGER},
+      QtyExport = #{record.qtyexport,jdbcType=INTEGER},
+      QtyPrepare = #{record.qtyprepare,jdbcType=INTEGER},
+      InDate = #{record.indate,jdbcType=TIMESTAMP},
+      OutDate = #{record.outdate,jdbcType=TIMESTAMP},
+      StockCode = #{record.stockcode,jdbcType=CHAR},
+      OrdMinQty = #{record.ordminqty,jdbcType=INTEGER},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      LocationNo = #{record.locationno,jdbcType=NVARCHAR},
+      Inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      ParentCode = #{record.parentcode,jdbcType=VARCHAR},
+      OptRec = #{record.optrec,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.mig_Inventory_agent
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      QtyOpenning = #{record.qtyopenning,jdbcType=INTEGER},
+      QtyOnHand = #{record.qtyonhand,jdbcType=INTEGER},
+      QtyImport = #{record.qtyimport,jdbcType=INTEGER},
+      QtyExport = #{record.qtyexport,jdbcType=INTEGER},
+      QtyPrepare = #{record.qtyprepare,jdbcType=INTEGER},
+      InDate = #{record.indate,jdbcType=TIMESTAMP},
+      OutDate = #{record.outdate,jdbcType=TIMESTAMP},
+      StockCode = #{record.stockcode,jdbcType=CHAR},
+      OrdMinQty = #{record.ordminqty,jdbcType=INTEGER},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      LocationNo = #{record.locationno,jdbcType=NVARCHAR},
+      Inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      ParentCode = #{record.parentcode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

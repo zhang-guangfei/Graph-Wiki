@@ -1,0 +1,1447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ShikomiTotalMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ShikomiTotal">
+    <id column="ShikomiNo" jdbcType="VARCHAR" property="shikomino" />
+    <id column="SupplierCode" jdbcType="VARCHAR" property="suppliercode" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="LastQty" jdbcType="INTEGER" property="lastqty" />
+    <result column="ApplyQty" jdbcType="INTEGER" property="applyqty" />
+    <result column="RemainQty" jdbcType="INTEGER" property="remainqty" />
+    <result column="MaxQty" jdbcType="INTEGER" property="maxqty" />
+    <result column="QtyOrdPre" jdbcType="INTEGER" property="qtyordpre" />
+    <result column="serialModel" jdbcType="VARCHAR" property="serialmodel" />
+    <result column="Status" jdbcType="SMALLINT" property="status" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="AnswerText" jdbcType="NVARCHAR" property="answertext" />
+    <result column="Remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="RegistDate" jdbcType="TIMESTAMP" property="registdate" />
+    <result column="ReviseDate" jdbcType="TIMESTAMP" property="revisedate" />
+    <result column="ClassType" jdbcType="CHAR" property="classtype" />
+    <result column="ClassCode" jdbcType="CHAR" property="classcode" />
+    <result column="SubsidiaryCode" jdbcType="VARCHAR" property="subsidiarycode" />
+    <result column="CompanyCode" jdbcType="VARCHAR" property="companycode" />
+    <result column="BranchCode" jdbcType="VARCHAR" property="branchcode" />
+    <result column="DlvDate" jdbcType="TIMESTAMP" property="dlvdate" />
+    <result column="DeptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="ApplyTime" jdbcType="TIMESTAMP" property="applytime" />
+    <result column="OrderQty" jdbcType="INTEGER" property="orderqty" />
+    <result column="CancelQty" jdbcType="INTEGER" property="cancelqty" />
+    <result column="ModelType" jdbcType="CHAR" property="modeltype" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CreateUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="ApplyPsnName" jdbcType="NVARCHAR" property="applypsnname" />
+    <result column="EPrice" jdbcType="DECIMAL" property="eprice" />
+    <result column="QtyWarning" jdbcType="INTEGER" property="qtywarning" />
+    <result column="ApplicantNo" jdbcType="VARCHAR" property="applicantno" />
+    <result column="ApplicantName" jdbcType="NVARCHAR" property="applicantname" />
+    <result column="ApplicantEmail" jdbcType="VARCHAR" property="applicantemail" />
+    <result column="ApproverNo" jdbcType="VARCHAR" property="approverno" />
+    <result column="ApproverName" jdbcType="NVARCHAR" property="approvername" />
+    <result column="ApproverEmail" jdbcType="VARCHAR" property="approveremail" />
+    <result column="AsseDays" jdbcType="INTEGER" property="assedays" />
+    <result column="QtyNoord" jdbcType="INTEGER" property="qtynoord" />
+    <result column="Price_lot" jdbcType="DECIMAL" property="priceLot" />
+    <result column="LotQty" jdbcType="INTEGER" property="lotqty" />
+    <result column="IndCode" jdbcType="NVARCHAR" property="indcode" />
+    <result column="partPrepareDays" jdbcType="INTEGER" property="partpreparedays" />
+    <result column="applyNo" jdbcType="VARCHAR" property="applyno" />
+    <result column="Rohs" jdbcType="CHAR" property="rohs" />
+    <result column="qtyPO" jdbcType="INTEGER" property="qtypo" />
+    <result column="qtyOnhand" jdbcType="INTEGER" property="qtyonhand" />
+    <result column="inspectStatus" jdbcType="SMALLINT" property="inspectstatus" />
+    <result column="inspectSendTime" jdbcType="TIMESTAMP" property="inspectsendtime" />
+    <result column="InspectAnswerTime" jdbcType="TIMESTAMP" property="inspectanswertime" />
+    <result column="InspectAnswerPsnName" jdbcType="NVARCHAR" property="inspectanswerpsnname" />
+    <result column="InspectAnswerPsnNo" jdbcType="VARCHAR" property="inspectanswerpsnno" />
+    <result column="inspectDaily" jdbcType="SMALLINT" property="inspectdaily" />
+    <result column="inspectType" jdbcType="SMALLINT" property="inspecttype" />
+    <result column="InspectAnswerText" jdbcType="NVARCHAR" property="inspectanswertext" />
+    <result column="PlanUseDate" jdbcType="TIMESTAMP" property="planusedate" />
+    <result column="pplNo" jdbcType="VARCHAR" property="pplno" />
+    <result column="projectNo" jdbcType="VARCHAR" property="projectno" />
+    <result column="avgOrdQty" jdbcType="INTEGER" property="avgordqty" />
+    <result column="LastOrdDate" jdbcType="TIMESTAMP" property="lastorddate" />
+    <result column="inspectApplyType" jdbcType="SMALLINT" property="inspectapplytype" />
+    <result column="InspectApproverNo" jdbcType="VARCHAR" property="inspectapproverno" />
+    <result column="InspectApproverName" jdbcType="NVARCHAR" property="inspectapprovername" />
+    <result column="InspectApproverTime" jdbcType="TIMESTAMP" property="inspectapprovertime" />
+    <result column="modelCount" jdbcType="INTEGER" property="modelcount" />
+    <result column="inspectQty" jdbcType="INTEGER" property="inspectqty" />
+    <result column="inspectApplyNo" jdbcType="VARCHAR" property="inspectapplyno" />
+    <result column="isWarning" jdbcType="CHAR" property="iswarning" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.ShikomiTotal">
+    <result column="warehouseCode" jdbcType="VARBINARY" property="warehousecode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ShikomiNo, SupplierCode, id, ModelNo, LastQty, ApplyQty, RemainQty, MaxQty, QtyOrdPre, 
+    serialModel, Status, CustomerNo, AnswerText, Remark, RegistDate, ReviseDate, ClassType, 
+    ClassCode, SubsidiaryCode, CompanyCode, BranchCode, DlvDate, DeptNo, ApplyTime, OrderQty, 
+    CancelQty, ModelType, UpdateTime, CreateTime, CreateUser, UpdateUser, ApplyPsnName, 
+    EPrice, QtyWarning, ApplicantNo, ApplicantName, ApplicantEmail, ApproverNo, ApproverName, 
+    ApproverEmail, AsseDays, QtyNoord, Price_lot, LotQty, IndCode, partPrepareDays, applyNo, 
+    Rohs, qtyPO, qtyOnhand, inspectStatus, inspectSendTime, InspectAnswerTime, InspectAnswerPsnName, 
+    InspectAnswerPsnNo, inspectDaily, inspectType, InspectAnswerText, PlanUseDate, pplNo, 
+    projectNo, avgOrdQty, LastOrdDate, inspectApplyType, InspectApproverNo, InspectApproverName, 
+    InspectApproverTime, modelCount, inspectQty, inspectApplyNo, isWarning
+  </sql>
+  <sql id="Blob_Column_List">
+    warehouseCode
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.ShikomiTotalExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.shikomi_total
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ShikomiTotalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.shikomi_total
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.ShikomiTotalKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.shikomi_total
+    where ShikomiNo = #{shikomino,jdbcType=VARCHAR}
+      and SupplierCode = #{suppliercode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.ShikomiTotalKey">
+    delete from dbo.shikomi_total
+    where ShikomiNo = #{shikomino,jdbcType=VARCHAR}
+      and SupplierCode = #{suppliercode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ShikomiTotalExample">
+    delete from dbo.shikomi_total
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ShikomiTotal">
+    insert into dbo.shikomi_total (ShikomiNo, SupplierCode, id, 
+      ModelNo, LastQty, ApplyQty, 
+      RemainQty, MaxQty, QtyOrdPre, 
+      serialModel, Status, CustomerNo, 
+      AnswerText, Remark, RegistDate, 
+      ReviseDate, ClassType, ClassCode, 
+      SubsidiaryCode, CompanyCode, BranchCode, 
+      DlvDate, DeptNo, ApplyTime, 
+      OrderQty, CancelQty, ModelType, 
+      UpdateTime, CreateTime, CreateUser, 
+      UpdateUser, ApplyPsnName, EPrice, 
+      QtyWarning, ApplicantNo, ApplicantName, 
+      ApplicantEmail, ApproverNo, ApproverName, 
+      ApproverEmail, AsseDays, QtyNoord, 
+      Price_lot, LotQty, IndCode, 
+      partPrepareDays, applyNo, Rohs, 
+      qtyPO, qtyOnhand, inspectStatus, 
+      inspectSendTime, InspectAnswerTime, 
+      InspectAnswerPsnName, InspectAnswerPsnNo, 
+      inspectDaily, inspectType, InspectAnswerText, 
+      PlanUseDate, pplNo, projectNo, 
+      avgOrdQty, LastOrdDate, inspectApplyType, 
+      InspectApproverNo, InspectApproverName, 
+      InspectApproverTime, modelCount, inspectQty, 
+      inspectApplyNo, isWarning, warehouseCode
+      )
+    values (#{shikomino,jdbcType=VARCHAR}, #{suppliercode,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, 
+      #{modelno,jdbcType=VARCHAR}, #{lastqty,jdbcType=INTEGER}, #{applyqty,jdbcType=INTEGER}, 
+      #{remainqty,jdbcType=INTEGER}, #{maxqty,jdbcType=INTEGER}, #{qtyordpre,jdbcType=INTEGER}, 
+      #{serialmodel,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{customerno,jdbcType=VARCHAR}, 
+      #{answertext,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, #{registdate,jdbcType=TIMESTAMP}, 
+      #{revisedate,jdbcType=TIMESTAMP}, #{classtype,jdbcType=CHAR}, #{classcode,jdbcType=CHAR}, 
+      #{subsidiarycode,jdbcType=VARCHAR}, #{companycode,jdbcType=VARCHAR}, #{branchcode,jdbcType=VARCHAR}, 
+      #{dlvdate,jdbcType=TIMESTAMP}, #{deptno,jdbcType=VARCHAR}, #{applytime,jdbcType=TIMESTAMP}, 
+      #{orderqty,jdbcType=INTEGER}, #{cancelqty,jdbcType=INTEGER}, #{modeltype,jdbcType=CHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{applypsnname,jdbcType=NVARCHAR}, #{eprice,jdbcType=DECIMAL}, 
+      #{qtywarning,jdbcType=INTEGER}, #{applicantno,jdbcType=VARCHAR}, #{applicantname,jdbcType=NVARCHAR}, 
+      #{applicantemail,jdbcType=VARCHAR}, #{approverno,jdbcType=VARCHAR}, #{approvername,jdbcType=NVARCHAR}, 
+      #{approveremail,jdbcType=VARCHAR}, #{assedays,jdbcType=INTEGER}, #{qtynoord,jdbcType=INTEGER}, 
+      #{priceLot,jdbcType=DECIMAL}, #{lotqty,jdbcType=INTEGER}, #{indcode,jdbcType=NVARCHAR}, 
+      #{partpreparedays,jdbcType=INTEGER}, #{applyno,jdbcType=VARCHAR}, #{rohs,jdbcType=CHAR}, 
+      #{qtypo,jdbcType=INTEGER}, #{qtyonhand,jdbcType=INTEGER}, #{inspectstatus,jdbcType=SMALLINT}, 
+      #{inspectsendtime,jdbcType=TIMESTAMP}, #{inspectanswertime,jdbcType=TIMESTAMP}, 
+      #{inspectanswerpsnname,jdbcType=NVARCHAR}, #{inspectanswerpsnno,jdbcType=VARCHAR}, 
+      #{inspectdaily,jdbcType=SMALLINT}, #{inspecttype,jdbcType=SMALLINT}, #{inspectanswertext,jdbcType=NVARCHAR}, 
+      #{planusedate,jdbcType=TIMESTAMP}, #{pplno,jdbcType=VARCHAR}, #{projectno,jdbcType=VARCHAR}, 
+      #{avgordqty,jdbcType=INTEGER}, #{lastorddate,jdbcType=TIMESTAMP}, #{inspectapplytype,jdbcType=SMALLINT}, 
+      #{inspectapproverno,jdbcType=VARCHAR}, #{inspectapprovername,jdbcType=NVARCHAR}, 
+      #{inspectapprovertime,jdbcType=TIMESTAMP}, #{modelcount,jdbcType=INTEGER}, #{inspectqty,jdbcType=INTEGER}, 
+      #{inspectapplyno,jdbcType=VARCHAR}, #{iswarning,jdbcType=CHAR}, #{warehousecode,jdbcType=VARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ShikomiTotal">
+    insert into dbo.shikomi_total
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shikomino != null">
+        ShikomiNo,
+      </if>
+      <if test="suppliercode != null">
+        SupplierCode,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="lastqty != null">
+        LastQty,
+      </if>
+      <if test="applyqty != null">
+        ApplyQty,
+      </if>
+      <if test="remainqty != null">
+        RemainQty,
+      </if>
+      <if test="maxqty != null">
+        MaxQty,
+      </if>
+      <if test="qtyordpre != null">
+        QtyOrdPre,
+      </if>
+      <if test="serialmodel != null">
+        serialModel,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="answertext != null">
+        AnswerText,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="registdate != null">
+        RegistDate,
+      </if>
+      <if test="revisedate != null">
+        ReviseDate,
+      </if>
+      <if test="classtype != null">
+        ClassType,
+      </if>
+      <if test="classcode != null">
+        ClassCode,
+      </if>
+      <if test="subsidiarycode != null">
+        SubsidiaryCode,
+      </if>
+      <if test="companycode != null">
+        CompanyCode,
+      </if>
+      <if test="branchcode != null">
+        BranchCode,
+      </if>
+      <if test="dlvdate != null">
+        DlvDate,
+      </if>
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="applytime != null">
+        ApplyTime,
+      </if>
+      <if test="orderqty != null">
+        OrderQty,
+      </if>
+      <if test="cancelqty != null">
+        CancelQty,
+      </if>
+      <if test="modeltype != null">
+        ModelType,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="createuser != null">
+        CreateUser,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="applypsnname != null">
+        ApplyPsnName,
+      </if>
+      <if test="eprice != null">
+        EPrice,
+      </if>
+      <if test="qtywarning != null">
+        QtyWarning,
+      </if>
+      <if test="applicantno != null">
+        ApplicantNo,
+      </if>
+      <if test="applicantname != null">
+        ApplicantName,
+      </if>
+      <if test="applicantemail != null">
+        ApplicantEmail,
+      </if>
+      <if test="approverno != null">
+        ApproverNo,
+      </if>
+      <if test="approvername != null">
+        ApproverName,
+      </if>
+      <if test="approveremail != null">
+        ApproverEmail,
+      </if>
+      <if test="assedays != null">
+        AsseDays,
+      </if>
+      <if test="qtynoord != null">
+        QtyNoord,
+      </if>
+      <if test="priceLot != null">
+        Price_lot,
+      </if>
+      <if test="lotqty != null">
+        LotQty,
+      </if>
+      <if test="indcode != null">
+        IndCode,
+      </if>
+      <if test="partpreparedays != null">
+        partPrepareDays,
+      </if>
+      <if test="applyno != null">
+        applyNo,
+      </if>
+      <if test="rohs != null">
+        Rohs,
+      </if>
+      <if test="qtypo != null">
+        qtyPO,
+      </if>
+      <if test="qtyonhand != null">
+        qtyOnhand,
+      </if>
+      <if test="inspectstatus != null">
+        inspectStatus,
+      </if>
+      <if test="inspectsendtime != null">
+        inspectSendTime,
+      </if>
+      <if test="inspectanswertime != null">
+        InspectAnswerTime,
+      </if>
+      <if test="inspectanswerpsnname != null">
+        InspectAnswerPsnName,
+      </if>
+      <if test="inspectanswerpsnno != null">
+        InspectAnswerPsnNo,
+      </if>
+      <if test="inspectdaily != null">
+        inspectDaily,
+      </if>
+      <if test="inspecttype != null">
+        inspectType,
+      </if>
+      <if test="inspectanswertext != null">
+        InspectAnswerText,
+      </if>
+      <if test="planusedate != null">
+        PlanUseDate,
+      </if>
+      <if test="pplno != null">
+        pplNo,
+      </if>
+      <if test="projectno != null">
+        projectNo,
+      </if>
+      <if test="avgordqty != null">
+        avgOrdQty,
+      </if>
+      <if test="lastorddate != null">
+        LastOrdDate,
+      </if>
+      <if test="inspectapplytype != null">
+        inspectApplyType,
+      </if>
+      <if test="inspectapproverno != null">
+        InspectApproverNo,
+      </if>
+      <if test="inspectapprovername != null">
+        InspectApproverName,
+      </if>
+      <if test="inspectapprovertime != null">
+        InspectApproverTime,
+      </if>
+      <if test="modelcount != null">
+        modelCount,
+      </if>
+      <if test="inspectqty != null">
+        inspectQty,
+      </if>
+      <if test="inspectapplyno != null">
+        inspectApplyNo,
+      </if>
+      <if test="iswarning != null">
+        isWarning,
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shikomino != null">
+        #{shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliercode != null">
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="lastqty != null">
+        #{lastqty,jdbcType=INTEGER},
+      </if>
+      <if test="applyqty != null">
+        #{applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="remainqty != null">
+        #{remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="maxqty != null">
+        #{maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="qtyordpre != null">
+        #{qtyordpre,jdbcType=INTEGER},
+      </if>
+      <if test="serialmodel != null">
+        #{serialmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="answertext != null">
+        #{answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="registdate != null">
+        #{registdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedate != null">
+        #{revisedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classtype != null">
+        #{classtype,jdbcType=CHAR},
+      </if>
+      <if test="classcode != null">
+        #{classcode,jdbcType=CHAR},
+      </if>
+      <if test="subsidiarycode != null">
+        #{subsidiarycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null">
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null">
+        #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvdate != null">
+        #{dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderqty != null">
+        #{orderqty,jdbcType=INTEGER},
+      </if>
+      <if test="cancelqty != null">
+        #{cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="modeltype != null">
+        #{modeltype,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="applypsnname != null">
+        #{applypsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="qtywarning != null">
+        #{qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="applicantno != null">
+        #{applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantname != null">
+        #{applicantname,jdbcType=NVARCHAR},
+      </if>
+      <if test="applicantemail != null">
+        #{applicantemail,jdbcType=VARCHAR},
+      </if>
+      <if test="approverno != null">
+        #{approverno,jdbcType=VARCHAR},
+      </if>
+      <if test="approvername != null">
+        #{approvername,jdbcType=NVARCHAR},
+      </if>
+      <if test="approveremail != null">
+        #{approveremail,jdbcType=VARCHAR},
+      </if>
+      <if test="assedays != null">
+        #{assedays,jdbcType=INTEGER},
+      </if>
+      <if test="qtynoord != null">
+        #{qtynoord,jdbcType=INTEGER},
+      </if>
+      <if test="priceLot != null">
+        #{priceLot,jdbcType=DECIMAL},
+      </if>
+      <if test="lotqty != null">
+        #{lotqty,jdbcType=INTEGER},
+      </if>
+      <if test="indcode != null">
+        #{indcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="partpreparedays != null">
+        #{partpreparedays,jdbcType=INTEGER},
+      </if>
+      <if test="applyno != null">
+        #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="rohs != null">
+        #{rohs,jdbcType=CHAR},
+      </if>
+      <if test="qtypo != null">
+        #{qtypo,jdbcType=INTEGER},
+      </if>
+      <if test="qtyonhand != null">
+        #{qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="inspectstatus != null">
+        #{inspectstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectsendtime != null">
+        #{inspectsendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectanswertime != null">
+        #{inspectanswertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectanswerpsnname != null">
+        #{inspectanswerpsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="inspectanswerpsnno != null">
+        #{inspectanswerpsnno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectdaily != null">
+        #{inspectdaily,jdbcType=SMALLINT},
+      </if>
+      <if test="inspecttype != null">
+        #{inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectanswertext != null">
+        #{inspectanswertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="planusedate != null">
+        #{planusedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pplno != null">
+        #{pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="avgordqty != null">
+        #{avgordqty,jdbcType=INTEGER},
+      </if>
+      <if test="lastorddate != null">
+        #{lastorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectapplytype != null">
+        #{inspectapplytype,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectapproverno != null">
+        #{inspectapproverno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectapprovername != null">
+        #{inspectapprovername,jdbcType=NVARCHAR},
+      </if>
+      <if test="inspectapprovertime != null">
+        #{inspectapprovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelcount != null">
+        #{modelcount,jdbcType=INTEGER},
+      </if>
+      <if test="inspectqty != null">
+        #{inspectqty,jdbcType=INTEGER},
+      </if>
+      <if test="inspectapplyno != null">
+        #{inspectapplyno,jdbcType=VARCHAR},
+      </if>
+      <if test="iswarning != null">
+        #{iswarning,jdbcType=CHAR},
+      </if>
+      <if test="warehousecode != null">
+        #{warehousecode,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ShikomiTotalExample" resultType="java.lang.Long">
+    select count(*) from dbo.shikomi_total
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.shikomi_total
+    <set>
+      <if test="record.shikomino != null">
+        ShikomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliercode != null">
+        SupplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastqty != null">
+        LastQty = #{record.lastqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyqty != null">
+        ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.remainqty != null">
+        RemainQty = #{record.remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxqty != null">
+        MaxQty = #{record.maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyordpre != null">
+        QtyOrdPre = #{record.qtyordpre,jdbcType=INTEGER},
+      </if>
+      <if test="record.serialmodel != null">
+        serialModel = #{record.serialmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answertext != null">
+        AnswerText = #{record.answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.registdate != null">
+        RegistDate = #{record.registdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.revisedate != null">
+        ReviseDate = #{record.revisedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classtype != null">
+        ClassType = #{record.classtype,jdbcType=CHAR},
+      </if>
+      <if test="record.classcode != null">
+        ClassCode = #{record.classcode,jdbcType=CHAR},
+      </if>
+      <if test="record.subsidiarycode != null">
+        SubsidiaryCode = #{record.subsidiarycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycode != null">
+        CompanyCode = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branchcode != null">
+        BranchCode = #{record.branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvdate != null">
+        DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applytime != null">
+        ApplyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderqty != null">
+        OrderQty = #{record.orderqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.cancelqty != null">
+        CancelQty = #{record.cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.modeltype != null">
+        ModelType = #{record.modeltype,jdbcType=CHAR},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateuser != null">
+        UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applypsnname != null">
+        ApplyPsnName = #{record.applypsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.eprice != null">
+        EPrice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qtywarning != null">
+        QtyWarning = #{record.qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicantno != null">
+        ApplicantNo = #{record.applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicantname != null">
+        ApplicantName = #{record.applicantname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.applicantemail != null">
+        ApplicantEmail = #{record.applicantemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approverno != null">
+        ApproverNo = #{record.approverno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvername != null">
+        ApproverName = #{record.approvername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.approveremail != null">
+        ApproverEmail = #{record.approveremail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assedays != null">
+        AsseDays = #{record.assedays,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtynoord != null">
+        QtyNoord = #{record.qtynoord,jdbcType=INTEGER},
+      </if>
+      <if test="record.priceLot != null">
+        Price_lot = #{record.priceLot,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lotqty != null">
+        LotQty = #{record.lotqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.indcode != null">
+        IndCode = #{record.indcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.partpreparedays != null">
+        partPrepareDays = #{record.partpreparedays,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyno != null">
+        applyNo = #{record.applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rohs != null">
+        Rohs = #{record.rohs,jdbcType=CHAR},
+      </if>
+      <if test="record.qtypo != null">
+        qtyPO = #{record.qtypo,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyonhand != null">
+        qtyOnhand = #{record.qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectstatus != null">
+        inspectStatus = #{record.inspectstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.inspectsendtime != null">
+        inspectSendTime = #{record.inspectsendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inspectanswertime != null">
+        InspectAnswerTime = #{record.inspectanswertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inspectanswerpsnname != null">
+        InspectAnswerPsnName = #{record.inspectanswerpsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inspectanswerpsnno != null">
+        InspectAnswerPsnNo = #{record.inspectanswerpsnno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspectdaily != null">
+        inspectDaily = #{record.inspectdaily,jdbcType=SMALLINT},
+      </if>
+      <if test="record.inspecttype != null">
+        inspectType = #{record.inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.inspectanswertext != null">
+        InspectAnswerText = #{record.inspectanswertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.planusedate != null">
+        PlanUseDate = #{record.planusedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pplno != null">
+        pplNo = #{record.pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectno != null">
+        projectNo = #{record.projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgordqty != null">
+        avgOrdQty = #{record.avgordqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastorddate != null">
+        LastOrdDate = #{record.lastorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inspectapplytype != null">
+        inspectApplyType = #{record.inspectapplytype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.inspectapproverno != null">
+        InspectApproverNo = #{record.inspectapproverno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspectapprovername != null">
+        InspectApproverName = #{record.inspectapprovername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inspectapprovertime != null">
+        InspectApproverTime = #{record.inspectapprovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modelcount != null">
+        modelCount = #{record.modelcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectqty != null">
+        inspectQty = #{record.inspectqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectapplyno != null">
+        inspectApplyNo = #{record.inspectapplyno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iswarning != null">
+        isWarning = #{record.iswarning,jdbcType=CHAR},
+      </if>
+      <if test="record.warehousecode != null">
+        warehouseCode = #{record.warehousecode,jdbcType=VARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.shikomi_total
+    set ShikomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      SupplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=BIGINT},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      LastQty = #{record.lastqty,jdbcType=INTEGER},
+      ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      RemainQty = #{record.remainqty,jdbcType=INTEGER},
+      MaxQty = #{record.maxqty,jdbcType=INTEGER},
+      QtyOrdPre = #{record.qtyordpre,jdbcType=INTEGER},
+      serialModel = #{record.serialmodel,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=SMALLINT},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      AnswerText = #{record.answertext,jdbcType=NVARCHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
+      RegistDate = #{record.registdate,jdbcType=TIMESTAMP},
+      ReviseDate = #{record.revisedate,jdbcType=TIMESTAMP},
+      ClassType = #{record.classtype,jdbcType=CHAR},
+      ClassCode = #{record.classcode,jdbcType=CHAR},
+      SubsidiaryCode = #{record.subsidiarycode,jdbcType=VARCHAR},
+      CompanyCode = #{record.companycode,jdbcType=VARCHAR},
+      BranchCode = #{record.branchcode,jdbcType=VARCHAR},
+      DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      ApplyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      OrderQty = #{record.orderqty,jdbcType=INTEGER},
+      CancelQty = #{record.cancelqty,jdbcType=INTEGER},
+      ModelType = #{record.modeltype,jdbcType=CHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      ApplyPsnName = #{record.applypsnname,jdbcType=NVARCHAR},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      QtyWarning = #{record.qtywarning,jdbcType=INTEGER},
+      ApplicantNo = #{record.applicantno,jdbcType=VARCHAR},
+      ApplicantName = #{record.applicantname,jdbcType=NVARCHAR},
+      ApplicantEmail = #{record.applicantemail,jdbcType=VARCHAR},
+      ApproverNo = #{record.approverno,jdbcType=VARCHAR},
+      ApproverName = #{record.approvername,jdbcType=NVARCHAR},
+      ApproverEmail = #{record.approveremail,jdbcType=VARCHAR},
+      AsseDays = #{record.assedays,jdbcType=INTEGER},
+      QtyNoord = #{record.qtynoord,jdbcType=INTEGER},
+      Price_lot = #{record.priceLot,jdbcType=DECIMAL},
+      LotQty = #{record.lotqty,jdbcType=INTEGER},
+      IndCode = #{record.indcode,jdbcType=NVARCHAR},
+      partPrepareDays = #{record.partpreparedays,jdbcType=INTEGER},
+      applyNo = #{record.applyno,jdbcType=VARCHAR},
+      Rohs = #{record.rohs,jdbcType=CHAR},
+      qtyPO = #{record.qtypo,jdbcType=INTEGER},
+      qtyOnhand = #{record.qtyonhand,jdbcType=INTEGER},
+      inspectStatus = #{record.inspectstatus,jdbcType=SMALLINT},
+      inspectSendTime = #{record.inspectsendtime,jdbcType=TIMESTAMP},
+      InspectAnswerTime = #{record.inspectanswertime,jdbcType=TIMESTAMP},
+      InspectAnswerPsnName = #{record.inspectanswerpsnname,jdbcType=NVARCHAR},
+      InspectAnswerPsnNo = #{record.inspectanswerpsnno,jdbcType=VARCHAR},
+      inspectDaily = #{record.inspectdaily,jdbcType=SMALLINT},
+      inspectType = #{record.inspecttype,jdbcType=SMALLINT},
+      InspectAnswerText = #{record.inspectanswertext,jdbcType=NVARCHAR},
+      PlanUseDate = #{record.planusedate,jdbcType=TIMESTAMP},
+      pplNo = #{record.pplno,jdbcType=VARCHAR},
+      projectNo = #{record.projectno,jdbcType=VARCHAR},
+      avgOrdQty = #{record.avgordqty,jdbcType=INTEGER},
+      LastOrdDate = #{record.lastorddate,jdbcType=TIMESTAMP},
+      inspectApplyType = #{record.inspectapplytype,jdbcType=SMALLINT},
+      InspectApproverNo = #{record.inspectapproverno,jdbcType=VARCHAR},
+      InspectApproverName = #{record.inspectapprovername,jdbcType=NVARCHAR},
+      InspectApproverTime = #{record.inspectapprovertime,jdbcType=TIMESTAMP},
+      modelCount = #{record.modelcount,jdbcType=INTEGER},
+      inspectQty = #{record.inspectqty,jdbcType=INTEGER},
+      inspectApplyNo = #{record.inspectapplyno,jdbcType=VARCHAR},
+      isWarning = #{record.iswarning,jdbcType=CHAR},
+      warehouseCode = #{record.warehousecode,jdbcType=VARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.shikomi_total
+    set ShikomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      SupplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=BIGINT},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      LastQty = #{record.lastqty,jdbcType=INTEGER},
+      ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      RemainQty = #{record.remainqty,jdbcType=INTEGER},
+      MaxQty = #{record.maxqty,jdbcType=INTEGER},
+      QtyOrdPre = #{record.qtyordpre,jdbcType=INTEGER},
+      serialModel = #{record.serialmodel,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=SMALLINT},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      AnswerText = #{record.answertext,jdbcType=NVARCHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
+      RegistDate = #{record.registdate,jdbcType=TIMESTAMP},
+      ReviseDate = #{record.revisedate,jdbcType=TIMESTAMP},
+      ClassType = #{record.classtype,jdbcType=CHAR},
+      ClassCode = #{record.classcode,jdbcType=CHAR},
+      SubsidiaryCode = #{record.subsidiarycode,jdbcType=VARCHAR},
+      CompanyCode = #{record.companycode,jdbcType=VARCHAR},
+      BranchCode = #{record.branchcode,jdbcType=VARCHAR},
+      DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      ApplyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      OrderQty = #{record.orderqty,jdbcType=INTEGER},
+      CancelQty = #{record.cancelqty,jdbcType=INTEGER},
+      ModelType = #{record.modeltype,jdbcType=CHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      ApplyPsnName = #{record.applypsnname,jdbcType=NVARCHAR},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      QtyWarning = #{record.qtywarning,jdbcType=INTEGER},
+      ApplicantNo = #{record.applicantno,jdbcType=VARCHAR},
+      ApplicantName = #{record.applicantname,jdbcType=NVARCHAR},
+      ApplicantEmail = #{record.applicantemail,jdbcType=VARCHAR},
+      ApproverNo = #{record.approverno,jdbcType=VARCHAR},
+      ApproverName = #{record.approvername,jdbcType=NVARCHAR},
+      ApproverEmail = #{record.approveremail,jdbcType=VARCHAR},
+      AsseDays = #{record.assedays,jdbcType=INTEGER},
+      QtyNoord = #{record.qtynoord,jdbcType=INTEGER},
+      Price_lot = #{record.priceLot,jdbcType=DECIMAL},
+      LotQty = #{record.lotqty,jdbcType=INTEGER},
+      IndCode = #{record.indcode,jdbcType=NVARCHAR},
+      partPrepareDays = #{record.partpreparedays,jdbcType=INTEGER},
+      applyNo = #{record.applyno,jdbcType=VARCHAR},
+      Rohs = #{record.rohs,jdbcType=CHAR},
+      qtyPO = #{record.qtypo,jdbcType=INTEGER},
+      qtyOnhand = #{record.qtyonhand,jdbcType=INTEGER},
+      inspectStatus = #{record.inspectstatus,jdbcType=SMALLINT},
+      inspectSendTime = #{record.inspectsendtime,jdbcType=TIMESTAMP},
+      InspectAnswerTime = #{record.inspectanswertime,jdbcType=TIMESTAMP},
+      InspectAnswerPsnName = #{record.inspectanswerpsnname,jdbcType=NVARCHAR},
+      InspectAnswerPsnNo = #{record.inspectanswerpsnno,jdbcType=VARCHAR},
+      inspectDaily = #{record.inspectdaily,jdbcType=SMALLINT},
+      inspectType = #{record.inspecttype,jdbcType=SMALLINT},
+      InspectAnswerText = #{record.inspectanswertext,jdbcType=NVARCHAR},
+      PlanUseDate = #{record.planusedate,jdbcType=TIMESTAMP},
+      pplNo = #{record.pplno,jdbcType=VARCHAR},
+      projectNo = #{record.projectno,jdbcType=VARCHAR},
+      avgOrdQty = #{record.avgordqty,jdbcType=INTEGER},
+      LastOrdDate = #{record.lastorddate,jdbcType=TIMESTAMP},
+      inspectApplyType = #{record.inspectapplytype,jdbcType=SMALLINT},
+      InspectApproverNo = #{record.inspectapproverno,jdbcType=VARCHAR},
+      InspectApproverName = #{record.inspectapprovername,jdbcType=NVARCHAR},
+      InspectApproverTime = #{record.inspectapprovertime,jdbcType=TIMESTAMP},
+      modelCount = #{record.modelcount,jdbcType=INTEGER},
+      inspectQty = #{record.inspectqty,jdbcType=INTEGER},
+      inspectApplyNo = #{record.inspectapplyno,jdbcType=VARCHAR},
+      isWarning = #{record.iswarning,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ShikomiTotal">
+    update dbo.shikomi_total
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        ModelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="lastqty != null">
+        LastQty = #{lastqty,jdbcType=INTEGER},
+      </if>
+      <if test="applyqty != null">
+        ApplyQty = #{applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="remainqty != null">
+        RemainQty = #{remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="maxqty != null">
+        MaxQty = #{maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="qtyordpre != null">
+        QtyOrdPre = #{qtyordpre,jdbcType=INTEGER},
+      </if>
+      <if test="serialmodel != null">
+        serialModel = #{serialmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="customerno != null">
+        CustomerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="answertext != null">
+        AnswerText = #{answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="registdate != null">
+        RegistDate = #{registdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedate != null">
+        ReviseDate = #{revisedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classtype != null">
+        ClassType = #{classtype,jdbcType=CHAR},
+      </if>
+      <if test="classcode != null">
+        ClassCode = #{classcode,jdbcType=CHAR},
+      </if>
+      <if test="subsidiarycode != null">
+        SubsidiaryCode = #{subsidiarycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null">
+        CompanyCode = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null">
+        BranchCode = #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvdate != null">
+        DlvDate = #{dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptno != null">
+        DeptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        ApplyTime = #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderqty != null">
+        OrderQty = #{orderqty,jdbcType=INTEGER},
+      </if>
+      <if test="cancelqty != null">
+        CancelQty = #{cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="modeltype != null">
+        ModelType = #{modeltype,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CreateUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="applypsnname != null">
+        ApplyPsnName = #{applypsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="eprice != null">
+        EPrice = #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="qtywarning != null">
+        QtyWarning = #{qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="applicantno != null">
+        ApplicantNo = #{applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantname != null">
+        ApplicantName = #{applicantname,jdbcType=NVARCHAR},
+      </if>
+      <if test="applicantemail != null">
+        ApplicantEmail = #{applicantemail,jdbcType=VARCHAR},
+      </if>
+      <if test="approverno != null">
+        ApproverNo = #{approverno,jdbcType=VARCHAR},
+      </if>
+      <if test="approvername != null">
+        ApproverName = #{approvername,jdbcType=NVARCHAR},
+      </if>
+      <if test="approveremail != null">
+        ApproverEmail = #{approveremail,jdbcType=VARCHAR},
+      </if>
+      <if test="assedays != null">
+        AsseDays = #{assedays,jdbcType=INTEGER},
+      </if>
+      <if test="qtynoord != null">
+        QtyNoord = #{qtynoord,jdbcType=INTEGER},
+      </if>
+      <if test="priceLot != null">
+        Price_lot = #{priceLot,jdbcType=DECIMAL},
+      </if>
+      <if test="lotqty != null">
+        LotQty = #{lotqty,jdbcType=INTEGER},
+      </if>
+      <if test="indcode != null">
+        IndCode = #{indcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="partpreparedays != null">
+        partPrepareDays = #{partpreparedays,jdbcType=INTEGER},
+      </if>
+      <if test="applyno != null">
+        applyNo = #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="rohs != null">
+        Rohs = #{rohs,jdbcType=CHAR},
+      </if>
+      <if test="qtypo != null">
+        qtyPO = #{qtypo,jdbcType=INTEGER},
+      </if>
+      <if test="qtyonhand != null">
+        qtyOnhand = #{qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="inspectstatus != null">
+        inspectStatus = #{inspectstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectsendtime != null">
+        inspectSendTime = #{inspectsendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectanswertime != null">
+        InspectAnswerTime = #{inspectanswertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectanswerpsnname != null">
+        InspectAnswerPsnName = #{inspectanswerpsnname,jdbcType=NVARCHAR},
+      </if>
+      <if test="inspectanswerpsnno != null">
+        InspectAnswerPsnNo = #{inspectanswerpsnno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectdaily != null">
+        inspectDaily = #{inspectdaily,jdbcType=SMALLINT},
+      </if>
+      <if test="inspecttype != null">
+        inspectType = #{inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectanswertext != null">
+        InspectAnswerText = #{inspectanswertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="planusedate != null">
+        PlanUseDate = #{planusedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pplno != null">
+        pplNo = #{pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        projectNo = #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="avgordqty != null">
+        avgOrdQty = #{avgordqty,jdbcType=INTEGER},
+      </if>
+      <if test="lastorddate != null">
+        LastOrdDate = #{lastorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectapplytype != null">
+        inspectApplyType = #{inspectapplytype,jdbcType=SMALLINT},
+      </if>
+      <if test="inspectapproverno != null">
+        InspectApproverNo = #{inspectapproverno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectapprovername != null">
+        InspectApproverName = #{inspectapprovername,jdbcType=NVARCHAR},
+      </if>
+      <if test="inspectapprovertime != null">
+        InspectApproverTime = #{inspectapprovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelcount != null">
+        modelCount = #{modelcount,jdbcType=INTEGER},
+      </if>
+      <if test="inspectqty != null">
+        inspectQty = #{inspectqty,jdbcType=INTEGER},
+      </if>
+      <if test="inspectapplyno != null">
+        inspectApplyNo = #{inspectapplyno,jdbcType=VARCHAR},
+      </if>
+      <if test="iswarning != null">
+        isWarning = #{iswarning,jdbcType=CHAR},
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode = #{warehousecode,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where ShikomiNo = #{shikomino,jdbcType=VARCHAR}
+      and SupplierCode = #{suppliercode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sales.ops.db.entity.ShikomiTotal">
+    update dbo.shikomi_total
+    set id = #{id,jdbcType=BIGINT},
+      ModelNo = #{modelno,jdbcType=VARCHAR},
+      LastQty = #{lastqty,jdbcType=INTEGER},
+      ApplyQty = #{applyqty,jdbcType=INTEGER},
+      RemainQty = #{remainqty,jdbcType=INTEGER},
+      MaxQty = #{maxqty,jdbcType=INTEGER},
+      QtyOrdPre = #{qtyordpre,jdbcType=INTEGER},
+      serialModel = #{serialmodel,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=SMALLINT},
+      CustomerNo = #{customerno,jdbcType=VARCHAR},
+      AnswerText = #{answertext,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      RegistDate = #{registdate,jdbcType=TIMESTAMP},
+      ReviseDate = #{revisedate,jdbcType=TIMESTAMP},
+      ClassType = #{classtype,jdbcType=CHAR},
+      ClassCode = #{classcode,jdbcType=CHAR},
+      SubsidiaryCode = #{subsidiarycode,jdbcType=VARCHAR},
+      CompanyCode = #{companycode,jdbcType=VARCHAR},
+      BranchCode = #{branchcode,jdbcType=VARCHAR},
+      DlvDate = #{dlvdate,jdbcType=TIMESTAMP},
+      DeptNo = #{deptno,jdbcType=VARCHAR},
+      ApplyTime = #{applytime,jdbcType=TIMESTAMP},
+      OrderQty = #{orderqty,jdbcType=INTEGER},
+      CancelQty = #{cancelqty,jdbcType=INTEGER},
+      ModelType = #{modeltype,jdbcType=CHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      ApplyPsnName = #{applypsnname,jdbcType=NVARCHAR},
+      EPrice = #{eprice,jdbcType=DECIMAL},
+      QtyWarning = #{qtywarning,jdbcType=INTEGER},
+      ApplicantNo = #{applicantno,jdbcType=VARCHAR},
+      ApplicantName = #{applicantname,jdbcType=NVARCHAR},
+      ApplicantEmail = #{applicantemail,jdbcType=VARCHAR},
+      ApproverNo = #{approverno,jdbcType=VARCHAR},
+      ApproverName = #{approvername,jdbcType=NVARCHAR},
+      ApproverEmail = #{approveremail,jdbcType=VARCHAR},
+      AsseDays = #{assedays,jdbcType=INTEGER},
+      QtyNoord = #{qtynoord,jdbcType=INTEGER},
+      Price_lot = #{priceLot,jdbcType=DECIMAL},
+      LotQty = #{lotqty,jdbcType=INTEGER},
+      IndCode = #{indcode,jdbcType=NVARCHAR},
+      partPrepareDays = #{partpreparedays,jdbcType=INTEGER},
+      applyNo = #{applyno,jdbcType=VARCHAR},
+      Rohs = #{rohs,jdbcType=CHAR},
+      qtyPO = #{qtypo,jdbcType=INTEGER},
+      qtyOnhand = #{qtyonhand,jdbcType=INTEGER},
+      inspectStatus = #{inspectstatus,jdbcType=SMALLINT},
+      inspectSendTime = #{inspectsendtime,jdbcType=TIMESTAMP},
+      InspectAnswerTime = #{inspectanswertime,jdbcType=TIMESTAMP},
+      InspectAnswerPsnName = #{inspectanswerpsnname,jdbcType=NVARCHAR},
+      InspectAnswerPsnNo = #{inspectanswerpsnno,jdbcType=VARCHAR},
+      inspectDaily = #{inspectdaily,jdbcType=SMALLINT},
+      inspectType = #{inspecttype,jdbcType=SMALLINT},
+      InspectAnswerText = #{inspectanswertext,jdbcType=NVARCHAR},
+      PlanUseDate = #{planusedate,jdbcType=TIMESTAMP},
+      pplNo = #{pplno,jdbcType=VARCHAR},
+      projectNo = #{projectno,jdbcType=VARCHAR},
+      avgOrdQty = #{avgordqty,jdbcType=INTEGER},
+      LastOrdDate = #{lastorddate,jdbcType=TIMESTAMP},
+      inspectApplyType = #{inspectapplytype,jdbcType=SMALLINT},
+      InspectApproverNo = #{inspectapproverno,jdbcType=VARCHAR},
+      InspectApproverName = #{inspectapprovername,jdbcType=NVARCHAR},
+      InspectApproverTime = #{inspectapprovertime,jdbcType=TIMESTAMP},
+      modelCount = #{modelcount,jdbcType=INTEGER},
+      inspectQty = #{inspectqty,jdbcType=INTEGER},
+      inspectApplyNo = #{inspectapplyno,jdbcType=VARCHAR},
+      isWarning = #{iswarning,jdbcType=CHAR},
+      warehouseCode = #{warehousecode,jdbcType=VARBINARY}
+    where ShikomiNo = #{shikomino,jdbcType=VARCHAR}
+      and SupplierCode = #{suppliercode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ShikomiTotal">
+    update dbo.shikomi_total
+    set id = #{id,jdbcType=BIGINT},
+      ModelNo = #{modelno,jdbcType=VARCHAR},
+      LastQty = #{lastqty,jdbcType=INTEGER},
+      ApplyQty = #{applyqty,jdbcType=INTEGER},
+      RemainQty = #{remainqty,jdbcType=INTEGER},
+      MaxQty = #{maxqty,jdbcType=INTEGER},
+      QtyOrdPre = #{qtyordpre,jdbcType=INTEGER},
+      serialModel = #{serialmodel,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=SMALLINT},
+      CustomerNo = #{customerno,jdbcType=VARCHAR},
+      AnswerText = #{answertext,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      RegistDate = #{registdate,jdbcType=TIMESTAMP},
+      ReviseDate = #{revisedate,jdbcType=TIMESTAMP},
+      ClassType = #{classtype,jdbcType=CHAR},
+      ClassCode = #{classcode,jdbcType=CHAR},
+      SubsidiaryCode = #{subsidiarycode,jdbcType=VARCHAR},
+      CompanyCode = #{companycode,jdbcType=VARCHAR},
+      BranchCode = #{branchcode,jdbcType=VARCHAR},
+      DlvDate = #{dlvdate,jdbcType=TIMESTAMP},
+      DeptNo = #{deptno,jdbcType=VARCHAR},
+      ApplyTime = #{applytime,jdbcType=TIMESTAMP},
+      OrderQty = #{orderqty,jdbcType=INTEGER},
+      CancelQty = #{cancelqty,jdbcType=INTEGER},
+      ModelType = #{modeltype,jdbcType=CHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      ApplyPsnName = #{applypsnname,jdbcType=NVARCHAR},
+      EPrice = #{eprice,jdbcType=DECIMAL},
+      QtyWarning = #{qtywarning,jdbcType=INTEGER},
+      ApplicantNo = #{applicantno,jdbcType=VARCHAR},
+      ApplicantName = #{applicantname,jdbcType=NVARCHAR},
+      ApplicantEmail = #{applicantemail,jdbcType=VARCHAR},
+      ApproverNo = #{approverno,jdbcType=VARCHAR},
+      ApproverName = #{approvername,jdbcType=NVARCHAR},
+      ApproverEmail = #{approveremail,jdbcType=VARCHAR},
+      AsseDays = #{assedays,jdbcType=INTEGER},
+      QtyNoord = #{qtynoord,jdbcType=INTEGER},
+      Price_lot = #{priceLot,jdbcType=DECIMAL},
+      LotQty = #{lotqty,jdbcType=INTEGER},
+      IndCode = #{indcode,jdbcType=NVARCHAR},
+      partPrepareDays = #{partpreparedays,jdbcType=INTEGER},
+      applyNo = #{applyno,jdbcType=VARCHAR},
+      Rohs = #{rohs,jdbcType=CHAR},
+      qtyPO = #{qtypo,jdbcType=INTEGER},
+      qtyOnhand = #{qtyonhand,jdbcType=INTEGER},
+      inspectStatus = #{inspectstatus,jdbcType=SMALLINT},
+      inspectSendTime = #{inspectsendtime,jdbcType=TIMESTAMP},
+      InspectAnswerTime = #{inspectanswertime,jdbcType=TIMESTAMP},
+      InspectAnswerPsnName = #{inspectanswerpsnname,jdbcType=NVARCHAR},
+      InspectAnswerPsnNo = #{inspectanswerpsnno,jdbcType=VARCHAR},
+      inspectDaily = #{inspectdaily,jdbcType=SMALLINT},
+      inspectType = #{inspecttype,jdbcType=SMALLINT},
+      InspectAnswerText = #{inspectanswertext,jdbcType=NVARCHAR},
+      PlanUseDate = #{planusedate,jdbcType=TIMESTAMP},
+      pplNo = #{pplno,jdbcType=VARCHAR},
+      projectNo = #{projectno,jdbcType=VARCHAR},
+      avgOrdQty = #{avgordqty,jdbcType=INTEGER},
+      LastOrdDate = #{lastorddate,jdbcType=TIMESTAMP},
+      inspectApplyType = #{inspectapplytype,jdbcType=SMALLINT},
+      InspectApproverNo = #{inspectapproverno,jdbcType=VARCHAR},
+      InspectApproverName = #{inspectapprovername,jdbcType=NVARCHAR},
+      InspectApproverTime = #{inspectapprovertime,jdbcType=TIMESTAMP},
+      modelCount = #{modelcount,jdbcType=INTEGER},
+      inspectQty = #{inspectqty,jdbcType=INTEGER},
+      inspectApplyNo = #{inspectapplyno,jdbcType=VARCHAR},
+      isWarning = #{iswarning,jdbcType=CHAR}
+    where ShikomiNo = #{shikomino,jdbcType=VARCHAR}
+      and SupplierCode = #{suppliercode,jdbcType=VARCHAR}
+  </update>
+</mapper>

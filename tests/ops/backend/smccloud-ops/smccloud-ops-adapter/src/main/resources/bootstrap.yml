@@ -1,0 +1,10 @@
+spring:
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages_zh_CN
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: adapter-service
+  profiles:
+    active: test

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductEcodeMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductEcode">
+    <result column="id" jdbcType="CHAR" property="id" />
+    <result column="Ecode" jdbcType="CHAR" property="ecode" />
+    <result column="Parameter" jdbcType="DECIMAL" property="parameter" />
+    <result column="EParameter" jdbcType="DECIMAL" property="eparameter" />
+    <result column="ClassName" jdbcType="VARCHAR" property="classname" />
+    <result column="ClassModel" jdbcType="VARCHAR" property="classmodel" />
+    <result column="ClassName6" jdbcType="VARCHAR" property="classname6" />
+    <result column="ClassCode" jdbcType="CHAR" property="classcode" />
+    <result column="ImpCustCName" jdbcType="VARCHAR" property="impcustcname" />
+    <result column="JFormCName" jdbcType="VARCHAR" property="jformcname" />
+    <result column="CustTax" jdbcType="DECIMAL" property="custtax" />
+    <result column="InvName" jdbcType="VARCHAR" property="invname" />
+    <result column="EngName" jdbcType="VARCHAR" property="engname" />
+    <result column="CRMType" jdbcType="VARCHAR" property="crmtype" />
+    <result column="CRMCode" jdbcType="CHAR" property="crmcode" />
+    <result column="TaxCode" jdbcType="VARCHAR" property="taxcode" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, Ecode, Parameter, EParameter, ClassName, ClassModel, ClassName6, ClassCode, ImpCustCName,
+    JFormCName, CustTax, InvName, EngName, CRMType, CRMCode, TaxCode, desc, is_deleted,
+    create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductEcodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_ecode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductEcodeExample">
+    delete from dbo.product_ecode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductEcode">
+    insert into dbo.product_ecode (id, Ecode, Parameter,
+                                   EParameter, ClassName, ClassModel,
+                                   ClassName6, ClassCode, ImpCustCName,
+                                   JFormCName, CustTax, InvName,
+                                   EngName, CRMType, CRMCode,
+                                   TaxCode, desc, is_deleted,
+                                   create_time, create_user, update_time,
+                                   update_user)
+    values (#{id,jdbcType=CHAR}, #{ecode,jdbcType=CHAR}, #{parameter,jdbcType=DECIMAL},
+            #{eparameter,jdbcType=DECIMAL}, #{classname,jdbcType=VARCHAR}, #{classmodel,jdbcType=VARCHAR},
+            #{classname6,jdbcType=VARCHAR}, #{classcode,jdbcType=CHAR}, #{impcustcname,jdbcType=VARCHAR},
+            #{jformcname,jdbcType=VARCHAR}, #{custtax,jdbcType=DECIMAL}, #{invname,jdbcType=VARCHAR},
+            #{engname,jdbcType=VARCHAR}, #{crmtype,jdbcType=VARCHAR}, #{crmcode,jdbcType=CHAR},
+            #{taxcode,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT},
+            #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+            #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductEcode">
+    insert into dbo.product_ecode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ecode != null">
+        Ecode,
+      </if>
+      <if test="parameter != null">
+        Parameter,
+      </if>
+      <if test="eparameter != null">
+        EParameter,
+      </if>
+      <if test="classname != null">
+        ClassName,
+      </if>
+      <if test="classmodel != null">
+        ClassModel,
+      </if>
+      <if test="classname6 != null">
+        ClassName6,
+      </if>
+      <if test="classcode != null">
+        ClassCode,
+      </if>
+      <if test="impcustcname != null">
+        ImpCustCName,
+      </if>
+      <if test="jformcname != null">
+        JFormCName,
+      </if>
+      <if test="custtax != null">
+        CustTax,
+      </if>
+      <if test="invname != null">
+        InvName,
+      </if>
+      <if test="engname != null">
+        EngName,
+      </if>
+      <if test="crmtype != null">
+        CRMType,
+      </if>
+      <if test="crmcode != null">
+        CRMCode,
+      </if>
+      <if test="taxcode != null">
+        TaxCode,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="ecode != null">
+        #{ecode,jdbcType=CHAR},
+      </if>
+      <if test="parameter != null">
+        #{parameter,jdbcType=DECIMAL},
+      </if>
+      <if test="eparameter != null">
+        #{eparameter,jdbcType=DECIMAL},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="classmodel != null">
+        #{classmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="classname6 != null">
+        #{classname6,jdbcType=VARCHAR},
+      </if>
+      <if test="classcode != null">
+        #{classcode,jdbcType=CHAR},
+      </if>
+      <if test="impcustcname != null">
+        #{impcustcname,jdbcType=VARCHAR},
+      </if>
+      <if test="jformcname != null">
+        #{jformcname,jdbcType=VARCHAR},
+      </if>
+      <if test="custtax != null">
+        #{custtax,jdbcType=DECIMAL},
+      </if>
+      <if test="invname != null">
+        #{invname,jdbcType=VARCHAR},
+      </if>
+      <if test="engname != null">
+        #{engname,jdbcType=VARCHAR},
+      </if>
+      <if test="crmtype != null">
+        #{crmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="crmcode != null">
+        #{crmcode,jdbcType=CHAR},
+      </if>
+      <if test="taxcode != null">
+        #{taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductEcodeExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_ecode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_ecode
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.ecode != null">
+        Ecode = #{record.ecode,jdbcType=CHAR},
+      </if>
+      <if test="record.parameter != null">
+        Parameter = #{record.parameter,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eparameter != null">
+        EParameter = #{record.eparameter,jdbcType=DECIMAL},
+      </if>
+      <if test="record.classname != null">
+        ClassName = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classmodel != null">
+        ClassModel = #{record.classmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classname6 != null">
+        ClassName6 = #{record.classname6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classcode != null">
+        ClassCode = #{record.classcode,jdbcType=CHAR},
+      </if>
+      <if test="record.impcustcname != null">
+        ImpCustCName = #{record.impcustcname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jformcname != null">
+        JFormCName = #{record.jformcname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custtax != null">
+        CustTax = #{record.custtax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.invname != null">
+        InvName = #{record.invname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.engname != null">
+        EngName = #{record.engname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crmtype != null">
+        CRMType = #{record.crmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crmcode != null">
+        CRMCode = #{record.crmcode,jdbcType=CHAR},
+      </if>
+      <if test="record.taxcode != null">
+        TaxCode = #{record.taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null">
+        desc = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_ecode
+    set id = #{record.id,jdbcType=CHAR},
+    Ecode = #{record.ecode,jdbcType=CHAR},
+    Parameter = #{record.parameter,jdbcType=DECIMAL},
+    EParameter = #{record.eparameter,jdbcType=DECIMAL},
+    ClassName = #{record.classname,jdbcType=VARCHAR},
+    ClassModel = #{record.classmodel,jdbcType=VARCHAR},
+    ClassName6 = #{record.classname6,jdbcType=VARCHAR},
+    ClassCode = #{record.classcode,jdbcType=CHAR},
+    ImpCustCName = #{record.impcustcname,jdbcType=VARCHAR},
+    JFormCName = #{record.jformcname,jdbcType=VARCHAR},
+    CustTax = #{record.custtax,jdbcType=DECIMAL},
+    InvName = #{record.invname,jdbcType=VARCHAR},
+    EngName = #{record.engname,jdbcType=VARCHAR},
+    CRMType = #{record.crmtype,jdbcType=VARCHAR},
+    CRMCode = #{record.crmcode,jdbcType=CHAR},
+    TaxCode = #{record.taxcode,jdbcType=VARCHAR},
+    desc = #{record.desc,jdbcType=VARCHAR},
+    is_deleted = #{record.isDeleted,jdbcType=BIT},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    create_user = #{record.createUser,jdbcType=VARCHAR},
+    update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+    update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

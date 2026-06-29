@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductPhysicsTempMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductPhysicsTemp">
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="length" jdbcType="DECIMAL" property="length" />
+    <result column="width" jdbcType="DECIMAL" property="width" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="netweight" jdbcType="DECIMAL" property="netweight" />
+    <result column="AfterPackaging_length" jdbcType="DECIMAL" property="afterpackagingLength" />
+    <result column="AfterPackaging_width" jdbcType="DECIMAL" property="afterpackagingWidth" />
+    <result column="AfterPackaging_height" jdbcType="DECIMAL" property="afterpackagingHeight" />
+    <result column="CylDiameter" jdbcType="DECIMAL" property="cyldiameter" />
+    <result column="Cylminlen" jdbcType="DECIMAL" property="cylminlen" />
+    <result column="Cylmaxlen" jdbcType="DECIMAL" property="cylmaxlen" />
+    <result column="MSizeMin" jdbcType="DECIMAL" property="msizemin" />
+    <result column="MSizeMax" jdbcType="DECIMAL" property="msizemax" />
+    <result column="MidSize" jdbcType="VARCHAR" property="midsize" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+    <result column="updated_user" jdbcType="VARCHAR" property="updatedUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, length, width, height, weight, netweight, AfterPackaging_length, AfterPackaging_width, 
+    AfterPackaging_height, CylDiameter, Cylminlen, Cylmaxlen, MSizeMin, MSizeMax, MidSize, 
+    is_deleted, created_date, created_user, updated_date, updated_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductPhysicsTempExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_physics_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_physics_temp
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.product_physics_temp
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductPhysicsTempExample">
+    delete from dbo.product_physics_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductPhysicsTemp">
+    insert into dbo.product_physics_temp (ModelNo, length, width, 
+      height, weight, netweight, 
+      AfterPackaging_length, AfterPackaging_width, 
+      AfterPackaging_height, CylDiameter, Cylminlen, 
+      Cylmaxlen, MSizeMin, MSizeMax, 
+      MidSize, is_deleted, created_date, 
+      created_user, updated_date, updated_user
+      )
+    values (#{modelno,jdbcType=VARCHAR}, #{length,jdbcType=DECIMAL}, #{width,jdbcType=DECIMAL}, 
+      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{netweight,jdbcType=DECIMAL}, 
+      #{afterpackagingLength,jdbcType=DECIMAL}, #{afterpackagingWidth,jdbcType=DECIMAL}, 
+      #{afterpackagingHeight,jdbcType=DECIMAL}, #{cyldiameter,jdbcType=DECIMAL}, #{cylminlen,jdbcType=DECIMAL}, 
+      #{cylmaxlen,jdbcType=DECIMAL}, #{msizemin,jdbcType=DECIMAL}, #{msizemax,jdbcType=DECIMAL}, 
+      #{midsize,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedDate,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductPhysicsTemp">
+    insert into dbo.product_physics_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="length != null">
+        length,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="netweight != null">
+        netweight,
+      </if>
+      <if test="afterpackagingLength != null">
+        AfterPackaging_length,
+      </if>
+      <if test="afterpackagingWidth != null">
+        AfterPackaging_width,
+      </if>
+      <if test="afterpackagingHeight != null">
+        AfterPackaging_height,
+      </if>
+      <if test="cyldiameter != null">
+        CylDiameter,
+      </if>
+      <if test="cylminlen != null">
+        Cylminlen,
+      </if>
+      <if test="cylmaxlen != null">
+        Cylmaxlen,
+      </if>
+      <if test="msizemin != null">
+        MSizeMin,
+      </if>
+      <if test="msizemax != null">
+        MSizeMax,
+      </if>
+      <if test="midsize != null">
+        MidSize,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="createdUser != null">
+        created_user,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+      <if test="updatedUser != null">
+        updated_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="netweight != null">
+        #{netweight,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingLength != null">
+        #{afterpackagingLength,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingWidth != null">
+        #{afterpackagingWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingHeight != null">
+        #{afterpackagingHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="cyldiameter != null">
+        #{cyldiameter,jdbcType=DECIMAL},
+      </if>
+      <if test="cylminlen != null">
+        #{cylminlen,jdbcType=DECIMAL},
+      </if>
+      <if test="cylmaxlen != null">
+        #{cylmaxlen,jdbcType=DECIMAL},
+      </if>
+      <if test="msizemin != null">
+        #{msizemin,jdbcType=DECIMAL},
+      </if>
+      <if test="msizemax != null">
+        #{msizemax,jdbcType=DECIMAL},
+      </if>
+      <if test="midsize != null">
+        #{midsize,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null">
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductPhysicsTempExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_physics_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_physics_temp
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.length != null">
+        length = #{record.length,jdbcType=DECIMAL},
+      </if>
+      <if test="record.width != null">
+        width = #{record.width,jdbcType=DECIMAL},
+      </if>
+      <if test="record.height != null">
+        height = #{record.height,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.netweight != null">
+        netweight = #{record.netweight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.afterpackagingLength != null">
+        AfterPackaging_length = #{record.afterpackagingLength,jdbcType=DECIMAL},
+      </if>
+      <if test="record.afterpackagingWidth != null">
+        AfterPackaging_width = #{record.afterpackagingWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="record.afterpackagingHeight != null">
+        AfterPackaging_height = #{record.afterpackagingHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cyldiameter != null">
+        CylDiameter = #{record.cyldiameter,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cylminlen != null">
+        Cylminlen = #{record.cylminlen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cylmaxlen != null">
+        Cylmaxlen = #{record.cylmaxlen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.msizemin != null">
+        MSizeMin = #{record.msizemin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.msizemax != null">
+        MSizeMax = #{record.msizemax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.midsize != null">
+        MidSize = #{record.midsize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        created_user = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedDate != null">
+        updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUser != null">
+        updated_user = #{record.updatedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_physics_temp
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      length = #{record.length,jdbcType=DECIMAL},
+      width = #{record.width,jdbcType=DECIMAL},
+      height = #{record.height,jdbcType=DECIMAL},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      netweight = #{record.netweight,jdbcType=DECIMAL},
+      AfterPackaging_length = #{record.afterpackagingLength,jdbcType=DECIMAL},
+      AfterPackaging_width = #{record.afterpackagingWidth,jdbcType=DECIMAL},
+      AfterPackaging_height = #{record.afterpackagingHeight,jdbcType=DECIMAL},
+      CylDiameter = #{record.cyldiameter,jdbcType=DECIMAL},
+      Cylminlen = #{record.cylminlen,jdbcType=DECIMAL},
+      Cylmaxlen = #{record.cylmaxlen,jdbcType=DECIMAL},
+      MSizeMin = #{record.msizemin,jdbcType=DECIMAL},
+      MSizeMax = #{record.msizemax,jdbcType=DECIMAL},
+      MidSize = #{record.midsize,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      created_user = #{record.createdUser,jdbcType=VARCHAR},
+      updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      updated_user = #{record.updatedUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductPhysicsTemp">
+    update dbo.product_physics_temp
+    <set>
+      <if test="length != null">
+        length = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="netweight != null">
+        netweight = #{netweight,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingLength != null">
+        AfterPackaging_length = #{afterpackagingLength,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingWidth != null">
+        AfterPackaging_width = #{afterpackagingWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="afterpackagingHeight != null">
+        AfterPackaging_height = #{afterpackagingHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="cyldiameter != null">
+        CylDiameter = #{cyldiameter,jdbcType=DECIMAL},
+      </if>
+      <if test="cylminlen != null">
+        Cylminlen = #{cylminlen,jdbcType=DECIMAL},
+      </if>
+      <if test="cylmaxlen != null">
+        Cylmaxlen = #{cylmaxlen,jdbcType=DECIMAL},
+      </if>
+      <if test="msizemin != null">
+        MSizeMin = #{msizemin,jdbcType=DECIMAL},
+      </if>
+      <if test="msizemax != null">
+        MSizeMax = #{msizemax,jdbcType=DECIMAL},
+      </if>
+      <if test="midsize != null">
+        MidSize = #{midsize,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null">
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductPhysicsTemp">
+    update dbo.product_physics_temp
+    set length = #{length,jdbcType=DECIMAL},
+      width = #{width,jdbcType=DECIMAL},
+      height = #{height,jdbcType=DECIMAL},
+      weight = #{weight,jdbcType=DECIMAL},
+      netweight = #{netweight,jdbcType=DECIMAL},
+      AfterPackaging_length = #{afterpackagingLength,jdbcType=DECIMAL},
+      AfterPackaging_width = #{afterpackagingWidth,jdbcType=DECIMAL},
+      AfterPackaging_height = #{afterpackagingHeight,jdbcType=DECIMAL},
+      CylDiameter = #{cyldiameter,jdbcType=DECIMAL},
+      Cylminlen = #{cylminlen,jdbcType=DECIMAL},
+      Cylmaxlen = #{cylmaxlen,jdbcType=DECIMAL},
+      MSizeMin = #{msizemin,jdbcType=DECIMAL},
+      MSizeMax = #{msizemax,jdbcType=DECIMAL},
+      MidSize = #{midsize,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+  </update>
+</mapper>

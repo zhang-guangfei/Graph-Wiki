@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsModelSupplierConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsModelSupplierConfig">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="matchString" jdbcType="VARCHAR" property="matchstring" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="updateUser" jdbcType="NVARCHAR" property="updateuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, matchString, supplierId, updateUser, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsModelSupplierConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_model_supplier_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsModelSupplierConfigExample">
+    delete from dbo.ops_model_supplier_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsModelSupplierConfig">
+    insert into dbo.ops_model_supplier_config (id, matchString, supplierId, 
+      updateUser, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{matchstring,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=NVARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsModelSupplierConfig">
+    insert into dbo.ops_model_supplier_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="matchstring != null">
+        matchString,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="updateuser != null">
+        updateUser,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="matchstring != null">
+        #{matchstring,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsModelSupplierConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_model_supplier_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_model_supplier_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchstring != null">
+        matchString = #{record.matchstring,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateuser != null">
+        updateUser = #{record.updateuser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_model_supplier_config
+    set id = #{record.id,jdbcType=INTEGER},
+      matchString = #{record.matchstring,jdbcType=VARCHAR},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      updateUser = #{record.updateuser,jdbcType=NVARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

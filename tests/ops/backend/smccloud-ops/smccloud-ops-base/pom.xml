@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.smc.smccloud.ops</groupId>
+        <artifactId>smccloud-ops</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>smccloud-ops-base</artifactId>
+    <version>1.0.0</version>
+    <name>smccloud-ops-base</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <!--模块引入-->
+    <dependencies>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-base-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>smccloud-ops-base</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.jks</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.jks</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>

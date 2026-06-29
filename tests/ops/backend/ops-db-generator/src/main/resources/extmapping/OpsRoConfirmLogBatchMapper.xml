@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.OpsRoConfirmLogBatchDao">
+
+
+    <insert id="insertRoConfirmLogBatch" parameterType="List" useGeneratedKeys="false">
+        INSERT INTO ops_ro_confirm_log(invoice_no, do_id, order_id, order_item, split_item_no,cre_time, creator, receive_type, ro_id, pco_id, status,batch_no,invoice_id)
+        values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (
+            #{item.invoiceNo,jdbcType=VARCHAR}, #{item.doId,jdbcType=VARCHAR},#{item.orderId,jdbcType=VARCHAR},
+            #{item.orderItem,jdbcType=INTEGER},#{item.splitItemNo,jdbcType=INTEGER},#{item.creTime,jdbcType=TIMESTAMP},#{item.creator,jdbcType=VARCHAR},
+            #{item.receiveType,jdbcType=VARCHAR},#{item.roId,jdbcType=VARCHAR}, #{item.pcoId,jdbcType=VARCHAR},
+            #{item.status,jdbcType=INTEGER}, #{item.batchNo,jdbcType=VARCHAR},#{item.invoiceId,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

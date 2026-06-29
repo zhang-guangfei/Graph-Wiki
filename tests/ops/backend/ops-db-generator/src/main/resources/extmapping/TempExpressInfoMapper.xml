@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.sales.ops.db.extdao.TempExpressInfoDao">
+
+    <insert id="saveBatch" parameterType="com.sales.ops.db.entity.TempExpressinfo" useGeneratedKeys="false">
+        INSERT INTO temp_expressInfo ([do_id],[order_fno],[order_id],[order_item],[split_no],[ship_date],[express_no],[express_company])
+        VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.doId},#{item.orderFno},#{item.orderId},#{item.orderItem},#{item.splitNo},#{item.shipDate},#{item.expressNo},#{item.expressCompany})
+        </foreach>
+    </insert>
+
+
+</mapper>

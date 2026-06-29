@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.CsAgentImpDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.CsAgentImpDetail">
+    <id column="Id" jdbcType="BIGINT" property="id" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="agent_No" jdbcType="VARCHAR" property="agentNo" />
+    <result column="stock_code" jdbcType="VARCHAR" property="stockCode" />
+    <result column="case_no" jdbcType="VARCHAR" property="caseNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="in_username" jdbcType="VARCHAR" property="inUsername" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="locationNo" jdbcType="VARCHAR" property="locationno" />
+    <result column="remain_qty" jdbcType="INTEGER" property="remainQty" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="prepare_qty" jdbcType="INTEGER" property="prepareQty" />
+    <result column="inventory_keys" jdbcType="NVARCHAR" property="inventoryKeys" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, barcode, agent_No, stock_code, case_no, order_no, model_no, in_time, in_username, 
+    quantity, locationNo, remain_qty, status, prepare_qty, inventory_keys, create_time, 
+    create_user, update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.CsAgentImpDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._cs_agent_imp_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._cs_agent_imp_detail
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo._cs_agent_imp_detail
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.CsAgentImpDetailExample">
+    delete from dbo._cs_agent_imp_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.CsAgentImpDetail">
+    insert into dbo._cs_agent_imp_detail (Id, barcode, agent_No, 
+      stock_code, case_no, order_no, 
+      model_no, in_time, in_username, 
+      quantity, locationNo, remain_qty, 
+      status, prepare_qty, inventory_keys, 
+      create_time, create_user, update_time, 
+      update_user)
+    values (#{id,jdbcType=BIGINT}, #{barcode,jdbcType=VARCHAR}, #{agentNo,jdbcType=VARCHAR}, 
+      #{stockCode,jdbcType=VARCHAR}, #{caseNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{modelNo,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, #{inUsername,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{locationno,jdbcType=VARCHAR}, #{remainQty,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{prepareQty,jdbcType=INTEGER}, #{inventoryKeys,jdbcType=NVARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.CsAgentImpDetail">
+    insert into dbo._cs_agent_imp_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="agentNo != null">
+        agent_No,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="caseNo != null">
+        case_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="inUsername != null">
+        in_username,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="locationno != null">
+        locationNo,
+      </if>
+      <if test="remainQty != null">
+        remain_qty,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="prepareQty != null">
+        prepare_qty,
+      </if>
+      <if test="inventoryKeys != null">
+        inventory_keys,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNo != null">
+        #{agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inUsername != null">
+        #{inUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="remainQty != null">
+        #{remainQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="prepareQty != null">
+        #{prepareQty,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryKeys != null">
+        #{inventoryKeys,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.CsAgentImpDetailExample" resultType="java.lang.Long">
+    select count(*) from dbo._cs_agent_imp_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._cs_agent_imp_detail
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentNo != null">
+        agent_No = #{record.agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseNo != null">
+        case_no = #{record.caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inTime != null">
+        in_time = #{record.inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inUsername != null">
+        in_username = #{record.inUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.locationno != null">
+        locationNo = #{record.locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remainQty != null">
+        remain_qty = #{record.remainQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.prepareQty != null">
+        prepare_qty = #{record.prepareQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventoryKeys != null">
+        inventory_keys = #{record.inventoryKeys,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._cs_agent_imp_detail
+    set Id = #{record.id,jdbcType=BIGINT},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      agent_No = #{record.agentNo,jdbcType=VARCHAR},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      case_no = #{record.caseNo,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      in_time = #{record.inTime,jdbcType=TIMESTAMP},
+      in_username = #{record.inUsername,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      locationNo = #{record.locationno,jdbcType=VARCHAR},
+      remain_qty = #{record.remainQty,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      prepare_qty = #{record.prepareQty,jdbcType=INTEGER},
+      inventory_keys = #{record.inventoryKeys,jdbcType=NVARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.CsAgentImpDetail">
+    update dbo._cs_agent_imp_detail
+    <set>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNo != null">
+        agent_No = #{agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inUsername != null">
+        in_username = #{inUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="locationno != null">
+        locationNo = #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="remainQty != null">
+        remain_qty = #{remainQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="prepareQty != null">
+        prepare_qty = #{prepareQty,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryKeys != null">
+        inventory_keys = #{inventoryKeys,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.CsAgentImpDetail">
+    update dbo._cs_agent_imp_detail
+    set barcode = #{barcode,jdbcType=VARCHAR},
+      agent_No = #{agentNo,jdbcType=VARCHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      case_no = #{caseNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      in_username = #{inUsername,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      locationNo = #{locationno,jdbcType=VARCHAR},
+      remain_qty = #{remainQty,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      prepare_qty = #{prepareQty,jdbcType=INTEGER},
+      inventory_keys = #{inventoryKeys,jdbcType=NVARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

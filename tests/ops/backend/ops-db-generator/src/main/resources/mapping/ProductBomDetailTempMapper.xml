@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductBomDetailTempMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductBomDetailTemp">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="bomId" jdbcType="BIGINT" property="bomid" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="Classify" jdbcType="CHAR" property="classify" />
+    <result column="CreateUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, bomId, ModelNo, Quantity, Classify, CreateUser, CreateTime, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailTempExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_bom_detail_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_bom_detail_temp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.product_bom_detail_temp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailTempExample">
+    delete from dbo.product_bom_detail_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductBomDetailTemp">
+    insert into dbo.product_bom_detail_temp (id, bomId, ModelNo, 
+      Quantity, Classify, CreateUser, 
+      CreateTime, UpdateUser, UpdateTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{bomid,jdbcType=BIGINT}, #{modelno,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{classify,jdbcType=CHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductBomDetailTemp">
+    insert into dbo.product_bom_detail_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bomid != null">
+        bomId,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="classify != null">
+        Classify,
+      </if>
+      <if test="createuser != null">
+        CreateUser,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bomid != null">
+        #{bomid,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="classify != null">
+        #{classify,jdbcType=CHAR},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailTempExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_bom_detail_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_bom_detail_temp
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.bomid != null">
+        bomId = #{record.bomid,jdbcType=BIGINT},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.classify != null">
+        Classify = #{record.classify,jdbcType=CHAR},
+      </if>
+      <if test="record.createuser != null">
+        CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuser != null">
+        UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_bom_detail_temp
+    set id = #{record.id,jdbcType=BIGINT},
+      bomId = #{record.bomid,jdbcType=BIGINT},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      Classify = #{record.classify,jdbcType=CHAR},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductBomDetailTemp">
+    update dbo.product_bom_detail_temp
+    <set>
+      <if test="bomid != null">
+        bomId = #{bomid,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        ModelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        Quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="classify != null">
+        Classify = #{classify,jdbcType=CHAR},
+      </if>
+      <if test="createuser != null">
+        CreateUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductBomDetailTemp">
+    update dbo.product_bom_detail_temp
+    set bomId = #{bomid,jdbcType=BIGINT},
+      ModelNo = #{modelno,jdbcType=VARCHAR},
+      Quantity = #{quantity,jdbcType=INTEGER},
+      Classify = #{classify,jdbcType=CHAR},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

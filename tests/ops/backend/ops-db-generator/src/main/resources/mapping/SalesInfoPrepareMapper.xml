@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SalesInfoPrepareMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.SalesInfoPrepare">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sales_info" jdbcType="VARCHAR" property="salesInfo" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="warehouse" jdbcType="VARCHAR" property="warehouse" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="exp_date" jdbcType="TIMESTAMP" property="expDate" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sales_info, modelno, warehouse, quantity, customer_no, group_customer_no, ppl, 
+    project_code, exp_date, del_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SalesInfoPrepareExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.sales_info_prepare
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.sales_info_prepare
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.sales_info_prepare
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SalesInfoPrepareExample">
+    delete from dbo.sales_info_prepare
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.SalesInfoPrepare">
+    insert into dbo.sales_info_prepare (id, sales_info, modelno, 
+      warehouse, quantity, customer_no, 
+      group_customer_no, ppl, project_code, 
+      exp_date, del_flag)
+    values (#{id,jdbcType=BIGINT}, #{salesInfo,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{warehouse,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{customerNo,jdbcType=VARCHAR}, 
+      #{groupCustomerNo,jdbcType=VARCHAR}, #{ppl,jdbcType=VARCHAR}, #{projectCode,jdbcType=VARCHAR}, 
+      #{expDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.SalesInfoPrepare">
+    insert into dbo.sales_info_prepare
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="salesInfo != null">
+        sales_info,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="warehouse != null">
+        warehouse,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="expDate != null">
+        exp_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="salesInfo != null">
+        #{salesInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouse != null">
+        #{warehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expDate != null">
+        #{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SalesInfoPrepareExample" resultType="java.lang.Long">
+    select count(*) from dbo.sales_info_prepare
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.sales_info_prepare
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.salesInfo != null">
+        sales_info = #{record.salesInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouse != null">
+        warehouse = #{record.warehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expDate != null">
+        exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.sales_info_prepare
+    set id = #{record.id,jdbcType=BIGINT},
+      sales_info = #{record.salesInfo,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      warehouse = #{record.warehouse,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.SalesInfoPrepare">
+    update dbo.sales_info_prepare
+    <set>
+      <if test="salesInfo != null">
+        sales_info = #{salesInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        modelno = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouse != null">
+        warehouse = #{warehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no = #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        ppl = #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expDate != null">
+        exp_date = #{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.SalesInfoPrepare">
+    update dbo.sales_info_prepare
+    set sales_info = #{salesInfo,jdbcType=VARCHAR},
+      modelno = #{modelno,jdbcType=VARCHAR},
+      warehouse = #{warehouse,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      group_customer_no = #{groupCustomerNo,jdbcType=VARCHAR},
+      ppl = #{ppl,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      exp_date = #{expDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

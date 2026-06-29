@@ -1,0 +1,9 @@
+package com.acme.order.mapper;
+
+import com.acme.order.entity.OrderEntity;
+
+public class OrderMapper {
+    public void saveOrder(OrderEntity entity) {}
+    public void updateOrderStatus(String orderNo, String status) {}
+    public void findOrders() {}
+}

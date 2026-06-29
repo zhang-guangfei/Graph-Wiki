@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInventoryMoveLogBakMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInventoryMoveLogBak">
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="qa_status" jdbcType="VARCHAR" property="qaStatus" />
+    <result column="prepare_quantity" jdbcType="INTEGER" property="prepareQuantity" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="inventory_property_id" jdbcType="BIGINT" property="inventoryPropertyId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    log_id, warehouse_code, inventory_status, quantity, unit, qa_status, prepare_quantity, 
+    modelno, inventory_property_id, price, in_time, version, delflag, cre_time, creator, 
+    modify_time, modifier, order_id, order_item, inventory_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBakExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_move_log_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_move_log_bak
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inventory_move_log_bak
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBakExample">
+    delete from dbo.ops_inventory_move_log_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBak">
+    insert into dbo.ops_inventory_move_log_bak (log_id, warehouse_code, inventory_status, 
+      quantity, unit, qa_status, 
+      prepare_quantity, modelno, inventory_property_id, 
+      price, in_time, version, 
+      delflag, cre_time, creator, 
+      modify_time, modifier, order_id, 
+      order_item, inventory_id)
+    values (#{logId,jdbcType=BIGINT}, #{warehouseCode,jdbcType=VARCHAR}, #{inventoryStatus,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{qaStatus,jdbcType=VARCHAR}, 
+      #{prepareQuantity,jdbcType=INTEGER}, #{modelno,jdbcType=VARCHAR}, #{inventoryPropertyId,jdbcType=BIGINT}, 
+      #{price,jdbcType=DECIMAL}, #{inTime,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
+      #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{orderItem,jdbcType=VARCHAR}, #{inventoryId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBak">
+    insert into dbo.ops_inventory_move_log_bak
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="qaStatus != null">
+        qa_status,
+      </if>
+      <if test="prepareQuantity != null">
+        prepare_quantity,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="inventoryPropertyId != null">
+        inventory_property_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="qaStatus != null">
+        #{qaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareQuantity != null">
+        #{prepareQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryPropertyId != null">
+        #{inventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBakExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inventory_move_log_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inventory_move_log_bak
+    <set>
+      <if test="record.logId != null">
+        log_id = #{record.logId,jdbcType=BIGINT},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qaStatus != null">
+        qa_status = #{record.qaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepareQuantity != null">
+        prepare_quantity = #{record.prepareQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryPropertyId != null">
+        inventory_property_id = #{record.inventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.inTime != null">
+        in_time = #{record.inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inventory_move_log_bak
+    set log_id = #{record.logId,jdbcType=BIGINT},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      qa_status = #{record.qaStatus,jdbcType=VARCHAR},
+      prepare_quantity = #{record.prepareQuantity,jdbcType=INTEGER},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      inventory_property_id = #{record.inventoryPropertyId,jdbcType=BIGINT},
+      price = #{record.price,jdbcType=DECIMAL},
+      in_time = #{record.inTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=BIGINT},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBak">
+    update dbo.ops_inventory_move_log_bak
+    <set>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="qaStatus != null">
+        qa_status = #{qaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareQuantity != null">
+        prepare_quantity = #{prepareQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        modelno = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryPropertyId != null">
+        inventory_property_id = #{inventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInventoryMoveLogBak">
+    update dbo.ops_inventory_move_log_bak
+    set warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
+      qa_status = #{qaStatus,jdbcType=VARCHAR},
+      prepare_quantity = #{prepareQuantity,jdbcType=INTEGER},
+      modelno = #{modelno,jdbcType=VARCHAR},
+      inventory_property_id = #{inventoryPropertyId,jdbcType=BIGINT},
+      price = #{price,jdbcType=DECIMAL},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      inventory_id = #{inventoryId,jdbcType=BIGINT}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+</mapper>

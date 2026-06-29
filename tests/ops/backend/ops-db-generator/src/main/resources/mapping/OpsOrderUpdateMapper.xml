@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsOrderUpdateMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsOrderUpdate">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="range" jdbcType="INTEGER" property="range" />
+    <result column="s_ck_type" jdbcType="VARCHAR" property="sCkType" />
+    <result column="t_ck_type" jdbcType="VARCHAR" property="tCkType" />
+    <result column="s_package_type" jdbcType="VARCHAR" property="sPackageType" />
+    <result column="t_package_type" jdbcType="VARCHAR" property="tPackageType" />
+    <result column="s_delivery_date" jdbcType="TIMESTAMP" property="sDeliveryDate" />
+    <result column="t_delivery_date" jdbcType="TIMESTAMP" property="tDeliveryDate" />
+    <result column="s_address" jdbcType="VARCHAR" property="sAddress" />
+    <result column="t_address" jdbcType="VARCHAR" property="tAddress" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="success" jdbcType="VARCHAR" property="success" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="s_specialFlag" jdbcType="VARCHAR" property="sSpecialflag" />
+    <result column="t_specialFlag" jdbcType="INTEGER" property="tSpecialflag" />
+    <result column="s_carried" jdbcType="VARCHAR" property="sCarried" />
+    <result column="t_carried" jdbcType="VARCHAR" property="tCarried" />
+    <result column="assModel" jdbcType="BIT" property="assmodel" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderid, order_item, order_type, range, s_ck_type, t_ck_type, s_package_type, 
+    t_package_type, s_delivery_date, t_delivery_date, s_address, t_address, reason, success, 
+    cre_time, creator, s_specialFlag, t_specialFlag, s_carried, t_carried, assModel
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_update
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_order_update
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateExample">
+    delete from dbo.ops_order_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsOrderUpdate">
+    insert into dbo.ops_order_update (id, orderid, order_item, 
+      order_type, range, s_ck_type, 
+      t_ck_type, s_package_type, t_package_type, 
+      s_delivery_date, t_delivery_date, s_address, 
+      t_address, reason, success, 
+      cre_time, creator, s_specialFlag, 
+      t_specialFlag, s_carried, t_carried, 
+      assModel)
+    values (#{id,jdbcType=BIGINT}, #{orderid,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=VARCHAR}, #{range,jdbcType=INTEGER}, #{sCkType,jdbcType=VARCHAR}, 
+      #{tCkType,jdbcType=VARCHAR}, #{sPackageType,jdbcType=VARCHAR}, #{tPackageType,jdbcType=VARCHAR}, 
+      #{sDeliveryDate,jdbcType=TIMESTAMP}, #{tDeliveryDate,jdbcType=TIMESTAMP}, #{sAddress,jdbcType=VARCHAR}, 
+      #{tAddress,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{success,jdbcType=VARCHAR}, 
+      #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{sSpecialflag,jdbcType=VARCHAR}, 
+      #{tSpecialflag,jdbcType=INTEGER}, #{sCarried,jdbcType=VARCHAR}, #{tCarried,jdbcType=VARCHAR}, 
+      #{assmodel,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsOrderUpdate">
+    insert into dbo.ops_order_update
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="range != null">
+        range,
+      </if>
+      <if test="sCkType != null">
+        s_ck_type,
+      </if>
+      <if test="tCkType != null">
+        t_ck_type,
+      </if>
+      <if test="sPackageType != null">
+        s_package_type,
+      </if>
+      <if test="tPackageType != null">
+        t_package_type,
+      </if>
+      <if test="sDeliveryDate != null">
+        s_delivery_date,
+      </if>
+      <if test="tDeliveryDate != null">
+        t_delivery_date,
+      </if>
+      <if test="sAddress != null">
+        s_address,
+      </if>
+      <if test="tAddress != null">
+        t_address,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="success != null">
+        success,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="sSpecialflag != null">
+        s_specialFlag,
+      </if>
+      <if test="tSpecialflag != null">
+        t_specialFlag,
+      </if>
+      <if test="sCarried != null">
+        s_carried,
+      </if>
+      <if test="tCarried != null">
+        t_carried,
+      </if>
+      <if test="assmodel != null">
+        assModel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null">
+        #{range,jdbcType=INTEGER},
+      </if>
+      <if test="sCkType != null">
+        #{sCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="tCkType != null">
+        #{tCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="sPackageType != null">
+        #{sPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="tPackageType != null">
+        #{tPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="sDeliveryDate != null">
+        #{sDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tDeliveryDate != null">
+        #{tDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sAddress != null">
+        #{sAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tAddress != null">
+        #{tAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="success != null">
+        #{success,jdbcType=VARCHAR},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="sSpecialflag != null">
+        #{sSpecialflag,jdbcType=VARCHAR},
+      </if>
+      <if test="tSpecialflag != null">
+        #{tSpecialflag,jdbcType=INTEGER},
+      </if>
+      <if test="sCarried != null">
+        #{sCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="tCarried != null">
+        #{tCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="assmodel != null">
+        #{assmodel,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_order_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_order_update
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderid != null">
+        orderid = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.range != null">
+        range = #{record.range,jdbcType=INTEGER},
+      </if>
+      <if test="record.sCkType != null">
+        s_ck_type = #{record.sCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tCkType != null">
+        t_ck_type = #{record.tCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sPackageType != null">
+        s_package_type = #{record.sPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tPackageType != null">
+        t_package_type = #{record.tPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sDeliveryDate != null">
+        s_delivery_date = #{record.sDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tDeliveryDate != null">
+        t_delivery_date = #{record.tDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sAddress != null">
+        s_address = #{record.sAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tAddress != null">
+        t_address = #{record.tAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.success != null">
+        success = #{record.success,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sSpecialflag != null">
+        s_specialFlag = #{record.sSpecialflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tSpecialflag != null">
+        t_specialFlag = #{record.tSpecialflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.sCarried != null">
+        s_carried = #{record.sCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tCarried != null">
+        t_carried = #{record.tCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assmodel != null">
+        assModel = #{record.assmodel,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_order_update
+    set id = #{record.id,jdbcType=BIGINT},
+      orderid = #{record.orderid,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=VARCHAR},
+      range = #{record.range,jdbcType=INTEGER},
+      s_ck_type = #{record.sCkType,jdbcType=VARCHAR},
+      t_ck_type = #{record.tCkType,jdbcType=VARCHAR},
+      s_package_type = #{record.sPackageType,jdbcType=VARCHAR},
+      t_package_type = #{record.tPackageType,jdbcType=VARCHAR},
+      s_delivery_date = #{record.sDeliveryDate,jdbcType=TIMESTAMP},
+      t_delivery_date = #{record.tDeliveryDate,jdbcType=TIMESTAMP},
+      s_address = #{record.sAddress,jdbcType=VARCHAR},
+      t_address = #{record.tAddress,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      success = #{record.success,jdbcType=VARCHAR},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      s_specialFlag = #{record.sSpecialflag,jdbcType=VARCHAR},
+      t_specialFlag = #{record.tSpecialflag,jdbcType=INTEGER},
+      s_carried = #{record.sCarried,jdbcType=VARCHAR},
+      t_carried = #{record.tCarried,jdbcType=VARCHAR},
+      assModel = #{record.assmodel,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsOrderUpdate">
+    update dbo.ops_order_update
+    <set>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null">
+        range = #{range,jdbcType=INTEGER},
+      </if>
+      <if test="sCkType != null">
+        s_ck_type = #{sCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="tCkType != null">
+        t_ck_type = #{tCkType,jdbcType=VARCHAR},
+      </if>
+      <if test="sPackageType != null">
+        s_package_type = #{sPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="tPackageType != null">
+        t_package_type = #{tPackageType,jdbcType=VARCHAR},
+      </if>
+      <if test="sDeliveryDate != null">
+        s_delivery_date = #{sDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tDeliveryDate != null">
+        t_delivery_date = #{tDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sAddress != null">
+        s_address = #{sAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tAddress != null">
+        t_address = #{tAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="success != null">
+        success = #{success,jdbcType=VARCHAR},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="sSpecialflag != null">
+        s_specialFlag = #{sSpecialflag,jdbcType=VARCHAR},
+      </if>
+      <if test="tSpecialflag != null">
+        t_specialFlag = #{tSpecialflag,jdbcType=INTEGER},
+      </if>
+      <if test="sCarried != null">
+        s_carried = #{sCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="tCarried != null">
+        t_carried = #{tCarried,jdbcType=VARCHAR},
+      </if>
+      <if test="assmodel != null">
+        assModel = #{assmodel,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsOrderUpdate">
+    update dbo.ops_order_update
+    set orderid = #{orderid,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      range = #{range,jdbcType=INTEGER},
+      s_ck_type = #{sCkType,jdbcType=VARCHAR},
+      t_ck_type = #{tCkType,jdbcType=VARCHAR},
+      s_package_type = #{sPackageType,jdbcType=VARCHAR},
+      t_package_type = #{tPackageType,jdbcType=VARCHAR},
+      s_delivery_date = #{sDeliveryDate,jdbcType=TIMESTAMP},
+      t_delivery_date = #{tDeliveryDate,jdbcType=TIMESTAMP},
+      s_address = #{sAddress,jdbcType=VARCHAR},
+      t_address = #{tAddress,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      success = #{success,jdbcType=VARCHAR},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      s_specialFlag = #{sSpecialflag,jdbcType=VARCHAR},
+      t_specialFlag = #{tSpecialflag,jdbcType=INTEGER},
+      s_carried = #{sCarried,jdbcType=VARCHAR},
+      t_carried = #{tCarried,jdbcType=VARCHAR},
+      assModel = #{assmodel,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

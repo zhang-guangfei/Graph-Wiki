@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TransferInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TransferInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="logistics_status" jdbcType="INTEGER" property="logisticsStatus" />
+    <result column="end_receive_warehouse" jdbcType="VARCHAR" property="endReceiveWarehouse" />
+    <result column="sign_date" jdbcType="TIMESTAMP" property="signDate" />
+    <result column="sign_user" jdbcType="NVARCHAR" property="signUser" />
+    <result column="sign_warehouse" jdbcType="VARCHAR" property="signWarehouse" />
+    <result column="ship_date" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="carried" jdbcType="VARCHAR" property="carried" />
+    <result column="express_code" jdbcType="VARCHAR" property="expressCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="NVARCHAR" property="updator" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, invoice_id, invoice_no, logistics_status, end_receive_warehouse, sign_date, sign_user, 
+    sign_warehouse, ship_date, carried, express_code, create_time, creator, update_time, 
+    updator, delflag, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TransferInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.transfer_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.transfer_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.transfer_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TransferInfoExample">
+    delete from dbo.transfer_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TransferInfo">
+    insert into dbo.transfer_info (id, invoice_id, invoice_no, 
+      logistics_status, end_receive_warehouse, sign_date, 
+      sign_user, sign_warehouse, ship_date, 
+      carried, express_code, create_time, 
+      creator, update_time, updator, 
+      delflag, remark)
+    values (#{id,jdbcType=BIGINT}, #{invoiceId,jdbcType=BIGINT}, #{invoiceNo,jdbcType=VARCHAR}, 
+      #{logisticsStatus,jdbcType=INTEGER}, #{endReceiveWarehouse,jdbcType=VARCHAR}, #{signDate,jdbcType=TIMESTAMP}, 
+      #{signUser,jdbcType=NVARCHAR}, #{signWarehouse,jdbcType=VARCHAR}, #{shipDate,jdbcType=TIMESTAMP}, 
+      #{carried,jdbcType=VARCHAR}, #{expressCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=NVARCHAR}, 
+      #{delflag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TransferInfo">
+    insert into dbo.transfer_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="logisticsStatus != null">
+        logistics_status,
+      </if>
+      <if test="endReceiveWarehouse != null">
+        end_receive_warehouse,
+      </if>
+      <if test="signDate != null">
+        sign_date,
+      </if>
+      <if test="signUser != null">
+        sign_user,
+      </if>
+      <if test="signWarehouse != null">
+        sign_warehouse,
+      </if>
+      <if test="shipDate != null">
+        ship_date,
+      </if>
+      <if test="carried != null">
+        carried,
+      </if>
+      <if test="expressCode != null">
+        express_code,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStatus != null">
+        #{logisticsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="endReceiveWarehouse != null">
+        #{endReceiveWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null">
+        #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signUser != null">
+        #{signUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="signWarehouse != null">
+        #{signWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="shipDate != null">
+        #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carried != null">
+        #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TransferInfoExample" resultType="java.lang.Long">
+    select count(*) from dbo.transfer_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.transfer_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logisticsStatus != null">
+        logistics_status = #{record.logisticsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.endReceiveWarehouse != null">
+        end_receive_warehouse = #{record.endReceiveWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signDate != null">
+        sign_date = #{record.signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.signUser != null">
+        sign_user = #{record.signUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.signWarehouse != null">
+        sign_warehouse = #{record.signWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipDate != null">
+        ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.carried != null">
+        carried = #{record.carried,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressCode != null">
+        express_code = #{record.expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.transfer_info
+    set id = #{record.id,jdbcType=BIGINT},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      logistics_status = #{record.logisticsStatus,jdbcType=INTEGER},
+      end_receive_warehouse = #{record.endReceiveWarehouse,jdbcType=VARCHAR},
+      sign_date = #{record.signDate,jdbcType=TIMESTAMP},
+      sign_user = #{record.signUser,jdbcType=NVARCHAR},
+      sign_warehouse = #{record.signWarehouse,jdbcType=VARCHAR},
+      ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      carried = #{record.carried,jdbcType=VARCHAR},
+      express_code = #{record.expressCode,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=NVARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TransferInfo">
+    update dbo.transfer_info
+    <set>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStatus != null">
+        logistics_status = #{logisticsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="endReceiveWarehouse != null">
+        end_receive_warehouse = #{endReceiveWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null">
+        sign_date = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signUser != null">
+        sign_user = #{signUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="signWarehouse != null">
+        sign_warehouse = #{signWarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="shipDate != null">
+        ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carried != null">
+        carried = #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        updator = #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TransferInfo">
+    update dbo.transfer_info
+    set invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      logistics_status = #{logisticsStatus,jdbcType=INTEGER},
+      end_receive_warehouse = #{endReceiveWarehouse,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=TIMESTAMP},
+      sign_user = #{signUser,jdbcType=NVARCHAR},
+      sign_warehouse = #{signWarehouse,jdbcType=VARCHAR},
+      ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      carried = #{carried,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=NVARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

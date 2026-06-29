@@ -1,0 +1,39 @@
+.work_date_css{
+  .el-calendar__body {
+      padding: 12px 20px 35px;
+      background: rgb(96, 111, 143);
+      font-size: 18px;
+      color: #010111;
+      border-radius: 0 0 5px 5px
+  }
+  
+  .el-calendar__header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid #EBEEF5;
+      background: rgb(206, 211, 216);
+      color: white;
+      border-radius:5px 5px 0 0
+  }
+  
+  .el-calendar-table thead th {
+      padding: 12px 0;
+      color: white;
+      font-weight: 400;
+  }
+  
+  .el-calendar-table .el-calendar-day {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 8px;
+      height: 85px;
+      background: rgb(247, 249, 252);
+      font-size: 18px;
+  }
+  
+}

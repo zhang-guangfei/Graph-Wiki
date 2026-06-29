@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsSysLogMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsSysLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="status" jdbcType="NVARCHAR" property="status" />
+    <result column="title" jdbcType="NVARCHAR" property="title" />
+    <result column="serviceid" jdbcType="NVARCHAR" property="serviceid" />
+    <result column="createid" jdbcType="NVARCHAR" property="createid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="remoteaddr" jdbcType="NVARCHAR" property="remoteaddr" />
+    <result column="useragent" jdbcType="NVARCHAR" property="useragent" />
+    <result column="requesturi" jdbcType="NVARCHAR" property="requesturi" />
+    <result column="method" jdbcType="NVARCHAR" property="method" />
+    <result column="params" jdbcType="NVARCHAR" property="params" />
+    <result column="time" jdbcType="BIGINT" property="time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, status, title, serviceid, createid, createtime, remoteaddr, useragent, requesturi, 
+    method, params, time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsSysLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsSysLogExample">
+    delete from dbo.ops_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsSysLog">
+    insert into dbo.ops_sys_log (id, status, title, 
+      serviceid, createid, createtime, 
+      remoteaddr, useragent, requesturi, 
+      method, params, time
+      )
+    values (#{id,jdbcType=BIGINT}, #{status,jdbcType=NVARCHAR}, #{title,jdbcType=NVARCHAR}, 
+      #{serviceid,jdbcType=NVARCHAR}, #{createid,jdbcType=NVARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{remoteaddr,jdbcType=NVARCHAR}, #{useragent,jdbcType=NVARCHAR}, #{requesturi,jdbcType=NVARCHAR}, 
+      #{method,jdbcType=NVARCHAR}, #{params,jdbcType=NVARCHAR}, #{time,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsSysLog">
+    insert into dbo.ops_sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="serviceid != null">
+        serviceid,
+      </if>
+      <if test="createid != null">
+        createid,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="remoteaddr != null">
+        remoteaddr,
+      </if>
+      <if test="useragent != null">
+        useragent,
+      </if>
+      <if test="requesturi != null">
+        requesturi,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=NVARCHAR},
+      </if>
+      <if test="serviceid != null">
+        #{serviceid,jdbcType=NVARCHAR},
+      </if>
+      <if test="createid != null">
+        #{createid,jdbcType=NVARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remoteaddr != null">
+        #{remoteaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="useragent != null">
+        #{useragent,jdbcType=NVARCHAR},
+      </if>
+      <if test="requesturi != null">
+        #{requesturi,jdbcType=NVARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=NVARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=NVARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsSysLogExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_sys_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.serviceid != null">
+        serviceid = #{record.serviceid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createid != null">
+        createid = #{record.createid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remoteaddr != null">
+        remoteaddr = #{record.remoteaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.useragent != null">
+        useragent = #{record.useragent,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.requesturi != null">
+        requesturi = #{record.requesturi,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.method != null">
+        method = #{record.method,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_sys_log
+    set id = #{record.id,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=NVARCHAR},
+      title = #{record.title,jdbcType=NVARCHAR},
+      serviceid = #{record.serviceid,jdbcType=NVARCHAR},
+      createid = #{record.createid,jdbcType=NVARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      remoteaddr = #{record.remoteaddr,jdbcType=NVARCHAR},
+      useragent = #{record.useragent,jdbcType=NVARCHAR},
+      requesturi = #{record.requesturi,jdbcType=NVARCHAR},
+      method = #{record.method,jdbcType=NVARCHAR},
+      params = #{record.params,jdbcType=NVARCHAR},
+      time = #{record.time,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsSysLog">
+    update dbo.ops_sys_log
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=NVARCHAR},
+      </if>
+      <if test="serviceid != null">
+        serviceid = #{serviceid,jdbcType=NVARCHAR},
+      </if>
+      <if test="createid != null">
+        createid = #{createid,jdbcType=NVARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remoteaddr != null">
+        remoteaddr = #{remoteaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="useragent != null">
+        useragent = #{useragent,jdbcType=NVARCHAR},
+      </if>
+      <if test="requesturi != null">
+        requesturi = #{requesturi,jdbcType=NVARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=NVARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=NVARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsSysLog">
+    update dbo.ops_sys_log
+    set status = #{status,jdbcType=NVARCHAR},
+      title = #{title,jdbcType=NVARCHAR},
+      serviceid = #{serviceid,jdbcType=NVARCHAR},
+      createid = #{createid,jdbcType=NVARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      remoteaddr = #{remoteaddr,jdbcType=NVARCHAR},
+      useragent = #{useragent,jdbcType=NVARCHAR},
+      requesturi = #{requesturi,jdbcType=NVARCHAR},
+      method = #{method,jdbcType=NVARCHAR},
+      params = #{params,jdbcType=NVARCHAR},
+      time = #{time,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

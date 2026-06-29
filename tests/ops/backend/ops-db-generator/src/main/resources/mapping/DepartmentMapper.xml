@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Department">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="DeptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="OldDeptNo" jdbcType="VARCHAR" property="olddeptno" />
+    <result column="DeptName" jdbcType="NVARCHAR" property="deptname" />
+    <result column="Address" jdbcType="NVARCHAR" property="address" />
+    <result column="TeleNo" jdbcType="VARCHAR" property="teleno" />
+    <result column="FaxNo" jdbcType="VARCHAR" property="faxno" />
+    <result column="SuperIntendent" jdbcType="VARCHAR" property="superintendent" />
+    <result column="InsidePsn" jdbcType="VARCHAR" property="insidepsn" />
+    <result column="EmailAddr" jdbcType="VARCHAR" property="emailaddr" />
+    <result column="EmailAC" jdbcType="VARCHAR" property="emailac" />
+    <result column="StockCode" jdbcType="CHAR" property="stockcode" />
+    <result column="StateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="PostCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="ProvinceCode" jdbcType="VARCHAR" property="provincecode" />
+    <result column="ProvinceName" jdbcType="VARCHAR" property="provincename" />
+    <result column="DeptENName" jdbcType="NVARCHAR" property="deptenname" />
+    <result column="GPSLng" jdbcType="DOUBLE" property="gpslng" />
+    <result column="GPSLat" jdbcType="DOUBLE" property="gpslat" />
+    <result column="ParentDeptNo" jdbcType="VARCHAR" property="parentdeptno" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="sub_warehouse_code" jdbcType="VARCHAR" property="subWarehouseCode" />
+    <result column="ReportEmail" jdbcType="NVARCHAR" property="reportemail" />
+    <result column="trade_companyId" jdbcType="VARCHAR" property="tradeCompanyid" />
+    <result column="CityCode" jdbcType="VARCHAR" property="citycode" />
+    <result column="DlvDay" jdbcType="INTEGER" property="dlvday" />
+    <result column="IsValid" jdbcType="BIT" property="isvalid" />
+    <result column="emailOrder" jdbcType="NVARCHAR" property="emailorder" />
+    <result column="EmailStock" jdbcType="NVARCHAR" property="emailstock" />
+    <result column="EmailCSStock" jdbcType="NVARCHAR" property="emailcsstock" />
+    <result column="EmailSubStock" jdbcType="NVARCHAR" property="emailsubstock" />
+    <result column="EmailUserStock" jdbcType="NVARCHAR" property="emailuserstock" />
+    <result column="EmailDirector" jdbcType="NVARCHAR" property="emaildirector" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, DeptNo, OldDeptNo, DeptName, Address, TeleNo, FaxNo, SuperIntendent, InsidePsn, 
+    EmailAddr, EmailAC, StockCode, StateCode, PostCode, ProvinceCode, ProvinceName, DeptENName, 
+    GPSLng, GPSLat, ParentDeptNo, warehouse_code, sub_warehouse_code, ReportEmail, trade_companyId, 
+    CityCode, DlvDay, IsValid, emailOrder, EmailStock, EmailCSStock, EmailSubStock, EmailUserStock, 
+    EmailDirector
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.DepartmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.department
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.department
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.DepartmentExample">
+    delete from dbo.department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Department">
+    insert into dbo.department (id, DeptNo, OldDeptNo, 
+      DeptName, Address, TeleNo, 
+      FaxNo, SuperIntendent, InsidePsn, 
+      EmailAddr, EmailAC, StockCode, 
+      StateCode, PostCode, ProvinceCode, 
+      ProvinceName, DeptENName, GPSLng, 
+      GPSLat, ParentDeptNo, warehouse_code, 
+      sub_warehouse_code, ReportEmail, trade_companyId, 
+      CityCode, DlvDay, IsValid, 
+      emailOrder, EmailStock, EmailCSStock, 
+      EmailSubStock, EmailUserStock, EmailDirector
+      )
+    values (#{id,jdbcType=INTEGER}, #{deptno,jdbcType=VARCHAR}, #{olddeptno,jdbcType=VARCHAR}, 
+      #{deptname,jdbcType=NVARCHAR}, #{address,jdbcType=NVARCHAR}, #{teleno,jdbcType=VARCHAR}, 
+      #{faxno,jdbcType=VARCHAR}, #{superintendent,jdbcType=VARCHAR}, #{insidepsn,jdbcType=VARCHAR}, 
+      #{emailaddr,jdbcType=VARCHAR}, #{emailac,jdbcType=VARCHAR}, #{stockcode,jdbcType=CHAR}, 
+      #{statecode,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{provincecode,jdbcType=VARCHAR}, 
+      #{provincename,jdbcType=VARCHAR}, #{deptenname,jdbcType=NVARCHAR}, #{gpslng,jdbcType=DOUBLE}, 
+      #{gpslat,jdbcType=DOUBLE}, #{parentdeptno,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, 
+      #{subWarehouseCode,jdbcType=VARCHAR}, #{reportemail,jdbcType=NVARCHAR}, #{tradeCompanyid,jdbcType=VARCHAR}, 
+      #{citycode,jdbcType=VARCHAR}, #{dlvday,jdbcType=INTEGER}, #{isvalid,jdbcType=BIT}, 
+      #{emailorder,jdbcType=NVARCHAR}, #{emailstock,jdbcType=NVARCHAR}, #{emailcsstock,jdbcType=NVARCHAR}, 
+      #{emailsubstock,jdbcType=NVARCHAR}, #{emailuserstock,jdbcType=NVARCHAR}, #{emaildirector,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Department">
+    insert into dbo.department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="olddeptno != null">
+        OldDeptNo,
+      </if>
+      <if test="deptname != null">
+        DeptName,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="teleno != null">
+        TeleNo,
+      </if>
+      <if test="faxno != null">
+        FaxNo,
+      </if>
+      <if test="superintendent != null">
+        SuperIntendent,
+      </if>
+      <if test="insidepsn != null">
+        InsidePsn,
+      </if>
+      <if test="emailaddr != null">
+        EmailAddr,
+      </if>
+      <if test="emailac != null">
+        EmailAC,
+      </if>
+      <if test="stockcode != null">
+        StockCode,
+      </if>
+      <if test="statecode != null">
+        StateCode,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="provincecode != null">
+        ProvinceCode,
+      </if>
+      <if test="provincename != null">
+        ProvinceName,
+      </if>
+      <if test="deptenname != null">
+        DeptENName,
+      </if>
+      <if test="gpslng != null">
+        GPSLng,
+      </if>
+      <if test="gpslat != null">
+        GPSLat,
+      </if>
+      <if test="parentdeptno != null">
+        ParentDeptNo,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="subWarehouseCode != null">
+        sub_warehouse_code,
+      </if>
+      <if test="reportemail != null">
+        ReportEmail,
+      </if>
+      <if test="tradeCompanyid != null">
+        trade_companyId,
+      </if>
+      <if test="citycode != null">
+        CityCode,
+      </if>
+      <if test="dlvday != null">
+        DlvDay,
+      </if>
+      <if test="isvalid != null">
+        IsValid,
+      </if>
+      <if test="emailorder != null">
+        emailOrder,
+      </if>
+      <if test="emailstock != null">
+        EmailStock,
+      </if>
+      <if test="emailcsstock != null">
+        EmailCSStock,
+      </if>
+      <if test="emailsubstock != null">
+        EmailSubStock,
+      </if>
+      <if test="emailuserstock != null">
+        EmailUserStock,
+      </if>
+      <if test="emaildirector != null">
+        EmailDirector,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="olddeptno != null">
+        #{olddeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null">
+        #{deptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="teleno != null">
+        #{teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="faxno != null">
+        #{faxno,jdbcType=VARCHAR},
+      </if>
+      <if test="superintendent != null">
+        #{superintendent,jdbcType=VARCHAR},
+      </if>
+      <if test="insidepsn != null">
+        #{insidepsn,jdbcType=VARCHAR},
+      </if>
+      <if test="emailaddr != null">
+        #{emailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="emailac != null">
+        #{emailac,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null">
+        #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null">
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="deptenname != null">
+        #{deptenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="gpslng != null">
+        #{gpslng,jdbcType=DOUBLE},
+      </if>
+      <if test="gpslat != null">
+        #{gpslat,jdbcType=DOUBLE},
+      </if>
+      <if test="parentdeptno != null">
+        #{parentdeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subWarehouseCode != null">
+        #{subWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportemail != null">
+        #{reportemail,jdbcType=NVARCHAR},
+      </if>
+      <if test="tradeCompanyid != null">
+        #{tradeCompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvday != null">
+        #{dlvday,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null">
+        #{isvalid,jdbcType=BIT},
+      </if>
+      <if test="emailorder != null">
+        #{emailorder,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailstock != null">
+        #{emailstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailcsstock != null">
+        #{emailcsstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailsubstock != null">
+        #{emailsubstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailuserstock != null">
+        #{emailuserstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emaildirector != null">
+        #{emaildirector,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.DepartmentExample" resultType="java.lang.Long">
+    select count(*) from dbo.department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.department
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olddeptno != null">
+        OldDeptNo = #{record.olddeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptname != null">
+        DeptName = #{record.deptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.teleno != null">
+        TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faxno != null">
+        FaxNo = #{record.faxno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superintendent != null">
+        SuperIntendent = #{record.superintendent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insidepsn != null">
+        InsidePsn = #{record.insidepsn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailaddr != null">
+        EmailAddr = #{record.emailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailac != null">
+        EmailAC = #{record.emailac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockcode != null">
+        StockCode = #{record.stockcode,jdbcType=CHAR},
+      </if>
+      <if test="record.statecode != null">
+        StateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null">
+        ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincename != null">
+        ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptenname != null">
+        DeptENName = #{record.deptenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.gpslng != null">
+        GPSLng = #{record.gpslng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gpslat != null">
+        GPSLat = #{record.gpslat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.parentdeptno != null">
+        ParentDeptNo = #{record.parentdeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subWarehouseCode != null">
+        sub_warehouse_code = #{record.subWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportemail != null">
+        ReportEmail = #{record.reportemail,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.tradeCompanyid != null">
+        trade_companyId = #{record.tradeCompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null">
+        CityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvday != null">
+        DlvDay = #{record.dlvday,jdbcType=INTEGER},
+      </if>
+      <if test="record.isvalid != null">
+        IsValid = #{record.isvalid,jdbcType=BIT},
+      </if>
+      <if test="record.emailorder != null">
+        emailOrder = #{record.emailorder,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.emailstock != null">
+        EmailStock = #{record.emailstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.emailcsstock != null">
+        EmailCSStock = #{record.emailcsstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.emailsubstock != null">
+        EmailSubStock = #{record.emailsubstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.emailuserstock != null">
+        EmailUserStock = #{record.emailuserstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.emaildirector != null">
+        EmailDirector = #{record.emaildirector,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.department
+    set id = #{record.id,jdbcType=INTEGER},
+      DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      OldDeptNo = #{record.olddeptno,jdbcType=VARCHAR},
+      DeptName = #{record.deptname,jdbcType=NVARCHAR},
+      Address = #{record.address,jdbcType=NVARCHAR},
+      TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      FaxNo = #{record.faxno,jdbcType=VARCHAR},
+      SuperIntendent = #{record.superintendent,jdbcType=VARCHAR},
+      InsidePsn = #{record.insidepsn,jdbcType=VARCHAR},
+      EmailAddr = #{record.emailaddr,jdbcType=VARCHAR},
+      EmailAC = #{record.emailac,jdbcType=VARCHAR},
+      StockCode = #{record.stockcode,jdbcType=CHAR},
+      StateCode = #{record.statecode,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      DeptENName = #{record.deptenname,jdbcType=NVARCHAR},
+      GPSLng = #{record.gpslng,jdbcType=DOUBLE},
+      GPSLat = #{record.gpslat,jdbcType=DOUBLE},
+      ParentDeptNo = #{record.parentdeptno,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      sub_warehouse_code = #{record.subWarehouseCode,jdbcType=VARCHAR},
+      ReportEmail = #{record.reportemail,jdbcType=NVARCHAR},
+      trade_companyId = #{record.tradeCompanyid,jdbcType=VARCHAR},
+      CityCode = #{record.citycode,jdbcType=VARCHAR},
+      DlvDay = #{record.dlvday,jdbcType=INTEGER},
+      IsValid = #{record.isvalid,jdbcType=BIT},
+      emailOrder = #{record.emailorder,jdbcType=NVARCHAR},
+      EmailStock = #{record.emailstock,jdbcType=NVARCHAR},
+      EmailCSStock = #{record.emailcsstock,jdbcType=NVARCHAR},
+      EmailSubStock = #{record.emailsubstock,jdbcType=NVARCHAR},
+      EmailUserStock = #{record.emailuserstock,jdbcType=NVARCHAR},
+      EmailDirector = #{record.emaildirector,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Department">
+    update dbo.department
+    <set>
+      <if test="deptno != null">
+        DeptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="olddeptno != null">
+        OldDeptNo = #{olddeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null">
+        DeptName = #{deptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="teleno != null">
+        TeleNo = #{teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="faxno != null">
+        FaxNo = #{faxno,jdbcType=VARCHAR},
+      </if>
+      <if test="superintendent != null">
+        SuperIntendent = #{superintendent,jdbcType=VARCHAR},
+      </if>
+      <if test="insidepsn != null">
+        InsidePsn = #{insidepsn,jdbcType=VARCHAR},
+      </if>
+      <if test="emailaddr != null">
+        EmailAddr = #{emailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="emailac != null">
+        EmailAC = #{emailac,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null">
+        StockCode = #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="statecode != null">
+        StateCode = #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null">
+        ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null">
+        ProvinceName = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="deptenname != null">
+        DeptENName = #{deptenname,jdbcType=NVARCHAR},
+      </if>
+      <if test="gpslng != null">
+        GPSLng = #{gpslng,jdbcType=DOUBLE},
+      </if>
+      <if test="gpslat != null">
+        GPSLat = #{gpslat,jdbcType=DOUBLE},
+      </if>
+      <if test="parentdeptno != null">
+        ParentDeptNo = #{parentdeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subWarehouseCode != null">
+        sub_warehouse_code = #{subWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportemail != null">
+        ReportEmail = #{reportemail,jdbcType=NVARCHAR},
+      </if>
+      <if test="tradeCompanyid != null">
+        trade_companyId = #{tradeCompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        CityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvday != null">
+        DlvDay = #{dlvday,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null">
+        IsValid = #{isvalid,jdbcType=BIT},
+      </if>
+      <if test="emailorder != null">
+        emailOrder = #{emailorder,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailstock != null">
+        EmailStock = #{emailstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailcsstock != null">
+        EmailCSStock = #{emailcsstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailsubstock != null">
+        EmailSubStock = #{emailsubstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emailuserstock != null">
+        EmailUserStock = #{emailuserstock,jdbcType=NVARCHAR},
+      </if>
+      <if test="emaildirector != null">
+        EmailDirector = #{emaildirector,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Department">
+    update dbo.department
+    set DeptNo = #{deptno,jdbcType=VARCHAR},
+      OldDeptNo = #{olddeptno,jdbcType=VARCHAR},
+      DeptName = #{deptname,jdbcType=NVARCHAR},
+      Address = #{address,jdbcType=NVARCHAR},
+      TeleNo = #{teleno,jdbcType=VARCHAR},
+      FaxNo = #{faxno,jdbcType=VARCHAR},
+      SuperIntendent = #{superintendent,jdbcType=VARCHAR},
+      InsidePsn = #{insidepsn,jdbcType=VARCHAR},
+      EmailAddr = #{emailaddr,jdbcType=VARCHAR},
+      EmailAC = #{emailac,jdbcType=VARCHAR},
+      StockCode = #{stockcode,jdbcType=CHAR},
+      StateCode = #{statecode,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      ProvinceName = #{provincename,jdbcType=VARCHAR},
+      DeptENName = #{deptenname,jdbcType=NVARCHAR},
+      GPSLng = #{gpslng,jdbcType=DOUBLE},
+      GPSLat = #{gpslat,jdbcType=DOUBLE},
+      ParentDeptNo = #{parentdeptno,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      sub_warehouse_code = #{subWarehouseCode,jdbcType=VARCHAR},
+      ReportEmail = #{reportemail,jdbcType=NVARCHAR},
+      trade_companyId = #{tradeCompanyid,jdbcType=VARCHAR},
+      CityCode = #{citycode,jdbcType=VARCHAR},
+      DlvDay = #{dlvday,jdbcType=INTEGER},
+      IsValid = #{isvalid,jdbcType=BIT},
+      emailOrder = #{emailorder,jdbcType=NVARCHAR},
+      EmailStock = #{emailstock,jdbcType=NVARCHAR},
+      EmailCSStock = #{emailcsstock,jdbcType=NVARCHAR},
+      EmailSubStock = #{emailsubstock,jdbcType=NVARCHAR},
+      EmailUserStock = #{emailuserstock,jdbcType=NVARCHAR},
+      EmailDirector = #{emaildirector,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

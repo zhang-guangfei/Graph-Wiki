@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.InventoryReportMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.InventoryReport">
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="warehouse_name" jdbcType="NVARCHAR" property="warehouseName" />
+    <result column="warehouse_type" jdbcType="VARCHAR" property="warehouseType" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="inventory_property_id" jdbcType="BIGINT" property="inventoryPropertyId" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="sales_info_no" jdbcType="VARCHAR" property="salesInfoNo" />
+    <result column="qtyN" jdbcType="INTEGER" property="qtyn" />
+    <result column="pqtyN" jdbcType="INTEGER" property="pqtyn" />
+    <result column="qtyW" jdbcType="INTEGER" property="qtyw" />
+    <result column="pqtyW" jdbcType="INTEGER" property="pqtyw" />
+    <result column="qtyD" jdbcType="INTEGER" property="qtyd" />
+    <result column="pqtyD" jdbcType="INTEGER" property="pqtyd" />
+    <result column="qtyC" jdbcType="INTEGER" property="qtyc" />
+    <result column="pqtyC" jdbcType="INTEGER" property="pqtyc" />
+    <result column="qtyP" jdbcType="INTEGER" property="qtyp" />
+    <result column="pqtyP" jdbcType="INTEGER" property="pqtyp" />
+    <result column="qtyR" jdbcType="INTEGER" property="qtyr" />
+    <result column="pqtyR" jdbcType="INTEGER" property="pqtyr" />
+    <result column="qty_available" jdbcType="INTEGER" property="qtyAvailable" />
+    <result column="DeptCode" jdbcType="VARCHAR" property="deptcode" />
+    <result column="rqty_available" jdbcType="INTEGER" property="rqtyAvailable" />
+    <result column="rflag" jdbcType="INTEGER" property="rflag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    warehouse_code, warehouse_name, warehouse_type, modelno, inventory_type_code, inventory_property_id, 
+    customer_no, ppl, project_code, group_customer_no, sales_info_no, qtyN, pqtyN, qtyW, 
+    pqtyW, qtyD, pqtyD, qtyC, pqtyC, qtyP, pqtyP, qtyR, pqtyR, qty_available, DeptCode, 
+    rqty_available, rflag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.InventoryReportExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.inventory_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.InventoryReportExample">
+    delete from dbo.inventory_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.InventoryReport">
+    insert into dbo.inventory_report (warehouse_code, warehouse_name, warehouse_type, 
+      modelno, inventory_type_code, inventory_property_id, 
+      customer_no, ppl, project_code, 
+      group_customer_no, sales_info_no, qtyN, 
+      pqtyN, qtyW, pqtyW, 
+      qtyD, pqtyD, qtyC, 
+      pqtyC, qtyP, pqtyP, 
+      qtyR, pqtyR, qty_available, 
+      DeptCode, rqty_available, rflag
+      )
+    values (#{warehouseCode,jdbcType=VARCHAR}, #{warehouseName,jdbcType=NVARCHAR}, #{warehouseType,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{inventoryTypeCode,jdbcType=VARCHAR}, #{inventoryPropertyId,jdbcType=BIGINT}, 
+      #{customerNo,jdbcType=VARCHAR}, #{ppl,jdbcType=VARCHAR}, #{projectCode,jdbcType=VARCHAR}, 
+      #{groupCustomerNo,jdbcType=VARCHAR}, #{salesInfoNo,jdbcType=VARCHAR}, #{qtyn,jdbcType=INTEGER}, 
+      #{pqtyn,jdbcType=INTEGER}, #{qtyw,jdbcType=INTEGER}, #{pqtyw,jdbcType=INTEGER}, 
+      #{qtyd,jdbcType=INTEGER}, #{pqtyd,jdbcType=INTEGER}, #{qtyc,jdbcType=INTEGER}, 
+      #{pqtyc,jdbcType=INTEGER}, #{qtyp,jdbcType=INTEGER}, #{pqtyp,jdbcType=INTEGER}, 
+      #{qtyr,jdbcType=INTEGER}, #{pqtyr,jdbcType=INTEGER}, #{qtyAvailable,jdbcType=INTEGER}, 
+      #{deptcode,jdbcType=VARCHAR}, #{rqtyAvailable,jdbcType=INTEGER}, #{rflag,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.InventoryReport">
+    insert into dbo.inventory_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name,
+      </if>
+      <if test="warehouseType != null">
+        warehouse_type,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="inventoryPropertyId != null">
+        inventory_property_id,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="salesInfoNo != null">
+        sales_info_no,
+      </if>
+      <if test="qtyn != null">
+        qtyN,
+      </if>
+      <if test="pqtyn != null">
+        pqtyN,
+      </if>
+      <if test="qtyw != null">
+        qtyW,
+      </if>
+      <if test="pqtyw != null">
+        pqtyW,
+      </if>
+      <if test="qtyd != null">
+        qtyD,
+      </if>
+      <if test="pqtyd != null">
+        pqtyD,
+      </if>
+      <if test="qtyc != null">
+        qtyC,
+      </if>
+      <if test="pqtyc != null">
+        pqtyC,
+      </if>
+      <if test="qtyp != null">
+        qtyP,
+      </if>
+      <if test="pqtyp != null">
+        pqtyP,
+      </if>
+      <if test="qtyr != null">
+        qtyR,
+      </if>
+      <if test="pqtyr != null">
+        pqtyR,
+      </if>
+      <if test="qtyAvailable != null">
+        qty_available,
+      </if>
+      <if test="deptcode != null">
+        DeptCode,
+      </if>
+      <if test="rqtyAvailable != null">
+        rqty_available,
+      </if>
+      <if test="rflag != null">
+        rflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseName != null">
+        #{warehouseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="warehouseType != null">
+        #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryPropertyId != null">
+        #{inventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesInfoNo != null">
+        #{salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyn != null">
+        #{qtyn,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyn != null">
+        #{pqtyn,jdbcType=INTEGER},
+      </if>
+      <if test="qtyw != null">
+        #{qtyw,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyw != null">
+        #{pqtyw,jdbcType=INTEGER},
+      </if>
+      <if test="qtyd != null">
+        #{qtyd,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyd != null">
+        #{pqtyd,jdbcType=INTEGER},
+      </if>
+      <if test="qtyc != null">
+        #{qtyc,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyc != null">
+        #{pqtyc,jdbcType=INTEGER},
+      </if>
+      <if test="qtyp != null">
+        #{qtyp,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyp != null">
+        #{pqtyp,jdbcType=INTEGER},
+      </if>
+      <if test="qtyr != null">
+        #{qtyr,jdbcType=INTEGER},
+      </if>
+      <if test="pqtyr != null">
+        #{pqtyr,jdbcType=INTEGER},
+      </if>
+      <if test="qtyAvailable != null">
+        #{qtyAvailable,jdbcType=INTEGER},
+      </if>
+      <if test="deptcode != null">
+        #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="rqtyAvailable != null">
+        #{rqtyAvailable,jdbcType=INTEGER},
+      </if>
+      <if test="rflag != null">
+        #{rflag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.InventoryReportExample" resultType="java.lang.Long">
+    select count(*) from dbo.inventory_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.inventory_report
+    <set>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseName != null">
+        warehouse_name = #{record.warehouseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.warehouseType != null">
+        warehouse_type = #{record.warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryPropertyId != null">
+        inventory_property_id = #{record.inventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salesInfoNo != null">
+        sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyn != null">
+        qtyN = #{record.qtyn,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyn != null">
+        pqtyN = #{record.pqtyn,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyw != null">
+        qtyW = #{record.qtyw,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyw != null">
+        pqtyW = #{record.pqtyw,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyd != null">
+        qtyD = #{record.qtyd,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyd != null">
+        pqtyD = #{record.pqtyd,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyc != null">
+        qtyC = #{record.qtyc,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyc != null">
+        pqtyC = #{record.pqtyc,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyp != null">
+        qtyP = #{record.qtyp,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyp != null">
+        pqtyP = #{record.pqtyp,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyr != null">
+        qtyR = #{record.qtyr,jdbcType=INTEGER},
+      </if>
+      <if test="record.pqtyr != null">
+        pqtyR = #{record.pqtyr,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyAvailable != null">
+        qty_available = #{record.qtyAvailable,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptcode != null">
+        DeptCode = #{record.deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rqtyAvailable != null">
+        rqty_available = #{record.rqtyAvailable,jdbcType=INTEGER},
+      </if>
+      <if test="record.rflag != null">
+        rflag = #{record.rflag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.inventory_report
+    set warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      warehouse_name = #{record.warehouseName,jdbcType=NVARCHAR},
+      warehouse_type = #{record.warehouseType,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      inventory_property_id = #{record.inventoryPropertyId,jdbcType=BIGINT},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      qtyN = #{record.qtyn,jdbcType=INTEGER},
+      pqtyN = #{record.pqtyn,jdbcType=INTEGER},
+      qtyW = #{record.qtyw,jdbcType=INTEGER},
+      pqtyW = #{record.pqtyw,jdbcType=INTEGER},
+      qtyD = #{record.qtyd,jdbcType=INTEGER},
+      pqtyD = #{record.pqtyd,jdbcType=INTEGER},
+      qtyC = #{record.qtyc,jdbcType=INTEGER},
+      pqtyC = #{record.pqtyc,jdbcType=INTEGER},
+      qtyP = #{record.qtyp,jdbcType=INTEGER},
+      pqtyP = #{record.pqtyp,jdbcType=INTEGER},
+      qtyR = #{record.qtyr,jdbcType=INTEGER},
+      pqtyR = #{record.pqtyr,jdbcType=INTEGER},
+      qty_available = #{record.qtyAvailable,jdbcType=INTEGER},
+      DeptCode = #{record.deptcode,jdbcType=VARCHAR},
+      rqty_available = #{record.rqtyAvailable,jdbcType=INTEGER},
+      rflag = #{record.rflag,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

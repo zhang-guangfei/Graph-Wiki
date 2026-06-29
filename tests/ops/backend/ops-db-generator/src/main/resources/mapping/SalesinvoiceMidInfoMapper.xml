@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SalesinvoiceMidInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.SalesinvoiceMidInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderno" jdbcType="VARCHAR" property="orderno" />
+    <result column="customerno" jdbcType="VARCHAR" property="customerno" />
+    <result column="userno" jdbcType="VARCHAR" property="userno" />
+    <result column="deptno" jdbcType="VARCHAR" property="deptno" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="feerate" jdbcType="DECIMAL" property="feerate" />
+    <result column="tradecompanyid" jdbcType="VARCHAR" property="tradecompanyid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="inserttime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="isnew" jdbcType="VARCHAR" property="isnew" />
+    <result column="applyno" jdbcType="VARCHAR" property="applyno" />
+    <result column="applyno_item" jdbcType="INTEGER" property="applynoItem" />
+    <result column="canbackquantity" jdbcType="INTEGER" property="canbackquantity" />
+    <result column="tocustomerstock" jdbcType="CHAR" property="tocustomerstock" />
+    <result column="neworderno" jdbcType="VARCHAR" property="neworderno" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="rorder_item" jdbcType="INTEGER" property="rorderItem" />
+    <result column="state_code" jdbcType="VARCHAR" property="stateCode" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderno, customerno, userno, deptno, modelno, quantity, price, feerate, tradecompanyid, 
+    type, remark, inserttime, isnew, applyno, applyno_item, canbackquantity, tocustomerstock, 
+    neworderno, rorder_no, rorder_item, state_code, updatetime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.salesinvoice_mid_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.salesinvoice_mid_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.salesinvoice_mid_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfoExample">
+    delete from dbo.salesinvoice_mid_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfo">
+    insert into dbo.salesinvoice_mid_info (id, orderno, customerno, 
+      userno, deptno, modelno, 
+      quantity, price, feerate, 
+      tradecompanyid, type, remark, 
+      inserttime, isnew, applyno, 
+      applyno_item, canbackquantity, tocustomerstock, 
+      neworderno, rorder_no, rorder_item, 
+      state_code, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, 
+      #{userno,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{feerate,jdbcType=DECIMAL}, 
+      #{tradecompanyid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{inserttime,jdbcType=TIMESTAMP}, #{isnew,jdbcType=VARCHAR}, #{applyno,jdbcType=VARCHAR}, 
+      #{applynoItem,jdbcType=INTEGER}, #{canbackquantity,jdbcType=INTEGER}, #{tocustomerstock,jdbcType=CHAR}, 
+      #{neworderno,jdbcType=VARCHAR}, #{rorderNo,jdbcType=VARCHAR}, #{rorderItem,jdbcType=INTEGER}, 
+      #{stateCode,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfo">
+    insert into dbo.salesinvoice_mid_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="customerno != null">
+        customerno,
+      </if>
+      <if test="userno != null">
+        userno,
+      </if>
+      <if test="deptno != null">
+        deptno,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="feerate != null">
+        feerate,
+      </if>
+      <if test="tradecompanyid != null">
+        tradecompanyid,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="inserttime != null">
+        inserttime,
+      </if>
+      <if test="isnew != null">
+        isnew,
+      </if>
+      <if test="applyno != null">
+        applyno,
+      </if>
+      <if test="applynoItem != null">
+        applyno_item,
+      </if>
+      <if test="canbackquantity != null">
+        canbackquantity,
+      </if>
+      <if test="tocustomerstock != null">
+        tocustomerstock,
+      </if>
+      <if test="neworderno != null">
+        neworderno,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="stateCode != null">
+        state_code,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="feerate != null">
+        #{feerate,jdbcType=DECIMAL},
+      </if>
+      <if test="tradecompanyid != null">
+        #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isnew != null">
+        #{isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="applyno != null">
+        #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="applynoItem != null">
+        #{applynoItem,jdbcType=INTEGER},
+      </if>
+      <if test="canbackquantity != null">
+        #{canbackquantity,jdbcType=INTEGER},
+      </if>
+      <if test="tocustomerstock != null">
+        #{tocustomerstock,jdbcType=CHAR},
+      </if>
+      <if test="neworderno != null">
+        #{neworderno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="stateCode != null">
+        #{stateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfoExample" resultType="java.lang.Long">
+    select count(*) from dbo.salesinvoice_mid_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.salesinvoice_mid_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderno != null">
+        orderno = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        customerno = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userno != null">
+        userno = #{record.userno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptno != null">
+        deptno = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feerate != null">
+        feerate = #{record.feerate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tradecompanyid != null">
+        tradecompanyid = #{record.tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inserttime != null">
+        inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isnew != null">
+        isnew = #{record.isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyno != null">
+        applyno = #{record.applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applynoItem != null">
+        applyno_item = #{record.applynoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.canbackquantity != null">
+        canbackquantity = #{record.canbackquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.tocustomerstock != null">
+        tocustomerstock = #{record.tocustomerstock,jdbcType=CHAR},
+      </if>
+      <if test="record.neworderno != null">
+        neworderno = #{record.neworderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.stateCode != null">
+        state_code = #{record.stateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.salesinvoice_mid_info
+    set id = #{record.id,jdbcType=INTEGER},
+      orderno = #{record.orderno,jdbcType=VARCHAR},
+      customerno = #{record.customerno,jdbcType=VARCHAR},
+      userno = #{record.userno,jdbcType=VARCHAR},
+      deptno = #{record.deptno,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      feerate = #{record.feerate,jdbcType=DECIMAL},
+      tradecompanyid = #{record.tradecompanyid,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      isnew = #{record.isnew,jdbcType=VARCHAR},
+      applyno = #{record.applyno,jdbcType=VARCHAR},
+      applyno_item = #{record.applynoItem,jdbcType=INTEGER},
+      canbackquantity = #{record.canbackquantity,jdbcType=INTEGER},
+      tocustomerstock = #{record.tocustomerstock,jdbcType=CHAR},
+      neworderno = #{record.neworderno,jdbcType=VARCHAR},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      state_code = #{record.stateCode,jdbcType=VARCHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfo">
+    update dbo.salesinvoice_mid_info
+    <set>
+      <if test="orderno != null">
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        customerno = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null">
+        userno = #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        deptno = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        modelno = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="feerate != null">
+        feerate = #{feerate,jdbcType=DECIMAL},
+      </if>
+      <if test="tradecompanyid != null">
+        tradecompanyid = #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inserttime != null">
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isnew != null">
+        isnew = #{isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="applyno != null">
+        applyno = #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="applynoItem != null">
+        applyno_item = #{applynoItem,jdbcType=INTEGER},
+      </if>
+      <if test="canbackquantity != null">
+        canbackquantity = #{canbackquantity,jdbcType=INTEGER},
+      </if>
+      <if test="tocustomerstock != null">
+        tocustomerstock = #{tocustomerstock,jdbcType=CHAR},
+      </if>
+      <if test="neworderno != null">
+        neworderno = #{neworderno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        rorder_item = #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="stateCode != null">
+        state_code = #{stateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.SalesinvoiceMidInfo">
+    update dbo.salesinvoice_mid_info
+    set orderno = #{orderno,jdbcType=VARCHAR},
+      customerno = #{customerno,jdbcType=VARCHAR},
+      userno = #{userno,jdbcType=VARCHAR},
+      deptno = #{deptno,jdbcType=VARCHAR},
+      modelno = #{modelno,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      feerate = #{feerate,jdbcType=DECIMAL},
+      tradecompanyid = #{tradecompanyid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      isnew = #{isnew,jdbcType=VARCHAR},
+      applyno = #{applyno,jdbcType=VARCHAR},
+      applyno_item = #{applynoItem,jdbcType=INTEGER},
+      canbackquantity = #{canbackquantity,jdbcType=INTEGER},
+      tocustomerstock = #{tocustomerstock,jdbcType=CHAR},
+      neworderno = #{neworderno,jdbcType=VARCHAR},
+      rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{rorderItem,jdbcType=INTEGER},
+      state_code = #{stateCode,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

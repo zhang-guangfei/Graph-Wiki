@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.DboTblCustpropertyMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.DboTblCustproperty">
+    <result column="PId" jdbcType="NVARCHAR" property="pid" />
+    <result column="Code" jdbcType="NVARCHAR" property="code" />
+    <result column="ProdCountry_Code" jdbcType="NVARCHAR" property="prodcountryCode" />
+    <result column="Description" jdbcType="NVARCHAR" property="description" />
+    <result column="FullName" jdbcType="NVARCHAR" property="fullname" />
+    <result column="FileName" jdbcType="NVARCHAR" property="filename" />
+    <result column="PriceTerm" jdbcType="NVARCHAR" property="priceterm" />
+    <result column="InvNO" jdbcType="NVARCHAR" property="invno" />
+    <result column="UpdDate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="Company_Code_Db81" jdbcType="NVARCHAR" property="companyCodeDb81" />
+    <result column="CounTry_Code_Db81" jdbcType="NVARCHAR" property="countryCodeDb81" />
+    <result column="Currency_Type" jdbcType="NVARCHAR" property="currencyType" />
+    <result column="Fee_Initial" jdbcType="DECIMAL" property="feeInitial" />
+    <result column="Fee_Add" jdbcType="DECIMAL" property="feeAdd" />
+    <result column="EmailAddr" jdbcType="NVARCHAR" property="emailaddr" />
+    <result column="InvoiceNo_max" jdbcType="NVARCHAR" property="invoicenoMax" />
+    <result column="Remaek" jdbcType="NVARCHAR" property="remaek" />
+    <result column="Foreigncurrency_flag" jdbcType="NVARCHAR" property="foreigncurrencyFlag" />
+    <result column="FinanceName" jdbcType="NVARCHAR" property="financename" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    PId, Code, ProdCountry_Code, Description, FullName, FileName, PriceTerm, InvNO, UpdDate, 
+    Company_Code_Db81, CounTry_Code_Db81, Currency_Type, Fee_Initial, Fee_Add, EmailAddr, 
+    InvoiceNo_max, Remaek, Foreigncurrency_flag, FinanceName
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.DboTblCustpropertyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.dbo_Tbl_CustProperty
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.DboTblCustpropertyExample">
+    delete from dbo.dbo_Tbl_CustProperty
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.DboTblCustproperty">
+    insert into dbo.dbo_Tbl_CustProperty (PId, Code, ProdCountry_Code, 
+      Description, FullName, FileName, 
+      PriceTerm, InvNO, UpdDate, 
+      Company_Code_Db81, CounTry_Code_Db81, Currency_Type, 
+      Fee_Initial, Fee_Add, EmailAddr, 
+      InvoiceNo_max, Remaek, Foreigncurrency_flag, 
+      FinanceName)
+    values (#{pid,jdbcType=NVARCHAR}, #{code,jdbcType=NVARCHAR}, #{prodcountryCode,jdbcType=NVARCHAR}, 
+      #{description,jdbcType=NVARCHAR}, #{fullname,jdbcType=NVARCHAR}, #{filename,jdbcType=NVARCHAR}, 
+      #{priceterm,jdbcType=NVARCHAR}, #{invno,jdbcType=NVARCHAR}, #{upddate,jdbcType=TIMESTAMP}, 
+      #{companyCodeDb81,jdbcType=NVARCHAR}, #{countryCodeDb81,jdbcType=NVARCHAR}, #{currencyType,jdbcType=NVARCHAR}, 
+      #{feeInitial,jdbcType=DECIMAL}, #{feeAdd,jdbcType=DECIMAL}, #{emailaddr,jdbcType=NVARCHAR}, 
+      #{invoicenoMax,jdbcType=NVARCHAR}, #{remaek,jdbcType=NVARCHAR}, #{foreigncurrencyFlag,jdbcType=NVARCHAR}, 
+      #{financename,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.DboTblCustproperty">
+    insert into dbo.dbo_Tbl_CustProperty
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        PId,
+      </if>
+      <if test="code != null">
+        Code,
+      </if>
+      <if test="prodcountryCode != null">
+        ProdCountry_Code,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+      <if test="fullname != null">
+        FullName,
+      </if>
+      <if test="filename != null">
+        FileName,
+      </if>
+      <if test="priceterm != null">
+        PriceTerm,
+      </if>
+      <if test="invno != null">
+        InvNO,
+      </if>
+      <if test="upddate != null">
+        UpdDate,
+      </if>
+      <if test="companyCodeDb81 != null">
+        Company_Code_Db81,
+      </if>
+      <if test="countryCodeDb81 != null">
+        CounTry_Code_Db81,
+      </if>
+      <if test="currencyType != null">
+        Currency_Type,
+      </if>
+      <if test="feeInitial != null">
+        Fee_Initial,
+      </if>
+      <if test="feeAdd != null">
+        Fee_Add,
+      </if>
+      <if test="emailaddr != null">
+        EmailAddr,
+      </if>
+      <if test="invoicenoMax != null">
+        InvoiceNo_max,
+      </if>
+      <if test="remaek != null">
+        Remaek,
+      </if>
+      <if test="foreigncurrencyFlag != null">
+        Foreigncurrency_flag,
+      </if>
+      <if test="financename != null">
+        FinanceName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=NVARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=NVARCHAR},
+      </if>
+      <if test="prodcountryCode != null">
+        #{prodcountryCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=NVARCHAR},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=NVARCHAR},
+      </if>
+      <if test="priceterm != null">
+        #{priceterm,jdbcType=NVARCHAR},
+      </if>
+      <if test="invno != null">
+        #{invno,jdbcType=NVARCHAR},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyCodeDb81 != null">
+        #{companyCodeDb81,jdbcType=NVARCHAR},
+      </if>
+      <if test="countryCodeDb81 != null">
+        #{countryCodeDb81,jdbcType=NVARCHAR},
+      </if>
+      <if test="currencyType != null">
+        #{currencyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="feeInitial != null">
+        #{feeInitial,jdbcType=DECIMAL},
+      </if>
+      <if test="feeAdd != null">
+        #{feeAdd,jdbcType=DECIMAL},
+      </if>
+      <if test="emailaddr != null">
+        #{emailaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoicenoMax != null">
+        #{invoicenoMax,jdbcType=NVARCHAR},
+      </if>
+      <if test="remaek != null">
+        #{remaek,jdbcType=NVARCHAR},
+      </if>
+      <if test="foreigncurrencyFlag != null">
+        #{foreigncurrencyFlag,jdbcType=NVARCHAR},
+      </if>
+      <if test="financename != null">
+        #{financename,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.DboTblCustpropertyExample" resultType="java.lang.Long">
+    select count(*) from dbo.dbo_Tbl_CustProperty
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.dbo_Tbl_CustProperty
+    <set>
+      <if test="record.pid != null">
+        PId = #{record.pid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.code != null">
+        Code = #{record.code,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.prodcountryCode != null">
+        ProdCountry_Code = #{record.prodcountryCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.description != null">
+        Description = #{record.description,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.fullname != null">
+        FullName = #{record.fullname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.filename != null">
+        FileName = #{record.filename,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.priceterm != null">
+        PriceTerm = #{record.priceterm,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.invno != null">
+        InvNO = #{record.invno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.upddate != null">
+        UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.companyCodeDb81 != null">
+        Company_Code_Db81 = #{record.companyCodeDb81,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.countryCodeDb81 != null">
+        CounTry_Code_Db81 = #{record.countryCodeDb81,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.currencyType != null">
+        Currency_Type = #{record.currencyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.feeInitial != null">
+        Fee_Initial = #{record.feeInitial,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeAdd != null">
+        Fee_Add = #{record.feeAdd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.emailaddr != null">
+        EmailAddr = #{record.emailaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.invoicenoMax != null">
+        InvoiceNo_max = #{record.invoicenoMax,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remaek != null">
+        Remaek = #{record.remaek,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.foreigncurrencyFlag != null">
+        Foreigncurrency_flag = #{record.foreigncurrencyFlag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.financename != null">
+        FinanceName = #{record.financename,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.dbo_Tbl_CustProperty
+    set PId = #{record.pid,jdbcType=NVARCHAR},
+      Code = #{record.code,jdbcType=NVARCHAR},
+      ProdCountry_Code = #{record.prodcountryCode,jdbcType=NVARCHAR},
+      Description = #{record.description,jdbcType=NVARCHAR},
+      FullName = #{record.fullname,jdbcType=NVARCHAR},
+      FileName = #{record.filename,jdbcType=NVARCHAR},
+      PriceTerm = #{record.priceterm,jdbcType=NVARCHAR},
+      InvNO = #{record.invno,jdbcType=NVARCHAR},
+      UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      Company_Code_Db81 = #{record.companyCodeDb81,jdbcType=NVARCHAR},
+      CounTry_Code_Db81 = #{record.countryCodeDb81,jdbcType=NVARCHAR},
+      Currency_Type = #{record.currencyType,jdbcType=NVARCHAR},
+      Fee_Initial = #{record.feeInitial,jdbcType=DECIMAL},
+      Fee_Add = #{record.feeAdd,jdbcType=DECIMAL},
+      EmailAddr = #{record.emailaddr,jdbcType=NVARCHAR},
+      InvoiceNo_max = #{record.invoicenoMax,jdbcType=NVARCHAR},
+      Remaek = #{record.remaek,jdbcType=NVARCHAR},
+      Foreigncurrency_flag = #{record.foreigncurrencyFlag,jdbcType=NVARCHAR},
+      FinanceName = #{record.financename,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

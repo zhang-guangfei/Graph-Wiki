@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TempDoconfirmMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TempDoconfirm">
+    <result column="rorder_no" jdbcType="NVARCHAR" property="rorderNo" />
+    <result column="rorder_item" jdbcType="NVARCHAR" property="rorderItem" />
+    <result column="do_id" jdbcType="NVARCHAR" property="doId" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="ops_out_qty" jdbcType="INTEGER" property="opsOutQty" />
+    <result column="wms_out_qty" jdbcType="INTEGER" property="wmsOutQty" />
+    <result column="qty_diff" jdbcType="INTEGER" property="qtyDiff" />
+    <result column="do_delflag" jdbcType="NVARCHAR" property="doDelflag" />
+    <result column="status" jdbcType="NVARCHAR" property="status" />
+    <result column="gather_warehouse_code" jdbcType="NVARCHAR" property="gatherWarehouseCode" />
+    <result column="ship_date" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="order_id_13" jdbcType="NVARCHAR" property="orderId13" />
+    <result column="opt_flg" jdbcType="NVARCHAR" property="optFlg" />
+    <result column="opt_status" jdbcType="VARCHAR" property="optStatus" />
+    <result column="opt_msg" jdbcType="VARCHAR" property="optMsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rorder_no, rorder_item, do_id, qty, ops_out_qty, wms_out_qty, qty_diff, do_delflag, 
+    status, gather_warehouse_code, ship_date, order_id_13, opt_flg, opt_status, opt_msg
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TempDoconfirmExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._temp_doConfirm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TempDoconfirmExample">
+    delete from dbo._temp_doConfirm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TempDoconfirm">
+    insert into dbo._temp_doConfirm (rorder_no, rorder_item, do_id, 
+      qty, ops_out_qty, wms_out_qty, 
+      qty_diff, do_delflag, status, 
+      gather_warehouse_code, ship_date, order_id_13, 
+      opt_flg, opt_status, opt_msg
+      )
+    values (#{rorderNo,jdbcType=NVARCHAR}, #{rorderItem,jdbcType=NVARCHAR}, #{doId,jdbcType=NVARCHAR}, 
+      #{qty,jdbcType=INTEGER}, #{opsOutQty,jdbcType=INTEGER}, #{wmsOutQty,jdbcType=INTEGER}, 
+      #{qtyDiff,jdbcType=INTEGER}, #{doDelflag,jdbcType=NVARCHAR}, #{status,jdbcType=NVARCHAR}, 
+      #{gatherWarehouseCode,jdbcType=NVARCHAR}, #{shipDate,jdbcType=TIMESTAMP}, #{orderId13,jdbcType=NVARCHAR}, 
+      #{optFlg,jdbcType=NVARCHAR}, #{optStatus,jdbcType=VARCHAR}, #{optMsg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TempDoconfirm">
+    insert into dbo._temp_doConfirm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="opsOutQty != null">
+        ops_out_qty,
+      </if>
+      <if test="wmsOutQty != null">
+        wms_out_qty,
+      </if>
+      <if test="qtyDiff != null">
+        qty_diff,
+      </if>
+      <if test="doDelflag != null">
+        do_delflag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="gatherWarehouseCode != null">
+        gather_warehouse_code,
+      </if>
+      <if test="shipDate != null">
+        ship_date,
+      </if>
+      <if test="orderId13 != null">
+        order_id_13,
+      </if>
+      <if test="optFlg != null">
+        opt_flg,
+      </if>
+      <if test="optStatus != null">
+        opt_status,
+      </if>
+      <if test="optMsg != null">
+        opt_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=NVARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="opsOutQty != null">
+        #{opsOutQty,jdbcType=INTEGER},
+      </if>
+      <if test="wmsOutQty != null">
+        #{wmsOutQty,jdbcType=INTEGER},
+      </if>
+      <if test="qtyDiff != null">
+        #{qtyDiff,jdbcType=INTEGER},
+      </if>
+      <if test="doDelflag != null">
+        #{doDelflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="gatherWarehouseCode != null">
+        #{gatherWarehouseCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="shipDate != null">
+        #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId13 != null">
+        #{orderId13,jdbcType=NVARCHAR},
+      </if>
+      <if test="optFlg != null">
+        #{optFlg,jdbcType=NVARCHAR},
+      </if>
+      <if test="optStatus != null">
+        #{optStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="optMsg != null">
+        #{optMsg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TempDoconfirmExample" resultType="java.lang.Long">
+    select count(*) from dbo._temp_doConfirm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._temp_doConfirm
+    <set>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.opsOutQty != null">
+        ops_out_qty = #{record.opsOutQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.wmsOutQty != null">
+        wms_out_qty = #{record.wmsOutQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyDiff != null">
+        qty_diff = #{record.qtyDiff,jdbcType=INTEGER},
+      </if>
+      <if test="record.doDelflag != null">
+        do_delflag = #{record.doDelflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.gatherWarehouseCode != null">
+        gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.shipDate != null">
+        ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderId13 != null">
+        order_id_13 = #{record.orderId13,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.optFlg != null">
+        opt_flg = #{record.optFlg,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.optStatus != null">
+        opt_status = #{record.optStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optMsg != null">
+        opt_msg = #{record.optMsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._temp_doConfirm
+    set rorder_no = #{record.rorderNo,jdbcType=NVARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=NVARCHAR},
+      do_id = #{record.doId,jdbcType=NVARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      ops_out_qty = #{record.opsOutQty,jdbcType=INTEGER},
+      wms_out_qty = #{record.wmsOutQty,jdbcType=INTEGER},
+      qty_diff = #{record.qtyDiff,jdbcType=INTEGER},
+      do_delflag = #{record.doDelflag,jdbcType=NVARCHAR},
+      status = #{record.status,jdbcType=NVARCHAR},
+      gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=NVARCHAR},
+      ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      order_id_13 = #{record.orderId13,jdbcType=NVARCHAR},
+      opt_flg = #{record.optFlg,jdbcType=NVARCHAR},
+      opt_status = #{record.optStatus,jdbcType=VARCHAR},
+      opt_msg = #{record.optMsg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

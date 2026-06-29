@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsCustomerPropertyMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsCustomerProperty">
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="vipCode" jdbcType="VARCHAR" property="vipcode" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="create_user" jdbcType="NVARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="NVARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="customer_group" jdbcType="NVARCHAR" property="customerGroup" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    customerNo, vipCode, supplierId, create_user, create_time, update_user, update_time, 
+    customer_group
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsCustomerPropertyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_customer_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsCustomerPropertyExample">
+    delete from dbo.ops_customer_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsCustomerProperty">
+    insert into dbo.ops_customer_property (customerNo, vipCode, supplierId, 
+      create_user, create_time, update_user, 
+      update_time, customer_group)
+    values (#{customerno,jdbcType=VARCHAR}, #{vipcode,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=NVARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{customerGroup,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsCustomerProperty">
+    insert into dbo.ops_customer_property
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="vipcode != null">
+        vipCode,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="customerGroup != null">
+        customer_group,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="vipcode != null">
+        #{vipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerGroup != null">
+        #{customerGroup,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsCustomerPropertyExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_customer_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_customer_property
+    <set>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipcode != null">
+        vipCode = #{record.vipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerGroup != null">
+        customer_group = #{record.customerGroup,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_customer_property
+    set customerNo = #{record.customerno,jdbcType=VARCHAR},
+      vipCode = #{record.vipcode,jdbcType=VARCHAR},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=NVARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      customer_group = #{record.customerGroup,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderStateMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OrderState">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="split_no" jdbcType="INTEGER" property="splitNo" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="order_type" jdbcType="SMALLINT" property="orderType" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="state_code" jdbcType="SMALLINT" property="stateCode" />
+    <result column="state_des" jdbcType="NVARCHAR" property="stateDes" />
+    <result column="state_date" jdbcType="TIMESTAMP" property="stateDate" />
+    <result column="state_type" jdbcType="INTEGER" property="stateType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="cust_dlv_date" jdbcType="TIMESTAMP" property="custDlvDate" />
+    <result column="cust_ship_date" jdbcType="TIMESTAMP" property="custShipDate" />
+    <result column="cust_sign_date" jdbcType="TIMESTAMP" property="custSignDate" />
+    <result column="dept_dlv_date" jdbcType="TIMESTAMP" property="deptDlvDate" />
+    <result column="po_dlv_date" jdbcType="TIMESTAMP" property="poDlvDate" />
+    <result column="po_reply_date" jdbcType="TIMESTAMP" property="poReplyDate" />
+    <result column="po_ship_date" jdbcType="TIMESTAMP" property="poShipDate" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="dept_no" jdbcType="VARCHAR" property="deptNo" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_no" jdbcType="VARCHAR" property="supplierNo" />
+    <result column="act_arrival_date" jdbcType="TIMESTAMP" property="actArrivalDate" />
+    <result column="es_arrival_date" jdbcType="TIMESTAMP" property="esArrivalDate" />
+    <result column="es_arrive_date_req" jdbcType="DATE" property="esArriveDateReq" />
+    <result column="provider" jdbcType="VARCHAR" property="provider" />
+    <result column="ship_date" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="es_ship_date" jdbcType="TIMESTAMP" property="esShipDate" />
+    <result column="express_dlv_date" jdbcType="TIMESTAMP" property="expressDlvDate" />
+    <result column="delay_day" jdbcType="INTEGER" property="delayDay" />
+    <result column="po_delay_day" jdbcType="INTEGER" property="poDelayDay" />
+    <result column="corder_no" jdbcType="NVARCHAR" property="corderNo" />
+    <result column="cmodel_no" jdbcType="NVARCHAR" property="cmodelNo" />
+    <result column="trans_Type" jdbcType="CHAR" property="transType" />
+    <result column="supplier_orderNo" jdbcType="VARCHAR" property="supplierOrderno" />
+    <result column="shikomi_no" jdbcType="VARCHAR" property="shikomiNo" />
+    <result column="supplier_rcvtime" jdbcType="TIMESTAMP" property="supplierRcvtime" />
+    <result column="order_psn_no" jdbcType="VARCHAR" property="orderPsnNo" />
+    <result column="order_appover_no" jdbcType="VARCHAR" property="orderAppoverNo" />
+    <result column="po_invoice_no" jdbcType="VARCHAR" property="poInvoiceNo" />
+    <result column="po_exp_type" jdbcType="VARCHAR" property="poExpType" />
+    <result column="po_holon" jdbcType="VARCHAR" property="poHolon" />
+    <result column="po_no" jdbcType="VARCHAR" property="poNo" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="Receive_Date" jdbcType="TIMESTAMP" property="receiveDate" />
+    <result column="po_date" jdbcType="TIMESTAMP" property="poDate" />
+    <result column="purchase_type" jdbcType="CHAR" property="purchaseType" />
+    <result column="opt_user_no" jdbcType="VARCHAR" property="optUserNo" />
+    <result column="opt_user_name" jdbcType="NVARCHAR" property="optUserName" />
+    <result column="po_rcv_time" jdbcType="TIMESTAMP" property="poRcvTime" />
+    <result column="inqA" jdbcType="VARCHAR" property="inqa" />
+    <result column="inqB" jdbcType="VARCHAR" property="inqb" />
+    <result column="rcv_status" jdbcType="INTEGER" property="rcvStatus" />
+    <result column="po_reply_dateA" jdbcType="TIMESTAMP" property="poReplyDatea" />
+    <result column="po_reply_dateB" jdbcType="TIMESTAMP" property="poReplyDateb" />
+    <result column="po_reply_dateC" jdbcType="TIMESTAMP" property="poReplyDatec" />
+    <result column="po_trans_type" jdbcType="CHAR" property="poTransType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="port_arrivedate" jdbcType="TIMESTAMP" property="portArrivedate" />
+    <result column="customs_date" jdbcType="TIMESTAMP" property="customsDate" />
+    <result column="begin_produce_date" jdbcType="TIMESTAMP" property="beginProduceDate" />
+    <result column="po_price" jdbcType="DECIMAL" property="poPrice" />
+    <result column="order_psn_dept" jdbcType="NVARCHAR" property="orderPsnDept" />
+    <result column="end_user" jdbcType="VARCHAR" property="endUser" />
+    <result column="po_imptime" jdbcType="TIMESTAMP" property="poImptime" />
+    <result column="intercept" jdbcType="BIT" property="intercept" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, item_no, split_no, rorder_no, order_type, model_no, quantity, state_code, 
+    state_des, state_date, state_type, create_time, update_time, cust_dlv_date, cust_ship_date, 
+    cust_sign_date, dept_dlv_date, po_dlv_date, po_reply_date, po_ship_date, customer_no, 
+    user_no, dept_no, supplier_code, supplier_no, act_arrival_date, es_arrival_date, 
+    es_arrive_date_req, provider, ship_date, es_ship_date, express_dlv_date, delay_day, 
+    po_delay_day, corder_no, cmodel_no, trans_Type, supplier_orderNo, shikomi_no, supplier_rcvtime, 
+    order_psn_no, order_appover_no, po_invoice_no, po_exp_type, po_holon, po_no, order_date, 
+    Receive_Date, po_date, purchase_type, opt_user_no, opt_user_name, po_rcv_time, inqA, 
+    inqB, rcv_status, po_reply_dateA, po_reply_dateB, po_reply_dateC, po_trans_type, 
+    warehouse_code, port_arrivedate, customs_date, begin_produce_date, po_price, order_psn_dept, 
+    end_user, po_imptime, intercept
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderStateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.order_state
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.order_state
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.order_state
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderStateExample">
+    delete from dbo.order_state
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OrderState">
+    insert into dbo.order_state (id, order_no, item_no, 
+      split_no, rorder_no, order_type, 
+      model_no, quantity, state_code, 
+      state_des, state_date, state_type, 
+      create_time, update_time, cust_dlv_date, 
+      cust_ship_date, cust_sign_date, dept_dlv_date, 
+      po_dlv_date, po_reply_date, po_ship_date, 
+      customer_no, user_no, dept_no, 
+      supplier_code, supplier_no, act_arrival_date, 
+      es_arrival_date, es_arrive_date_req, provider, 
+      ship_date, es_ship_date, express_dlv_date, 
+      delay_day, po_delay_day, corder_no, 
+      cmodel_no, trans_Type, supplier_orderNo, 
+      shikomi_no, supplier_rcvtime, order_psn_no, 
+      order_appover_no, po_invoice_no, po_exp_type, 
+      po_holon, po_no, order_date, 
+      Receive_Date, po_date, purchase_type, 
+      opt_user_no, opt_user_name, po_rcv_time, 
+      inqA, inqB, rcv_status, 
+      po_reply_dateA, po_reply_dateB, po_reply_dateC, 
+      po_trans_type, warehouse_code, port_arrivedate, 
+      customs_date, begin_produce_date, po_price, 
+      order_psn_dept, end_user, po_imptime, 
+      intercept)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{splitNo,jdbcType=INTEGER}, #{rorderNo,jdbcType=VARCHAR}, #{orderType,jdbcType=SMALLINT}, 
+      #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{stateCode,jdbcType=SMALLINT}, 
+      #{stateDes,jdbcType=NVARCHAR}, #{stateDate,jdbcType=TIMESTAMP}, #{stateType,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{custDlvDate,jdbcType=TIMESTAMP}, 
+      #{custShipDate,jdbcType=TIMESTAMP}, #{custSignDate,jdbcType=TIMESTAMP}, #{deptDlvDate,jdbcType=TIMESTAMP}, 
+      #{poDlvDate,jdbcType=TIMESTAMP}, #{poReplyDate,jdbcType=TIMESTAMP}, #{poShipDate,jdbcType=TIMESTAMP}, 
+      #{customerNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{deptNo,jdbcType=VARCHAR}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{supplierNo,jdbcType=VARCHAR}, #{actArrivalDate,jdbcType=TIMESTAMP}, 
+      #{esArrivalDate,jdbcType=TIMESTAMP}, #{esArriveDateReq,jdbcType=DATE}, #{provider,jdbcType=VARCHAR}, 
+      #{shipDate,jdbcType=TIMESTAMP}, #{esShipDate,jdbcType=TIMESTAMP}, #{expressDlvDate,jdbcType=TIMESTAMP}, 
+      #{delayDay,jdbcType=INTEGER}, #{poDelayDay,jdbcType=INTEGER}, #{corderNo,jdbcType=NVARCHAR}, 
+      #{cmodelNo,jdbcType=NVARCHAR}, #{transType,jdbcType=CHAR}, #{supplierOrderno,jdbcType=VARCHAR}, 
+      #{shikomiNo,jdbcType=VARCHAR}, #{supplierRcvtime,jdbcType=TIMESTAMP}, #{orderPsnNo,jdbcType=VARCHAR}, 
+      #{orderAppoverNo,jdbcType=VARCHAR}, #{poInvoiceNo,jdbcType=VARCHAR}, #{poExpType,jdbcType=VARCHAR}, 
+      #{poHolon,jdbcType=VARCHAR}, #{poNo,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{receiveDate,jdbcType=TIMESTAMP}, #{poDate,jdbcType=TIMESTAMP}, #{purchaseType,jdbcType=CHAR}, 
+      #{optUserNo,jdbcType=VARCHAR}, #{optUserName,jdbcType=NVARCHAR}, #{poRcvTime,jdbcType=TIMESTAMP}, 
+      #{inqa,jdbcType=VARCHAR}, #{inqb,jdbcType=VARCHAR}, #{rcvStatus,jdbcType=INTEGER}, 
+      #{poReplyDatea,jdbcType=TIMESTAMP}, #{poReplyDateb,jdbcType=TIMESTAMP}, #{poReplyDatec,jdbcType=TIMESTAMP}, 
+      #{poTransType,jdbcType=CHAR}, #{warehouseCode,jdbcType=VARCHAR}, #{portArrivedate,jdbcType=TIMESTAMP}, 
+      #{customsDate,jdbcType=TIMESTAMP}, #{beginProduceDate,jdbcType=TIMESTAMP}, #{poPrice,jdbcType=DECIMAL}, 
+      #{orderPsnDept,jdbcType=NVARCHAR}, #{endUser,jdbcType=VARCHAR}, #{poImptime,jdbcType=TIMESTAMP}, 
+      #{intercept,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OrderState">
+    insert into dbo.order_state
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="splitNo != null">
+        split_no,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="stateCode != null">
+        state_code,
+      </if>
+      <if test="stateDes != null">
+        state_des,
+      </if>
+      <if test="stateDate != null">
+        state_date,
+      </if>
+      <if test="stateType != null">
+        state_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="custDlvDate != null">
+        cust_dlv_date,
+      </if>
+      <if test="custShipDate != null">
+        cust_ship_date,
+      </if>
+      <if test="custSignDate != null">
+        cust_sign_date,
+      </if>
+      <if test="deptDlvDate != null">
+        dept_dlv_date,
+      </if>
+      <if test="poDlvDate != null">
+        po_dlv_date,
+      </if>
+      <if test="poReplyDate != null">
+        po_reply_date,
+      </if>
+      <if test="poShipDate != null">
+        po_ship_date,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="deptNo != null">
+        dept_no,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="supplierNo != null">
+        supplier_no,
+      </if>
+      <if test="actArrivalDate != null">
+        act_arrival_date,
+      </if>
+      <if test="esArrivalDate != null">
+        es_arrival_date,
+      </if>
+      <if test="esArriveDateReq != null">
+        es_arrive_date_req,
+      </if>
+      <if test="provider != null">
+        provider,
+      </if>
+      <if test="shipDate != null">
+        ship_date,
+      </if>
+      <if test="esShipDate != null">
+        es_ship_date,
+      </if>
+      <if test="expressDlvDate != null">
+        express_dlv_date,
+      </if>
+      <if test="delayDay != null">
+        delay_day,
+      </if>
+      <if test="poDelayDay != null">
+        po_delay_day,
+      </if>
+      <if test="corderNo != null">
+        corder_no,
+      </if>
+      <if test="cmodelNo != null">
+        cmodel_no,
+      </if>
+      <if test="transType != null">
+        trans_Type,
+      </if>
+      <if test="supplierOrderno != null">
+        supplier_orderNo,
+      </if>
+      <if test="shikomiNo != null">
+        shikomi_no,
+      </if>
+      <if test="supplierRcvtime != null">
+        supplier_rcvtime,
+      </if>
+      <if test="orderPsnNo != null">
+        order_psn_no,
+      </if>
+      <if test="orderAppoverNo != null">
+        order_appover_no,
+      </if>
+      <if test="poInvoiceNo != null">
+        po_invoice_no,
+      </if>
+      <if test="poExpType != null">
+        po_exp_type,
+      </if>
+      <if test="poHolon != null">
+        po_holon,
+      </if>
+      <if test="poNo != null">
+        po_no,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="receiveDate != null">
+        Receive_Date,
+      </if>
+      <if test="poDate != null">
+        po_date,
+      </if>
+      <if test="purchaseType != null">
+        purchase_type,
+      </if>
+      <if test="optUserNo != null">
+        opt_user_no,
+      </if>
+      <if test="optUserName != null">
+        opt_user_name,
+      </if>
+      <if test="poRcvTime != null">
+        po_rcv_time,
+      </if>
+      <if test="inqa != null">
+        inqA,
+      </if>
+      <if test="inqb != null">
+        inqB,
+      </if>
+      <if test="rcvStatus != null">
+        rcv_status,
+      </if>
+      <if test="poReplyDatea != null">
+        po_reply_dateA,
+      </if>
+      <if test="poReplyDateb != null">
+        po_reply_dateB,
+      </if>
+      <if test="poReplyDatec != null">
+        po_reply_dateC,
+      </if>
+      <if test="poTransType != null">
+        po_trans_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="portArrivedate != null">
+        port_arrivedate,
+      </if>
+      <if test="customsDate != null">
+        customs_date,
+      </if>
+      <if test="beginProduceDate != null">
+        begin_produce_date,
+      </if>
+      <if test="poPrice != null">
+        po_price,
+      </if>
+      <if test="orderPsnDept != null">
+        order_psn_dept,
+      </if>
+      <if test="endUser != null">
+        end_user,
+      </if>
+      <if test="poImptime != null">
+        po_imptime,
+      </if>
+      <if test="intercept != null">
+        intercept,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="stateCode != null">
+        #{stateCode,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDes != null">
+        #{stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="stateDate != null">
+        #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stateType != null">
+        #{stateType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custDlvDate != null">
+        #{custDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custShipDate != null">
+        #{custShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custSignDate != null">
+        #{custSignDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptDlvDate != null">
+        #{deptDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDlvDate != null">
+        #{poDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDate != null">
+        #{poReplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poShipDate != null">
+        #{poShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null">
+        #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="actArrivalDate != null">
+        #{actArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esArrivalDate != null">
+        #{esArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esArriveDateReq != null">
+        #{esArriveDateReq,jdbcType=DATE},
+      </if>
+      <if test="provider != null">
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="shipDate != null">
+        #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esShipDate != null">
+        #{esShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressDlvDate != null">
+        #{expressDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delayDay != null">
+        #{delayDay,jdbcType=INTEGER},
+      </if>
+      <if test="poDelayDay != null">
+        #{poDelayDay,jdbcType=INTEGER},
+      </if>
+      <if test="corderNo != null">
+        #{corderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="cmodelNo != null">
+        #{cmodelNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="transType != null">
+        #{transType,jdbcType=CHAR},
+      </if>
+      <if test="supplierOrderno != null">
+        #{supplierOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomiNo != null">
+        #{shikomiNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierRcvtime != null">
+        #{supplierRcvtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderPsnNo != null">
+        #{orderPsnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAppoverNo != null">
+        #{orderAppoverNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poInvoiceNo != null">
+        #{poInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poExpType != null">
+        #{poExpType,jdbcType=VARCHAR},
+      </if>
+      <if test="poHolon != null">
+        #{poHolon,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null">
+        #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveDate != null">
+        #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDate != null">
+        #{poDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=CHAR},
+      </if>
+      <if test="optUserNo != null">
+        #{optUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserName != null">
+        #{optUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="poRcvTime != null">
+        #{poRcvTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inqa != null">
+        #{inqa,jdbcType=VARCHAR},
+      </if>
+      <if test="inqb != null">
+        #{inqb,jdbcType=VARCHAR},
+      </if>
+      <if test="rcvStatus != null">
+        #{rcvStatus,jdbcType=INTEGER},
+      </if>
+      <if test="poReplyDatea != null">
+        #{poReplyDatea,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDateb != null">
+        #{poReplyDateb,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDatec != null">
+        #{poReplyDatec,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poTransType != null">
+        #{poTransType,jdbcType=CHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="portArrivedate != null">
+        #{portArrivedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customsDate != null">
+        #{customsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginProduceDate != null">
+        #{beginProduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poPrice != null">
+        #{poPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPsnDept != null">
+        #{orderPsnDept,jdbcType=NVARCHAR},
+      </if>
+      <if test="endUser != null">
+        #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="poImptime != null">
+        #{poImptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intercept != null">
+        #{intercept,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderStateExample" resultType="java.lang.Long">
+    select count(*) from dbo.order_state
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.order_state
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitNo != null">
+        split_no = #{record.splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.stateCode != null">
+        state_code = #{record.stateCode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.stateDes != null">
+        state_des = #{record.stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.stateDate != null">
+        state_date = #{record.stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stateType != null">
+        state_type = #{record.stateType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.custDlvDate != null">
+        cust_dlv_date = #{record.custDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.custShipDate != null">
+        cust_ship_date = #{record.custShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.custSignDate != null">
+        cust_sign_date = #{record.custSignDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deptDlvDate != null">
+        dept_dlv_date = #{record.deptDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poDlvDate != null">
+        po_dlv_date = #{record.poDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poReplyDate != null">
+        po_reply_date = #{record.poReplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poShipDate != null">
+        po_ship_date = #{record.poShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptNo != null">
+        dept_no = #{record.deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierCode != null">
+        supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierNo != null">
+        supplier_no = #{record.supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actArrivalDate != null">
+        act_arrival_date = #{record.actArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.esArrivalDate != null">
+        es_arrival_date = #{record.esArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.esArriveDateReq != null">
+        es_arrive_date_req = #{record.esArriveDateReq,jdbcType=DATE},
+      </if>
+      <if test="record.provider != null">
+        provider = #{record.provider,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipDate != null">
+        ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.esShipDate != null">
+        es_ship_date = #{record.esShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expressDlvDate != null">
+        express_dlv_date = #{record.expressDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delayDay != null">
+        delay_day = #{record.delayDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.poDelayDay != null">
+        po_delay_day = #{record.poDelayDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.corderNo != null">
+        corder_no = #{record.corderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cmodelNo != null">
+        cmodel_no = #{record.cmodelNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.transType != null">
+        trans_Type = #{record.transType,jdbcType=CHAR},
+      </if>
+      <if test="record.supplierOrderno != null">
+        supplier_orderNo = #{record.supplierOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shikomiNo != null">
+        shikomi_no = #{record.shikomiNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierRcvtime != null">
+        supplier_rcvtime = #{record.supplierRcvtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderPsnNo != null">
+        order_psn_no = #{record.orderPsnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderAppoverNo != null">
+        order_appover_no = #{record.orderAppoverNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poInvoiceNo != null">
+        po_invoice_no = #{record.poInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poExpType != null">
+        po_exp_type = #{record.poExpType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poHolon != null">
+        po_holon = #{record.poHolon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poNo != null">
+        po_no = #{record.poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderDate != null">
+        order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receiveDate != null">
+        Receive_Date = #{record.receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poDate != null">
+        po_date = #{record.poDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.purchaseType != null">
+        purchase_type = #{record.purchaseType,jdbcType=CHAR},
+      </if>
+      <if test="record.optUserNo != null">
+        opt_user_no = #{record.optUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optUserName != null">
+        opt_user_name = #{record.optUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.poRcvTime != null">
+        po_rcv_time = #{record.poRcvTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inqa != null">
+        inqA = #{record.inqa,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqb != null">
+        inqB = #{record.inqb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rcvStatus != null">
+        rcv_status = #{record.rcvStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.poReplyDatea != null">
+        po_reply_dateA = #{record.poReplyDatea,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poReplyDateb != null">
+        po_reply_dateB = #{record.poReplyDateb,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poReplyDatec != null">
+        po_reply_dateC = #{record.poReplyDatec,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poTransType != null">
+        po_trans_type = #{record.poTransType,jdbcType=CHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.portArrivedate != null">
+        port_arrivedate = #{record.portArrivedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customsDate != null">
+        customs_date = #{record.customsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.beginProduceDate != null">
+        begin_produce_date = #{record.beginProduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poPrice != null">
+        po_price = #{record.poPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderPsnDept != null">
+        order_psn_dept = #{record.orderPsnDept,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.endUser != null">
+        end_user = #{record.endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poImptime != null">
+        po_imptime = #{record.poImptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.intercept != null">
+        intercept = #{record.intercept,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.order_state
+    set id = #{record.id,jdbcType=BIGINT},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      split_no = #{record.splitNo,jdbcType=INTEGER},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=SMALLINT},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      state_code = #{record.stateCode,jdbcType=SMALLINT},
+      state_des = #{record.stateDes,jdbcType=NVARCHAR},
+      state_date = #{record.stateDate,jdbcType=TIMESTAMP},
+      state_type = #{record.stateType,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      cust_dlv_date = #{record.custDlvDate,jdbcType=TIMESTAMP},
+      cust_ship_date = #{record.custShipDate,jdbcType=TIMESTAMP},
+      cust_sign_date = #{record.custSignDate,jdbcType=TIMESTAMP},
+      dept_dlv_date = #{record.deptDlvDate,jdbcType=TIMESTAMP},
+      po_dlv_date = #{record.poDlvDate,jdbcType=TIMESTAMP},
+      po_reply_date = #{record.poReplyDate,jdbcType=TIMESTAMP},
+      po_ship_date = #{record.poShipDate,jdbcType=TIMESTAMP},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      dept_no = #{record.deptNo,jdbcType=VARCHAR},
+      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      supplier_no = #{record.supplierNo,jdbcType=VARCHAR},
+      act_arrival_date = #{record.actArrivalDate,jdbcType=TIMESTAMP},
+      es_arrival_date = #{record.esArrivalDate,jdbcType=TIMESTAMP},
+      es_arrive_date_req = #{record.esArriveDateReq,jdbcType=DATE},
+      provider = #{record.provider,jdbcType=VARCHAR},
+      ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      es_ship_date = #{record.esShipDate,jdbcType=TIMESTAMP},
+      express_dlv_date = #{record.expressDlvDate,jdbcType=TIMESTAMP},
+      delay_day = #{record.delayDay,jdbcType=INTEGER},
+      po_delay_day = #{record.poDelayDay,jdbcType=INTEGER},
+      corder_no = #{record.corderNo,jdbcType=NVARCHAR},
+      cmodel_no = #{record.cmodelNo,jdbcType=NVARCHAR},
+      trans_Type = #{record.transType,jdbcType=CHAR},
+      supplier_orderNo = #{record.supplierOrderno,jdbcType=VARCHAR},
+      shikomi_no = #{record.shikomiNo,jdbcType=VARCHAR},
+      supplier_rcvtime = #{record.supplierRcvtime,jdbcType=TIMESTAMP},
+      order_psn_no = #{record.orderPsnNo,jdbcType=VARCHAR},
+      order_appover_no = #{record.orderAppoverNo,jdbcType=VARCHAR},
+      po_invoice_no = #{record.poInvoiceNo,jdbcType=VARCHAR},
+      po_exp_type = #{record.poExpType,jdbcType=VARCHAR},
+      po_holon = #{record.poHolon,jdbcType=VARCHAR},
+      po_no = #{record.poNo,jdbcType=VARCHAR},
+      order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      Receive_Date = #{record.receiveDate,jdbcType=TIMESTAMP},
+      po_date = #{record.poDate,jdbcType=TIMESTAMP},
+      purchase_type = #{record.purchaseType,jdbcType=CHAR},
+      opt_user_no = #{record.optUserNo,jdbcType=VARCHAR},
+      opt_user_name = #{record.optUserName,jdbcType=NVARCHAR},
+      po_rcv_time = #{record.poRcvTime,jdbcType=TIMESTAMP},
+      inqA = #{record.inqa,jdbcType=VARCHAR},
+      inqB = #{record.inqb,jdbcType=VARCHAR},
+      rcv_status = #{record.rcvStatus,jdbcType=INTEGER},
+      po_reply_dateA = #{record.poReplyDatea,jdbcType=TIMESTAMP},
+      po_reply_dateB = #{record.poReplyDateb,jdbcType=TIMESTAMP},
+      po_reply_dateC = #{record.poReplyDatec,jdbcType=TIMESTAMP},
+      po_trans_type = #{record.poTransType,jdbcType=CHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      port_arrivedate = #{record.portArrivedate,jdbcType=TIMESTAMP},
+      customs_date = #{record.customsDate,jdbcType=TIMESTAMP},
+      begin_produce_date = #{record.beginProduceDate,jdbcType=TIMESTAMP},
+      po_price = #{record.poPrice,jdbcType=DECIMAL},
+      order_psn_dept = #{record.orderPsnDept,jdbcType=NVARCHAR},
+      end_user = #{record.endUser,jdbcType=VARCHAR},
+      po_imptime = #{record.poImptime,jdbcType=TIMESTAMP},
+      intercept = #{record.intercept,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OrderState">
+    update dbo.order_state
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        split_no = #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="rorderNo != null">
+        rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="stateCode != null">
+        state_code = #{stateCode,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDes != null">
+        state_des = #{stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="stateDate != null">
+        state_date = #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stateType != null">
+        state_type = #{stateType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custDlvDate != null">
+        cust_dlv_date = #{custDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custShipDate != null">
+        cust_ship_date = #{custShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custSignDate != null">
+        cust_sign_date = #{custSignDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptDlvDate != null">
+        dept_dlv_date = #{deptDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDlvDate != null">
+        po_dlv_date = #{poDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDate != null">
+        po_reply_date = #{poReplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poShipDate != null">
+        po_ship_date = #{poShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deptNo != null">
+        dept_no = #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null">
+        supplier_no = #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="actArrivalDate != null">
+        act_arrival_date = #{actArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esArrivalDate != null">
+        es_arrival_date = #{esArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esArriveDateReq != null">
+        es_arrive_date_req = #{esArriveDateReq,jdbcType=DATE},
+      </if>
+      <if test="provider != null">
+        provider = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="shipDate != null">
+        ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="esShipDate != null">
+        es_ship_date = #{esShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressDlvDate != null">
+        express_dlv_date = #{expressDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delayDay != null">
+        delay_day = #{delayDay,jdbcType=INTEGER},
+      </if>
+      <if test="poDelayDay != null">
+        po_delay_day = #{poDelayDay,jdbcType=INTEGER},
+      </if>
+      <if test="corderNo != null">
+        corder_no = #{corderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="cmodelNo != null">
+        cmodel_no = #{cmodelNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="transType != null">
+        trans_Type = #{transType,jdbcType=CHAR},
+      </if>
+      <if test="supplierOrderno != null">
+        supplier_orderNo = #{supplierOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomiNo != null">
+        shikomi_no = #{shikomiNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierRcvtime != null">
+        supplier_rcvtime = #{supplierRcvtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderPsnNo != null">
+        order_psn_no = #{orderPsnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAppoverNo != null">
+        order_appover_no = #{orderAppoverNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poInvoiceNo != null">
+        po_invoice_no = #{poInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poExpType != null">
+        po_exp_type = #{poExpType,jdbcType=VARCHAR},
+      </if>
+      <if test="poHolon != null">
+        po_holon = #{poHolon,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null">
+        po_no = #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveDate != null">
+        Receive_Date = #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDate != null">
+        po_date = #{poDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseType != null">
+        purchase_type = #{purchaseType,jdbcType=CHAR},
+      </if>
+      <if test="optUserNo != null">
+        opt_user_no = #{optUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserName != null">
+        opt_user_name = #{optUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="poRcvTime != null">
+        po_rcv_time = #{poRcvTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inqa != null">
+        inqA = #{inqa,jdbcType=VARCHAR},
+      </if>
+      <if test="inqb != null">
+        inqB = #{inqb,jdbcType=VARCHAR},
+      </if>
+      <if test="rcvStatus != null">
+        rcv_status = #{rcvStatus,jdbcType=INTEGER},
+      </if>
+      <if test="poReplyDatea != null">
+        po_reply_dateA = #{poReplyDatea,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDateb != null">
+        po_reply_dateB = #{poReplyDateb,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poReplyDatec != null">
+        po_reply_dateC = #{poReplyDatec,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poTransType != null">
+        po_trans_type = #{poTransType,jdbcType=CHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="portArrivedate != null">
+        port_arrivedate = #{portArrivedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customsDate != null">
+        customs_date = #{customsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginProduceDate != null">
+        begin_produce_date = #{beginProduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poPrice != null">
+        po_price = #{poPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPsnDept != null">
+        order_psn_dept = #{orderPsnDept,jdbcType=NVARCHAR},
+      </if>
+      <if test="endUser != null">
+        end_user = #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="poImptime != null">
+        po_imptime = #{poImptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intercept != null">
+        intercept = #{intercept,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderState">
+    update dbo.order_state
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      split_no = #{splitNo,jdbcType=INTEGER},
+      rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=SMALLINT},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      state_code = #{stateCode,jdbcType=SMALLINT},
+      state_des = #{stateDes,jdbcType=NVARCHAR},
+      state_date = #{stateDate,jdbcType=TIMESTAMP},
+      state_type = #{stateType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      cust_dlv_date = #{custDlvDate,jdbcType=TIMESTAMP},
+      cust_ship_date = #{custShipDate,jdbcType=TIMESTAMP},
+      cust_sign_date = #{custSignDate,jdbcType=TIMESTAMP},
+      dept_dlv_date = #{deptDlvDate,jdbcType=TIMESTAMP},
+      po_dlv_date = #{poDlvDate,jdbcType=TIMESTAMP},
+      po_reply_date = #{poReplyDate,jdbcType=TIMESTAMP},
+      po_ship_date = #{poShipDate,jdbcType=TIMESTAMP},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      dept_no = #{deptNo,jdbcType=VARCHAR},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      supplier_no = #{supplierNo,jdbcType=VARCHAR},
+      act_arrival_date = #{actArrivalDate,jdbcType=TIMESTAMP},
+      es_arrival_date = #{esArrivalDate,jdbcType=TIMESTAMP},
+      es_arrive_date_req = #{esArriveDateReq,jdbcType=DATE},
+      provider = #{provider,jdbcType=VARCHAR},
+      ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      es_ship_date = #{esShipDate,jdbcType=TIMESTAMP},
+      express_dlv_date = #{expressDlvDate,jdbcType=TIMESTAMP},
+      delay_day = #{delayDay,jdbcType=INTEGER},
+      po_delay_day = #{poDelayDay,jdbcType=INTEGER},
+      corder_no = #{corderNo,jdbcType=NVARCHAR},
+      cmodel_no = #{cmodelNo,jdbcType=NVARCHAR},
+      trans_Type = #{transType,jdbcType=CHAR},
+      supplier_orderNo = #{supplierOrderno,jdbcType=VARCHAR},
+      shikomi_no = #{shikomiNo,jdbcType=VARCHAR},
+      supplier_rcvtime = #{supplierRcvtime,jdbcType=TIMESTAMP},
+      order_psn_no = #{orderPsnNo,jdbcType=VARCHAR},
+      order_appover_no = #{orderAppoverNo,jdbcType=VARCHAR},
+      po_invoice_no = #{poInvoiceNo,jdbcType=VARCHAR},
+      po_exp_type = #{poExpType,jdbcType=VARCHAR},
+      po_holon = #{poHolon,jdbcType=VARCHAR},
+      po_no = #{poNo,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      Receive_Date = #{receiveDate,jdbcType=TIMESTAMP},
+      po_date = #{poDate,jdbcType=TIMESTAMP},
+      purchase_type = #{purchaseType,jdbcType=CHAR},
+      opt_user_no = #{optUserNo,jdbcType=VARCHAR},
+      opt_user_name = #{optUserName,jdbcType=NVARCHAR},
+      po_rcv_time = #{poRcvTime,jdbcType=TIMESTAMP},
+      inqA = #{inqa,jdbcType=VARCHAR},
+      inqB = #{inqb,jdbcType=VARCHAR},
+      rcv_status = #{rcvStatus,jdbcType=INTEGER},
+      po_reply_dateA = #{poReplyDatea,jdbcType=TIMESTAMP},
+      po_reply_dateB = #{poReplyDateb,jdbcType=TIMESTAMP},
+      po_reply_dateC = #{poReplyDatec,jdbcType=TIMESTAMP},
+      po_trans_type = #{poTransType,jdbcType=CHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      port_arrivedate = #{portArrivedate,jdbcType=TIMESTAMP},
+      customs_date = #{customsDate,jdbcType=TIMESTAMP},
+      begin_produce_date = #{beginProduceDate,jdbcType=TIMESTAMP},
+      po_price = #{poPrice,jdbcType=DECIMAL},
+      order_psn_dept = #{orderPsnDept,jdbcType=NVARCHAR},
+      end_user = #{endUser,jdbcType=VARCHAR},
+      po_imptime = #{poImptime,jdbcType=TIMESTAMP},
+      intercept = #{intercept,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

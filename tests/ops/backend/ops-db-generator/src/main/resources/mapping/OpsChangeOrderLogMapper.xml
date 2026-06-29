@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsChangeOrderLogMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsChangeOrderLog">
+    <id column="Id" jdbcType="BIGINT" property="id" />
+    <result column="trasferimento_type" jdbcType="INTEGER" property="trasferimentoType" />
+    <result column="dosource_enum" jdbcType="VARCHAR" property="dosourceEnum" />
+    <result column="from_do_item_inventory_id" jdbcType="BIGINT" property="fromDoItemInventoryId" />
+    <result column="doId" jdbcType="VARCHAR" property="doid" />
+    <result column="pcoId" jdbcType="VARCHAR" property="pcoid" />
+    <result column="pcoItem" jdbcType="INTEGER" property="pcoitem" />
+    <result column="sortNum" jdbcType="INTEGER" property="sortnum" />
+    <result column="from_inventory_id" jdbcType="BIGINT" property="fromInventoryId" />
+    <result column="fromInventory_table_type" jdbcType="VARCHAR" property="frominventoryTableType" />
+    <result column="toInventory_id" jdbcType="BIGINT" property="toinventoryId" />
+    <result column="toInventory_table_type" jdbcType="VARCHAR" property="toinventoryTableType" />
+    <result column="to_warehouse_code" jdbcType="VARCHAR" property="toWarehouseCode" />
+    <result column="to_qty" jdbcType="INTEGER" property="toQty" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="do_dbID" jdbcType="VARCHAR" property="doDbid" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="split_no" jdbcType="INTEGER" property="splitNo" />
+    <result column="db_flag" jdbcType="BIT" property="dbFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, trasferimento_type, dosource_enum, from_do_item_inventory_id, doId, pcoId, pcoItem, 
+    sortNum, from_inventory_id, fromInventory_table_type, toInventory_id, toInventory_table_type, 
+    to_warehouse_code, to_qty, creator, cre_time, do_dbID, model_no, split_no, db_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsChangeOrderLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_change_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_change_order_log
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_change_order_log
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsChangeOrderLogExample">
+    delete from dbo.ops_change_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsChangeOrderLog">
+    insert into dbo.ops_change_order_log (Id, trasferimento_type, dosource_enum, 
+      from_do_item_inventory_id, doId, pcoId, 
+      pcoItem, sortNum, from_inventory_id, 
+      fromInventory_table_type, toInventory_id, toInventory_table_type, 
+      to_warehouse_code, to_qty, creator, 
+      cre_time, do_dbID, model_no, 
+      split_no, db_flag)
+    values (#{id,jdbcType=BIGINT}, #{trasferimentoType,jdbcType=INTEGER}, #{dosourceEnum,jdbcType=VARCHAR}, 
+      #{fromDoItemInventoryId,jdbcType=BIGINT}, #{doid,jdbcType=VARCHAR}, #{pcoid,jdbcType=VARCHAR}, 
+      #{pcoitem,jdbcType=INTEGER}, #{sortnum,jdbcType=INTEGER}, #{fromInventoryId,jdbcType=BIGINT}, 
+      #{frominventoryTableType,jdbcType=VARCHAR}, #{toinventoryId,jdbcType=BIGINT}, #{toinventoryTableType,jdbcType=VARCHAR}, 
+      #{toWarehouseCode,jdbcType=VARCHAR}, #{toQty,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}, 
+      #{creTime,jdbcType=TIMESTAMP}, #{doDbid,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{splitNo,jdbcType=INTEGER}, #{dbFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsChangeOrderLog">
+    insert into dbo.ops_change_order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="trasferimentoType != null">
+        trasferimento_type,
+      </if>
+      <if test="dosourceEnum != null">
+        dosource_enum,
+      </if>
+      <if test="fromDoItemInventoryId != null">
+        from_do_item_inventory_id,
+      </if>
+      <if test="doid != null">
+        doId,
+      </if>
+      <if test="pcoid != null">
+        pcoId,
+      </if>
+      <if test="pcoitem != null">
+        pcoItem,
+      </if>
+      <if test="sortnum != null">
+        sortNum,
+      </if>
+      <if test="fromInventoryId != null">
+        from_inventory_id,
+      </if>
+      <if test="frominventoryTableType != null">
+        fromInventory_table_type,
+      </if>
+      <if test="toinventoryId != null">
+        toInventory_id,
+      </if>
+      <if test="toinventoryTableType != null">
+        toInventory_table_type,
+      </if>
+      <if test="toWarehouseCode != null">
+        to_warehouse_code,
+      </if>
+      <if test="toQty != null">
+        to_qty,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="doDbid != null">
+        do_dbID,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="splitNo != null">
+        split_no,
+      </if>
+      <if test="dbFlag != null">
+        db_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="trasferimentoType != null">
+        #{trasferimentoType,jdbcType=INTEGER},
+      </if>
+      <if test="dosourceEnum != null">
+        #{dosourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fromDoItemInventoryId != null">
+        #{fromDoItemInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="doid != null">
+        #{doid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoid != null">
+        #{pcoid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoitem != null">
+        #{pcoitem,jdbcType=INTEGER},
+      </if>
+      <if test="sortnum != null">
+        #{sortnum,jdbcType=INTEGER},
+      </if>
+      <if test="fromInventoryId != null">
+        #{fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="frominventoryTableType != null">
+        #{frominventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="toinventoryId != null">
+        #{toinventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="toinventoryTableType != null">
+        #{toinventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="toWarehouseCode != null">
+        #{toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toQty != null">
+        #{toQty,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doDbid != null">
+        #{doDbid,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNo != null">
+        #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="dbFlag != null">
+        #{dbFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsChangeOrderLogExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_change_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_change_order_log
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.trasferimentoType != null">
+        trasferimento_type = #{record.trasferimentoType,jdbcType=INTEGER},
+      </if>
+      <if test="record.dosourceEnum != null">
+        dosource_enum = #{record.dosourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromDoItemInventoryId != null">
+        from_do_item_inventory_id = #{record.fromDoItemInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.doid != null">
+        doId = #{record.doid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoid != null">
+        pcoId = #{record.pcoid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoitem != null">
+        pcoItem = #{record.pcoitem,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortnum != null">
+        sortNum = #{record.sortnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromInventoryId != null">
+        from_inventory_id = #{record.fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.frominventoryTableType != null">
+        fromInventory_table_type = #{record.frominventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toinventoryId != null">
+        toInventory_id = #{record.toinventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.toinventoryTableType != null">
+        toInventory_table_type = #{record.toinventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toWarehouseCode != null">
+        to_warehouse_code = #{record.toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toQty != null">
+        to_qty = #{record.toQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.doDbid != null">
+        do_dbID = #{record.doDbid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.splitNo != null">
+        split_no = #{record.splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.dbFlag != null">
+        db_flag = #{record.dbFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_change_order_log
+    set Id = #{record.id,jdbcType=BIGINT},
+      trasferimento_type = #{record.trasferimentoType,jdbcType=INTEGER},
+      dosource_enum = #{record.dosourceEnum,jdbcType=VARCHAR},
+      from_do_item_inventory_id = #{record.fromDoItemInventoryId,jdbcType=BIGINT},
+      doId = #{record.doid,jdbcType=VARCHAR},
+      pcoId = #{record.pcoid,jdbcType=VARCHAR},
+      pcoItem = #{record.pcoitem,jdbcType=INTEGER},
+      sortNum = #{record.sortnum,jdbcType=INTEGER},
+      from_inventory_id = #{record.fromInventoryId,jdbcType=BIGINT},
+      fromInventory_table_type = #{record.frominventoryTableType,jdbcType=VARCHAR},
+      toInventory_id = #{record.toinventoryId,jdbcType=BIGINT},
+      toInventory_table_type = #{record.toinventoryTableType,jdbcType=VARCHAR},
+      to_warehouse_code = #{record.toWarehouseCode,jdbcType=VARCHAR},
+      to_qty = #{record.toQty,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      do_dbID = #{record.doDbid,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      split_no = #{record.splitNo,jdbcType=INTEGER},
+      db_flag = #{record.dbFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsChangeOrderLog">
+    update dbo.ops_change_order_log
+    <set>
+      <if test="trasferimentoType != null">
+        trasferimento_type = #{trasferimentoType,jdbcType=INTEGER},
+      </if>
+      <if test="dosourceEnum != null">
+        dosource_enum = #{dosourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fromDoItemInventoryId != null">
+        from_do_item_inventory_id = #{fromDoItemInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="doid != null">
+        doId = #{doid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoid != null">
+        pcoId = #{pcoid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoitem != null">
+        pcoItem = #{pcoitem,jdbcType=INTEGER},
+      </if>
+      <if test="sortnum != null">
+        sortNum = #{sortnum,jdbcType=INTEGER},
+      </if>
+      <if test="fromInventoryId != null">
+        from_inventory_id = #{fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="frominventoryTableType != null">
+        fromInventory_table_type = #{frominventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="toinventoryId != null">
+        toInventory_id = #{toinventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="toinventoryTableType != null">
+        toInventory_table_type = #{toinventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="toWarehouseCode != null">
+        to_warehouse_code = #{toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toQty != null">
+        to_qty = #{toQty,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doDbid != null">
+        do_dbID = #{doDbid,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNo != null">
+        split_no = #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="dbFlag != null">
+        db_flag = #{dbFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsChangeOrderLog">
+    update dbo.ops_change_order_log
+    set trasferimento_type = #{trasferimentoType,jdbcType=INTEGER},
+      dosource_enum = #{dosourceEnum,jdbcType=VARCHAR},
+      from_do_item_inventory_id = #{fromDoItemInventoryId,jdbcType=BIGINT},
+      doId = #{doid,jdbcType=VARCHAR},
+      pcoId = #{pcoid,jdbcType=VARCHAR},
+      pcoItem = #{pcoitem,jdbcType=INTEGER},
+      sortNum = #{sortnum,jdbcType=INTEGER},
+      from_inventory_id = #{fromInventoryId,jdbcType=BIGINT},
+      fromInventory_table_type = #{frominventoryTableType,jdbcType=VARCHAR},
+      toInventory_id = #{toinventoryId,jdbcType=BIGINT},
+      toInventory_table_type = #{toinventoryTableType,jdbcType=VARCHAR},
+      to_warehouse_code = #{toWarehouseCode,jdbcType=VARCHAR},
+      to_qty = #{toQty,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      do_dbID = #{doDbid,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      split_no = #{splitNo,jdbcType=INTEGER},
+      db_flag = #{dbFlag,jdbcType=BIT}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

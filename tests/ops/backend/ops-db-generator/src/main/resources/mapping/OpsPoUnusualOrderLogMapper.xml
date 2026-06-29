@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoUnusualOrderLogMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoUnusualOrderLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="source_id" jdbcType="VARCHAR" property="sourceId" />
+    <result column="pono" jdbcType="VARCHAR" property="pono" />
+    <result column="line_item" jdbcType="INTEGER" property="lineItem" />
+    <result column="supplier_order_no" jdbcType="VARCHAR" property="supplierOrderNo" />
+    <result column="supplier_line_item_no" jdbcType="VARCHAR" property="supplierLineItemNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="order_unusual_reason_code" jdbcType="VARCHAR" property="orderUnusualReasonCode" />
+    <result column="sr_order_unusual_reason_code" jdbcType="VARCHAR" property="srOrderUnusualReasonCode" />
+    <result column="order_unusual_reason" jdbcType="NVARCHAR" property="orderUnusualReason" />
+    <result column="supplier_system_exec_time" jdbcType="TIMESTAMP" property="supplierSystemExecTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="unusual_type" jdbcType="INTEGER" property="unusualType" />
+    <result column="src_reply_content" jdbcType="VARCHAR" property="srcReplyContent" />
+    <result column="src_reply_date" jdbcType="VARCHAR" property="srcReplyDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, source_type, source_id, pono, line_item, supplier_order_no, supplier_line_item_no, 
+    model_no, quantity, order_unusual_reason_code, sr_order_unusual_reason_code, order_unusual_reason, 
+    supplier_system_exec_time, create_time, create_user, update_time, update_user, del_flag, 
+    unusual_type, src_reply_content, src_reply_date
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_unusual_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_unusual_order_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_po_unusual_order_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLogExample">
+    delete from dbo.ops_po_unusual_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLog">
+    insert into dbo.ops_po_unusual_order_log (id, source_type, source_id, 
+      pono, line_item, supplier_order_no, 
+      supplier_line_item_no, model_no, quantity, 
+      order_unusual_reason_code, sr_order_unusual_reason_code, 
+      order_unusual_reason, supplier_system_exec_time, 
+      create_time, create_user, update_time, 
+      update_user, del_flag, unusual_type, 
+      src_reply_content, src_reply_date)
+    values (#{id,jdbcType=BIGINT}, #{sourceType,jdbcType=VARCHAR}, #{sourceId,jdbcType=VARCHAR}, 
+      #{pono,jdbcType=VARCHAR}, #{lineItem,jdbcType=INTEGER}, #{supplierOrderNo,jdbcType=VARCHAR}, 
+      #{supplierLineItemNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{orderUnusualReasonCode,jdbcType=VARCHAR}, #{srOrderUnusualReasonCode,jdbcType=VARCHAR}, 
+      #{orderUnusualReason,jdbcType=NVARCHAR}, #{supplierSystemExecTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{unusualType,jdbcType=INTEGER}, 
+      #{srcReplyContent,jdbcType=VARCHAR}, #{srcReplyDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLog">
+    insert into dbo.ops_po_unusual_order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
+      <if test="pono != null">
+        pono,
+      </if>
+      <if test="lineItem != null">
+        line_item,
+      </if>
+      <if test="supplierOrderNo != null">
+        supplier_order_no,
+      </if>
+      <if test="supplierLineItemNo != null">
+        supplier_line_item_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="orderUnusualReasonCode != null">
+        order_unusual_reason_code,
+      </if>
+      <if test="srOrderUnusualReasonCode != null">
+        sr_order_unusual_reason_code,
+      </if>
+      <if test="orderUnusualReason != null">
+        order_unusual_reason,
+      </if>
+      <if test="supplierSystemExecTime != null">
+        supplier_system_exec_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="unusualType != null">
+        unusual_type,
+      </if>
+      <if test="srcReplyContent != null">
+        src_reply_content,
+      </if>
+      <if test="srcReplyDate != null">
+        src_reply_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="lineItem != null">
+        #{lineItem,jdbcType=INTEGER},
+      </if>
+      <if test="supplierOrderNo != null">
+        #{supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLineItemNo != null">
+        #{supplierLineItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderUnusualReasonCode != null">
+        #{orderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srOrderUnusualReasonCode != null">
+        #{srOrderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUnusualReason != null">
+        #{orderUnusualReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierSystemExecTime != null">
+        #{supplierSystemExecTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="unusualType != null">
+        #{unusualType,jdbcType=INTEGER},
+      </if>
+      <if test="srcReplyContent != null">
+        #{srcReplyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="srcReplyDate != null">
+        #{srcReplyDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLogExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_unusual_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_unusual_order_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceType != null">
+        source_type = #{record.sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceId != null">
+        source_id = #{record.sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pono != null">
+        pono = #{record.pono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineItem != null">
+        line_item = #{record.lineItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierOrderNo != null">
+        supplier_order_no = #{record.supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierLineItemNo != null">
+        supplier_line_item_no = #{record.supplierLineItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderUnusualReasonCode != null">
+        order_unusual_reason_code = #{record.orderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srOrderUnusualReasonCode != null">
+        sr_order_unusual_reason_code = #{record.srOrderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderUnusualReason != null">
+        order_unusual_reason = #{record.orderUnusualReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.supplierSystemExecTime != null">
+        supplier_system_exec_time = #{record.supplierSystemExecTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.unusualType != null">
+        unusual_type = #{record.unusualType,jdbcType=INTEGER},
+      </if>
+      <if test="record.srcReplyContent != null">
+        src_reply_content = #{record.srcReplyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcReplyDate != null">
+        src_reply_date = #{record.srcReplyDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_unusual_order_log
+    set id = #{record.id,jdbcType=BIGINT},
+      source_type = #{record.sourceType,jdbcType=VARCHAR},
+      source_id = #{record.sourceId,jdbcType=VARCHAR},
+      pono = #{record.pono,jdbcType=VARCHAR},
+      line_item = #{record.lineItem,jdbcType=INTEGER},
+      supplier_order_no = #{record.supplierOrderNo,jdbcType=VARCHAR},
+      supplier_line_item_no = #{record.supplierLineItemNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      order_unusual_reason_code = #{record.orderUnusualReasonCode,jdbcType=VARCHAR},
+      sr_order_unusual_reason_code = #{record.srOrderUnusualReasonCode,jdbcType=VARCHAR},
+      order_unusual_reason = #{record.orderUnusualReason,jdbcType=NVARCHAR},
+      supplier_system_exec_time = #{record.supplierSystemExecTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      unusual_type = #{record.unusualType,jdbcType=INTEGER},
+      src_reply_content = #{record.srcReplyContent,jdbcType=VARCHAR},
+      src_reply_date = #{record.srcReplyDate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLog">
+    update dbo.ops_po_unusual_order_log
+    <set>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        source_id = #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        pono = #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="lineItem != null">
+        line_item = #{lineItem,jdbcType=INTEGER},
+      </if>
+      <if test="supplierOrderNo != null">
+        supplier_order_no = #{supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLineItemNo != null">
+        supplier_line_item_no = #{supplierLineItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderUnusualReasonCode != null">
+        order_unusual_reason_code = #{orderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srOrderUnusualReasonCode != null">
+        sr_order_unusual_reason_code = #{srOrderUnusualReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUnusualReason != null">
+        order_unusual_reason = #{orderUnusualReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierSystemExecTime != null">
+        supplier_system_exec_time = #{supplierSystemExecTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="unusualType != null">
+        unusual_type = #{unusualType,jdbcType=INTEGER},
+      </if>
+      <if test="srcReplyContent != null">
+        src_reply_content = #{srcReplyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="srcReplyDate != null">
+        src_reply_date = #{srcReplyDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoUnusualOrderLog">
+    update dbo.ops_po_unusual_order_log
+    set source_type = #{sourceType,jdbcType=VARCHAR},
+      source_id = #{sourceId,jdbcType=VARCHAR},
+      pono = #{pono,jdbcType=VARCHAR},
+      line_item = #{lineItem,jdbcType=INTEGER},
+      supplier_order_no = #{supplierOrderNo,jdbcType=VARCHAR},
+      supplier_line_item_no = #{supplierLineItemNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      order_unusual_reason_code = #{orderUnusualReasonCode,jdbcType=VARCHAR},
+      sr_order_unusual_reason_code = #{srOrderUnusualReasonCode,jdbcType=VARCHAR},
+      order_unusual_reason = #{orderUnusualReason,jdbcType=NVARCHAR},
+      supplier_system_exec_time = #{supplierSystemExecTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      unusual_type = #{unusualType,jdbcType=INTEGER},
+      src_reply_content = #{srcReplyContent,jdbcType=VARCHAR},
+      src_reply_date = #{srcReplyDate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

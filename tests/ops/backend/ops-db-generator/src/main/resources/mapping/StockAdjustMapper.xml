@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.StockAdjustMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.StockAdjust">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="invoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="fullOrderNo" jdbcType="VARCHAR" property="fullorderno" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="itemNo" jdbcType="INTEGER" property="itemno" />
+    <result column="splitItemNo" jdbcType="INTEGER" property="splititemno" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="adjustType" jdbcType="INTEGER" property="adjusttype" />
+    <result column="optCode" jdbcType="INTEGER" property="optcode" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="warehouseCode" jdbcType="VARCHAR" property="warehousecode" />
+    <result column="pplNo" jdbcType="VARCHAR" property="pplno" />
+    <result column="projectNo" jdbcType="VARCHAR" property="projectno" />
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="groupCustomerNo" jdbcType="VARCHAR" property="groupcustomerno" />
+    <result column="inventoryTypeCode" jdbcType="VARCHAR" property="inventorytypecode" />
+    <result column="inventoryPropertyId" jdbcType="BIGINT" property="inventorypropertyid" />
+    <result column="reason" jdbcType="NVARCHAR" property="reason" />
+    <result column="adjustDate" jdbcType="DATE" property="adjustdate" />
+    <result column="supplierCode" jdbcType="VARCHAR" property="suppliercode" />
+    <result column="exchangeRate" jdbcType="DECIMAL" property="exchangerate" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, invoiceNo, fullOrderNo, orderNo, itemNo, splitItemNo, modelNo, quantity, adjustType, 
+    optCode, createTime, updateTime, createUser, updateUser, price, amount, warehouseCode, 
+    pplNo, projectNo, customerNo, groupCustomerNo, inventoryTypeCode, inventoryPropertyId, 
+    reason, adjustDate, supplierCode, exchangeRate, currency
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.StockAdjustExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.stock_adjust
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.stock_adjust
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.stock_adjust
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.StockAdjustExample">
+    delete from dbo.stock_adjust
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.StockAdjust">
+    insert into dbo.stock_adjust (id, invoiceNo, fullOrderNo, 
+      orderNo, itemNo, splitItemNo, 
+      modelNo, quantity, adjustType, 
+      optCode, createTime, updateTime, 
+      createUser, updateUser, price, 
+      amount, warehouseCode, pplNo, 
+      projectNo, customerNo, groupCustomerNo, 
+      inventoryTypeCode, inventoryPropertyId, 
+      reason, adjustDate, supplierCode, 
+      exchangeRate, currency)
+    values (#{id,jdbcType=INTEGER}, #{invoiceno,jdbcType=VARCHAR}, #{fullorderno,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=VARCHAR}, #{itemno,jdbcType=INTEGER}, #{splititemno,jdbcType=INTEGER}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{adjusttype,jdbcType=INTEGER}, 
+      #{optcode,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{createuser,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{warehousecode,jdbcType=VARCHAR}, #{pplno,jdbcType=VARCHAR}, 
+      #{projectno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, #{groupcustomerno,jdbcType=VARCHAR}, 
+      #{inventorytypecode,jdbcType=VARCHAR}, #{inventorypropertyid,jdbcType=BIGINT}, 
+      #{reason,jdbcType=NVARCHAR}, #{adjustdate,jdbcType=DATE}, #{suppliercode,jdbcType=VARCHAR}, 
+      #{exchangerate,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.StockAdjust">
+    insert into dbo.stock_adjust
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceno != null">
+        invoiceNo,
+      </if>
+      <if test="fullorderno != null">
+        fullOrderNo,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="itemno != null">
+        itemNo,
+      </if>
+      <if test="splititemno != null">
+        splitItemNo,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="adjusttype != null">
+        adjustType,
+      </if>
+      <if test="optcode != null">
+        optCode,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="createuser != null">
+        createUser,
+      </if>
+      <if test="updateuser != null">
+        updateUser,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode,
+      </if>
+      <if test="pplno != null">
+        pplNo,
+      </if>
+      <if test="projectno != null">
+        projectNo,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="groupcustomerno != null">
+        groupCustomerNo,
+      </if>
+      <if test="inventorytypecode != null">
+        inventoryTypeCode,
+      </if>
+      <if test="inventorypropertyid != null">
+        inventoryPropertyId,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="adjustdate != null">
+        adjustDate,
+      </if>
+      <if test="suppliercode != null">
+        supplierCode,
+      </if>
+      <if test="exchangerate != null">
+        exchangeRate,
+      </if>
+      <if test="currency != null">
+        currency,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="fullorderno != null">
+        #{fullorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=INTEGER},
+      </if>
+      <if test="splititemno != null">
+        #{splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="adjusttype != null">
+        #{adjusttype,jdbcType=INTEGER},
+      </if>
+      <if test="optcode != null">
+        #{optcode,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="warehousecode != null">
+        #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="pplno != null">
+        #{pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupcustomerno != null">
+        #{groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorytypecode != null">
+        #{inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorypropertyid != null">
+        #{inventorypropertyid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="adjustdate != null">
+        #{adjustdate,jdbcType=DATE},
+      </if>
+      <if test="suppliercode != null">
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangerate != null">
+        #{exchangerate,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.StockAdjustExample" resultType="java.lang.Long">
+    select count(*) from dbo.stock_adjust
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.stock_adjust
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceno != null">
+        invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullorderno != null">
+        fullOrderNo = #{record.fullorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        itemNo = #{record.itemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.splititemno != null">
+        splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.adjusttype != null">
+        adjustType = #{record.adjusttype,jdbcType=INTEGER},
+      </if>
+      <if test="record.optcode != null">
+        optCode = #{record.optcode,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        createUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateuser != null">
+        updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.warehousecode != null">
+        warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pplno != null">
+        pplNo = #{record.pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectno != null">
+        projectNo = #{record.projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupcustomerno != null">
+        groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventorytypecode != null">
+        inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventorypropertyid != null">
+        inventoryPropertyId = #{record.inventorypropertyid,jdbcType=BIGINT},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.adjustdate != null">
+        adjustDate = #{record.adjustdate,jdbcType=DATE},
+      </if>
+      <if test="record.suppliercode != null">
+        supplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exchangerate != null">
+        exchangeRate = #{record.exchangerate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currency != null">
+        currency = #{record.currency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.stock_adjust
+    set id = #{record.id,jdbcType=INTEGER},
+      invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      fullOrderNo = #{record.fullorderno,jdbcType=VARCHAR},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      itemNo = #{record.itemno,jdbcType=INTEGER},
+      splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      adjustType = #{record.adjusttype,jdbcType=INTEGER},
+      optCode = #{record.optcode,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      pplNo = #{record.pplno,jdbcType=VARCHAR},
+      projectNo = #{record.projectno,jdbcType=VARCHAR},
+      customerNo = #{record.customerno,jdbcType=VARCHAR},
+      groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      inventoryPropertyId = #{record.inventorypropertyid,jdbcType=BIGINT},
+      reason = #{record.reason,jdbcType=NVARCHAR},
+      adjustDate = #{record.adjustdate,jdbcType=DATE},
+      supplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      exchangeRate = #{record.exchangerate,jdbcType=DECIMAL},
+      currency = #{record.currency,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.StockAdjust">
+    update dbo.stock_adjust
+    <set>
+      <if test="invoiceno != null">
+        invoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="fullorderno != null">
+        fullOrderNo = #{fullorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        itemNo = #{itemno,jdbcType=INTEGER},
+      </if>
+      <if test="splititemno != null">
+        splitItemNo = #{splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        modelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="adjusttype != null">
+        adjustType = #{adjusttype,jdbcType=INTEGER},
+      </if>
+      <if test="optcode != null">
+        optCode = #{optcode,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        updateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="pplno != null">
+        pplNo = #{pplno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        projectNo = #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        customerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupcustomerno != null">
+        groupCustomerNo = #{groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorytypecode != null">
+        inventoryTypeCode = #{inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorypropertyid != null">
+        inventoryPropertyId = #{inventorypropertyid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="adjustdate != null">
+        adjustDate = #{adjustdate,jdbcType=DATE},
+      </if>
+      <if test="suppliercode != null">
+        supplierCode = #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangerate != null">
+        exchangeRate = #{exchangerate,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null">
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.StockAdjust">
+    update dbo.stock_adjust
+    set invoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      fullOrderNo = #{fullorderno,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      itemNo = #{itemno,jdbcType=INTEGER},
+      splitItemNo = #{splititemno,jdbcType=INTEGER},
+      modelNo = #{modelno,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      adjustType = #{adjusttype,jdbcType=INTEGER},
+      optCode = #{optcode,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      pplNo = #{pplno,jdbcType=VARCHAR},
+      projectNo = #{projectno,jdbcType=VARCHAR},
+      customerNo = #{customerno,jdbcType=VARCHAR},
+      groupCustomerNo = #{groupcustomerno,jdbcType=VARCHAR},
+      inventoryTypeCode = #{inventorytypecode,jdbcType=VARCHAR},
+      inventoryPropertyId = #{inventorypropertyid,jdbcType=BIGINT},
+      reason = #{reason,jdbcType=NVARCHAR},
+      adjustDate = #{adjustdate,jdbcType=DATE},
+      supplierCode = #{suppliercode,jdbcType=VARCHAR},
+      exchangeRate = #{exchangerate,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

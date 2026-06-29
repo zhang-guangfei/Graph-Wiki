@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.116.1.15:8848
+        namespace: server13
+      config:
+        server-addr: http://10.116.1.15:8848
+        namespace: server13
+        group: DEFAULT_GROUP
+        name: ${spring.application.name}
+        file-extension: yml
+        refresh: true
+        shared-configs:
+          - data-id: application.yml
+
+
+  zipkin:
+    base-url: ${zipkinBaseUrl}
+  main:
+    allow-bean-definition-overriding: true
+

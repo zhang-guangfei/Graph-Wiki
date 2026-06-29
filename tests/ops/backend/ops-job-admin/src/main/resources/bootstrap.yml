@@ -1,0 +1,12 @@
+server:
+  port: 8024
+  servlet:
+    context-path: /ops-job-admin
+spring:
+  application:
+    name: ops-job-admin
+  profiles:
+    active: min
+
+
+

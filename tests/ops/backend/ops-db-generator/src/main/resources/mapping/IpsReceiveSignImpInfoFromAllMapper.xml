@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.IpsReceiveSignImpInfoFromAllMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="source_system" jdbcType="VARCHAR" property="sourceSystem" />
+    <result column="supplier_system" jdbcType="VARCHAR" property="supplierSystem" />
+    <result column="src_order_no" jdbcType="VARCHAR" property="srcOrderNo" />
+    <result column="src_order_Item" jdbcType="VARCHAR" property="srcOrderItem" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_Item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+    <result column="qty" jdbcType="DECIMAL" property="qty" />
+    <result column="deviation_qty" jdbcType="DECIMAL" property="deviationQty" />
+    <result column="deviation_reason" jdbcType="VARCHAR" property="deviationReason" />
+    <result column="process_status" jdbcType="VARCHAR" property="processStatus" />
+    <result column="process_place" jdbcType="VARCHAR" property="processPlace" />
+    <result column="process_date" jdbcType="TIMESTAMP" property="processDate" />
+    <result column="processor_code" jdbcType="VARCHAR" property="processorCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="invoice_batch_no" jdbcType="VARCHAR" property="invoiceBatchNo" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    <result column="addition_info" jdbcType="LONGVARCHAR" property="additionInfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, source_system, supplier_system, src_order_no, src_order_Item, order_no, order_Item, 
+    model_no, data_type, qty, deviation_qty, deviation_reason, process_status, process_place, 
+    process_date, processor_code, create_time, create_user, invoice_no, invoice_batch_no
+  </sql>
+  <sql id="Blob_Column_List">
+    addition_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAllExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.ips_receive_sign_imp_info_from_all
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAllExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ips_receive_sign_imp_info_from_all
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.ips_receive_sign_imp_info_from_all
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ips_receive_sign_imp_info_from_all
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAllExample">
+    delete from dbo.ips_receive_sign_imp_info_from_all
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    insert into dbo.ips_receive_sign_imp_info_from_all (id, source_system, supplier_system, 
+      src_order_no, src_order_Item, order_no, 
+      order_Item, model_no, data_type, 
+      qty, deviation_qty, deviation_reason, 
+      process_status, process_place, process_date, 
+      processor_code, create_time, create_user, 
+      invoice_no, invoice_batch_no, addition_info
+      )
+    values (#{id,jdbcType=BIGINT}, #{sourceSystem,jdbcType=VARCHAR}, #{supplierSystem,jdbcType=VARCHAR}, 
+      #{srcOrderNo,jdbcType=VARCHAR}, #{srcOrderItem,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{orderItem,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{deviationQty,jdbcType=DECIMAL}, #{deviationReason,jdbcType=VARCHAR}, 
+      #{processStatus,jdbcType=VARCHAR}, #{processPlace,jdbcType=VARCHAR}, #{processDate,jdbcType=TIMESTAMP}, 
+      #{processorCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{invoiceBatchNo,jdbcType=VARCHAR}, #{additionInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    insert into dbo.ips_receive_sign_imp_info_from_all
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sourceSystem != null">
+        source_system,
+      </if>
+      <if test="supplierSystem != null">
+        supplier_system,
+      </if>
+      <if test="srcOrderNo != null">
+        src_order_no,
+      </if>
+      <if test="srcOrderItem != null">
+        src_order_Item,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="orderItem != null">
+        order_Item,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="deviationQty != null">
+        deviation_qty,
+      </if>
+      <if test="deviationReason != null">
+        deviation_reason,
+      </if>
+      <if test="processStatus != null">
+        process_status,
+      </if>
+      <if test="processPlace != null">
+        process_place,
+      </if>
+      <if test="processDate != null">
+        process_date,
+      </if>
+      <if test="processorCode != null">
+        processor_code,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="invoiceBatchNo != null">
+        invoice_batch_no,
+      </if>
+      <if test="additionInfo != null">
+        addition_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sourceSystem != null">
+        #{sourceSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSystem != null">
+        #{supplierSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrderNo != null">
+        #{srcOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrderItem != null">
+        #{srcOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="deviationQty != null">
+        #{deviationQty,jdbcType=DECIMAL},
+      </if>
+      <if test="deviationReason != null">
+        #{deviationReason,jdbcType=VARCHAR},
+      </if>
+      <if test="processStatus != null">
+        #{processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="processPlace != null">
+        #{processPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="processDate != null">
+        #{processDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processorCode != null">
+        #{processorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceBatchNo != null">
+        #{invoiceBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="additionInfo != null">
+        #{additionInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAllExample" resultType="java.lang.Long">
+    select count(*) from dbo.ips_receive_sign_imp_info_from_all
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ips_receive_sign_imp_info_from_all
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceSystem != null">
+        source_system = #{record.sourceSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierSystem != null">
+        supplier_system = #{record.supplierSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcOrderNo != null">
+        src_order_no = #{record.srcOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcOrderItem != null">
+        src_order_Item = #{record.srcOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_Item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null">
+        data_type = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deviationQty != null">
+        deviation_qty = #{record.deviationQty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deviationReason != null">
+        deviation_reason = #{record.deviationReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processStatus != null">
+        process_status = #{record.processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processPlace != null">
+        process_place = #{record.processPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processDate != null">
+        process_date = #{record.processDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processorCode != null">
+        processor_code = #{record.processorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceBatchNo != null">
+        invoice_batch_no = #{record.invoiceBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.additionInfo != null">
+        addition_info = #{record.additionInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.ips_receive_sign_imp_info_from_all
+    set id = #{record.id,jdbcType=BIGINT},
+      source_system = #{record.sourceSystem,jdbcType=VARCHAR},
+      supplier_system = #{record.supplierSystem,jdbcType=VARCHAR},
+      src_order_no = #{record.srcOrderNo,jdbcType=VARCHAR},
+      src_order_Item = #{record.srcOrderItem,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      order_Item = #{record.orderItem,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=DECIMAL},
+      deviation_qty = #{record.deviationQty,jdbcType=DECIMAL},
+      deviation_reason = #{record.deviationReason,jdbcType=VARCHAR},
+      process_status = #{record.processStatus,jdbcType=VARCHAR},
+      process_place = #{record.processPlace,jdbcType=VARCHAR},
+      process_date = #{record.processDate,jdbcType=TIMESTAMP},
+      processor_code = #{record.processorCode,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      invoice_batch_no = #{record.invoiceBatchNo,jdbcType=VARCHAR},
+      addition_info = #{record.additionInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ips_receive_sign_imp_info_from_all
+    set id = #{record.id,jdbcType=BIGINT},
+      source_system = #{record.sourceSystem,jdbcType=VARCHAR},
+      supplier_system = #{record.supplierSystem,jdbcType=VARCHAR},
+      src_order_no = #{record.srcOrderNo,jdbcType=VARCHAR},
+      src_order_Item = #{record.srcOrderItem,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      order_Item = #{record.orderItem,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=DECIMAL},
+      deviation_qty = #{record.deviationQty,jdbcType=DECIMAL},
+      deviation_reason = #{record.deviationReason,jdbcType=VARCHAR},
+      process_status = #{record.processStatus,jdbcType=VARCHAR},
+      process_place = #{record.processPlace,jdbcType=VARCHAR},
+      process_date = #{record.processDate,jdbcType=TIMESTAMP},
+      processor_code = #{record.processorCode,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      invoice_batch_no = #{record.invoiceBatchNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    update dbo.ips_receive_sign_imp_info_from_all
+    <set>
+      <if test="sourceSystem != null">
+        source_system = #{sourceSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSystem != null">
+        supplier_system = #{supplierSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrderNo != null">
+        src_order_no = #{srcOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrderItem != null">
+        src_order_Item = #{srcOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_Item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="deviationQty != null">
+        deviation_qty = #{deviationQty,jdbcType=DECIMAL},
+      </if>
+      <if test="deviationReason != null">
+        deviation_reason = #{deviationReason,jdbcType=VARCHAR},
+      </if>
+      <if test="processStatus != null">
+        process_status = #{processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="processPlace != null">
+        process_place = #{processPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="processDate != null">
+        process_date = #{processDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processorCode != null">
+        processor_code = #{processorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceBatchNo != null">
+        invoice_batch_no = #{invoiceBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="additionInfo != null">
+        addition_info = #{additionInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    update dbo.ips_receive_sign_imp_info_from_all
+    set source_system = #{sourceSystem,jdbcType=VARCHAR},
+      supplier_system = #{supplierSystem,jdbcType=VARCHAR},
+      src_order_no = #{srcOrderNo,jdbcType=VARCHAR},
+      src_order_Item = #{srcOrderItem,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      order_Item = #{orderItem,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      qty = #{qty,jdbcType=DECIMAL},
+      deviation_qty = #{deviationQty,jdbcType=DECIMAL},
+      deviation_reason = #{deviationReason,jdbcType=VARCHAR},
+      process_status = #{processStatus,jdbcType=VARCHAR},
+      process_place = #{processPlace,jdbcType=VARCHAR},
+      process_date = #{processDate,jdbcType=TIMESTAMP},
+      processor_code = #{processorCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      invoice_batch_no = #{invoiceBatchNo,jdbcType=VARCHAR},
+      addition_info = #{additionInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.IpsReceiveSignImpInfoFromAll">
+    update dbo.ips_receive_sign_imp_info_from_all
+    set source_system = #{sourceSystem,jdbcType=VARCHAR},
+      supplier_system = #{supplierSystem,jdbcType=VARCHAR},
+      src_order_no = #{srcOrderNo,jdbcType=VARCHAR},
+      src_order_Item = #{srcOrderItem,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      order_Item = #{orderItem,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      qty = #{qty,jdbcType=DECIMAL},
+      deviation_qty = #{deviationQty,jdbcType=DECIMAL},
+      deviation_reason = #{deviationReason,jdbcType=VARCHAR},
+      process_status = #{processStatus,jdbcType=VARCHAR},
+      process_place = #{processPlace,jdbcType=VARCHAR},
+      process_date = #{processDate,jdbcType=TIMESTAMP},
+      processor_code = #{processorCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      invoice_batch_no = #{invoiceBatchNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

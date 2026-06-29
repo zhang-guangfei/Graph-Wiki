@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInqbApplyMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInqbApply">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="inqb_apply_no" jdbcType="VARCHAR" property="inqbApplyNo" />
+    <result column="sources_apply_no" jdbcType="VARCHAR" property="sourcesApplyNo" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="data_sources" jdbcType="VARCHAR" property="dataSources" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="end_user" jdbcType="VARCHAR" property="endUser" />
+    <result column="user_dept" jdbcType="VARCHAR" property="userDept" />
+    <result column="inqb_status" jdbcType="INTEGER" property="inqbStatus" />
+    <result column="inqb_validity" jdbcType="VARCHAR" property="inqbValidity" />
+    <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
+    <result column="expected_delivery_date" jdbcType="INTEGER" property="expectedDeliveryDate" />
+    <result column="description" jdbcType="NVARCHAR" property="description" />
+    <result column="inqb_date" jdbcType="TIMESTAMP" property="inqbDate" />
+    <result column="inqb_type" jdbcType="INTEGER" property="inqbType" />
+    <result column="inqb_classify" jdbcType="VARCHAR" property="inqbClassify" />
+    <result column="inqb_dept" jdbcType="VARCHAR" property="inqbDept" />
+    <result column="inqb_user" jdbcType="VARCHAR" property="inqbUser" />
+    <result column="inqb_user_name" jdbcType="VARCHAR" property="inqbUserName" />
+    <result column="reply_dept" jdbcType="VARCHAR" property="replyDept" />
+    <result column="reply_supplier_dept" jdbcType="VARCHAR" property="replySupplierDept" />
+    <result column="reply_accept_hl" jdbcType="VARCHAR" property="replyAcceptHl" />
+    <result column="reply_no" jdbcType="VARCHAR" property="replyNo" />
+    <result column="reply_delivery_days" jdbcType="INTEGER" property="replyDeliveryDays" />
+    <result column="reply_user" jdbcType="VARCHAR" property="replyUser" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    <result column="reply_reason_code" jdbcType="VARCHAR" property="replyReasonCode" />
+    <result column="reply_reason" jdbcType="NVARCHAR" property="replyReason" />
+    <result column="reply_remark" jdbcType="VARCHAR" property="replyRemark" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, inqb_apply_no, sources_apply_no, batch_no, data_sources, model_no, quantity, 
+    end_user, user_dept, inqb_status, inqb_validity, expiration_date, expected_delivery_date, 
+    description, inqb_date, inqb_type, inqb_classify, inqb_dept, inqb_user, inqb_user_name, 
+    reply_dept, reply_supplier_dept, reply_accept_hl, reply_no, reply_delivery_days, 
+    reply_user, reply_time, reply_reason_code, reply_reason, reply_remark, remark, create_user, 
+    create_time, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInqbApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inqb_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inqb_apply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inqb_apply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInqbApplyExample">
+    delete from dbo.ops_inqb_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInqbApply">
+    insert into dbo.ops_inqb_apply (id, inqb_apply_no, sources_apply_no, 
+      batch_no, data_sources, model_no, 
+      quantity, end_user, user_dept, 
+      inqb_status, inqb_validity, expiration_date, 
+      expected_delivery_date, description, inqb_date, 
+      inqb_type, inqb_classify, inqb_dept, 
+      inqb_user, inqb_user_name, reply_dept, 
+      reply_supplier_dept, reply_accept_hl, reply_no, 
+      reply_delivery_days, reply_user, reply_time, 
+      reply_reason_code, reply_reason, reply_remark, 
+      remark, create_user, create_time, 
+      update_user, update_time)
+    values (#{id,jdbcType=BIGINT}, #{inqbApplyNo,jdbcType=VARCHAR}, #{sourcesApplyNo,jdbcType=VARCHAR}, 
+      #{batchNo,jdbcType=VARCHAR}, #{dataSources,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{endUser,jdbcType=VARCHAR}, #{userDept,jdbcType=VARCHAR}, 
+      #{inqbStatus,jdbcType=INTEGER}, #{inqbValidity,jdbcType=VARCHAR}, #{expirationDate,jdbcType=TIMESTAMP}, 
+      #{expectedDeliveryDate,jdbcType=INTEGER}, #{description,jdbcType=NVARCHAR}, #{inqbDate,jdbcType=TIMESTAMP}, 
+      #{inqbType,jdbcType=INTEGER}, #{inqbClassify,jdbcType=VARCHAR}, #{inqbDept,jdbcType=VARCHAR}, 
+      #{inqbUser,jdbcType=VARCHAR}, #{inqbUserName,jdbcType=VARCHAR}, #{replyDept,jdbcType=VARCHAR}, 
+      #{replySupplierDept,jdbcType=VARCHAR}, #{replyAcceptHl,jdbcType=VARCHAR}, #{replyNo,jdbcType=VARCHAR}, 
+      #{replyDeliveryDays,jdbcType=INTEGER}, #{replyUser,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, 
+      #{replyReasonCode,jdbcType=VARCHAR}, #{replyReason,jdbcType=NVARCHAR}, #{replyRemark,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInqbApply">
+    insert into dbo.ops_inqb_apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inqbApplyNo != null">
+        inqb_apply_no,
+      </if>
+      <if test="sourcesApplyNo != null">
+        sources_apply_no,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="dataSources != null">
+        data_sources,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="endUser != null">
+        end_user,
+      </if>
+      <if test="userDept != null">
+        user_dept,
+      </if>
+      <if test="inqbStatus != null">
+        inqb_status,
+      </if>
+      <if test="inqbValidity != null">
+        inqb_validity,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="expectedDeliveryDate != null">
+        expected_delivery_date,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="inqbDate != null">
+        inqb_date,
+      </if>
+      <if test="inqbType != null">
+        inqb_type,
+      </if>
+      <if test="inqbClassify != null">
+        inqb_classify,
+      </if>
+      <if test="inqbDept != null">
+        inqb_dept,
+      </if>
+      <if test="inqbUser != null">
+        inqb_user,
+      </if>
+      <if test="inqbUserName != null">
+        inqb_user_name,
+      </if>
+      <if test="replyDept != null">
+        reply_dept,
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept,
+      </if>
+      <if test="replyAcceptHl != null">
+        reply_accept_hl,
+      </if>
+      <if test="replyNo != null">
+        reply_no,
+      </if>
+      <if test="replyDeliveryDays != null">
+        reply_delivery_days,
+      </if>
+      <if test="replyUser != null">
+        reply_user,
+      </if>
+      <if test="replyTime != null">
+        reply_time,
+      </if>
+      <if test="replyReasonCode != null">
+        reply_reason_code,
+      </if>
+      <if test="replyReason != null">
+        reply_reason,
+      </if>
+      <if test="replyRemark != null">
+        reply_remark,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="inqbApplyNo != null">
+        #{inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcesApplyNo != null">
+        #{sourcesApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSources != null">
+        #{dataSources,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="endUser != null">
+        #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userDept != null">
+        #{userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbStatus != null">
+        #{inqbStatus,jdbcType=INTEGER},
+      </if>
+      <if test="inqbValidity != null">
+        #{inqbValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedDeliveryDate != null">
+        #{expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="inqbDate != null">
+        #{inqbDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inqbType != null">
+        #{inqbType,jdbcType=INTEGER},
+      </if>
+      <if test="inqbClassify != null">
+        #{inqbClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbDept != null">
+        #{inqbDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbUser != null">
+        #{inqbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbUserName != null">
+        #{inqbUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDept != null">
+        #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replySupplierDept != null">
+        #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replyAcceptHl != null">
+        #{replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDays != null">
+        #{replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="replyUser != null">
+        #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyReasonCode != null">
+        #{replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyReason != null">
+        #{replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        #{replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInqbApplyExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inqb_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inqb_apply
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.inqbApplyNo != null">
+        inqb_apply_no = #{record.inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcesApplyNo != null">
+        sources_apply_no = #{record.sourcesApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataSources != null">
+        data_sources = #{record.dataSources,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.endUser != null">
+        end_user = #{record.endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDept != null">
+        user_dept = #{record.userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqbStatus != null">
+        inqb_status = #{record.inqbStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.inqbValidity != null">
+        inqb_validity = #{record.inqbValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expirationDate != null">
+        expiration_date = #{record.expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expectedDeliveryDate != null">
+        expected_delivery_date = #{record.expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inqbDate != null">
+        inqb_date = #{record.inqbDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inqbType != null">
+        inqb_type = #{record.inqbType,jdbcType=INTEGER},
+      </if>
+      <if test="record.inqbClassify != null">
+        inqb_classify = #{record.inqbClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqbDept != null">
+        inqb_dept = #{record.inqbDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqbUser != null">
+        inqb_user = #{record.inqbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqbUserName != null">
+        inqb_user_name = #{record.inqbUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyDept != null">
+        reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replySupplierDept != null">
+        reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyAcceptHl != null">
+        reply_accept_hl = #{record.replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyNo != null">
+        reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyDeliveryDays != null">
+        reply_delivery_days = #{record.replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyUser != null">
+        reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyTime != null">
+        reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replyReasonCode != null">
+        reply_reason_code = #{record.replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyReason != null">
+        reply_reason = #{record.replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.replyRemark != null">
+        reply_remark = #{record.replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inqb_apply
+    set id = #{record.id,jdbcType=BIGINT},
+      inqb_apply_no = #{record.inqbApplyNo,jdbcType=VARCHAR},
+      sources_apply_no = #{record.sourcesApplyNo,jdbcType=VARCHAR},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      data_sources = #{record.dataSources,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      end_user = #{record.endUser,jdbcType=VARCHAR},
+      user_dept = #{record.userDept,jdbcType=VARCHAR},
+      inqb_status = #{record.inqbStatus,jdbcType=INTEGER},
+      inqb_validity = #{record.inqbValidity,jdbcType=VARCHAR},
+      expiration_date = #{record.expirationDate,jdbcType=TIMESTAMP},
+      expected_delivery_date = #{record.expectedDeliveryDate,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=NVARCHAR},
+      inqb_date = #{record.inqbDate,jdbcType=TIMESTAMP},
+      inqb_type = #{record.inqbType,jdbcType=INTEGER},
+      inqb_classify = #{record.inqbClassify,jdbcType=VARCHAR},
+      inqb_dept = #{record.inqbDept,jdbcType=VARCHAR},
+      inqb_user = #{record.inqbUser,jdbcType=VARCHAR},
+      inqb_user_name = #{record.inqbUserName,jdbcType=VARCHAR},
+      reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      reply_accept_hl = #{record.replyAcceptHl,jdbcType=VARCHAR},
+      reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      reply_delivery_days = #{record.replyDeliveryDays,jdbcType=INTEGER},
+      reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      reply_reason_code = #{record.replyReasonCode,jdbcType=VARCHAR},
+      reply_reason = #{record.replyReason,jdbcType=NVARCHAR},
+      reply_remark = #{record.replyRemark,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInqbApply">
+    update dbo.ops_inqb_apply
+    <set>
+      <if test="inqbApplyNo != null">
+        inqb_apply_no = #{inqbApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcesApplyNo != null">
+        sources_apply_no = #{sourcesApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSources != null">
+        data_sources = #{dataSources,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="endUser != null">
+        end_user = #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userDept != null">
+        user_dept = #{userDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbStatus != null">
+        inqb_status = #{inqbStatus,jdbcType=INTEGER},
+      </if>
+      <if test="inqbValidity != null">
+        inqb_validity = #{inqbValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedDeliveryDate != null">
+        expected_delivery_date = #{expectedDeliveryDate,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="inqbDate != null">
+        inqb_date = #{inqbDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inqbType != null">
+        inqb_type = #{inqbType,jdbcType=INTEGER},
+      </if>
+      <if test="inqbClassify != null">
+        inqb_classify = #{inqbClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbDept != null">
+        inqb_dept = #{inqbDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbUser != null">
+        inqb_user = #{inqbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inqbUserName != null">
+        inqb_user_name = #{inqbUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDept != null">
+        reply_dept = #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="replyAcceptHl != null">
+        reply_accept_hl = #{replyAcceptHl,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        reply_no = #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDays != null">
+        reply_delivery_days = #{replyDeliveryDays,jdbcType=INTEGER},
+      </if>
+      <if test="replyUser != null">
+        reply_user = #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyReasonCode != null">
+        reply_reason_code = #{replyReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyReason != null">
+        reply_reason = #{replyReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInqbApply">
+    update dbo.ops_inqb_apply
+    set inqb_apply_no = #{inqbApplyNo,jdbcType=VARCHAR},
+      sources_apply_no = #{sourcesApplyNo,jdbcType=VARCHAR},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      data_sources = #{dataSources,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      end_user = #{endUser,jdbcType=VARCHAR},
+      user_dept = #{userDept,jdbcType=VARCHAR},
+      inqb_status = #{inqbStatus,jdbcType=INTEGER},
+      inqb_validity = #{inqbValidity,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+      expected_delivery_date = #{expectedDeliveryDate,jdbcType=INTEGER},
+      description = #{description,jdbcType=NVARCHAR},
+      inqb_date = #{inqbDate,jdbcType=TIMESTAMP},
+      inqb_type = #{inqbType,jdbcType=INTEGER},
+      inqb_classify = #{inqbClassify,jdbcType=VARCHAR},
+      inqb_dept = #{inqbDept,jdbcType=VARCHAR},
+      inqb_user = #{inqbUser,jdbcType=VARCHAR},
+      inqb_user_name = #{inqbUserName,jdbcType=VARCHAR},
+      reply_dept = #{replyDept,jdbcType=VARCHAR},
+      reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      reply_accept_hl = #{replyAcceptHl,jdbcType=VARCHAR},
+      reply_no = #{replyNo,jdbcType=VARCHAR},
+      reply_delivery_days = #{replyDeliveryDays,jdbcType=INTEGER},
+      reply_user = #{replyUser,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_reason_code = #{replyReasonCode,jdbcType=VARCHAR},
+      reply_reason = #{replyReason,jdbcType=NVARCHAR},
+      reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

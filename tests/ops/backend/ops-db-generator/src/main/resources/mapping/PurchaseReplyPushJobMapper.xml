@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.PurchaseReplyPushJobMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.PurchaseReplyPushJob">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="business_code" jdbcType="VARCHAR" property="businessCode" />
+    <result column="order_fno" jdbcType="VARCHAR" property="orderFno" />
+    <result column="parameter" jdbcType="VARCHAR" property="parameter" />
+    <result column="handle_status" jdbcType="INTEGER" property="handleStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="handle_time" jdbcType="TIMESTAMP" property="handleTime" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, business_code, order_fno, parameter, handle_status, create_time, handle_time, 
+    result
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJobExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.purchase_reply_push_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.purchase_reply_push_job
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.purchase_reply_push_job
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJobExample">
+    delete from dbo.purchase_reply_push_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJob">
+    insert into dbo.purchase_reply_push_job (id, business_code, order_fno, 
+      parameter, handle_status, create_time, 
+      handle_time, result)
+    values (#{id,jdbcType=BIGINT}, #{businessCode,jdbcType=VARCHAR}, #{orderFno,jdbcType=VARCHAR}, 
+      #{parameter,jdbcType=VARCHAR}, #{handleStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{handleTime,jdbcType=TIMESTAMP}, #{result,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJob">
+    insert into dbo.purchase_reply_push_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="businessCode != null">
+        business_code,
+      </if>
+      <if test="orderFno != null">
+        order_fno,
+      </if>
+      <if test="parameter != null">
+        parameter,
+      </if>
+      <if test="handleStatus != null">
+        handle_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="handleTime != null">
+        handle_time,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="businessCode != null">
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFno != null">
+        #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="parameter != null">
+        #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null">
+        #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleTime != null">
+        #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJobExample" resultType="java.lang.Long">
+    select count(*) from dbo.purchase_reply_push_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.purchase_reply_push_job
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.businessCode != null">
+        business_code = #{record.businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderFno != null">
+        order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parameter != null">
+        parameter = #{record.parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleStatus != null">
+        handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.handleTime != null">
+        handle_time = #{record.handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.result != null">
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.purchase_reply_push_job
+    set id = #{record.id,jdbcType=BIGINT},
+      business_code = #{record.businessCode,jdbcType=VARCHAR},
+      order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      parameter = #{record.parameter,jdbcType=VARCHAR},
+      handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      handle_time = #{record.handleTime,jdbcType=TIMESTAMP},
+      result = #{record.result,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJob">
+    update dbo.purchase_reply_push_job
+    <set>
+      <if test="businessCode != null">
+        business_code = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFno != null">
+        order_fno = #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="parameter != null">
+        parameter = #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null">
+        handle_status = #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleTime != null">
+        handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.PurchaseReplyPushJob">
+    update dbo.purchase_reply_push_job
+    set business_code = #{businessCode,jdbcType=VARCHAR},
+      order_fno = #{orderFno,jdbcType=VARCHAR},
+      parameter = #{parameter,jdbcType=VARCHAR},
+      handle_status = #{handleStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

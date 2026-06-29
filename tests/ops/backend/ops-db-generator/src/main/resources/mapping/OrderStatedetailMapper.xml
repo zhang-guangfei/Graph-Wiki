@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderStatedetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OrderStatedetail">
+    <id column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <id column="date_type" jdbcType="INTEGER" property="dateType" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="date_name" jdbcType="NVARCHAR" property="dateName" />
+    <result column="state_code" jdbcType="INTEGER" property="stateCode" />
+    <result column="change_times" jdbcType="INTEGER" property="changeTimes" />
+    <result column="state_date" jdbcType="TIMESTAMP" property="stateDate" />
+    <result column="state_des" jdbcType="NVARCHAR" property="stateDes" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="mindate" jdbcType="TIMESTAMP" property="mindate" />
+    <result column="maxdate" jdbcType="TIMESTAMP" property="maxdate" />
+    <result column="provider" jdbcType="VARCHAR" property="provider" />
+    <result column="delayday" jdbcType="INTEGER" property="delayday" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="firstdate" jdbcType="TIMESTAMP" property="firstdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_no, date_type, id, date_name, state_code, change_times, state_date, state_des, 
+    create_time, update_time, mindate, maxdate, provider, delayday, remark, firstdate
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderStatedetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.order_statedetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderStatedetailKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.order_statedetail
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+      and date_type = #{dateType,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderStatedetailKey">
+    delete from dbo.order_statedetail
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+      and date_type = #{dateType,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderStatedetailExample">
+    delete from dbo.order_statedetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OrderStatedetail">
+    insert into dbo.order_statedetail (order_no, date_type, id, 
+      date_name, state_code, change_times, 
+      state_date, state_des, create_time, 
+      update_time, mindate, maxdate, 
+      provider, delayday, remark, 
+      firstdate)
+    values (#{orderNo,jdbcType=VARCHAR}, #{dateType,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, 
+      #{dateName,jdbcType=NVARCHAR}, #{stateCode,jdbcType=INTEGER}, #{changeTimes,jdbcType=INTEGER}, 
+      #{stateDate,jdbcType=TIMESTAMP}, #{stateDes,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{mindate,jdbcType=TIMESTAMP}, #{maxdate,jdbcType=TIMESTAMP}, 
+      #{provider,jdbcType=VARCHAR}, #{delayday,jdbcType=INTEGER}, #{remark,jdbcType=NVARCHAR}, 
+      #{firstdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OrderStatedetail">
+    insert into dbo.order_statedetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="dateType != null">
+        date_type,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dateName != null">
+        date_name,
+      </if>
+      <if test="stateCode != null">
+        state_code,
+      </if>
+      <if test="changeTimes != null">
+        change_times,
+      </if>
+      <if test="stateDate != null">
+        state_date,
+      </if>
+      <if test="stateDes != null">
+        state_des,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="mindate != null">
+        mindate,
+      </if>
+      <if test="maxdate != null">
+        maxdate,
+      </if>
+      <if test="provider != null">
+        provider,
+      </if>
+      <if test="delayday != null">
+        delayday,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="firstdate != null">
+        firstdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null">
+        #{dateType,jdbcType=INTEGER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dateName != null">
+        #{dateName,jdbcType=NVARCHAR},
+      </if>
+      <if test="stateCode != null">
+        #{stateCode,jdbcType=INTEGER},
+      </if>
+      <if test="changeTimes != null">
+        #{changeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="stateDate != null">
+        #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stateDes != null">
+        #{stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mindate != null">
+        #{mindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxdate != null">
+        #{maxdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provider != null">
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="delayday != null">
+        #{delayday,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="firstdate != null">
+        #{firstdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderStatedetailExample" resultType="java.lang.Long">
+    select count(*) from dbo.order_statedetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.order_statedetail
+    <set>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dateType != null">
+        date_type = #{record.dateType,jdbcType=INTEGER},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.dateName != null">
+        date_name = #{record.dateName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.stateCode != null">
+        state_code = #{record.stateCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.changeTimes != null">
+        change_times = #{record.changeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.stateDate != null">
+        state_date = #{record.stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stateDes != null">
+        state_des = #{record.stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mindate != null">
+        mindate = #{record.mindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.maxdate != null">
+        maxdate = #{record.maxdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provider != null">
+        provider = #{record.provider,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delayday != null">
+        delayday = #{record.delayday,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.firstdate != null">
+        firstdate = #{record.firstdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.order_statedetail
+    set order_no = #{record.orderNo,jdbcType=VARCHAR},
+      date_type = #{record.dateType,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=BIGINT},
+      date_name = #{record.dateName,jdbcType=NVARCHAR},
+      state_code = #{record.stateCode,jdbcType=INTEGER},
+      change_times = #{record.changeTimes,jdbcType=INTEGER},
+      state_date = #{record.stateDate,jdbcType=TIMESTAMP},
+      state_des = #{record.stateDes,jdbcType=NVARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      mindate = #{record.mindate,jdbcType=TIMESTAMP},
+      maxdate = #{record.maxdate,jdbcType=TIMESTAMP},
+      provider = #{record.provider,jdbcType=VARCHAR},
+      delayday = #{record.delayday,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      firstdate = #{record.firstdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OrderStatedetail">
+    update dbo.order_statedetail
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dateName != null">
+        date_name = #{dateName,jdbcType=NVARCHAR},
+      </if>
+      <if test="stateCode != null">
+        state_code = #{stateCode,jdbcType=INTEGER},
+      </if>
+      <if test="changeTimes != null">
+        change_times = #{changeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="stateDate != null">
+        state_date = #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stateDes != null">
+        state_des = #{stateDes,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mindate != null">
+        mindate = #{mindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxdate != null">
+        maxdate = #{maxdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provider != null">
+        provider = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="delayday != null">
+        delayday = #{delayday,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="firstdate != null">
+        firstdate = #{firstdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+      and date_type = #{dateType,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderStatedetail">
+    update dbo.order_statedetail
+    set id = #{id,jdbcType=BIGINT},
+      date_name = #{dateName,jdbcType=NVARCHAR},
+      state_code = #{stateCode,jdbcType=INTEGER},
+      change_times = #{changeTimes,jdbcType=INTEGER},
+      state_date = #{stateDate,jdbcType=TIMESTAMP},
+      state_des = #{stateDes,jdbcType=NVARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      mindate = #{mindate,jdbcType=TIMESTAMP},
+      maxdate = #{maxdate,jdbcType=TIMESTAMP},
+      provider = #{provider,jdbcType=VARCHAR},
+      delayday = #{delayday,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=NVARCHAR},
+      firstdate = #{firstdate,jdbcType=TIMESTAMP}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+      and date_type = #{dateType,jdbcType=INTEGER}
+  </update>
+</mapper>

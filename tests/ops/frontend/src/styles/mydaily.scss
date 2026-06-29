@@ -1,0 +1,52 @@
+.my_daily_css{
+    .el-calendar__body {
+        padding: 12px 20px 35px;
+        background: #83A3B4;
+        font-size: 18px;
+        color: #797979;
+        border-radius: 0 0 5px 5px
+    }
+    
+    .el-calendar__header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 12px 20px;
+        border-bottom: 1px solid #EBEEF5;
+        background: #D9E0E1;
+        color: white;
+        border-radius:5px 5px 0 0
+    }
+    
+    .el-calendar-table thead th {
+        padding: 12px 0;
+        color: white;
+        font-weight: 400;
+    }
+    
+    .el-calendar-table .el-calendar-day {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 8px;
+        height: 85px;
+        background: #ECF5FF;
+        font-size: 18px;
+    }
+    
+}
+
+.tag-title{
+    font-size: 15px;
+    border: 3px;
+    height: unset;
+    font-weight: bold;
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    // 样式一
+    background: #83A3B4;
+    color: white;
+}

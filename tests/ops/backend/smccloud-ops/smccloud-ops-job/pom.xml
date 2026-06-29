@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.smc.smccloud.ops</groupId>
+        <artifactId>smccloud-ops</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>smccloud-ops-job</artifactId>
+    <version>1.0.0</version>
+    <name>smccloud-ops-job</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <dependencies>
+        <!--模块引入-->
+        <dependency>
+            <groupId>com.smc.smccloud.api</groupId>
+            <artifactId>smccloud-common-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-order-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-product-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-cpfr-api</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>io.github.openfeign.form</groupId>-->
+            <!--<artifactId>feign-form</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.github.openfeign.form</groupId>-->
+            <!--<artifactId>feign-form-spring</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <!-- xxl-job-core -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-shareapp-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-report-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-cpfr-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>smccloud-ops-job</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.jks</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.jks</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>

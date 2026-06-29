@@ -1,0 +1,6 @@
+
+server:
+  port: 8102
+  error:
+    whitelabel:
+      enabled: false #禁止错误页

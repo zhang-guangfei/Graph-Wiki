@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPcoMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPco">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="ass_num" jdbcType="INTEGER" property="assNum" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="pco_source" jdbcType="INTEGER" property="pcoSource" />
+    <result column="pco_type" jdbcType="INTEGER" property="pcoType" />
+    <result column="prod_type" jdbcType="VARCHAR" property="prodType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="pco_status" jdbcType="INTEGER" property="pcoStatus" />
+    <result column="wl_date" jdbcType="DATE" property="wlDate" />
+    <result column="hope_date" jdbcType="DATE" property="hopeDate" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="green_code" jdbcType="VARCHAR" property="greenCode" />
+    <result column="is_wms" jdbcType="INTEGER" property="isWms" />
+    <result column="bomId" jdbcType="BIGINT" property="bomid" />
+    <result column="spceial_flag" jdbcType="INTEGER" property="spceialFlag" />
+    <result column="out_qty" jdbcType="INTEGER" property="outQty" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="ro_id" jdbcType="VARCHAR" property="roId" />
+    <result column="special_bom_id" jdbcType="BIGINT" property="specialBomId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pco_id, order_id, order_item, ass_num, num, pco_source, pco_type, prod_type, 
+    warehouse_code, customer_no, model_no, weight, qty, pco_status, wl_date, hope_date, 
+    user_no, green_code, is_wms, bomId, spceial_flag, out_qty, remark, delflag, cre_time, 
+    creator, modify_time, modifier, ro_id, special_bom_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPcoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_pco
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPcoExample">
+    delete from dbo.ops_pco
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPco">
+    insert into dbo.ops_pco (id, pco_id, order_id, 
+      order_item, ass_num, num, 
+      pco_source, pco_type, prod_type, 
+      warehouse_code, customer_no, model_no, 
+      weight, qty, pco_status, 
+      wl_date, hope_date, user_no, 
+      green_code, is_wms, bomId, 
+      spceial_flag, out_qty, remark, 
+      delflag, cre_time, creator, 
+      modify_time, modifier, ro_id, 
+      special_bom_id)
+    values (#{id,jdbcType=BIGINT}, #{pcoId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{orderItem,jdbcType=VARCHAR}, #{assNum,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{pcoSource,jdbcType=INTEGER}, #{pcoType,jdbcType=INTEGER}, #{prodType,jdbcType=VARCHAR}, 
+      #{warehouseCode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{qty,jdbcType=INTEGER}, #{pcoStatus,jdbcType=INTEGER}, 
+      #{wlDate,jdbcType=DATE}, #{hopeDate,jdbcType=DATE}, #{userNo,jdbcType=VARCHAR}, 
+      #{greenCode,jdbcType=VARCHAR}, #{isWms,jdbcType=INTEGER}, #{bomid,jdbcType=BIGINT}, 
+      #{spceialFlag,jdbcType=INTEGER}, #{outQty,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, #{roId,jdbcType=VARCHAR}, 
+      #{specialBomId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPco">
+    insert into dbo.ops_pco
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="assNum != null">
+        ass_num,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="pcoSource != null">
+        pco_source,
+      </if>
+      <if test="pcoType != null">
+        pco_type,
+      </if>
+      <if test="prodType != null">
+        prod_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="pcoStatus != null">
+        pco_status,
+      </if>
+      <if test="wlDate != null">
+        wl_date,
+      </if>
+      <if test="hopeDate != null">
+        hope_date,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="greenCode != null">
+        green_code,
+      </if>
+      <if test="isWms != null">
+        is_wms,
+      </if>
+      <if test="bomid != null">
+        bomId,
+      </if>
+      <if test="spceialFlag != null">
+        spceial_flag,
+      </if>
+      <if test="outQty != null">
+        out_qty,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="roId != null">
+        ro_id,
+      </if>
+      <if test="specialBomId != null">
+        special_bom_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="assNum != null">
+        #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="pcoSource != null">
+        #{pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="pcoType != null">
+        #{pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="prodType != null">
+        #{prodType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="pcoStatus != null">
+        #{pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="wlDate != null">
+        #{wlDate,jdbcType=DATE},
+      </if>
+      <if test="hopeDate != null">
+        #{hopeDate,jdbcType=DATE},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="greenCode != null">
+        #{greenCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isWms != null">
+        #{isWms,jdbcType=INTEGER},
+      </if>
+      <if test="bomid != null">
+        #{bomid,jdbcType=BIGINT},
+      </if>
+      <if test="spceialFlag != null">
+        #{spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="outQty != null">
+        #{outQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="roId != null">
+        #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="specialBomId != null">
+        #{specialBomId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPcoExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_pco
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_pco
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assNum != null">
+        ass_num = #{record.assNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcoSource != null">
+        pco_source = #{record.pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcoType != null">
+        pco_type = #{record.pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodType != null">
+        prod_type = #{record.prodType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcoStatus != null">
+        pco_status = #{record.pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.wlDate != null">
+        wl_date = #{record.wlDate,jdbcType=DATE},
+      </if>
+      <if test="record.hopeDate != null">
+        hope_date = #{record.hopeDate,jdbcType=DATE},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.greenCode != null">
+        green_code = #{record.greenCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isWms != null">
+        is_wms = #{record.isWms,jdbcType=INTEGER},
+      </if>
+      <if test="record.bomid != null">
+        bomId = #{record.bomid,jdbcType=BIGINT},
+      </if>
+      <if test="record.spceialFlag != null">
+        spceial_flag = #{record.spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.outQty != null">
+        out_qty = #{record.outQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.roId != null">
+        ro_id = #{record.roId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialBomId != null">
+        special_bom_id = #{record.specialBomId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_pco
+    set id = #{record.id,jdbcType=BIGINT},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      ass_num = #{record.assNum,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      pco_source = #{record.pcoSource,jdbcType=INTEGER},
+      pco_type = #{record.pcoType,jdbcType=INTEGER},
+      prod_type = #{record.prodType,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      qty = #{record.qty,jdbcType=INTEGER},
+      pco_status = #{record.pcoStatus,jdbcType=INTEGER},
+      wl_date = #{record.wlDate,jdbcType=DATE},
+      hope_date = #{record.hopeDate,jdbcType=DATE},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      green_code = #{record.greenCode,jdbcType=VARCHAR},
+      is_wms = #{record.isWms,jdbcType=INTEGER},
+      bomId = #{record.bomid,jdbcType=BIGINT},
+      spceial_flag = #{record.spceialFlag,jdbcType=INTEGER},
+      out_qty = #{record.outQty,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      ro_id = #{record.roId,jdbcType=VARCHAR},
+      special_bom_id = #{record.specialBomId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPco">
+    update dbo.ops_pco
+    <set>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="assNum != null">
+        ass_num = #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="pcoSource != null">
+        pco_source = #{pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="pcoType != null">
+        pco_type = #{pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="prodType != null">
+        prod_type = #{prodType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="pcoStatus != null">
+        pco_status = #{pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="wlDate != null">
+        wl_date = #{wlDate,jdbcType=DATE},
+      </if>
+      <if test="hopeDate != null">
+        hope_date = #{hopeDate,jdbcType=DATE},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="greenCode != null">
+        green_code = #{greenCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isWms != null">
+        is_wms = #{isWms,jdbcType=INTEGER},
+      </if>
+      <if test="bomid != null">
+        bomId = #{bomid,jdbcType=BIGINT},
+      </if>
+      <if test="spceialFlag != null">
+        spceial_flag = #{spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="outQty != null">
+        out_qty = #{outQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="roId != null">
+        ro_id = #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="specialBomId != null">
+        special_bom_id = #{specialBomId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPco">
+    update dbo.ops_pco
+    set pco_id = #{pcoId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      ass_num = #{assNum,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      pco_source = #{pcoSource,jdbcType=INTEGER},
+      pco_type = #{pcoType,jdbcType=INTEGER},
+      prod_type = #{prodType,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      qty = #{qty,jdbcType=INTEGER},
+      pco_status = #{pcoStatus,jdbcType=INTEGER},
+      wl_date = #{wlDate,jdbcType=DATE},
+      hope_date = #{hopeDate,jdbcType=DATE},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      green_code = #{greenCode,jdbcType=VARCHAR},
+      is_wms = #{isWms,jdbcType=INTEGER},
+      bomId = #{bomid,jdbcType=BIGINT},
+      spceial_flag = #{spceialFlag,jdbcType=INTEGER},
+      out_qty = #{outQty,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      ro_id = #{roId,jdbcType=VARCHAR},
+      special_bom_id = #{specialBomId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

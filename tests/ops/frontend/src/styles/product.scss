@@ -1,0 +1,95 @@
+
+.product-detail-class {
+  padding: 10px 15px;
+  .bg-purple-light {
+    line-height: 22px;
+    background: #e7e9ec;
+    padding: 0 5px;
+    height: 36px;
+  }
+  .product-base-content-body {
+    padding: 0 20px;
+  }
+  .el-form-item--mini.el-form-item {
+    line-height: 26px;
+    margin-right: 0;
+  }
+  .el-form-item__label {
+    font-size: 12px;
+  }
+
+  .el-dropdown-link {
+    color: #337AB7;
+    cursor: pointer;
+  }
+  .collapse-title-class {
+    color: #337AB7;
+    height: 30px;
+    vertical-align: center;
+    line-height: 30px;
+    font-weight: bold;
+  }
+  .el-input--mini .el-input__inner {
+    padding: 0 5px !important;
+  }
+  .product-price-table {
+    border: 1px solid silver;
+    border-collapse: collapse;
+    line-height: 26px;
+    th {
+      width: 150px;
+      padding-left: 5px;
+      background-color: #F0F8FF;
+    }
+  }
+  .el-col {
+    padding: 5px 0px;
+  }
+  .el-form-item--mini.el-form-item {
+    margin-bottom: 0px;
+  }
+  .tips-content {
+    text-align: center;
+    padding: 10px;
+    color: #909399;
+  }
+  .invent-table-class {
+    margin: 10px 10px 10px 10px;
+    .vxe-table .vxe-body--expanded-cell {
+      padding: 10px;
+    }
+  }
+  .el-icon-class {
+    cursor: pointer;
+    color: #337AB7;
+  }
+  .el-divider--horizontal {
+    margin: 5px 0;
+  }
+  .el-button--mini.is-round {
+    padding: 4px 4px;
+  }
+  .col-class {
+    width: 24%;
+    border-bottom: 1px dashed #E4E7ED;
+  }
+  .warning-col-class {
+    width: 24%;
+    border-bottom: 1px dashed #E4E7ED;
+    color: red;
+  }
+  .form-col-class {
+    width: 200px;
+  }
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    justify-content: space-between;
+    font-size: 8px !important;
+    padding-right: 8px;
+  }
+}

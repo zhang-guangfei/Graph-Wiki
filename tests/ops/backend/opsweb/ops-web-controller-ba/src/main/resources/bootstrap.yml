@@ -1,0 +1,12 @@
+server:
+  port: 8021
+spring:
+  application:
+    name: ba-service
+  profiles:
+    active: prod
+
+  zipkin:
+    base-url: ${zipkinBaseUrl}
+  main:
+    allow-bean-definition-overriding: true

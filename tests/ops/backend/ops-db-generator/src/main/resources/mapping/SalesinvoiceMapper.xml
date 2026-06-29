@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SalesinvoiceMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Salesinvoice">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="TradeCompanyId" jdbcType="VARCHAR" property="tradecompanyid" />
+    <result column="ROrderNo" jdbcType="VARCHAR" property="rorderno" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="Price" jdbcType="DECIMAL" property="price" />
+    <result column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="UserNo" jdbcType="VARCHAR" property="userno" />
+    <result column="DlvEntire" jdbcType="CHAR" property="dlventire" />
+    <result column="Amount" jdbcType="DECIMAL" property="amount" />
+    <result column="TaxAmount" jdbcType="DECIMAL" property="taxamount" />
+    <result column="NTaxAmount" jdbcType="DECIMAL" property="ntaxamount" />
+    <result column="InvFlag" jdbcType="CHAR" property="invflag" />
+    <result column="OptDate" jdbcType="DATE" property="optdate" />
+    <result column="OptCode" jdbcType="CHAR" property="optcode" />
+    <result column="ClassFlag" jdbcType="CHAR" property="classflag" />
+    <result column="InvoiceNo" jdbcType="CHAR" property="invoiceno" />
+    <result column="InvDate" jdbcType="DATE" property="invdate" />
+    <result column="OptState" jdbcType="CHAR" property="optstate" />
+    <result column="StockNo" jdbcType="CHAR" property="stockno" />
+    <result column="InvFlag1" jdbcType="CHAR" property="invflag1" />
+    <result column="ProdFlag" jdbcType="CHAR" property="prodflag" />
+    <result column="BillNo" jdbcType="VARCHAR" property="billno" />
+    <result column="Username" jdbcType="CHAR" property="username" />
+    <result column="OptTime" jdbcType="TIMESTAMP" property="opttime" />
+    <result column="Receive_Emp" jdbcType="CHAR" property="receiveEmp" />
+    <result column="Receive_Cust" jdbcType="VARCHAR" property="receiveCust" />
+    <result column="Receive_date" jdbcType="DATE" property="receiveDate" />
+    <result column="Receive_Remark" jdbcType="VARCHAR" property="receiveRemark" />
+    <result column="Receive_OptState" jdbcType="CHAR" property="receiveOptstate" />
+    <result column="PurchaseNo" jdbcType="VARCHAR" property="purchaseno" />
+    <result column="AgentPrice_Flag" jdbcType="CHAR" property="agentpriceFlag" />
+    <result column="DeptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="DiscountAmt" jdbcType="DECIMAL" property="discountamt" />
+    <result column="OrdType" jdbcType="CHAR" property="ordtype" />
+    <result column="invoicecode" jdbcType="CHAR" property="invoicecode" />
+    <result column="invtype" jdbcType="CHAR" property="invtype" />
+    <result column="InvoiceNo_Jp" jdbcType="NVARCHAR" property="invoicenoJp" />
+    <result column="TaxRate" jdbcType="DECIMAL" property="taxrate" />
+    <result column="NTaxDiscountAmt" jdbcType="DECIMAL" property="ntaxdiscountamt" />
+    <result column="TaxDiscountAmt" jdbcType="DECIMAL" property="taxdiscountamt" />
+    <result column="InsertTime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="CancelDate" jdbcType="DATE" property="canceldate" />
+    <result column="Extracted" jdbcType="CHAR" property="extracted" />
+    <result column="ExtractTime" jdbcType="TIMESTAMP" property="extracttime" />
+    <result column="InvoiceGroupKey" jdbcType="NVARCHAR" property="invoicegroupkey" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="expdate" jdbcType="TIMESTAMP" property="expdate" />
+    <result column="ackdate" jdbcType="TIMESTAMP" property="ackdate" />
+    <result column="orderno" jdbcType="VARCHAR" property="orderno" />
+    <result column="itemno" jdbcType="INTEGER" property="itemno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, TradeCompanyId, ROrderNo, ModelNo, Quantity, Price, CustomerNo, UserNo, DlvEntire, 
+    Amount, TaxAmount, NTaxAmount, InvFlag, OptDate, OptCode, ClassFlag, InvoiceNo, InvDate, 
+    OptState, StockNo, InvFlag1, ProdFlag, BillNo, Username, OptTime, Receive_Emp, Receive_Cust, 
+    Receive_date, Receive_Remark, Receive_OptState, PurchaseNo, AgentPrice_Flag, DeptNo, 
+    DiscountAmt, OrdType, invoicecode, invtype, InvoiceNo_Jp, TaxRate, NTaxDiscountAmt, 
+    TaxDiscountAmt, InsertTime, CancelDate, Extracted, ExtractTime, InvoiceGroupKey, 
+    Remark, expdate, ackdate, orderno, itemno
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.SalesInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.SalesInvoice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.SalesInvoice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceExample">
+    delete from dbo.SalesInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Salesinvoice">
+    insert into dbo.SalesInvoice (id, TradeCompanyId, ROrderNo, 
+      ModelNo, Quantity, Price, 
+      CustomerNo, UserNo, DlvEntire, 
+      Amount, TaxAmount, NTaxAmount, 
+      InvFlag, OptDate, OptCode, ClassFlag, 
+      InvoiceNo, InvDate, OptState, 
+      StockNo, InvFlag1, ProdFlag, 
+      BillNo, Username, OptTime, 
+      Receive_Emp, Receive_Cust, Receive_date, 
+      Receive_Remark, Receive_OptState, PurchaseNo, 
+      AgentPrice_Flag, DeptNo, DiscountAmt, 
+      OrdType, invoicecode, invtype, 
+      InvoiceNo_Jp, TaxRate, NTaxDiscountAmt, 
+      TaxDiscountAmt, InsertTime, CancelDate, 
+      Extracted, ExtractTime, InvoiceGroupKey, 
+      Remark, expdate, ackdate, 
+      orderno, itemno)
+    values (#{id,jdbcType=BIGINT}, #{tradecompanyid,jdbcType=VARCHAR}, #{rorderno,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{customerno,jdbcType=CHAR}, #{userno,jdbcType=VARCHAR}, #{dlventire,jdbcType=CHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{taxamount,jdbcType=DECIMAL}, #{ntaxamount,jdbcType=DECIMAL}, 
+      #{invflag,jdbcType=CHAR}, #{optdate,jdbcType=DATE}, #{optcode,jdbcType=CHAR}, #{classflag,jdbcType=CHAR}, 
+      #{invoiceno,jdbcType=CHAR}, #{invdate,jdbcType=DATE}, #{optstate,jdbcType=CHAR}, 
+      #{stockno,jdbcType=CHAR}, #{invflag1,jdbcType=CHAR}, #{prodflag,jdbcType=CHAR}, 
+      #{billno,jdbcType=VARCHAR}, #{username,jdbcType=CHAR}, #{opttime,jdbcType=TIMESTAMP}, 
+      #{receiveEmp,jdbcType=CHAR}, #{receiveCust,jdbcType=VARCHAR}, #{receiveDate,jdbcType=DATE}, 
+      #{receiveRemark,jdbcType=VARCHAR}, #{receiveOptstate,jdbcType=CHAR}, #{purchaseno,jdbcType=VARCHAR}, 
+      #{agentpriceFlag,jdbcType=CHAR}, #{deptno,jdbcType=VARCHAR}, #{discountamt,jdbcType=DECIMAL}, 
+      #{ordtype,jdbcType=CHAR}, #{invoicecode,jdbcType=CHAR}, #{invtype,jdbcType=CHAR}, 
+      #{invoicenoJp,jdbcType=NVARCHAR}, #{taxrate,jdbcType=DECIMAL}, #{ntaxdiscountamt,jdbcType=DECIMAL}, 
+      #{taxdiscountamt,jdbcType=DECIMAL}, #{inserttime,jdbcType=TIMESTAMP}, #{canceldate,jdbcType=DATE}, 
+      #{extracted,jdbcType=CHAR}, #{extracttime,jdbcType=TIMESTAMP}, #{invoicegroupkey,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{expdate,jdbcType=TIMESTAMP}, #{ackdate,jdbcType=TIMESTAMP}, 
+      #{orderno,jdbcType=VARCHAR}, #{itemno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Salesinvoice">
+    insert into dbo.SalesInvoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tradecompanyid != null">
+        TradeCompanyId,
+      </if>
+      <if test="rorderno != null">
+        ROrderNo,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="price != null">
+        Price,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="userno != null">
+        UserNo,
+      </if>
+      <if test="dlventire != null">
+        DlvEntire,
+      </if>
+      <if test="amount != null">
+        Amount,
+      </if>
+      <if test="taxamount != null">
+        TaxAmount,
+      </if>
+      <if test="ntaxamount != null">
+        NTaxAmount,
+      </if>
+      <if test="invflag != null">
+        InvFlag,
+      </if>
+      <if test="optdate != null">
+        OptDate,
+      </if>
+      <if test="optcode != null">
+        OptCode,
+      </if>
+      <if test="classflag != null">
+        ClassFlag,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="invdate != null">
+        InvDate,
+      </if>
+      <if test="optstate != null">
+        OptState,
+      </if>
+      <if test="stockno != null">
+        StockNo,
+      </if>
+      <if test="invflag1 != null">
+        InvFlag1,
+      </if>
+      <if test="prodflag != null">
+        ProdFlag,
+      </if>
+      <if test="billno != null">
+        BillNo,
+      </if>
+      <if test="username != null">
+        Username,
+      </if>
+      <if test="opttime != null">
+        OptTime,
+      </if>
+      <if test="receiveEmp != null">
+        Receive_Emp,
+      </if>
+      <if test="receiveCust != null">
+        Receive_Cust,
+      </if>
+      <if test="receiveDate != null">
+        Receive_date,
+      </if>
+      <if test="receiveRemark != null">
+        Receive_Remark,
+      </if>
+      <if test="receiveOptstate != null">
+        Receive_OptState,
+      </if>
+      <if test="purchaseno != null">
+        PurchaseNo,
+      </if>
+      <if test="agentpriceFlag != null">
+        AgentPrice_Flag,
+      </if>
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="discountamt != null">
+        DiscountAmt,
+      </if>
+      <if test="ordtype != null">
+        OrdType,
+      </if>
+      <if test="invoicecode != null">
+        invoicecode,
+      </if>
+      <if test="invtype != null">
+        invtype,
+      </if>
+      <if test="invoicenoJp != null">
+        InvoiceNo_Jp,
+      </if>
+      <if test="taxrate != null">
+        TaxRate,
+      </if>
+      <if test="ntaxdiscountamt != null">
+        NTaxDiscountAmt,
+      </if>
+      <if test="taxdiscountamt != null">
+        TaxDiscountAmt,
+      </if>
+      <if test="inserttime != null">
+        InsertTime,
+      </if>
+      <if test="canceldate != null">
+        CancelDate,
+      </if>
+      <if test="extracted != null">
+        Extracted,
+      </if>
+      <if test="extracttime != null">
+        ExtractTime,
+      </if>
+      <if test="invoicegroupkey != null">
+        InvoiceGroupKey,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="expdate != null">
+        expdate,
+      </if>
+      <if test="ackdate != null">
+        ackdate,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="itemno != null">
+        itemno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tradecompanyid != null">
+        #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderno != null">
+        #{rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="dlventire != null">
+        #{dlventire,jdbcType=CHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxamount != null">
+        #{taxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxamount != null">
+        #{ntaxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="invflag != null">
+        #{invflag,jdbcType=CHAR},
+      </if>
+      <if test="optdate != null">
+        #{optdate,jdbcType=DATE},
+      </if>
+      <if test="optcode != null">
+        #{optcode,jdbcType=CHAR},
+      </if>
+      <if test="classflag != null">
+        #{classflag,jdbcType=CHAR},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=CHAR},
+      </if>
+      <if test="invdate != null">
+        #{invdate,jdbcType=DATE},
+      </if>
+      <if test="optstate != null">
+        #{optstate,jdbcType=CHAR},
+      </if>
+      <if test="stockno != null">
+        #{stockno,jdbcType=CHAR},
+      </if>
+      <if test="invflag1 != null">
+        #{invflag1,jdbcType=CHAR},
+      </if>
+      <if test="prodflag != null">
+        #{prodflag,jdbcType=CHAR},
+      </if>
+      <if test="billno != null">
+        #{billno,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveEmp != null">
+        #{receiveEmp,jdbcType=CHAR},
+      </if>
+      <if test="receiveCust != null">
+        #{receiveCust,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        #{receiveDate,jdbcType=DATE},
+      </if>
+      <if test="receiveRemark != null">
+        #{receiveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveOptstate != null">
+        #{receiveOptstate,jdbcType=CHAR},
+      </if>
+      <if test="purchaseno != null">
+        #{purchaseno,jdbcType=VARCHAR},
+      </if>
+      <if test="agentpriceFlag != null">
+        #{agentpriceFlag,jdbcType=CHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="discountamt != null">
+        #{discountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=CHAR},
+      </if>
+      <if test="invoicecode != null">
+        #{invoicecode,jdbcType=CHAR},
+      </if>
+      <if test="invtype != null">
+        #{invtype,jdbcType=CHAR},
+      </if>
+      <if test="invoicenoJp != null">
+        #{invoicenoJp,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxrate != null">
+        #{taxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxdiscountamt != null">
+        #{ntaxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="taxdiscountamt != null">
+        #{taxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="canceldate != null">
+        #{canceldate,jdbcType=DATE},
+      </if>
+      <if test="extracted != null">
+        #{extracted,jdbcType=CHAR},
+      </if>
+      <if test="extracttime != null">
+        #{extracttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicegroupkey != null">
+        #{invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="expdate != null">
+        #{expdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ackdate != null">
+        #{ackdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SalesinvoiceExample" resultType="java.lang.Long">
+    select count(*) from dbo.SalesInvoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.SalesInvoice
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tradecompanyid != null">
+        TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderno != null">
+        ROrderNo = #{record.rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        Price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.userno != null">
+        UserNo = #{record.userno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlventire != null">
+        DlvEntire = #{record.dlventire,jdbcType=CHAR},
+      </if>
+      <if test="record.amount != null">
+        Amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxamount != null">
+        TaxAmount = #{record.taxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ntaxamount != null">
+        NTaxAmount = #{record.ntaxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.invflag != null">
+        InvFlag = #{record.invflag,jdbcType=CHAR},
+      </if>
+      <if test="record.optdate != null">
+        OptDate = #{record.optdate,jdbcType=DATE},
+      </if>
+      <if test="record.optcode != null">
+        OptCode = #{record.optcode,jdbcType=CHAR},
+      </if>
+      <if test="record.classflag != null">
+        ClassFlag = #{record.classflag,jdbcType=CHAR},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=CHAR},
+      </if>
+      <if test="record.invdate != null">
+        InvDate = #{record.invdate,jdbcType=DATE},
+      </if>
+      <if test="record.optstate != null">
+        OptState = #{record.optstate,jdbcType=CHAR},
+      </if>
+      <if test="record.stockno != null">
+        StockNo = #{record.stockno,jdbcType=CHAR},
+      </if>
+      <if test="record.invflag1 != null">
+        InvFlag1 = #{record.invflag1,jdbcType=CHAR},
+      </if>
+      <if test="record.prodflag != null">
+        ProdFlag = #{record.prodflag,jdbcType=CHAR},
+      </if>
+      <if test="record.billno != null">
+        BillNo = #{record.billno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        Username = #{record.username,jdbcType=CHAR},
+      </if>
+      <if test="record.opttime != null">
+        OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receiveEmp != null">
+        Receive_Emp = #{record.receiveEmp,jdbcType=CHAR},
+      </if>
+      <if test="record.receiveCust != null">
+        Receive_Cust = #{record.receiveCust,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveDate != null">
+        Receive_date = #{record.receiveDate,jdbcType=DATE},
+      </if>
+      <if test="record.receiveRemark != null">
+        Receive_Remark = #{record.receiveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveOptstate != null">
+        Receive_OptState = #{record.receiveOptstate,jdbcType=CHAR},
+      </if>
+      <if test="record.purchaseno != null">
+        PurchaseNo = #{record.purchaseno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentpriceFlag != null">
+        AgentPrice_Flag = #{record.agentpriceFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discountamt != null">
+        DiscountAmt = #{record.discountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordtype != null">
+        OrdType = #{record.ordtype,jdbcType=CHAR},
+      </if>
+      <if test="record.invoicecode != null">
+        invoicecode = #{record.invoicecode,jdbcType=CHAR},
+      </if>
+      <if test="record.invtype != null">
+        invtype = #{record.invtype,jdbcType=CHAR},
+      </if>
+      <if test="record.invoicenoJp != null">
+        InvoiceNo_Jp = #{record.invoicenoJp,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taxrate != null">
+        TaxRate = #{record.taxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ntaxdiscountamt != null">
+        NTaxDiscountAmt = #{record.ntaxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxdiscountamt != null">
+        TaxDiscountAmt = #{record.taxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.inserttime != null">
+        InsertTime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.canceldate != null">
+        CancelDate = #{record.canceldate,jdbcType=DATE},
+      </if>
+      <if test="record.extracted != null">
+        Extracted = #{record.extracted,jdbcType=CHAR},
+      </if>
+      <if test="record.extracttime != null">
+        ExtractTime = #{record.extracttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.invoicegroupkey != null">
+        InvoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expdate != null">
+        expdate = #{record.expdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ackdate != null">
+        ackdate = #{record.ackdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderno != null">
+        orderno = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        itemno = #{record.itemno,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.SalesInvoice
+    set id = #{record.id,jdbcType=BIGINT},
+      TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR},
+      ROrderNo = #{record.rorderno,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      Price = #{record.price,jdbcType=DECIMAL},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      UserNo = #{record.userno,jdbcType=VARCHAR},
+      DlvEntire = #{record.dlventire,jdbcType=CHAR},
+      Amount = #{record.amount,jdbcType=DECIMAL},
+      TaxAmount = #{record.taxamount,jdbcType=DECIMAL},
+      NTaxAmount = #{record.ntaxamount,jdbcType=DECIMAL},
+      InvFlag = #{record.invflag,jdbcType=CHAR},
+      OptDate = #{record.optdate,jdbcType=DATE},
+      OptCode = #{record.optcode,jdbcType=CHAR},
+      ClassFlag = #{record.classflag,jdbcType=CHAR},
+      InvoiceNo = #{record.invoiceno,jdbcType=CHAR},
+      InvDate = #{record.invdate,jdbcType=DATE},
+      OptState = #{record.optstate,jdbcType=CHAR},
+      StockNo = #{record.stockno,jdbcType=CHAR},
+      InvFlag1 = #{record.invflag1,jdbcType=CHAR},
+      ProdFlag = #{record.prodflag,jdbcType=CHAR},
+      BillNo = #{record.billno,jdbcType=VARCHAR},
+      Username = #{record.username,jdbcType=CHAR},
+      OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      Receive_Emp = #{record.receiveEmp,jdbcType=CHAR},
+      Receive_Cust = #{record.receiveCust,jdbcType=VARCHAR},
+      Receive_date = #{record.receiveDate,jdbcType=DATE},
+      Receive_Remark = #{record.receiveRemark,jdbcType=VARCHAR},
+      Receive_OptState = #{record.receiveOptstate,jdbcType=CHAR},
+      PurchaseNo = #{record.purchaseno,jdbcType=VARCHAR},
+      AgentPrice_Flag = #{record.agentpriceFlag,jdbcType=CHAR},
+      DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      DiscountAmt = #{record.discountamt,jdbcType=DECIMAL},
+      OrdType = #{record.ordtype,jdbcType=CHAR},
+      invoicecode = #{record.invoicecode,jdbcType=CHAR},
+      invtype = #{record.invtype,jdbcType=CHAR},
+      InvoiceNo_Jp = #{record.invoicenoJp,jdbcType=NVARCHAR},
+      TaxRate = #{record.taxrate,jdbcType=DECIMAL},
+      NTaxDiscountAmt = #{record.ntaxdiscountamt,jdbcType=DECIMAL},
+      TaxDiscountAmt = #{record.taxdiscountamt,jdbcType=DECIMAL},
+      InsertTime = #{record.inserttime,jdbcType=TIMESTAMP},
+      CancelDate = #{record.canceldate,jdbcType=DATE},
+      Extracted = #{record.extracted,jdbcType=CHAR},
+      ExtractTime = #{record.extracttime,jdbcType=TIMESTAMP},
+      InvoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      expdate = #{record.expdate,jdbcType=TIMESTAMP},
+      ackdate = #{record.ackdate,jdbcType=TIMESTAMP},
+      orderno = #{record.orderno,jdbcType=VARCHAR},
+      itemno = #{record.itemno,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Salesinvoice">
+    update dbo.SalesInvoice
+    <set>
+      <if test="tradecompanyid != null">
+        TradeCompanyId = #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderno != null">
+        ROrderNo = #{rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        ModelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        Quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="customerno != null">
+        CustomerNo = #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="userno != null">
+        UserNo = #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="dlventire != null">
+        DlvEntire = #{dlventire,jdbcType=CHAR},
+      </if>
+      <if test="amount != null">
+        Amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxamount != null">
+        TaxAmount = #{taxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxamount != null">
+        NTaxAmount = #{ntaxamount,jdbcType=DECIMAL},
+      </if>
+      <if test="invflag != null">
+        InvFlag = #{invflag,jdbcType=CHAR},
+      </if>
+      <if test="optdate != null">
+        OptDate = #{optdate,jdbcType=DATE},
+      </if>
+      <if test="optcode != null">
+        OptCode = #{optcode,jdbcType=CHAR},
+      </if>
+      <if test="classflag != null">
+        ClassFlag = #{classflag,jdbcType=CHAR},
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo = #{invoiceno,jdbcType=CHAR},
+      </if>
+      <if test="invdate != null">
+        InvDate = #{invdate,jdbcType=DATE},
+      </if>
+      <if test="optstate != null">
+        OptState = #{optstate,jdbcType=CHAR},
+      </if>
+      <if test="stockno != null">
+        StockNo = #{stockno,jdbcType=CHAR},
+      </if>
+      <if test="invflag1 != null">
+        InvFlag1 = #{invflag1,jdbcType=CHAR},
+      </if>
+      <if test="prodflag != null">
+        ProdFlag = #{prodflag,jdbcType=CHAR},
+      </if>
+      <if test="billno != null">
+        BillNo = #{billno,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        Username = #{username,jdbcType=CHAR},
+      </if>
+      <if test="opttime != null">
+        OptTime = #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveEmp != null">
+        Receive_Emp = #{receiveEmp,jdbcType=CHAR},
+      </if>
+      <if test="receiveCust != null">
+        Receive_Cust = #{receiveCust,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        Receive_date = #{receiveDate,jdbcType=DATE},
+      </if>
+      <if test="receiveRemark != null">
+        Receive_Remark = #{receiveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveOptstate != null">
+        Receive_OptState = #{receiveOptstate,jdbcType=CHAR},
+      </if>
+      <if test="purchaseno != null">
+        PurchaseNo = #{purchaseno,jdbcType=VARCHAR},
+      </if>
+      <if test="agentpriceFlag != null">
+        AgentPrice_Flag = #{agentpriceFlag,jdbcType=CHAR},
+      </if>
+      <if test="deptno != null">
+        DeptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="discountamt != null">
+        DiscountAmt = #{discountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="ordtype != null">
+        OrdType = #{ordtype,jdbcType=CHAR},
+      </if>
+      <if test="invoicecode != null">
+        invoicecode = #{invoicecode,jdbcType=CHAR},
+      </if>
+      <if test="invtype != null">
+        invtype = #{invtype,jdbcType=CHAR},
+      </if>
+      <if test="invoicenoJp != null">
+        InvoiceNo_Jp = #{invoicenoJp,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxrate != null">
+        TaxRate = #{taxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxdiscountamt != null">
+        NTaxDiscountAmt = #{ntaxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="taxdiscountamt != null">
+        TaxDiscountAmt = #{taxdiscountamt,jdbcType=DECIMAL},
+      </if>
+      <if test="inserttime != null">
+        InsertTime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="canceldate != null">
+        CancelDate = #{canceldate,jdbcType=DATE},
+      </if>
+      <if test="extracted != null">
+        Extracted = #{extracted,jdbcType=CHAR},
+      </if>
+      <if test="extracttime != null">
+        ExtractTime = #{extracttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicegroupkey != null">
+        InvoiceGroupKey = #{invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="expdate != null">
+        expdate = #{expdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ackdate != null">
+        ackdate = #{ackdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        itemno = #{itemno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Salesinvoice">
+    update dbo.SalesInvoice
+    set TradeCompanyId = #{tradecompanyid,jdbcType=VARCHAR},
+      ROrderNo = #{rorderno,jdbcType=VARCHAR},
+      ModelNo = #{modelno,jdbcType=VARCHAR},
+      Quantity = #{quantity,jdbcType=INTEGER},
+      Price = #{price,jdbcType=DECIMAL},
+      CustomerNo = #{customerno,jdbcType=CHAR},
+      UserNo = #{userno,jdbcType=VARCHAR},
+      DlvEntire = #{dlventire,jdbcType=CHAR},
+      Amount = #{amount,jdbcType=DECIMAL},
+      TaxAmount = #{taxamount,jdbcType=DECIMAL},
+      NTaxAmount = #{ntaxamount,jdbcType=DECIMAL},
+      InvFlag = #{invflag,jdbcType=CHAR},
+      OptDate = #{optdate,jdbcType=DATE},
+      OptCode = #{optcode,jdbcType=CHAR},
+      ClassFlag = #{classflag,jdbcType=CHAR},
+      InvoiceNo = #{invoiceno,jdbcType=CHAR},
+      InvDate = #{invdate,jdbcType=DATE},
+      OptState = #{optstate,jdbcType=CHAR},
+      StockNo = #{stockno,jdbcType=CHAR},
+      InvFlag1 = #{invflag1,jdbcType=CHAR},
+      ProdFlag = #{prodflag,jdbcType=CHAR},
+      BillNo = #{billno,jdbcType=VARCHAR},
+      Username = #{username,jdbcType=CHAR},
+      OptTime = #{opttime,jdbcType=TIMESTAMP},
+      Receive_Emp = #{receiveEmp,jdbcType=CHAR},
+      Receive_Cust = #{receiveCust,jdbcType=VARCHAR},
+      Receive_date = #{receiveDate,jdbcType=DATE},
+      Receive_Remark = #{receiveRemark,jdbcType=VARCHAR},
+      Receive_OptState = #{receiveOptstate,jdbcType=CHAR},
+      PurchaseNo = #{purchaseno,jdbcType=VARCHAR},
+      AgentPrice_Flag = #{agentpriceFlag,jdbcType=CHAR},
+      DeptNo = #{deptno,jdbcType=VARCHAR},
+      DiscountAmt = #{discountamt,jdbcType=DECIMAL},
+      OrdType = #{ordtype,jdbcType=CHAR},
+      invoicecode = #{invoicecode,jdbcType=CHAR},
+      invtype = #{invtype,jdbcType=CHAR},
+      InvoiceNo_Jp = #{invoicenoJp,jdbcType=NVARCHAR},
+      TaxRate = #{taxrate,jdbcType=DECIMAL},
+      NTaxDiscountAmt = #{ntaxdiscountamt,jdbcType=DECIMAL},
+      TaxDiscountAmt = #{taxdiscountamt,jdbcType=DECIMAL},
+      InsertTime = #{inserttime,jdbcType=TIMESTAMP},
+      CancelDate = #{canceldate,jdbcType=DATE},
+      Extracted = #{extracted,jdbcType=CHAR},
+      ExtractTime = #{extracttime,jdbcType=TIMESTAMP},
+      InvoiceGroupKey = #{invoicegroupkey,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      expdate = #{expdate,jdbcType=TIMESTAMP},
+      ackdate = #{ackdate,jdbcType=TIMESTAMP},
+      orderno = #{orderno,jdbcType=VARCHAR},
+      itemno = #{itemno,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

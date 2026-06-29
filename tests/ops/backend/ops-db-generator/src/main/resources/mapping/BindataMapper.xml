@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.BindataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Bindata">
+    <id column="StockType" jdbcType="INTEGER" property="stocktype" />
+    <id column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <id column="Property_ID" jdbcType="BIGINT" property="propertyId" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="QtyBin" jdbcType="INTEGER" property="qtybin" />
+    <result column="BinCell" jdbcType="INTEGER" property="bincell" />
+    <result column="CaseType" jdbcType="VARCHAR" property="casetype" />
+    <result column="ProdType" jdbcType="CHAR" property="prodtype" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="PositionNo" jdbcType="VARCHAR" property="positionno" />
+    <result column="MeshType" jdbcType="VARCHAR" property="meshtype" />
+    <result column="InCaseQty" jdbcType="INTEGER" property="incaseqty" />
+    <result column="Adjustable" jdbcType="CHAR" property="adjustable" />
+    <result column="delFlag" jdbcType="SMALLINT" property="delflag" />
+    <result column="LastdelFlag" jdbcType="SMALLINT" property="lastdelflag" />
+    <result column="BinType" jdbcType="NVARCHAR" property="bintype" />
+    <result column="safeQty" jdbcType="INTEGER" property="safeqty" />
+    <result column="freq" jdbcType="INTEGER" property="freq" />
+    <result column="mean" jdbcType="INTEGER" property="mean" />
+    <result column="SetLevel" jdbcType="CHAR" property="setlevel" />
+    <result column="NewLevel" jdbcType="CHAR" property="newlevel" />
+    <result column="NewFreq" jdbcType="INTEGER" property="newfreq" />
+    <result column="NewMean" jdbcType="INTEGER" property="newmean" />
+    <result column="SetFreq" jdbcType="INTEGER" property="setfreq" />
+    <result column="po_type" jdbcType="CHAR" property="poType" />
+    <result column="SupplierCode" jdbcType="VARCHAR" property="suppliercode" />
+    <result column="orderType" jdbcType="CHAR" property="ordertype" />
+    <result column="ProdSeri" jdbcType="NVARCHAR" property="prodseri" />
+    <result column="StateRange" jdbcType="CHAR" property="staterange" />
+    <result column="minPackageQty" jdbcType="INTEGER" property="minpackageqty" />
+    <result column="DirectPurchase" jdbcType="SMALLINT" property="directpurchase" />
+    <result column="AutoRepl" jdbcType="SMALLINT" property="autorepl" />
+    <result column="DirectDelivery" jdbcType="SMALLINT" property="directdelivery" />
+    <result column="EPrice" jdbcType="DECIMAL" property="eprice" />
+    <result column="ECode" jdbcType="VARCHAR" property="ecode" />
+    <result column="ModelSeries" jdbcType="VARCHAR" property="modelseries" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="loginDate" jdbcType="TIMESTAMP" property="logindate" />
+    <result column="ReplQty" jdbcType="INTEGER" property="replqty" />
+    <result column="ErrorModel" jdbcType="INTEGER" property="errormodel" />
+    <result column="SetSupplierCode" jdbcType="VARCHAR" property="setsuppliercode" />
+    <result column="ApplyQty" jdbcType="INTEGER" property="applyqty" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    StockType, warehouse_code, ModelNo, CustomerNo, Property_ID, id, QtyBin, BinCell, 
+    CaseType, ProdType, createtime, updateTime, PositionNo, MeshType, InCaseQty, Adjustable, 
+    delFlag, LastdelFlag, BinType, safeQty, freq, mean, SetLevel, NewLevel, NewFreq, 
+    NewMean, SetFreq, po_type, SupplierCode, orderType, ProdSeri, StateRange, minPackageQty, 
+    DirectPurchase, AutoRepl, DirectDelivery, EPrice, ECode, ModelSeries, ppl, project_no, 
+    inventory_type_code, group_customer_no, origin, loginDate, ReplQty, ErrorModel, SetSupplierCode, 
+    ApplyQty
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.BindataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.Bindata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.BindataKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.Bindata
+    where StockType = #{stocktype,jdbcType=INTEGER}
+      and warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+      and ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=VARCHAR}
+      and Property_ID = #{propertyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.BindataKey">
+    delete from dbo.Bindata
+    where StockType = #{stocktype,jdbcType=INTEGER}
+      and warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+      and ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=VARCHAR}
+      and Property_ID = #{propertyId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.BindataExample">
+    delete from dbo.Bindata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Bindata">
+    insert into dbo.Bindata (StockType, warehouse_code, ModelNo, 
+      CustomerNo, Property_ID, id, 
+      QtyBin, BinCell, CaseType, 
+      ProdType, createtime, updateTime, 
+      PositionNo, MeshType, InCaseQty, 
+      Adjustable, delFlag, LastdelFlag, 
+      BinType, safeQty, freq, 
+      mean, SetLevel, NewLevel, 
+      NewFreq, NewMean, SetFreq, 
+      po_type, SupplierCode, orderType, 
+      ProdSeri, StateRange, minPackageQty, 
+      DirectPurchase, AutoRepl, DirectDelivery, 
+      EPrice, ECode, ModelSeries, 
+      ppl, project_no, inventory_type_code, 
+      group_customer_no, origin, loginDate, 
+      ReplQty, ErrorModel, SetSupplierCode, 
+      ApplyQty)
+    values (#{stocktype,jdbcType=INTEGER}, #{warehouseCode,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{customerno,jdbcType=VARCHAR}, #{propertyId,jdbcType=BIGINT}, #{id,jdbcType=BIGINT}, 
+      #{qtybin,jdbcType=INTEGER}, #{bincell,jdbcType=INTEGER}, #{casetype,jdbcType=VARCHAR}, 
+      #{prodtype,jdbcType=CHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{positionno,jdbcType=VARCHAR}, #{meshtype,jdbcType=VARCHAR}, #{incaseqty,jdbcType=INTEGER}, 
+      #{adjustable,jdbcType=CHAR}, #{delflag,jdbcType=SMALLINT}, #{lastdelflag,jdbcType=SMALLINT}, 
+      #{bintype,jdbcType=NVARCHAR}, #{safeqty,jdbcType=INTEGER}, #{freq,jdbcType=INTEGER}, 
+      #{mean,jdbcType=INTEGER}, #{setlevel,jdbcType=CHAR}, #{newlevel,jdbcType=CHAR}, 
+      #{newfreq,jdbcType=INTEGER}, #{newmean,jdbcType=INTEGER}, #{setfreq,jdbcType=INTEGER}, 
+      #{poType,jdbcType=CHAR}, #{suppliercode,jdbcType=VARCHAR}, #{ordertype,jdbcType=CHAR}, 
+      #{prodseri,jdbcType=NVARCHAR}, #{staterange,jdbcType=CHAR}, #{minpackageqty,jdbcType=INTEGER}, 
+      #{directpurchase,jdbcType=SMALLINT}, #{autorepl,jdbcType=SMALLINT}, #{directdelivery,jdbcType=SMALLINT}, 
+      #{eprice,jdbcType=DECIMAL}, #{ecode,jdbcType=VARCHAR}, #{modelseries,jdbcType=VARCHAR}, 
+      #{ppl,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, #{inventoryTypeCode,jdbcType=VARCHAR}, 
+      #{groupCustomerNo,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{logindate,jdbcType=TIMESTAMP}, 
+      #{replqty,jdbcType=INTEGER}, #{errormodel,jdbcType=INTEGER}, #{setsuppliercode,jdbcType=VARCHAR}, 
+      #{applyqty,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Bindata">
+    insert into dbo.Bindata
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stocktype != null">
+        StockType,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="propertyId != null">
+        Property_ID,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="qtybin != null">
+        QtyBin,
+      </if>
+      <if test="bincell != null">
+        BinCell,
+      </if>
+      <if test="casetype != null">
+        CaseType,
+      </if>
+      <if test="prodtype != null">
+        ProdType,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="positionno != null">
+        PositionNo,
+      </if>
+      <if test="meshtype != null">
+        MeshType,
+      </if>
+      <if test="incaseqty != null">
+        InCaseQty,
+      </if>
+      <if test="adjustable != null">
+        Adjustable,
+      </if>
+      <if test="delflag != null">
+        delFlag,
+      </if>
+      <if test="lastdelflag != null">
+        LastdelFlag,
+      </if>
+      <if test="bintype != null">
+        BinType,
+      </if>
+      <if test="safeqty != null">
+        safeQty,
+      </if>
+      <if test="freq != null">
+        freq,
+      </if>
+      <if test="mean != null">
+        mean,
+      </if>
+      <if test="setlevel != null">
+        SetLevel,
+      </if>
+      <if test="newlevel != null">
+        NewLevel,
+      </if>
+      <if test="newfreq != null">
+        NewFreq,
+      </if>
+      <if test="newmean != null">
+        NewMean,
+      </if>
+      <if test="setfreq != null">
+        SetFreq,
+      </if>
+      <if test="poType != null">
+        po_type,
+      </if>
+      <if test="suppliercode != null">
+        SupplierCode,
+      </if>
+      <if test="ordertype != null">
+        orderType,
+      </if>
+      <if test="prodseri != null">
+        ProdSeri,
+      </if>
+      <if test="staterange != null">
+        StateRange,
+      </if>
+      <if test="minpackageqty != null">
+        minPackageQty,
+      </if>
+      <if test="directpurchase != null">
+        DirectPurchase,
+      </if>
+      <if test="autorepl != null">
+        AutoRepl,
+      </if>
+      <if test="directdelivery != null">
+        DirectDelivery,
+      </if>
+      <if test="eprice != null">
+        EPrice,
+      </if>
+      <if test="ecode != null">
+        ECode,
+      </if>
+      <if test="modelseries != null">
+        ModelSeries,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="logindate != null">
+        loginDate,
+      </if>
+      <if test="replqty != null">
+        ReplQty,
+      </if>
+      <if test="errormodel != null">
+        ErrorModel,
+      </if>
+      <if test="setsuppliercode != null">
+        SetSupplierCode,
+      </if>
+      <if test="applyqty != null">
+        ApplyQty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stocktype != null">
+        #{stocktype,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyId != null">
+        #{propertyId,jdbcType=BIGINT},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="qtybin != null">
+        #{qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="bincell != null">
+        #{bincell,jdbcType=INTEGER},
+      </if>
+      <if test="casetype != null">
+        #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        #{prodtype,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionno != null">
+        #{positionno,jdbcType=VARCHAR},
+      </if>
+      <if test="meshtype != null">
+        #{meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="incaseqty != null">
+        #{incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="adjustable != null">
+        #{adjustable,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=SMALLINT},
+      </if>
+      <if test="lastdelflag != null">
+        #{lastdelflag,jdbcType=SMALLINT},
+      </if>
+      <if test="bintype != null">
+        #{bintype,jdbcType=NVARCHAR},
+      </if>
+      <if test="safeqty != null">
+        #{safeqty,jdbcType=INTEGER},
+      </if>
+      <if test="freq != null">
+        #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="setlevel != null">
+        #{setlevel,jdbcType=CHAR},
+      </if>
+      <if test="newlevel != null">
+        #{newlevel,jdbcType=CHAR},
+      </if>
+      <if test="newfreq != null">
+        #{newfreq,jdbcType=INTEGER},
+      </if>
+      <if test="newmean != null">
+        #{newmean,jdbcType=INTEGER},
+      </if>
+      <if test="setfreq != null">
+        #{setfreq,jdbcType=INTEGER},
+      </if>
+      <if test="poType != null">
+        #{poType,jdbcType=CHAR},
+      </if>
+      <if test="suppliercode != null">
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null">
+        #{ordertype,jdbcType=CHAR},
+      </if>
+      <if test="prodseri != null">
+        #{prodseri,jdbcType=NVARCHAR},
+      </if>
+      <if test="staterange != null">
+        #{staterange,jdbcType=CHAR},
+      </if>
+      <if test="minpackageqty != null">
+        #{minpackageqty,jdbcType=INTEGER},
+      </if>
+      <if test="directpurchase != null">
+        #{directpurchase,jdbcType=SMALLINT},
+      </if>
+      <if test="autorepl != null">
+        #{autorepl,jdbcType=SMALLINT},
+      </if>
+      <if test="directdelivery != null">
+        #{directdelivery,jdbcType=SMALLINT},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ecode != null">
+        #{ecode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelseries != null">
+        #{modelseries,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replqty != null">
+        #{replqty,jdbcType=INTEGER},
+      </if>
+      <if test="errormodel != null">
+        #{errormodel,jdbcType=INTEGER},
+      </if>
+      <if test="setsuppliercode != null">
+        #{setsuppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyqty != null">
+        #{applyqty,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.BindataExample" resultType="java.lang.Long">
+    select count(*) from dbo.Bindata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.Bindata
+    <set>
+      <if test="record.stocktype != null">
+        StockType = #{record.stocktype,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyId != null">
+        Property_ID = #{record.propertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.qtybin != null">
+        QtyBin = #{record.qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="record.bincell != null">
+        BinCell = #{record.bincell,jdbcType=INTEGER},
+      </if>
+      <if test="record.casetype != null">
+        CaseType = #{record.casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodtype != null">
+        ProdType = #{record.prodtype,jdbcType=CHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.positionno != null">
+        PositionNo = #{record.positionno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meshtype != null">
+        MeshType = #{record.meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incaseqty != null">
+        InCaseQty = #{record.incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.adjustable != null">
+        Adjustable = #{record.adjustable,jdbcType=CHAR},
+      </if>
+      <if test="record.delflag != null">
+        delFlag = #{record.delflag,jdbcType=SMALLINT},
+      </if>
+      <if test="record.lastdelflag != null">
+        LastdelFlag = #{record.lastdelflag,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bintype != null">
+        BinType = #{record.bintype,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.safeqty != null">
+        safeQty = #{record.safeqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.freq != null">
+        freq = #{record.freq,jdbcType=INTEGER},
+      </if>
+      <if test="record.mean != null">
+        mean = #{record.mean,jdbcType=INTEGER},
+      </if>
+      <if test="record.setlevel != null">
+        SetLevel = #{record.setlevel,jdbcType=CHAR},
+      </if>
+      <if test="record.newlevel != null">
+        NewLevel = #{record.newlevel,jdbcType=CHAR},
+      </if>
+      <if test="record.newfreq != null">
+        NewFreq = #{record.newfreq,jdbcType=INTEGER},
+      </if>
+      <if test="record.newmean != null">
+        NewMean = #{record.newmean,jdbcType=INTEGER},
+      </if>
+      <if test="record.setfreq != null">
+        SetFreq = #{record.setfreq,jdbcType=INTEGER},
+      </if>
+      <if test="record.poType != null">
+        po_type = #{record.poType,jdbcType=CHAR},
+      </if>
+      <if test="record.suppliercode != null">
+        SupplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordertype != null">
+        orderType = #{record.ordertype,jdbcType=CHAR},
+      </if>
+      <if test="record.prodseri != null">
+        ProdSeri = #{record.prodseri,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.staterange != null">
+        StateRange = #{record.staterange,jdbcType=CHAR},
+      </if>
+      <if test="record.minpackageqty != null">
+        minPackageQty = #{record.minpackageqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.directpurchase != null">
+        DirectPurchase = #{record.directpurchase,jdbcType=SMALLINT},
+      </if>
+      <if test="record.autorepl != null">
+        AutoRepl = #{record.autorepl,jdbcType=SMALLINT},
+      </if>
+      <if test="record.directdelivery != null">
+        DirectDelivery = #{record.directdelivery,jdbcType=SMALLINT},
+      </if>
+      <if test="record.eprice != null">
+        EPrice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ecode != null">
+        ECode = #{record.ecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelseries != null">
+        ModelSeries = #{record.modelseries,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNo != null">
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origin != null">
+        origin = #{record.origin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logindate != null">
+        loginDate = #{record.logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replqty != null">
+        ReplQty = #{record.replqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.errormodel != null">
+        ErrorModel = #{record.errormodel,jdbcType=INTEGER},
+      </if>
+      <if test="record.setsuppliercode != null">
+        SetSupplierCode = #{record.setsuppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyqty != null">
+        ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.Bindata
+    set StockType = #{record.stocktype,jdbcType=INTEGER},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      Property_ID = #{record.propertyId,jdbcType=BIGINT},
+      id = #{record.id,jdbcType=BIGINT},
+      QtyBin = #{record.qtybin,jdbcType=INTEGER},
+      BinCell = #{record.bincell,jdbcType=INTEGER},
+      CaseType = #{record.casetype,jdbcType=VARCHAR},
+      ProdType = #{record.prodtype,jdbcType=CHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      PositionNo = #{record.positionno,jdbcType=VARCHAR},
+      MeshType = #{record.meshtype,jdbcType=VARCHAR},
+      InCaseQty = #{record.incaseqty,jdbcType=INTEGER},
+      Adjustable = #{record.adjustable,jdbcType=CHAR},
+      delFlag = #{record.delflag,jdbcType=SMALLINT},
+      LastdelFlag = #{record.lastdelflag,jdbcType=SMALLINT},
+      BinType = #{record.bintype,jdbcType=NVARCHAR},
+      safeQty = #{record.safeqty,jdbcType=INTEGER},
+      freq = #{record.freq,jdbcType=INTEGER},
+      mean = #{record.mean,jdbcType=INTEGER},
+      SetLevel = #{record.setlevel,jdbcType=CHAR},
+      NewLevel = #{record.newlevel,jdbcType=CHAR},
+      NewFreq = #{record.newfreq,jdbcType=INTEGER},
+      NewMean = #{record.newmean,jdbcType=INTEGER},
+      SetFreq = #{record.setfreq,jdbcType=INTEGER},
+      po_type = #{record.poType,jdbcType=CHAR},
+      SupplierCode = #{record.suppliercode,jdbcType=VARCHAR},
+      orderType = #{record.ordertype,jdbcType=CHAR},
+      ProdSeri = #{record.prodseri,jdbcType=NVARCHAR},
+      StateRange = #{record.staterange,jdbcType=CHAR},
+      minPackageQty = #{record.minpackageqty,jdbcType=INTEGER},
+      DirectPurchase = #{record.directpurchase,jdbcType=SMALLINT},
+      AutoRepl = #{record.autorepl,jdbcType=SMALLINT},
+      DirectDelivery = #{record.directdelivery,jdbcType=SMALLINT},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      ECode = #{record.ecode,jdbcType=VARCHAR},
+      ModelSeries = #{record.modelseries,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
+      inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      origin = #{record.origin,jdbcType=VARCHAR},
+      loginDate = #{record.logindate,jdbcType=TIMESTAMP},
+      ReplQty = #{record.replqty,jdbcType=INTEGER},
+      ErrorModel = #{record.errormodel,jdbcType=INTEGER},
+      SetSupplierCode = #{record.setsuppliercode,jdbcType=VARCHAR},
+      ApplyQty = #{record.applyqty,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Bindata">
+    update dbo.Bindata
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="qtybin != null">
+        QtyBin = #{qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="bincell != null">
+        BinCell = #{bincell,jdbcType=INTEGER},
+      </if>
+      <if test="casetype != null">
+        CaseType = #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        ProdType = #{prodtype,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionno != null">
+        PositionNo = #{positionno,jdbcType=VARCHAR},
+      </if>
+      <if test="meshtype != null">
+        MeshType = #{meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="incaseqty != null">
+        InCaseQty = #{incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="adjustable != null">
+        Adjustable = #{adjustable,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null">
+        delFlag = #{delflag,jdbcType=SMALLINT},
+      </if>
+      <if test="lastdelflag != null">
+        LastdelFlag = #{lastdelflag,jdbcType=SMALLINT},
+      </if>
+      <if test="bintype != null">
+        BinType = #{bintype,jdbcType=NVARCHAR},
+      </if>
+      <if test="safeqty != null">
+        safeQty = #{safeqty,jdbcType=INTEGER},
+      </if>
+      <if test="freq != null">
+        freq = #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        mean = #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="setlevel != null">
+        SetLevel = #{setlevel,jdbcType=CHAR},
+      </if>
+      <if test="newlevel != null">
+        NewLevel = #{newlevel,jdbcType=CHAR},
+      </if>
+      <if test="newfreq != null">
+        NewFreq = #{newfreq,jdbcType=INTEGER},
+      </if>
+      <if test="newmean != null">
+        NewMean = #{newmean,jdbcType=INTEGER},
+      </if>
+      <if test="setfreq != null">
+        SetFreq = #{setfreq,jdbcType=INTEGER},
+      </if>
+      <if test="poType != null">
+        po_type = #{poType,jdbcType=CHAR},
+      </if>
+      <if test="suppliercode != null">
+        SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null">
+        orderType = #{ordertype,jdbcType=CHAR},
+      </if>
+      <if test="prodseri != null">
+        ProdSeri = #{prodseri,jdbcType=NVARCHAR},
+      </if>
+      <if test="staterange != null">
+        StateRange = #{staterange,jdbcType=CHAR},
+      </if>
+      <if test="minpackageqty != null">
+        minPackageQty = #{minpackageqty,jdbcType=INTEGER},
+      </if>
+      <if test="directpurchase != null">
+        DirectPurchase = #{directpurchase,jdbcType=SMALLINT},
+      </if>
+      <if test="autorepl != null">
+        AutoRepl = #{autorepl,jdbcType=SMALLINT},
+      </if>
+      <if test="directdelivery != null">
+        DirectDelivery = #{directdelivery,jdbcType=SMALLINT},
+      </if>
+      <if test="eprice != null">
+        EPrice = #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ecode != null">
+        ECode = #{ecode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelseries != null">
+        ModelSeries = #{modelseries,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        ppl = #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no = #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        loginDate = #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replqty != null">
+        ReplQty = #{replqty,jdbcType=INTEGER},
+      </if>
+      <if test="errormodel != null">
+        ErrorModel = #{errormodel,jdbcType=INTEGER},
+      </if>
+      <if test="setsuppliercode != null">
+        SetSupplierCode = #{setsuppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyqty != null">
+        ApplyQty = #{applyqty,jdbcType=INTEGER},
+      </if>
+    </set>
+    where StockType = #{stocktype,jdbcType=INTEGER}
+      and warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+      and ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=VARCHAR}
+      and Property_ID = #{propertyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Bindata">
+    update dbo.Bindata
+    set id = #{id,jdbcType=BIGINT},
+      QtyBin = #{qtybin,jdbcType=INTEGER},
+      BinCell = #{bincell,jdbcType=INTEGER},
+      CaseType = #{casetype,jdbcType=VARCHAR},
+      ProdType = #{prodtype,jdbcType=CHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      PositionNo = #{positionno,jdbcType=VARCHAR},
+      MeshType = #{meshtype,jdbcType=VARCHAR},
+      InCaseQty = #{incaseqty,jdbcType=INTEGER},
+      Adjustable = #{adjustable,jdbcType=CHAR},
+      delFlag = #{delflag,jdbcType=SMALLINT},
+      LastdelFlag = #{lastdelflag,jdbcType=SMALLINT},
+      BinType = #{bintype,jdbcType=NVARCHAR},
+      safeQty = #{safeqty,jdbcType=INTEGER},
+      freq = #{freq,jdbcType=INTEGER},
+      mean = #{mean,jdbcType=INTEGER},
+      SetLevel = #{setlevel,jdbcType=CHAR},
+      NewLevel = #{newlevel,jdbcType=CHAR},
+      NewFreq = #{newfreq,jdbcType=INTEGER},
+      NewMean = #{newmean,jdbcType=INTEGER},
+      SetFreq = #{setfreq,jdbcType=INTEGER},
+      po_type = #{poType,jdbcType=CHAR},
+      SupplierCode = #{suppliercode,jdbcType=VARCHAR},
+      orderType = #{ordertype,jdbcType=CHAR},
+      ProdSeri = #{prodseri,jdbcType=NVARCHAR},
+      StateRange = #{staterange,jdbcType=CHAR},
+      minPackageQty = #{minpackageqty,jdbcType=INTEGER},
+      DirectPurchase = #{directpurchase,jdbcType=SMALLINT},
+      AutoRepl = #{autorepl,jdbcType=SMALLINT},
+      DirectDelivery = #{directdelivery,jdbcType=SMALLINT},
+      EPrice = #{eprice,jdbcType=DECIMAL},
+      ECode = #{ecode,jdbcType=VARCHAR},
+      ModelSeries = #{modelseries,jdbcType=VARCHAR},
+      ppl = #{ppl,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR},
+      group_customer_no = #{groupCustomerNo,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      loginDate = #{logindate,jdbcType=TIMESTAMP},
+      ReplQty = #{replqty,jdbcType=INTEGER},
+      ErrorModel = #{errormodel,jdbcType=INTEGER},
+      SetSupplierCode = #{setsuppliercode,jdbcType=VARCHAR},
+      ApplyQty = #{applyqty,jdbcType=INTEGER}
+    where StockType = #{stocktype,jdbcType=INTEGER}
+      and warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+      and ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=VARCHAR}
+      and Property_ID = #{propertyId,jdbcType=BIGINT}
+  </update>
+</mapper>

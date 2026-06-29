@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.PoBatchDao">
+	<!-- bug11473 马腾 自动发单 批量查询是否为贩卖限制品 -->
+	<select id="restrictModel" resultType="String" parameterType="String">
+		SELECT modelno FROM
+		product_restrict
+		where ModelNo in
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+		and is_deleted=0
+	</select>
+
+	<select id="getCustomerInfo" parameterType="String"
+		resultType="com.sales.ops.db.entity.OpsCustomer">
+		SELECT * FROM
+		ops_customer
+		where customer_no in
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<update id="updateRequestById" >
+		update ops_requestPurchase set stateCode=#{status},updateTime=GETDATE()
+		<if test="version != null ">,sendVersion=#{version}</if>
+		where id in
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+</mapper>

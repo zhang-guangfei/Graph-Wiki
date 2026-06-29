@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    nacos:
+      username: serverIdentity
+      password: security123456
+      config:
+        #server-addr: 10.116.192.201:8848
+        server-addr: 10.116.2.191:8848
+        namespace: min-prod
+        file-extension: yml
+      discovery:
+        #server-addr: 10.116.192.201:8848
+        server-addr: 10.116.2.191:8848
+        namespace: min-prod

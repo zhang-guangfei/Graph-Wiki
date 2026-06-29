@@ -1,0 +1,48 @@
+package com.smc.smccloud.model.adapter.order;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.util.Map;
+
+/**
+ * 适配器订单创建结果
+ */
+@Data
+public class AdapterOrderResult {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1004909655137288556L;
+
+    @ApiModelProperty(value = "直销门户申请单号")
+    private String no;
+
+    @ApiModelProperty(value = "直销门户申请子项号及型号")
+    private Map<Integer, String> itemModelList;
+
+    @ApiModelProperty(value = "直销门户申请子项号")
+    private Integer itemNo;
+
+    @ApiModelProperty(value = "直销门户申请型号")
+    private String modelNo;
+
+    @ApiModelProperty(value = "ERP申请单号")
+    private String ERPno;
+
+    @ApiModelProperty(value = "预占库存删除申请类别：删除/失效")
+    private String operateType;
+
+    @ApiModelProperty(value = "处理结果：false失败；true成功")
+    private boolean result;
+
+    @ApiModelProperty(value = "错误原因")
+    private String message;
+
+    @ApiModelProperty(value = "货期修改参数")
+    private OrderDeliveryDate modiDate;
+
+    @ApiModelProperty(value = "发货方式修改参数")
+    private OrderDeliveryModel modiModel;
+
+}

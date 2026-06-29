@@ -1,0 +1,32 @@
+package com.sales.ops.job.handler.psi;
+
+import com.sales.ops.dto.util.CommonResult;
+import com.sales.ops.feign.WmPurchaseFeignApi;
+import com.xxl.job.core.context.XxlJobHelper;
+import com.xxl.job.core.handler.annotation.XxlJob;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OpsPurchaseInvoicePushHandler {
+
+
+	@Autowired
+	private WmPurchaseFeignApi wmPurchaseFeignApi;
+
+	@XxlJob("pushPurchaseInvoiceInfoToPSI")
+	public void pushPurchaseInvoiceInfoToPSI() throws Exception {
+		XxlJobHelper.log("执行开始");
+		try {
+			CommonResult<String> result = wmPurchaseFeignApi.pushPurchaseInvoiceInfoToPSI();
+			if (result.isSuccess()) {
+				XxlJobHelper.log("成功 ： " + result.getData());
+			} else {
+				throw new Exception(result.getMessage());
+			}
+		} catch (Exception e) {
+			XxlJobHelper.log("执行失败 : {}", e);
+			throw e;
+		}
+	}
+}

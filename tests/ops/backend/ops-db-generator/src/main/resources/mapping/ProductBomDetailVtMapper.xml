@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductBomDetailVtMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductBomDetailVt">
+    <id column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="subModelNo" jdbcType="VARCHAR" property="submodelno" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="isBaseBoard" jdbcType="BIT" property="isbaseboard" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    modelNo, subModelNo, id, quantity, isBaseBoard, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailVtExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_bom_detail_VT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductBomDetailVtKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_bom_detail_VT
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and subModelNo = #{submodelno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductBomDetailVtKey">
+    delete from dbo.product_bom_detail_VT
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and subModelNo = #{submodelno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailVtExample">
+    delete from dbo.product_bom_detail_VT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductBomDetailVt">
+    insert into dbo.product_bom_detail_VT (modelNo, subModelNo, id, 
+      quantity, isBaseBoard, updateTime
+      )
+    values (#{modelno,jdbcType=VARCHAR}, #{submodelno,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, 
+      #{quantity,jdbcType=INTEGER}, #{isbaseboard,jdbcType=BIT}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductBomDetailVt">
+    insert into dbo.product_bom_detail_VT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="submodelno != null">
+        subModelNo,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="isbaseboard != null">
+        isBaseBoard,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="submodelno != null">
+        #{submodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="isbaseboard != null">
+        #{isbaseboard,jdbcType=BIT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductBomDetailVtExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_bom_detail_VT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_bom_detail_VT
+    <set>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submodelno != null">
+        subModelNo = #{record.submodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.isbaseboard != null">
+        isBaseBoard = #{record.isbaseboard,jdbcType=BIT},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_bom_detail_VT
+    set modelNo = #{record.modelno,jdbcType=VARCHAR},
+      subModelNo = #{record.submodelno,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=BIGINT},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      isBaseBoard = #{record.isbaseboard,jdbcType=BIT},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductBomDetailVt">
+    update dbo.product_bom_detail_VT
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="isbaseboard != null">
+        isBaseBoard = #{isbaseboard,jdbcType=BIT},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and subModelNo = #{submodelno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductBomDetailVt">
+    update dbo.product_bom_detail_VT
+    set id = #{id,jdbcType=BIGINT},
+      quantity = #{quantity,jdbcType=INTEGER},
+      isBaseBoard = #{isbaseboard,jdbcType=BIT},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and subModelNo = #{submodelno,jdbcType=VARCHAR}
+  </update>
+</mapper>

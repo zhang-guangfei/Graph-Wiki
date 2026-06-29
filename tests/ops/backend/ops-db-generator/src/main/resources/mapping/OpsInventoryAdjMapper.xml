@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInventoryAdjMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInventoryAdj">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="adj_date" jdbcType="TIMESTAMP" property="adjDate" />
+    <result column="diff_id" jdbcType="BIGINT" property="diffId" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="quantity_before" jdbcType="INTEGER" property="quantityBefore" />
+    <result column="quantity_adj" jdbcType="INTEGER" property="quantityAdj" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, adj_date, diff_id, inventory_id, quantity_before, quantity_adj, create_time, 
+    creator, status, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInventoryAdjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_adj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_adj
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inventory_adj
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInventoryAdjExample">
+    delete from dbo.ops_inventory_adj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInventoryAdj">
+    insert into dbo.ops_inventory_adj (id, adj_date, diff_id, 
+      inventory_id, quantity_before, quantity_adj, 
+      create_time, creator, status, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{adjDate,jdbcType=TIMESTAMP}, #{diffId,jdbcType=BIGINT}, 
+      #{inventoryId,jdbcType=BIGINT}, #{quantityBefore,jdbcType=INTEGER}, #{quantityAdj,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInventoryAdj">
+    insert into dbo.ops_inventory_adj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="adjDate != null">
+        adj_date,
+      </if>
+      <if test="diffId != null">
+        diff_id,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="quantityBefore != null">
+        quantity_before,
+      </if>
+      <if test="quantityAdj != null">
+        quantity_adj,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="adjDate != null">
+        #{adjDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diffId != null">
+        #{diffId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="quantityBefore != null">
+        #{quantityBefore,jdbcType=INTEGER},
+      </if>
+      <if test="quantityAdj != null">
+        #{quantityAdj,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInventoryAdjExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inventory_adj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inventory_adj
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.adjDate != null">
+        adj_date = #{record.adjDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.diffId != null">
+        diff_id = #{record.diffId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.quantityBefore != null">
+        quantity_before = #{record.quantityBefore,jdbcType=INTEGER},
+      </if>
+      <if test="record.quantityAdj != null">
+        quantity_adj = #{record.quantityAdj,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inventory_adj
+    set id = #{record.id,jdbcType=BIGINT},
+      adj_date = #{record.adjDate,jdbcType=TIMESTAMP},
+      diff_id = #{record.diffId,jdbcType=BIGINT},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      quantity_before = #{record.quantityBefore,jdbcType=INTEGER},
+      quantity_adj = #{record.quantityAdj,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInventoryAdj">
+    update dbo.ops_inventory_adj
+    <set>
+      <if test="adjDate != null">
+        adj_date = #{adjDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diffId != null">
+        diff_id = #{diffId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="quantityBefore != null">
+        quantity_before = #{quantityBefore,jdbcType=INTEGER},
+      </if>
+      <if test="quantityAdj != null">
+        quantity_adj = #{quantityAdj,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInventoryAdj">
+    update dbo.ops_inventory_adj
+    set adj_date = #{adjDate,jdbcType=TIMESTAMP},
+      diff_id = #{diffId,jdbcType=BIGINT},
+      inventory_id = #{inventoryId,jdbcType=BIGINT},
+      quantity_before = #{quantityBefore,jdbcType=INTEGER},
+      quantity_adj = #{quantityAdj,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

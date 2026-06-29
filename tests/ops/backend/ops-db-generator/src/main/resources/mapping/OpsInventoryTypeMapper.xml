@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInventoryTypeMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInventoryType">
+    <id column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="match_customer_no" jdbcType="BIT" property="matchCustomerNo" />
+    <result column="match_project_code" jdbcType="BIT" property="matchProjectCode" />
+    <result column="mathch_ppl" jdbcType="BIT" property="mathchPpl" />
+    <result column="match_group_customer_no" jdbcType="BIT" property="matchGroupCustomerNo" />
+    <result column="match_group_customer_type" jdbcType="VARCHAR" property="matchGroupCustomerType" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="mathch_qb_no" jdbcType="BIT" property="mathchQbNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    inventory_type_code, description, delflag, match_customer_no, match_project_code, 
+    mathch_ppl, match_group_customer_no, match_group_customer_type, creator, cre_time, 
+    modifier, modify_time, mathch_qb_no
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInventoryTypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_type
+    where inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_inventory_type
+    where inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInventoryTypeExample">
+    delete from dbo.ops_inventory_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInventoryType">
+    insert into dbo.ops_inventory_type (inventory_type_code, description, delflag, 
+      match_customer_no, match_project_code, mathch_ppl, 
+      match_group_customer_no, match_group_customer_type, 
+      creator, cre_time, modifier, 
+      modify_time, mathch_qb_no)
+    values (#{inventoryTypeCode,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{delflag,jdbcType=INTEGER}, 
+      #{matchCustomerNo,jdbcType=BIT}, #{matchProjectCode,jdbcType=BIT}, #{mathchPpl,jdbcType=BIT}, 
+      #{matchGroupCustomerNo,jdbcType=BIT}, #{matchGroupCustomerType,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=NVARCHAR}, #{creTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{mathchQbNo,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInventoryType">
+    insert into dbo.ops_inventory_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="matchCustomerNo != null">
+        match_customer_no,
+      </if>
+      <if test="matchProjectCode != null">
+        match_project_code,
+      </if>
+      <if test="mathchPpl != null">
+        mathch_ppl,
+      </if>
+      <if test="matchGroupCustomerNo != null">
+        match_group_customer_no,
+      </if>
+      <if test="matchGroupCustomerType != null">
+        match_group_customer_type,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="mathchQbNo != null">
+        mathch_qb_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="matchCustomerNo != null">
+        #{matchCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="matchProjectCode != null">
+        #{matchProjectCode,jdbcType=BIT},
+      </if>
+      <if test="mathchPpl != null">
+        #{mathchPpl,jdbcType=BIT},
+      </if>
+      <if test="matchGroupCustomerNo != null">
+        #{matchGroupCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="matchGroupCustomerType != null">
+        #{matchGroupCustomerType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mathchQbNo != null">
+        #{mathchQbNo,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInventoryTypeExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inventory_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inventory_type
+    <set>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchCustomerNo != null">
+        match_customer_no = #{record.matchCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="record.matchProjectCode != null">
+        match_project_code = #{record.matchProjectCode,jdbcType=BIT},
+      </if>
+      <if test="record.mathchPpl != null">
+        mathch_ppl = #{record.mathchPpl,jdbcType=BIT},
+      </if>
+      <if test="record.matchGroupCustomerNo != null">
+        match_group_customer_no = #{record.matchGroupCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="record.matchGroupCustomerType != null">
+        match_group_customer_type = #{record.matchGroupCustomerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mathchQbNo != null">
+        mathch_qb_no = #{record.mathchQbNo,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inventory_type
+    set inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      match_customer_no = #{record.matchCustomerNo,jdbcType=BIT},
+      match_project_code = #{record.matchProjectCode,jdbcType=BIT},
+      mathch_ppl = #{record.mathchPpl,jdbcType=BIT},
+      match_group_customer_no = #{record.matchGroupCustomerNo,jdbcType=BIT},
+      match_group_customer_type = #{record.matchGroupCustomerType,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=VARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      mathch_qb_no = #{record.mathchQbNo,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInventoryType">
+    update dbo.ops_inventory_type
+    <set>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="matchCustomerNo != null">
+        match_customer_no = #{matchCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="matchProjectCode != null">
+        match_project_code = #{matchProjectCode,jdbcType=BIT},
+      </if>
+      <if test="mathchPpl != null">
+        mathch_ppl = #{mathchPpl,jdbcType=BIT},
+      </if>
+      <if test="matchGroupCustomerNo != null">
+        match_group_customer_no = #{matchGroupCustomerNo,jdbcType=BIT},
+      </if>
+      <if test="matchGroupCustomerType != null">
+        match_group_customer_type = #{matchGroupCustomerType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mathchQbNo != null">
+        mathch_qb_no = #{mathchQbNo,jdbcType=BIT},
+      </if>
+    </set>
+    where inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInventoryType">
+    update dbo.ops_inventory_type
+    set description = #{description,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      match_customer_no = #{matchCustomerNo,jdbcType=BIT},
+      match_project_code = #{matchProjectCode,jdbcType=BIT},
+      mathch_ppl = #{mathchPpl,jdbcType=BIT},
+      match_group_customer_no = #{matchGroupCustomerNo,jdbcType=BIT},
+      match_group_customer_type = #{matchGroupCustomerType,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=NVARCHAR},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      mathch_qb_no = #{mathchQbNo,jdbcType=BIT}
+    where inventory_type_code = #{inventoryTypeCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,41 @@
+.html{
+  font-size: 12px;
+}
+.base-h3 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.base-h4{
+  font-size: 0.8em;
+  font-weight: bold;
+}
+table {
+  border-collapse: collapse;
+  border: 1px;
+}
+td.table-td-title {
+  padding-left: 5px;
+  line-height: 26px;
+  width: 100px;
+  font-size: 12px;
+  background-color: #F0F8FF;
+}
+td.table-td-content {
+  padding-left: 5px;
+  width: 160px;
+  line-height: 26px;
+  font-size: 12px;
+}
+ 
+td.table-td-content-no-pad {
+  width: 250px;
+  line-height: 26px;
+  font-size: 12px;
+}
+.prop-important ::before {
+  content: "*";
+  color: #f56c6c;
+  margin-right: 4px;
+}

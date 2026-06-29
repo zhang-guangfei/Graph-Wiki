@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TDocOrderTrackingOpsMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TDocOrderTrackingOps">
+    <id column="trackingSeqNo" jdbcType="NVARCHAR" property="trackingseqno" />
+    <result column="organizationid" jdbcType="NVARCHAR" property="organizationid" />
+    <result column="orderno" jdbcType="NVARCHAR" property="orderno" />
+    <result column="taskno" jdbcType="NVARCHAR" property="taskno" />
+    <result column="waybillno" jdbcType="NVARCHAR" property="waybillno" />
+    <result column="expressno" jdbcType="NVARCHAR" property="expressno" />
+    <result column="showStatus" jdbcType="NVARCHAR" property="showstatus" />
+    <result column="trackingtime" jdbcType="TIMESTAMP" property="trackingtime" />
+    <result column="milestone" jdbcType="NVARCHAR" property="milestone" />
+    <result column="showflag" jdbcType="CHAR" property="showflag" />
+    <result column="branchid" jdbcType="NVARCHAR" property="branchid" />
+    <result column="carrierid" jdbcType="NVARCHAR" property="carrierid" />
+    <result column="carrierName" jdbcType="NVARCHAR" property="carriername" />
+    <result column="vehicleid" jdbcType="NVARCHAR" property="vehicleid" />
+    <result column="driverid" jdbcType="NVARCHAR" property="driverid" />
+    <result column="drivername" jdbcType="NVARCHAR" property="drivername" />
+    <result column="trackingcountry" jdbcType="NVARCHAR" property="trackingcountry" />
+    <result column="trackingprovince" jdbcType="NVARCHAR" property="trackingprovince" />
+    <result column="trackingcity" jdbcType="NVARCHAR" property="trackingcity" />
+    <result column="trackingdistrict" jdbcType="NVARCHAR" property="trackingdistrict" />
+    <result column="trackingstreet" jdbcType="NVARCHAR" property="trackingstreet" />
+    <result column="positionid" jdbcType="NVARCHAR" property="positionid" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="udf01" jdbcType="NVARCHAR" property="udf01" />
+    <result column="udf02" jdbcType="NVARCHAR" property="udf02" />
+    <result column="udf03" jdbcType="NVARCHAR" property="udf03" />
+    <result column="udf04" jdbcType="NVARCHAR" property="udf04" />
+    <result column="udf05" jdbcType="NVARCHAR" property="udf05" />
+    <result column="currentversion" jdbcType="INTEGER" property="currentversion" />
+    <result column="oprseqflag" jdbcType="NVARCHAR" property="oprseqflag" />
+    <result column="addwho" jdbcType="NVARCHAR" property="addwho" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="editwho" jdbcType="NVARCHAR" property="editwho" />
+    <result column="edittime" jdbcType="TIMESTAMP" property="edittime" />
+    <result column="activeflag" jdbcType="CHAR" property="activeflag" />
+    <result column="omsno" jdbcType="NVARCHAR" property="omsno" />
+    <result column="trackingstatus" jdbcType="NVARCHAR" property="trackingstatus" />
+    <result column="ordertype" jdbcType="NVARCHAR" property="ordertype" />
+    <result column="edisendflag1" jdbcType="CHAR" property="edisendflag1" />
+    <result column="edisendflag2" jdbcType="CHAR" property="edisendflag2" />
+    <result column="edisendflag3" jdbcType="CHAR" property="edisendflag3" />
+    <result column="edisendtime1" jdbcType="TIMESTAMP" property="edisendtime1" />
+    <result column="edisendtime2" jdbcType="TIMESTAMP" property="edisendtime2" />
+    <result column="edisendtime3" jdbcType="TIMESTAMP" property="edisendtime3" />
+    <result column="drivertel1" jdbcType="NVARCHAR" property="drivertel1" />
+    <result column="wmsOrderNo" jdbcType="NVARCHAR" property="wmsorderno" />
+    <result column="reference1" jdbcType="NVARCHAR" property="reference1" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.TDocOrderTrackingOpsWithBLOBs">
+    <result column="trackingdescr" jdbcType="LONGVARCHAR" property="trackingdescr" />
+    <result column="notetext" jdbcType="LONGVARCHAR" property="notetext" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    trackingSeqNo, organizationid, orderno, taskno, waybillno, expressno, showStatus, 
+    trackingtime, milestone, showflag, branchid, carrierid, carrierName, vehicleid, driverid, 
+    drivername, trackingcountry, trackingprovince, trackingcity, trackingdistrict, trackingstreet, 
+    positionid, longitude, latitude, udf01, udf02, udf03, udf04, udf05, currentversion, 
+    oprseqflag, addwho, addtime, editwho, edittime, activeflag, omsno, trackingstatus, 
+    ordertype, edisendflag1, edisendflag2, edisendflag3, edisendtime1, edisendtime2, 
+    edisendtime3, drivertel1, wmsOrderNo, reference1
+  </sql>
+  <sql id="Blob_Column_List">
+    trackingdescr, notetext
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.T_DOC_ORDER_TRACKING_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.T_DOC_ORDER_TRACKING_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.T_DOC_ORDER_TRACKING_OPS
+    where trackingSeqNo = #{trackingseqno,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.T_DOC_ORDER_TRACKING_OPS
+    where trackingSeqNo = #{trackingseqno,jdbcType=NVARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsExample">
+    delete from dbo.T_DOC_ORDER_TRACKING_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsWithBLOBs">
+    insert into dbo.T_DOC_ORDER_TRACKING_OPS (trackingSeqNo, organizationid, 
+      orderno, taskno, waybillno, 
+      expressno, showStatus, trackingtime, 
+      milestone, showflag, branchid, 
+      carrierid, carrierName, vehicleid, 
+      driverid, drivername, trackingcountry, 
+      trackingprovince, trackingcity, trackingdistrict, 
+      trackingstreet, positionid, longitude, 
+      latitude, udf01, udf02, 
+      udf03, udf04, udf05, 
+      currentversion, oprseqflag, addwho, 
+      addtime, editwho, edittime, 
+      activeflag, omsno, trackingstatus, 
+      ordertype, edisendflag1, edisendflag2, 
+      edisendflag3, edisendtime1, edisendtime2, 
+      edisendtime3, drivertel1, wmsOrderNo, 
+      reference1, trackingdescr, notetext
+      )
+    values (#{trackingseqno,jdbcType=NVARCHAR}, #{organizationid,jdbcType=NVARCHAR}, 
+      #{orderno,jdbcType=NVARCHAR}, #{taskno,jdbcType=NVARCHAR}, #{waybillno,jdbcType=NVARCHAR}, 
+      #{expressno,jdbcType=NVARCHAR}, #{showstatus,jdbcType=NVARCHAR}, #{trackingtime,jdbcType=TIMESTAMP}, 
+      #{milestone,jdbcType=NVARCHAR}, #{showflag,jdbcType=CHAR}, #{branchid,jdbcType=NVARCHAR}, 
+      #{carrierid,jdbcType=NVARCHAR}, #{carriername,jdbcType=NVARCHAR}, #{vehicleid,jdbcType=NVARCHAR}, 
+      #{driverid,jdbcType=NVARCHAR}, #{drivername,jdbcType=NVARCHAR}, #{trackingcountry,jdbcType=NVARCHAR}, 
+      #{trackingprovince,jdbcType=NVARCHAR}, #{trackingcity,jdbcType=NVARCHAR}, #{trackingdistrict,jdbcType=NVARCHAR}, 
+      #{trackingstreet,jdbcType=NVARCHAR}, #{positionid,jdbcType=NVARCHAR}, #{longitude,jdbcType=DECIMAL}, 
+      #{latitude,jdbcType=DECIMAL}, #{udf01,jdbcType=NVARCHAR}, #{udf02,jdbcType=NVARCHAR}, 
+      #{udf03,jdbcType=NVARCHAR}, #{udf04,jdbcType=NVARCHAR}, #{udf05,jdbcType=NVARCHAR}, 
+      #{currentversion,jdbcType=INTEGER}, #{oprseqflag,jdbcType=NVARCHAR}, #{addwho,jdbcType=NVARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{editwho,jdbcType=NVARCHAR}, #{edittime,jdbcType=TIMESTAMP}, 
+      #{activeflag,jdbcType=CHAR}, #{omsno,jdbcType=NVARCHAR}, #{trackingstatus,jdbcType=NVARCHAR}, 
+      #{ordertype,jdbcType=NVARCHAR}, #{edisendflag1,jdbcType=CHAR}, #{edisendflag2,jdbcType=CHAR}, 
+      #{edisendflag3,jdbcType=CHAR}, #{edisendtime1,jdbcType=TIMESTAMP}, #{edisendtime2,jdbcType=TIMESTAMP}, 
+      #{edisendtime3,jdbcType=TIMESTAMP}, #{drivertel1,jdbcType=NVARCHAR}, #{wmsorderno,jdbcType=NVARCHAR}, 
+      #{reference1,jdbcType=NVARCHAR}, #{trackingdescr,jdbcType=LONGVARCHAR}, #{notetext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsWithBLOBs">
+    insert into dbo.T_DOC_ORDER_TRACKING_OPS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="trackingseqno != null">
+        trackingSeqNo,
+      </if>
+      <if test="organizationid != null">
+        organizationid,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="taskno != null">
+        taskno,
+      </if>
+      <if test="waybillno != null">
+        waybillno,
+      </if>
+      <if test="expressno != null">
+        expressno,
+      </if>
+      <if test="showstatus != null">
+        showStatus,
+      </if>
+      <if test="trackingtime != null">
+        trackingtime,
+      </if>
+      <if test="milestone != null">
+        milestone,
+      </if>
+      <if test="showflag != null">
+        showflag,
+      </if>
+      <if test="branchid != null">
+        branchid,
+      </if>
+      <if test="carrierid != null">
+        carrierid,
+      </if>
+      <if test="carriername != null">
+        carrierName,
+      </if>
+      <if test="vehicleid != null">
+        vehicleid,
+      </if>
+      <if test="driverid != null">
+        driverid,
+      </if>
+      <if test="drivername != null">
+        drivername,
+      </if>
+      <if test="trackingcountry != null">
+        trackingcountry,
+      </if>
+      <if test="trackingprovince != null">
+        trackingprovince,
+      </if>
+      <if test="trackingcity != null">
+        trackingcity,
+      </if>
+      <if test="trackingdistrict != null">
+        trackingdistrict,
+      </if>
+      <if test="trackingstreet != null">
+        trackingstreet,
+      </if>
+      <if test="positionid != null">
+        positionid,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="udf01 != null">
+        udf01,
+      </if>
+      <if test="udf02 != null">
+        udf02,
+      </if>
+      <if test="udf03 != null">
+        udf03,
+      </if>
+      <if test="udf04 != null">
+        udf04,
+      </if>
+      <if test="udf05 != null">
+        udf05,
+      </if>
+      <if test="currentversion != null">
+        currentversion,
+      </if>
+      <if test="oprseqflag != null">
+        oprseqflag,
+      </if>
+      <if test="addwho != null">
+        addwho,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="editwho != null">
+        editwho,
+      </if>
+      <if test="edittime != null">
+        edittime,
+      </if>
+      <if test="activeflag != null">
+        activeflag,
+      </if>
+      <if test="omsno != null">
+        omsno,
+      </if>
+      <if test="trackingstatus != null">
+        trackingstatus,
+      </if>
+      <if test="ordertype != null">
+        ordertype,
+      </if>
+      <if test="edisendflag1 != null">
+        edisendflag1,
+      </if>
+      <if test="edisendflag2 != null">
+        edisendflag2,
+      </if>
+      <if test="edisendflag3 != null">
+        edisendflag3,
+      </if>
+      <if test="edisendtime1 != null">
+        edisendtime1,
+      </if>
+      <if test="edisendtime2 != null">
+        edisendtime2,
+      </if>
+      <if test="edisendtime3 != null">
+        edisendtime3,
+      </if>
+      <if test="drivertel1 != null">
+        drivertel1,
+      </if>
+      <if test="wmsorderno != null">
+        wmsOrderNo,
+      </if>
+      <if test="reference1 != null">
+        reference1,
+      </if>
+      <if test="trackingdescr != null">
+        trackingdescr,
+      </if>
+      <if test="notetext != null">
+        notetext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="trackingseqno != null">
+        #{trackingseqno,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationid != null">
+        #{organizationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskno != null">
+        #{taskno,jdbcType=NVARCHAR},
+      </if>
+      <if test="waybillno != null">
+        #{waybillno,jdbcType=NVARCHAR},
+      </if>
+      <if test="expressno != null">
+        #{expressno,jdbcType=NVARCHAR},
+      </if>
+      <if test="showstatus != null">
+        #{showstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingtime != null">
+        #{trackingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="milestone != null">
+        #{milestone,jdbcType=NVARCHAR},
+      </if>
+      <if test="showflag != null">
+        #{showflag,jdbcType=CHAR},
+      </if>
+      <if test="branchid != null">
+        #{branchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="carrierid != null">
+        #{carrierid,jdbcType=NVARCHAR},
+      </if>
+      <if test="carriername != null">
+        #{carriername,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleid != null">
+        #{vehicleid,jdbcType=NVARCHAR},
+      </if>
+      <if test="driverid != null">
+        #{driverid,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivername != null">
+        #{drivername,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingcountry != null">
+        #{trackingcountry,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingprovince != null">
+        #{trackingprovince,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingcity != null">
+        #{trackingcity,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingdistrict != null">
+        #{trackingdistrict,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingstreet != null">
+        #{trackingstreet,jdbcType=NVARCHAR},
+      </if>
+      <if test="positionid != null">
+        #{positionid,jdbcType=NVARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="udf01 != null">
+        #{udf01,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf02 != null">
+        #{udf02,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf03 != null">
+        #{udf03,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf04 != null">
+        #{udf04,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf05 != null">
+        #{udf05,jdbcType=NVARCHAR},
+      </if>
+      <if test="currentversion != null">
+        #{currentversion,jdbcType=INTEGER},
+      </if>
+      <if test="oprseqflag != null">
+        #{oprseqflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="addwho != null">
+        #{addwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editwho != null">
+        #{editwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeflag != null">
+        #{activeflag,jdbcType=CHAR},
+      </if>
+      <if test="omsno != null">
+        #{omsno,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingstatus != null">
+        #{trackingstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="ordertype != null">
+        #{ordertype,jdbcType=NVARCHAR},
+      </if>
+      <if test="edisendflag1 != null">
+        #{edisendflag1,jdbcType=CHAR},
+      </if>
+      <if test="edisendflag2 != null">
+        #{edisendflag2,jdbcType=CHAR},
+      </if>
+      <if test="edisendflag3 != null">
+        #{edisendflag3,jdbcType=CHAR},
+      </if>
+      <if test="edisendtime1 != null">
+        #{edisendtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edisendtime2 != null">
+        #{edisendtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edisendtime3 != null">
+        #{edisendtime3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drivertel1 != null">
+        #{drivertel1,jdbcType=NVARCHAR},
+      </if>
+      <if test="wmsorderno != null">
+        #{wmsorderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="reference1 != null">
+        #{reference1,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingdescr != null">
+        #{trackingdescr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="notetext != null">
+        #{notetext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsExample" resultType="java.lang.Long">
+    select count(*) from dbo.T_DOC_ORDER_TRACKING_OPS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    <set>
+      <if test="record.trackingseqno != null">
+        trackingSeqNo = #{record.trackingseqno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.organizationid != null">
+        organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        orderno = #{record.orderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taskno != null">
+        taskno = #{record.taskno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.waybillno != null">
+        waybillno = #{record.waybillno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.expressno != null">
+        expressno = #{record.expressno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.showstatus != null">
+        showStatus = #{record.showstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingtime != null">
+        trackingtime = #{record.trackingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.milestone != null">
+        milestone = #{record.milestone,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.showflag != null">
+        showflag = #{record.showflag,jdbcType=CHAR},
+      </if>
+      <if test="record.branchid != null">
+        branchid = #{record.branchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.carrierid != null">
+        carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.carriername != null">
+        carrierName = #{record.carriername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.vehicleid != null">
+        vehicleid = #{record.vehicleid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.driverid != null">
+        driverid = #{record.driverid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.drivername != null">
+        drivername = #{record.drivername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingcountry != null">
+        trackingcountry = #{record.trackingcountry,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingprovince != null">
+        trackingprovince = #{record.trackingprovince,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingcity != null">
+        trackingcity = #{record.trackingcity,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingdistrict != null">
+        trackingdistrict = #{record.trackingdistrict,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingstreet != null">
+        trackingstreet = #{record.trackingstreet,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.positionid != null">
+        positionid = #{record.positionid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.udf01 != null">
+        udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf02 != null">
+        udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf03 != null">
+        udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf04 != null">
+        udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.udf05 != null">
+        udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.currentversion != null">
+        currentversion = #{record.currentversion,jdbcType=INTEGER},
+      </if>
+      <if test="record.oprseqflag != null">
+        oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.addwho != null">
+        addwho = #{record.addwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editwho != null">
+        editwho = #{record.editwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.edittime != null">
+        edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activeflag != null">
+        activeflag = #{record.activeflag,jdbcType=CHAR},
+      </if>
+      <if test="record.omsno != null">
+        omsno = #{record.omsno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingstatus != null">
+        trackingstatus = #{record.trackingstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ordertype != null">
+        ordertype = #{record.ordertype,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.edisendflag1 != null">
+        edisendflag1 = #{record.edisendflag1,jdbcType=CHAR},
+      </if>
+      <if test="record.edisendflag2 != null">
+        edisendflag2 = #{record.edisendflag2,jdbcType=CHAR},
+      </if>
+      <if test="record.edisendflag3 != null">
+        edisendflag3 = #{record.edisendflag3,jdbcType=CHAR},
+      </if>
+      <if test="record.edisendtime1 != null">
+        edisendtime1 = #{record.edisendtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.edisendtime2 != null">
+        edisendtime2 = #{record.edisendtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.edisendtime3 != null">
+        edisendtime3 = #{record.edisendtime3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.drivertel1 != null">
+        drivertel1 = #{record.drivertel1,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.wmsorderno != null">
+        wmsOrderNo = #{record.wmsorderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.reference1 != null">
+        reference1 = #{record.reference1,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.trackingdescr != null">
+        trackingdescr = #{record.trackingdescr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.notetext != null">
+        notetext = #{record.notetext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    set trackingSeqNo = #{record.trackingseqno,jdbcType=NVARCHAR},
+      organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      orderno = #{record.orderno,jdbcType=NVARCHAR},
+      taskno = #{record.taskno,jdbcType=NVARCHAR},
+      waybillno = #{record.waybillno,jdbcType=NVARCHAR},
+      expressno = #{record.expressno,jdbcType=NVARCHAR},
+      showStatus = #{record.showstatus,jdbcType=NVARCHAR},
+      trackingtime = #{record.trackingtime,jdbcType=TIMESTAMP},
+      milestone = #{record.milestone,jdbcType=NVARCHAR},
+      showflag = #{record.showflag,jdbcType=CHAR},
+      branchid = #{record.branchid,jdbcType=NVARCHAR},
+      carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      carrierName = #{record.carriername,jdbcType=NVARCHAR},
+      vehicleid = #{record.vehicleid,jdbcType=NVARCHAR},
+      driverid = #{record.driverid,jdbcType=NVARCHAR},
+      drivername = #{record.drivername,jdbcType=NVARCHAR},
+      trackingcountry = #{record.trackingcountry,jdbcType=NVARCHAR},
+      trackingprovince = #{record.trackingprovince,jdbcType=NVARCHAR},
+      trackingcity = #{record.trackingcity,jdbcType=NVARCHAR},
+      trackingdistrict = #{record.trackingdistrict,jdbcType=NVARCHAR},
+      trackingstreet = #{record.trackingstreet,jdbcType=NVARCHAR},
+      positionid = #{record.positionid,jdbcType=NVARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      currentversion = #{record.currentversion,jdbcType=INTEGER},
+      oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{record.addwho,jdbcType=NVARCHAR},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      editwho = #{record.editwho,jdbcType=NVARCHAR},
+      edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      activeflag = #{record.activeflag,jdbcType=CHAR},
+      omsno = #{record.omsno,jdbcType=NVARCHAR},
+      trackingstatus = #{record.trackingstatus,jdbcType=NVARCHAR},
+      ordertype = #{record.ordertype,jdbcType=NVARCHAR},
+      edisendflag1 = #{record.edisendflag1,jdbcType=CHAR},
+      edisendflag2 = #{record.edisendflag2,jdbcType=CHAR},
+      edisendflag3 = #{record.edisendflag3,jdbcType=CHAR},
+      edisendtime1 = #{record.edisendtime1,jdbcType=TIMESTAMP},
+      edisendtime2 = #{record.edisendtime2,jdbcType=TIMESTAMP},
+      edisendtime3 = #{record.edisendtime3,jdbcType=TIMESTAMP},
+      drivertel1 = #{record.drivertel1,jdbcType=NVARCHAR},
+      wmsOrderNo = #{record.wmsorderno,jdbcType=NVARCHAR},
+      reference1 = #{record.reference1,jdbcType=NVARCHAR},
+      trackingdescr = #{record.trackingdescr,jdbcType=LONGVARCHAR},
+      notetext = #{record.notetext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    set trackingSeqNo = #{record.trackingseqno,jdbcType=NVARCHAR},
+      organizationid = #{record.organizationid,jdbcType=NVARCHAR},
+      orderno = #{record.orderno,jdbcType=NVARCHAR},
+      taskno = #{record.taskno,jdbcType=NVARCHAR},
+      waybillno = #{record.waybillno,jdbcType=NVARCHAR},
+      expressno = #{record.expressno,jdbcType=NVARCHAR},
+      showStatus = #{record.showstatus,jdbcType=NVARCHAR},
+      trackingtime = #{record.trackingtime,jdbcType=TIMESTAMP},
+      milestone = #{record.milestone,jdbcType=NVARCHAR},
+      showflag = #{record.showflag,jdbcType=CHAR},
+      branchid = #{record.branchid,jdbcType=NVARCHAR},
+      carrierid = #{record.carrierid,jdbcType=NVARCHAR},
+      carrierName = #{record.carriername,jdbcType=NVARCHAR},
+      vehicleid = #{record.vehicleid,jdbcType=NVARCHAR},
+      driverid = #{record.driverid,jdbcType=NVARCHAR},
+      drivername = #{record.drivername,jdbcType=NVARCHAR},
+      trackingcountry = #{record.trackingcountry,jdbcType=NVARCHAR},
+      trackingprovince = #{record.trackingprovince,jdbcType=NVARCHAR},
+      trackingcity = #{record.trackingcity,jdbcType=NVARCHAR},
+      trackingdistrict = #{record.trackingdistrict,jdbcType=NVARCHAR},
+      trackingstreet = #{record.trackingstreet,jdbcType=NVARCHAR},
+      positionid = #{record.positionid,jdbcType=NVARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      udf01 = #{record.udf01,jdbcType=NVARCHAR},
+      udf02 = #{record.udf02,jdbcType=NVARCHAR},
+      udf03 = #{record.udf03,jdbcType=NVARCHAR},
+      udf04 = #{record.udf04,jdbcType=NVARCHAR},
+      udf05 = #{record.udf05,jdbcType=NVARCHAR},
+      currentversion = #{record.currentversion,jdbcType=INTEGER},
+      oprseqflag = #{record.oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{record.addwho,jdbcType=NVARCHAR},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      editwho = #{record.editwho,jdbcType=NVARCHAR},
+      edittime = #{record.edittime,jdbcType=TIMESTAMP},
+      activeflag = #{record.activeflag,jdbcType=CHAR},
+      omsno = #{record.omsno,jdbcType=NVARCHAR},
+      trackingstatus = #{record.trackingstatus,jdbcType=NVARCHAR},
+      ordertype = #{record.ordertype,jdbcType=NVARCHAR},
+      edisendflag1 = #{record.edisendflag1,jdbcType=CHAR},
+      edisendflag2 = #{record.edisendflag2,jdbcType=CHAR},
+      edisendflag3 = #{record.edisendflag3,jdbcType=CHAR},
+      edisendtime1 = #{record.edisendtime1,jdbcType=TIMESTAMP},
+      edisendtime2 = #{record.edisendtime2,jdbcType=TIMESTAMP},
+      edisendtime3 = #{record.edisendtime3,jdbcType=TIMESTAMP},
+      drivertel1 = #{record.drivertel1,jdbcType=NVARCHAR},
+      wmsOrderNo = #{record.wmsorderno,jdbcType=NVARCHAR},
+      reference1 = #{record.reference1,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsWithBLOBs">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    <set>
+      <if test="organizationid != null">
+        organizationid = #{organizationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderno != null">
+        orderno = #{orderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskno != null">
+        taskno = #{taskno,jdbcType=NVARCHAR},
+      </if>
+      <if test="waybillno != null">
+        waybillno = #{waybillno,jdbcType=NVARCHAR},
+      </if>
+      <if test="expressno != null">
+        expressno = #{expressno,jdbcType=NVARCHAR},
+      </if>
+      <if test="showstatus != null">
+        showStatus = #{showstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingtime != null">
+        trackingtime = #{trackingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="milestone != null">
+        milestone = #{milestone,jdbcType=NVARCHAR},
+      </if>
+      <if test="showflag != null">
+        showflag = #{showflag,jdbcType=CHAR},
+      </if>
+      <if test="branchid != null">
+        branchid = #{branchid,jdbcType=NVARCHAR},
+      </if>
+      <if test="carrierid != null">
+        carrierid = #{carrierid,jdbcType=NVARCHAR},
+      </if>
+      <if test="carriername != null">
+        carrierName = #{carriername,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleid != null">
+        vehicleid = #{vehicleid,jdbcType=NVARCHAR},
+      </if>
+      <if test="driverid != null">
+        driverid = #{driverid,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivername != null">
+        drivername = #{drivername,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingcountry != null">
+        trackingcountry = #{trackingcountry,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingprovince != null">
+        trackingprovince = #{trackingprovince,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingcity != null">
+        trackingcity = #{trackingcity,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingdistrict != null">
+        trackingdistrict = #{trackingdistrict,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingstreet != null">
+        trackingstreet = #{trackingstreet,jdbcType=NVARCHAR},
+      </if>
+      <if test="positionid != null">
+        positionid = #{positionid,jdbcType=NVARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="udf01 != null">
+        udf01 = #{udf01,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf02 != null">
+        udf02 = #{udf02,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf03 != null">
+        udf03 = #{udf03,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf04 != null">
+        udf04 = #{udf04,jdbcType=NVARCHAR},
+      </if>
+      <if test="udf05 != null">
+        udf05 = #{udf05,jdbcType=NVARCHAR},
+      </if>
+      <if test="currentversion != null">
+        currentversion = #{currentversion,jdbcType=INTEGER},
+      </if>
+      <if test="oprseqflag != null">
+        oprseqflag = #{oprseqflag,jdbcType=NVARCHAR},
+      </if>
+      <if test="addwho != null">
+        addwho = #{addwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editwho != null">
+        editwho = #{editwho,jdbcType=NVARCHAR},
+      </if>
+      <if test="edittime != null">
+        edittime = #{edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeflag != null">
+        activeflag = #{activeflag,jdbcType=CHAR},
+      </if>
+      <if test="omsno != null">
+        omsno = #{omsno,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingstatus != null">
+        trackingstatus = #{trackingstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="ordertype != null">
+        ordertype = #{ordertype,jdbcType=NVARCHAR},
+      </if>
+      <if test="edisendflag1 != null">
+        edisendflag1 = #{edisendflag1,jdbcType=CHAR},
+      </if>
+      <if test="edisendflag2 != null">
+        edisendflag2 = #{edisendflag2,jdbcType=CHAR},
+      </if>
+      <if test="edisendflag3 != null">
+        edisendflag3 = #{edisendflag3,jdbcType=CHAR},
+      </if>
+      <if test="edisendtime1 != null">
+        edisendtime1 = #{edisendtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edisendtime2 != null">
+        edisendtime2 = #{edisendtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edisendtime3 != null">
+        edisendtime3 = #{edisendtime3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drivertel1 != null">
+        drivertel1 = #{drivertel1,jdbcType=NVARCHAR},
+      </if>
+      <if test="wmsorderno != null">
+        wmsOrderNo = #{wmsorderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="reference1 != null">
+        reference1 = #{reference1,jdbcType=NVARCHAR},
+      </if>
+      <if test="trackingdescr != null">
+        trackingdescr = #{trackingdescr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="notetext != null">
+        notetext = #{notetext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where trackingSeqNo = #{trackingseqno,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOpsWithBLOBs">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    set organizationid = #{organizationid,jdbcType=NVARCHAR},
+      orderno = #{orderno,jdbcType=NVARCHAR},
+      taskno = #{taskno,jdbcType=NVARCHAR},
+      waybillno = #{waybillno,jdbcType=NVARCHAR},
+      expressno = #{expressno,jdbcType=NVARCHAR},
+      showStatus = #{showstatus,jdbcType=NVARCHAR},
+      trackingtime = #{trackingtime,jdbcType=TIMESTAMP},
+      milestone = #{milestone,jdbcType=NVARCHAR},
+      showflag = #{showflag,jdbcType=CHAR},
+      branchid = #{branchid,jdbcType=NVARCHAR},
+      carrierid = #{carrierid,jdbcType=NVARCHAR},
+      carrierName = #{carriername,jdbcType=NVARCHAR},
+      vehicleid = #{vehicleid,jdbcType=NVARCHAR},
+      driverid = #{driverid,jdbcType=NVARCHAR},
+      drivername = #{drivername,jdbcType=NVARCHAR},
+      trackingcountry = #{trackingcountry,jdbcType=NVARCHAR},
+      trackingprovince = #{trackingprovince,jdbcType=NVARCHAR},
+      trackingcity = #{trackingcity,jdbcType=NVARCHAR},
+      trackingdistrict = #{trackingdistrict,jdbcType=NVARCHAR},
+      trackingstreet = #{trackingstreet,jdbcType=NVARCHAR},
+      positionid = #{positionid,jdbcType=NVARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      udf01 = #{udf01,jdbcType=NVARCHAR},
+      udf02 = #{udf02,jdbcType=NVARCHAR},
+      udf03 = #{udf03,jdbcType=NVARCHAR},
+      udf04 = #{udf04,jdbcType=NVARCHAR},
+      udf05 = #{udf05,jdbcType=NVARCHAR},
+      currentversion = #{currentversion,jdbcType=INTEGER},
+      oprseqflag = #{oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{addwho,jdbcType=NVARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      editwho = #{editwho,jdbcType=NVARCHAR},
+      edittime = #{edittime,jdbcType=TIMESTAMP},
+      activeflag = #{activeflag,jdbcType=CHAR},
+      omsno = #{omsno,jdbcType=NVARCHAR},
+      trackingstatus = #{trackingstatus,jdbcType=NVARCHAR},
+      ordertype = #{ordertype,jdbcType=NVARCHAR},
+      edisendflag1 = #{edisendflag1,jdbcType=CHAR},
+      edisendflag2 = #{edisendflag2,jdbcType=CHAR},
+      edisendflag3 = #{edisendflag3,jdbcType=CHAR},
+      edisendtime1 = #{edisendtime1,jdbcType=TIMESTAMP},
+      edisendtime2 = #{edisendtime2,jdbcType=TIMESTAMP},
+      edisendtime3 = #{edisendtime3,jdbcType=TIMESTAMP},
+      drivertel1 = #{drivertel1,jdbcType=NVARCHAR},
+      wmsOrderNo = #{wmsorderno,jdbcType=NVARCHAR},
+      reference1 = #{reference1,jdbcType=NVARCHAR},
+      trackingdescr = #{trackingdescr,jdbcType=LONGVARCHAR},
+      notetext = #{notetext,jdbcType=LONGVARCHAR}
+    where trackingSeqNo = #{trackingseqno,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TDocOrderTrackingOps">
+    update dbo.T_DOC_ORDER_TRACKING_OPS
+    set organizationid = #{organizationid,jdbcType=NVARCHAR},
+      orderno = #{orderno,jdbcType=NVARCHAR},
+      taskno = #{taskno,jdbcType=NVARCHAR},
+      waybillno = #{waybillno,jdbcType=NVARCHAR},
+      expressno = #{expressno,jdbcType=NVARCHAR},
+      showStatus = #{showstatus,jdbcType=NVARCHAR},
+      trackingtime = #{trackingtime,jdbcType=TIMESTAMP},
+      milestone = #{milestone,jdbcType=NVARCHAR},
+      showflag = #{showflag,jdbcType=CHAR},
+      branchid = #{branchid,jdbcType=NVARCHAR},
+      carrierid = #{carrierid,jdbcType=NVARCHAR},
+      carrierName = #{carriername,jdbcType=NVARCHAR},
+      vehicleid = #{vehicleid,jdbcType=NVARCHAR},
+      driverid = #{driverid,jdbcType=NVARCHAR},
+      drivername = #{drivername,jdbcType=NVARCHAR},
+      trackingcountry = #{trackingcountry,jdbcType=NVARCHAR},
+      trackingprovince = #{trackingprovince,jdbcType=NVARCHAR},
+      trackingcity = #{trackingcity,jdbcType=NVARCHAR},
+      trackingdistrict = #{trackingdistrict,jdbcType=NVARCHAR},
+      trackingstreet = #{trackingstreet,jdbcType=NVARCHAR},
+      positionid = #{positionid,jdbcType=NVARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      udf01 = #{udf01,jdbcType=NVARCHAR},
+      udf02 = #{udf02,jdbcType=NVARCHAR},
+      udf03 = #{udf03,jdbcType=NVARCHAR},
+      udf04 = #{udf04,jdbcType=NVARCHAR},
+      udf05 = #{udf05,jdbcType=NVARCHAR},
+      currentversion = #{currentversion,jdbcType=INTEGER},
+      oprseqflag = #{oprseqflag,jdbcType=NVARCHAR},
+      addwho = #{addwho,jdbcType=NVARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      editwho = #{editwho,jdbcType=NVARCHAR},
+      edittime = #{edittime,jdbcType=TIMESTAMP},
+      activeflag = #{activeflag,jdbcType=CHAR},
+      omsno = #{omsno,jdbcType=NVARCHAR},
+      trackingstatus = #{trackingstatus,jdbcType=NVARCHAR},
+      ordertype = #{ordertype,jdbcType=NVARCHAR},
+      edisendflag1 = #{edisendflag1,jdbcType=CHAR},
+      edisendflag2 = #{edisendflag2,jdbcType=CHAR},
+      edisendflag3 = #{edisendflag3,jdbcType=CHAR},
+      edisendtime1 = #{edisendtime1,jdbcType=TIMESTAMP},
+      edisendtime2 = #{edisendtime2,jdbcType=TIMESTAMP},
+      edisendtime3 = #{edisendtime3,jdbcType=TIMESTAMP},
+      drivertel1 = #{drivertel1,jdbcType=NVARCHAR},
+      wmsOrderNo = #{wmsorderno,jdbcType=NVARCHAR},
+      reference1 = #{reference1,jdbcType=NVARCHAR}
+    where trackingSeqNo = #{trackingseqno,jdbcType=NVARCHAR}
+  </update>
+</mapper>

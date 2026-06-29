@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.CsAgentExpDataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.CsAgentExpData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_fno" jdbcType="VARCHAR" property="orderFno" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="agent_No" jdbcType="VARCHAR" property="agentNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="stock_code" jdbcType="VARCHAR" property="stockCode" />
+    <result column="order_user" jdbcType="VARCHAR" property="orderUser" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="opt_code" jdbcType="SMALLINT" property="optCode" />
+    <result column="dn_no" jdbcType="VARCHAR" property="dnNo" />
+    <result column="exp_user" jdbcType="VARCHAR" property="expUser" />
+    <result column="export_date" jdbcType="TIMESTAMP" property="exportDate" />
+    <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate" />
+    <result column="cancel_date" jdbcType="TIMESTAMP" property="cancelDate" />
+    <result column="cancel_user" jdbcType="VARCHAR" property="cancelUser" />
+    <result column="print_times" jdbcType="INTEGER" property="printTimes" />
+    <result column="address_no" jdbcType="VARCHAR" property="addressNo" />
+    <result column="stock_customer_no" jdbcType="VARCHAR" property="stockCustomerNo" />
+    <result column="dlv_type1" jdbcType="CHAR" property="dlvType1" />
+    <result column="dlv_type2" jdbcType="CHAR" property="dlvType2" />
+    <result column="spec_dlvdate" jdbcType="TIMESTAMP" property="specDlvdate" />
+    <result column="pack_type" jdbcType="NVARCHAR" property="packType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_fno, rorder_no, agent_No, user_no, model_no, quantity, stock_code, order_user, 
+    order_date, status, opt_code, dn_no, exp_user, export_date, finish_date, cancel_date, 
+    cancel_user, print_times, address_no, stock_customer_no, dlv_type1, dlv_type2, spec_dlvdate, 
+    pack_type, create_time, update_time, create_user, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.CsAgentExpDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._cs_agent_exp_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._cs_agent_exp_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo._cs_agent_exp_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.CsAgentExpDataExample">
+    delete from dbo._cs_agent_exp_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.CsAgentExpData">
+    insert into dbo._cs_agent_exp_data (id, order_fno, rorder_no, 
+      agent_No, user_no, model_no, 
+      quantity, stock_code, order_user, 
+      order_date, status, opt_code, 
+      dn_no, exp_user, export_date, 
+      finish_date, cancel_date, cancel_user, 
+      print_times, address_no, stock_customer_no, 
+      dlv_type1, dlv_type2, spec_dlvdate, 
+      pack_type, create_time, update_time, 
+      create_user, update_user)
+    values (#{id,jdbcType=BIGINT}, #{orderFno,jdbcType=VARCHAR}, #{rorderNo,jdbcType=VARCHAR}, 
+      #{agentNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{stockCode,jdbcType=VARCHAR}, #{orderUser,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{optCode,jdbcType=SMALLINT}, 
+      #{dnNo,jdbcType=VARCHAR}, #{expUser,jdbcType=VARCHAR}, #{exportDate,jdbcType=TIMESTAMP}, 
+      #{finishDate,jdbcType=TIMESTAMP}, #{cancelDate,jdbcType=TIMESTAMP}, #{cancelUser,jdbcType=VARCHAR}, 
+      #{printTimes,jdbcType=INTEGER}, #{addressNo,jdbcType=VARCHAR}, #{stockCustomerNo,jdbcType=VARCHAR}, 
+      #{dlvType1,jdbcType=CHAR}, #{dlvType2,jdbcType=CHAR}, #{specDlvdate,jdbcType=TIMESTAMP}, 
+      #{packType,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.CsAgentExpData">
+    insert into dbo._cs_agent_exp_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderFno != null">
+        order_fno,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="agentNo != null">
+        agent_No,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderUser != null">
+        order_user,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="optCode != null">
+        opt_code,
+      </if>
+      <if test="dnNo != null">
+        dn_no,
+      </if>
+      <if test="expUser != null">
+        exp_user,
+      </if>
+      <if test="exportDate != null">
+        export_date,
+      </if>
+      <if test="finishDate != null">
+        finish_date,
+      </if>
+      <if test="cancelDate != null">
+        cancel_date,
+      </if>
+      <if test="cancelUser != null">
+        cancel_user,
+      </if>
+      <if test="printTimes != null">
+        print_times,
+      </if>
+      <if test="addressNo != null">
+        address_no,
+      </if>
+      <if test="stockCustomerNo != null">
+        stock_customer_no,
+      </if>
+      <if test="dlvType1 != null">
+        dlv_type1,
+      </if>
+      <if test="dlvType2 != null">
+        dlv_type2,
+      </if>
+      <if test="specDlvdate != null">
+        spec_dlvdate,
+      </if>
+      <if test="packType != null">
+        pack_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderFno != null">
+        #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNo != null">
+        #{agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null">
+        #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="optCode != null">
+        #{optCode,jdbcType=SMALLINT},
+      </if>
+      <if test="dnNo != null">
+        #{dnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expUser != null">
+        #{expUser,jdbcType=VARCHAR},
+      </if>
+      <if test="exportDate != null">
+        #{exportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelDate != null">
+        #{cancelDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelUser != null">
+        #{cancelUser,jdbcType=VARCHAR},
+      </if>
+      <if test="printTimes != null">
+        #{printTimes,jdbcType=INTEGER},
+      </if>
+      <if test="addressNo != null">
+        #{addressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCustomerNo != null">
+        #{stockCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvType1 != null">
+        #{dlvType1,jdbcType=CHAR},
+      </if>
+      <if test="dlvType2 != null">
+        #{dlvType2,jdbcType=CHAR},
+      </if>
+      <if test="specDlvdate != null">
+        #{specDlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packType != null">
+        #{packType,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.CsAgentExpDataExample" resultType="java.lang.Long">
+    select count(*) from dbo._cs_agent_exp_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._cs_agent_exp_data
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderFno != null">
+        order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentNo != null">
+        agent_No = #{record.agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderUser != null">
+        order_user = #{record.orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderDate != null">
+        order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.optCode != null">
+        opt_code = #{record.optCode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.dnNo != null">
+        dn_no = #{record.dnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expUser != null">
+        exp_user = #{record.expUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exportDate != null">
+        export_date = #{record.exportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishDate != null">
+        finish_date = #{record.finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cancelDate != null">
+        cancel_date = #{record.cancelDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cancelUser != null">
+        cancel_user = #{record.cancelUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printTimes != null">
+        print_times = #{record.printTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.addressNo != null">
+        address_no = #{record.addressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockCustomerNo != null">
+        stock_customer_no = #{record.stockCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvType1 != null">
+        dlv_type1 = #{record.dlvType1,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvType2 != null">
+        dlv_type2 = #{record.dlvType2,jdbcType=CHAR},
+      </if>
+      <if test="record.specDlvdate != null">
+        spec_dlvdate = #{record.specDlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.packType != null">
+        pack_type = #{record.packType,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._cs_agent_exp_data
+    set id = #{record.id,jdbcType=BIGINT},
+      order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      agent_No = #{record.agentNo,jdbcType=VARCHAR},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      order_user = #{record.orderUser,jdbcType=VARCHAR},
+      order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=SMALLINT},
+      opt_code = #{record.optCode,jdbcType=SMALLINT},
+      dn_no = #{record.dnNo,jdbcType=VARCHAR},
+      exp_user = #{record.expUser,jdbcType=VARCHAR},
+      export_date = #{record.exportDate,jdbcType=TIMESTAMP},
+      finish_date = #{record.finishDate,jdbcType=TIMESTAMP},
+      cancel_date = #{record.cancelDate,jdbcType=TIMESTAMP},
+      cancel_user = #{record.cancelUser,jdbcType=VARCHAR},
+      print_times = #{record.printTimes,jdbcType=INTEGER},
+      address_no = #{record.addressNo,jdbcType=VARCHAR},
+      stock_customer_no = #{record.stockCustomerNo,jdbcType=VARCHAR},
+      dlv_type1 = #{record.dlvType1,jdbcType=CHAR},
+      dlv_type2 = #{record.dlvType2,jdbcType=CHAR},
+      spec_dlvdate = #{record.specDlvdate,jdbcType=TIMESTAMP},
+      pack_type = #{record.packType,jdbcType=NVARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.CsAgentExpData">
+    update dbo._cs_agent_exp_data
+    <set>
+      <if test="orderFno != null">
+        order_fno = #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentNo != null">
+        agent_No = #{agentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null">
+        order_user = #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="optCode != null">
+        opt_code = #{optCode,jdbcType=SMALLINT},
+      </if>
+      <if test="dnNo != null">
+        dn_no = #{dnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expUser != null">
+        exp_user = #{expUser,jdbcType=VARCHAR},
+      </if>
+      <if test="exportDate != null">
+        export_date = #{exportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelDate != null">
+        cancel_date = #{cancelDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelUser != null">
+        cancel_user = #{cancelUser,jdbcType=VARCHAR},
+      </if>
+      <if test="printTimes != null">
+        print_times = #{printTimes,jdbcType=INTEGER},
+      </if>
+      <if test="addressNo != null">
+        address_no = #{addressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCustomerNo != null">
+        stock_customer_no = #{stockCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvType1 != null">
+        dlv_type1 = #{dlvType1,jdbcType=CHAR},
+      </if>
+      <if test="dlvType2 != null">
+        dlv_type2 = #{dlvType2,jdbcType=CHAR},
+      </if>
+      <if test="specDlvdate != null">
+        spec_dlvdate = #{specDlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packType != null">
+        pack_type = #{packType,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.CsAgentExpData">
+    update dbo._cs_agent_exp_data
+    set order_fno = #{orderFno,jdbcType=VARCHAR},
+      rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      agent_No = #{agentNo,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      order_user = #{orderUser,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=SMALLINT},
+      opt_code = #{optCode,jdbcType=SMALLINT},
+      dn_no = #{dnNo,jdbcType=VARCHAR},
+      exp_user = #{expUser,jdbcType=VARCHAR},
+      export_date = #{exportDate,jdbcType=TIMESTAMP},
+      finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      cancel_date = #{cancelDate,jdbcType=TIMESTAMP},
+      cancel_user = #{cancelUser,jdbcType=VARCHAR},
+      print_times = #{printTimes,jdbcType=INTEGER},
+      address_no = #{addressNo,jdbcType=VARCHAR},
+      stock_customer_no = #{stockCustomerNo,jdbcType=VARCHAR},
+      dlv_type1 = #{dlvType1,jdbcType=CHAR},
+      dlv_type2 = #{dlvType2,jdbcType=CHAR},
+      spec_dlvdate = #{specDlvdate,jdbcType=TIMESTAMP},
+      pack_type = #{packType,jdbcType=NVARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

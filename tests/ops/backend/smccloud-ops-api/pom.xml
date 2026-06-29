@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.smc.smccloud</groupId>
+        <artifactId>smccloud-master</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>com.smc.smccloud.ops.api</groupId>
+	<artifactId>smccloud-ops-api</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<modules>
+	    <module>smccloud-ops-base-api</module>
+		<module>smccloud-ops-product-api</module>
+        <module>smccloud-ops-order-api</module>
+        <module>smccloud-ops-cpfr-api</module>
+		<module>smccloud-ops-shareapp-api</module>
+		<module>smccloud-ops-adapter-api</module>
+		<module>smccloud-ops-report-api</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+        <!--feign 依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
+		</dependency>
+
+		<dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+
+		<!--spring-cloud-starter-netflix-hystrix -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+	    </dependency>
+		<dependency>
+			<groupId>com.smc.smccloud.core</groupId>
+			<artifactId>smccloud-core-entity</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.apiggs</groupId>
+			<artifactId>apiggs-maven-plugin</artifactId>
+			<version>1.6</version>
+			<type>pom</type>
+		</dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>poi-ooxml-schemas</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>poi-ooxml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+   </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.apiggs</groupId>
+				<artifactId>apiggs-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>apiggs</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- options in there -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

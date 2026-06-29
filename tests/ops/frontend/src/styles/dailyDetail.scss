@@ -1,0 +1,36 @@
+.zs {
+    .block{
+        margin-top: 10px;
+        // border: 2px solid #ccc;
+    }
+    .dialog{
+        .el-dialog__header{
+            text-align: center;
+            padding: 0px;
+            padding-top: 20px;
+        }
+        .el-dialog__body{
+            padding: 0px;
+            padding-top: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .el-dialog__title{
+            color: rgb(117, 144, 168);
+        }
+    
+    }
+    .baifang{
+        margin-top:20px;
+         .el-divider--horizontal{
+            margin:5px;
+        }
+    }
+    .car{
+        #title{
+            margin:0px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+    }
+}

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TransOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TransOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="trans_type" jdbcType="INTEGER" property="transType" />
+    <result column="trans_no" jdbcType="VARCHAR" property="transNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="from_no" jdbcType="VARCHAR" property="fromNo" />
+    <result column="from_id" jdbcType="BIGINT" property="fromId" />
+    <result column="from_type" jdbcType="INTEGER" property="fromType" />
+    <result column="from_inventory_property_id" jdbcType="BIGINT" property="fromInventoryPropertyId" />
+    <result column="from_warehouse_code" jdbcType="VARCHAR" property="fromWarehouseCode" />
+    <result column="from_inventory_type_code" jdbcType="VARCHAR" property="fromInventoryTypeCode" />
+    <result column="from_ppl" jdbcType="VARCHAR" property="fromPpl" />
+    <result column="from_project_code" jdbcType="VARCHAR" property="fromProjectCode" />
+    <result column="from_group_customer_no" jdbcType="VARCHAR" property="fromGroupCustomerNo" />
+    <result column="from_sales_info_no" jdbcType="VARCHAR" property="fromSalesInfoNo" />
+    <result column="from_customer_no" jdbcType="VARCHAR" property="fromCustomerNo" />
+    <result column="to_inventory_property_id" jdbcType="BIGINT" property="toInventoryPropertyId" />
+    <result column="to_warehouse_code" jdbcType="VARCHAR" property="toWarehouseCode" />
+    <result column="to_inventory_type_code" jdbcType="VARCHAR" property="toInventoryTypeCode" />
+    <result column="to_ppl" jdbcType="VARCHAR" property="toPpl" />
+    <result column="to_project_code" jdbcType="VARCHAR" property="toProjectCode" />
+    <result column="to_group_customer_no" jdbcType="VARCHAR" property="toGroupCustomerNo" />
+    <result column="to_sales_info_no" jdbcType="VARCHAR" property="toSalesInfoNo" />
+    <result column="to_customer_no" jdbcType="VARCHAR" property="toCustomerNo" />
+    <result column="in_quantity" jdbcType="INTEGER" property="inQuantity" />
+    <result column="wms_dlv_date" jdbcType="TIMESTAMP" property="wmsDlvDate" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="NVARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="NVARCHAR" property="updateUser" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="ship_qty" jdbcType="INTEGER" property="shipQty" />
+    <result column="ship_date" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="trans_flag" jdbcType="BIT" property="transFlag" />
+    <result column="from_inventory_id" jdbcType="BIGINT" property="fromInventoryId" />
+    <result column="from_associate_no" jdbcType="VARCHAR" property="fromAssociateNo" />
+    <result column="from_associate_no_item" jdbcType="INTEGER" property="fromAssociateNoItem" />
+    <result column="from_associate_no_split" jdbcType="INTEGER" property="fromAssociateNoSplit" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, trans_type, trans_no, item_no, model_no, quantity, status, from_no, from_id, 
+    from_type, from_inventory_property_id, from_warehouse_code, from_inventory_type_code, 
+    from_ppl, from_project_code, from_group_customer_no, from_sales_info_no, from_customer_no, 
+    to_inventory_property_id, to_warehouse_code, to_inventory_type_code, to_ppl, to_project_code, 
+    to_group_customer_no, to_sales_info_no, to_customer_no, in_quantity, wms_dlv_date, 
+    finish_time, create_time, update_time, create_user, update_user, invoice_no, ship_qty, 
+    ship_date, trans_flag, from_inventory_id, from_associate_no, from_associate_no_item, 
+    from_associate_no_split, invoice_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TransOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.trans_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.trans_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.trans_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TransOrderExample">
+    delete from dbo.trans_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TransOrder">
+    insert into dbo.trans_order (id, trans_type, trans_no, 
+      item_no, model_no, quantity, 
+      status, from_no, from_id, 
+      from_type, from_inventory_property_id, from_warehouse_code, 
+      from_inventory_type_code, from_ppl, from_project_code, 
+      from_group_customer_no, from_sales_info_no, from_customer_no, 
+      to_inventory_property_id, to_warehouse_code, 
+      to_inventory_type_code, to_ppl, to_project_code, 
+      to_group_customer_no, to_sales_info_no, to_customer_no, 
+      in_quantity, wms_dlv_date, finish_time, 
+      create_time, update_time, create_user, 
+      update_user, invoice_no, ship_qty, 
+      ship_date, trans_flag, from_inventory_id, 
+      from_associate_no, from_associate_no_item, from_associate_no_split, 
+      invoice_id)
+    values (#{id,jdbcType=BIGINT}, #{transType,jdbcType=INTEGER}, #{transNo,jdbcType=VARCHAR}, 
+      #{itemNo,jdbcType=INTEGER}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{fromNo,jdbcType=VARCHAR}, #{fromId,jdbcType=BIGINT}, 
+      #{fromType,jdbcType=INTEGER}, #{fromInventoryPropertyId,jdbcType=BIGINT}, #{fromWarehouseCode,jdbcType=VARCHAR}, 
+      #{fromInventoryTypeCode,jdbcType=VARCHAR}, #{fromPpl,jdbcType=VARCHAR}, #{fromProjectCode,jdbcType=VARCHAR}, 
+      #{fromGroupCustomerNo,jdbcType=VARCHAR}, #{fromSalesInfoNo,jdbcType=VARCHAR}, #{fromCustomerNo,jdbcType=VARCHAR}, 
+      #{toInventoryPropertyId,jdbcType=BIGINT}, #{toWarehouseCode,jdbcType=VARCHAR}, 
+      #{toInventoryTypeCode,jdbcType=VARCHAR}, #{toPpl,jdbcType=VARCHAR}, #{toProjectCode,jdbcType=VARCHAR}, 
+      #{toGroupCustomerNo,jdbcType=VARCHAR}, #{toSalesInfoNo,jdbcType=VARCHAR}, #{toCustomerNo,jdbcType=VARCHAR}, 
+      #{inQuantity,jdbcType=INTEGER}, #{wmsDlvDate,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=NVARCHAR}, 
+      #{updateUser,jdbcType=NVARCHAR}, #{invoiceNo,jdbcType=VARCHAR}, #{shipQty,jdbcType=INTEGER}, 
+      #{shipDate,jdbcType=TIMESTAMP}, #{transFlag,jdbcType=BIT}, #{fromInventoryId,jdbcType=BIGINT}, 
+      #{fromAssociateNo,jdbcType=VARCHAR}, #{fromAssociateNoItem,jdbcType=INTEGER}, #{fromAssociateNoSplit,jdbcType=INTEGER}, 
+      #{invoiceId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TransOrder">
+    insert into dbo.trans_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="transType != null">
+        trans_type,
+      </if>
+      <if test="transNo != null">
+        trans_no,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="fromNo != null">
+        from_no,
+      </if>
+      <if test="fromId != null">
+        from_id,
+      </if>
+      <if test="fromType != null">
+        from_type,
+      </if>
+      <if test="fromInventoryPropertyId != null">
+        from_inventory_property_id,
+      </if>
+      <if test="fromWarehouseCode != null">
+        from_warehouse_code,
+      </if>
+      <if test="fromInventoryTypeCode != null">
+        from_inventory_type_code,
+      </if>
+      <if test="fromPpl != null">
+        from_ppl,
+      </if>
+      <if test="fromProjectCode != null">
+        from_project_code,
+      </if>
+      <if test="fromGroupCustomerNo != null">
+        from_group_customer_no,
+      </if>
+      <if test="fromSalesInfoNo != null">
+        from_sales_info_no,
+      </if>
+      <if test="fromCustomerNo != null">
+        from_customer_no,
+      </if>
+      <if test="toInventoryPropertyId != null">
+        to_inventory_property_id,
+      </if>
+      <if test="toWarehouseCode != null">
+        to_warehouse_code,
+      </if>
+      <if test="toInventoryTypeCode != null">
+        to_inventory_type_code,
+      </if>
+      <if test="toPpl != null">
+        to_ppl,
+      </if>
+      <if test="toProjectCode != null">
+        to_project_code,
+      </if>
+      <if test="toGroupCustomerNo != null">
+        to_group_customer_no,
+      </if>
+      <if test="toSalesInfoNo != null">
+        to_sales_info_no,
+      </if>
+      <if test="toCustomerNo != null">
+        to_customer_no,
+      </if>
+      <if test="inQuantity != null">
+        in_quantity,
+      </if>
+      <if test="wmsDlvDate != null">
+        wms_dlv_date,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="shipQty != null">
+        ship_qty,
+      </if>
+      <if test="shipDate != null">
+        ship_date,
+      </if>
+      <if test="transFlag != null">
+        trans_flag,
+      </if>
+      <if test="fromInventoryId != null">
+        from_inventory_id,
+      </if>
+      <if test="fromAssociateNo != null">
+        from_associate_no,
+      </if>
+      <if test="fromAssociateNoItem != null">
+        from_associate_no_item,
+      </if>
+      <if test="fromAssociateNoSplit != null">
+        from_associate_no_split,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="transType != null">
+        #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="transNo != null">
+        #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fromNo != null">
+        #{fromNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null">
+        #{fromId,jdbcType=BIGINT},
+      </if>
+      <if test="fromType != null">
+        #{fromType,jdbcType=INTEGER},
+      </if>
+      <if test="fromInventoryPropertyId != null">
+        #{fromInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="fromWarehouseCode != null">
+        #{fromWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromInventoryTypeCode != null">
+        #{fromInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromPpl != null">
+        #{fromPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="fromProjectCode != null">
+        #{fromProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromGroupCustomerNo != null">
+        #{fromGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSalesInfoNo != null">
+        #{fromSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromCustomerNo != null">
+        #{fromCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toInventoryPropertyId != null">
+        #{toInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="toWarehouseCode != null">
+        #{toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toInventoryTypeCode != null">
+        #{toInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toPpl != null">
+        #{toPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="toProjectCode != null">
+        #{toProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toGroupCustomerNo != null">
+        #{toGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toSalesInfoNo != null">
+        #{toSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toCustomerNo != null">
+        #{toCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inQuantity != null">
+        #{inQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="wmsDlvDate != null">
+        #{wmsDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shipQty != null">
+        #{shipQty,jdbcType=INTEGER},
+      </if>
+      <if test="shipDate != null">
+        #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transFlag != null">
+        #{transFlag,jdbcType=BIT},
+      </if>
+      <if test="fromInventoryId != null">
+        #{fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="fromAssociateNo != null">
+        #{fromAssociateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAssociateNoItem != null">
+        #{fromAssociateNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="fromAssociateNoSplit != null">
+        #{fromAssociateNoSplit,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TransOrderExample" resultType="java.lang.Long">
+    select count(*) from dbo.trans_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.trans_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.transType != null">
+        trans_type = #{record.transType,jdbcType=INTEGER},
+      </if>
+      <if test="record.transNo != null">
+        trans_no = #{record.transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromNo != null">
+        from_no = #{record.fromNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromId != null">
+        from_id = #{record.fromId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fromType != null">
+        from_type = #{record.fromType,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromInventoryPropertyId != null">
+        from_inventory_property_id = #{record.fromInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fromWarehouseCode != null">
+        from_warehouse_code = #{record.fromWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromInventoryTypeCode != null">
+        from_inventory_type_code = #{record.fromInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromPpl != null">
+        from_ppl = #{record.fromPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromProjectCode != null">
+        from_project_code = #{record.fromProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromGroupCustomerNo != null">
+        from_group_customer_no = #{record.fromGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromSalesInfoNo != null">
+        from_sales_info_no = #{record.fromSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromCustomerNo != null">
+        from_customer_no = #{record.fromCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toInventoryPropertyId != null">
+        to_inventory_property_id = #{record.toInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.toWarehouseCode != null">
+        to_warehouse_code = #{record.toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toInventoryTypeCode != null">
+        to_inventory_type_code = #{record.toInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toPpl != null">
+        to_ppl = #{record.toPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toProjectCode != null">
+        to_project_code = #{record.toProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toGroupCustomerNo != null">
+        to_group_customer_no = #{record.toGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toSalesInfoNo != null">
+        to_sales_info_no = #{record.toSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toCustomerNo != null">
+        to_customer_no = #{record.toCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inQuantity != null">
+        in_quantity = #{record.inQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.wmsDlvDate != null">
+        wms_dlv_date = #{record.wmsDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishTime != null">
+        finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipQty != null">
+        ship_qty = #{record.shipQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.shipDate != null">
+        ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.transFlag != null">
+        trans_flag = #{record.transFlag,jdbcType=BIT},
+      </if>
+      <if test="record.fromInventoryId != null">
+        from_inventory_id = #{record.fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fromAssociateNo != null">
+        from_associate_no = #{record.fromAssociateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromAssociateNoItem != null">
+        from_associate_no_item = #{record.fromAssociateNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromAssociateNoSplit != null">
+        from_associate_no_split = #{record.fromAssociateNoSplit,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.trans_order
+    set id = #{record.id,jdbcType=BIGINT},
+      trans_type = #{record.transType,jdbcType=INTEGER},
+      trans_no = #{record.transNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      from_no = #{record.fromNo,jdbcType=VARCHAR},
+      from_id = #{record.fromId,jdbcType=BIGINT},
+      from_type = #{record.fromType,jdbcType=INTEGER},
+      from_inventory_property_id = #{record.fromInventoryPropertyId,jdbcType=BIGINT},
+      from_warehouse_code = #{record.fromWarehouseCode,jdbcType=VARCHAR},
+      from_inventory_type_code = #{record.fromInventoryTypeCode,jdbcType=VARCHAR},
+      from_ppl = #{record.fromPpl,jdbcType=VARCHAR},
+      from_project_code = #{record.fromProjectCode,jdbcType=VARCHAR},
+      from_group_customer_no = #{record.fromGroupCustomerNo,jdbcType=VARCHAR},
+      from_sales_info_no = #{record.fromSalesInfoNo,jdbcType=VARCHAR},
+      from_customer_no = #{record.fromCustomerNo,jdbcType=VARCHAR},
+      to_inventory_property_id = #{record.toInventoryPropertyId,jdbcType=BIGINT},
+      to_warehouse_code = #{record.toWarehouseCode,jdbcType=VARCHAR},
+      to_inventory_type_code = #{record.toInventoryTypeCode,jdbcType=VARCHAR},
+      to_ppl = #{record.toPpl,jdbcType=VARCHAR},
+      to_project_code = #{record.toProjectCode,jdbcType=VARCHAR},
+      to_group_customer_no = #{record.toGroupCustomerNo,jdbcType=VARCHAR},
+      to_sales_info_no = #{record.toSalesInfoNo,jdbcType=VARCHAR},
+      to_customer_no = #{record.toCustomerNo,jdbcType=VARCHAR},
+      in_quantity = #{record.inQuantity,jdbcType=INTEGER},
+      wms_dlv_date = #{record.wmsDlvDate,jdbcType=TIMESTAMP},
+      finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=NVARCHAR},
+      update_user = #{record.updateUser,jdbcType=NVARCHAR},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      ship_qty = #{record.shipQty,jdbcType=INTEGER},
+      ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      trans_flag = #{record.transFlag,jdbcType=BIT},
+      from_inventory_id = #{record.fromInventoryId,jdbcType=BIGINT},
+      from_associate_no = #{record.fromAssociateNo,jdbcType=VARCHAR},
+      from_associate_no_item = #{record.fromAssociateNoItem,jdbcType=INTEGER},
+      from_associate_no_split = #{record.fromAssociateNoSplit,jdbcType=INTEGER},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TransOrder">
+    update dbo.trans_order
+    <set>
+      <if test="transType != null">
+        trans_type = #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="transNo != null">
+        trans_no = #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fromNo != null">
+        from_no = #{fromNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null">
+        from_id = #{fromId,jdbcType=BIGINT},
+      </if>
+      <if test="fromType != null">
+        from_type = #{fromType,jdbcType=INTEGER},
+      </if>
+      <if test="fromInventoryPropertyId != null">
+        from_inventory_property_id = #{fromInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="fromWarehouseCode != null">
+        from_warehouse_code = #{fromWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromInventoryTypeCode != null">
+        from_inventory_type_code = #{fromInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromPpl != null">
+        from_ppl = #{fromPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="fromProjectCode != null">
+        from_project_code = #{fromProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromGroupCustomerNo != null">
+        from_group_customer_no = #{fromGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSalesInfoNo != null">
+        from_sales_info_no = #{fromSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromCustomerNo != null">
+        from_customer_no = #{fromCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toInventoryPropertyId != null">
+        to_inventory_property_id = #{toInventoryPropertyId,jdbcType=BIGINT},
+      </if>
+      <if test="toWarehouseCode != null">
+        to_warehouse_code = #{toWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toInventoryTypeCode != null">
+        to_inventory_type_code = #{toInventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toPpl != null">
+        to_ppl = #{toPpl,jdbcType=VARCHAR},
+      </if>
+      <if test="toProjectCode != null">
+        to_project_code = #{toProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toGroupCustomerNo != null">
+        to_group_customer_no = #{toGroupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toSalesInfoNo != null">
+        to_sales_info_no = #{toSalesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toCustomerNo != null">
+        to_customer_no = #{toCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inQuantity != null">
+        in_quantity = #{inQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="wmsDlvDate != null">
+        wms_dlv_date = #{wmsDlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shipQty != null">
+        ship_qty = #{shipQty,jdbcType=INTEGER},
+      </if>
+      <if test="shipDate != null">
+        ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transFlag != null">
+        trans_flag = #{transFlag,jdbcType=BIT},
+      </if>
+      <if test="fromInventoryId != null">
+        from_inventory_id = #{fromInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="fromAssociateNo != null">
+        from_associate_no = #{fromAssociateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAssociateNoItem != null">
+        from_associate_no_item = #{fromAssociateNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="fromAssociateNoSplit != null">
+        from_associate_no_split = #{fromAssociateNoSplit,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TransOrder">
+    update dbo.trans_order
+    set trans_type = #{transType,jdbcType=INTEGER},
+      trans_no = #{transNo,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      from_no = #{fromNo,jdbcType=VARCHAR},
+      from_id = #{fromId,jdbcType=BIGINT},
+      from_type = #{fromType,jdbcType=INTEGER},
+      from_inventory_property_id = #{fromInventoryPropertyId,jdbcType=BIGINT},
+      from_warehouse_code = #{fromWarehouseCode,jdbcType=VARCHAR},
+      from_inventory_type_code = #{fromInventoryTypeCode,jdbcType=VARCHAR},
+      from_ppl = #{fromPpl,jdbcType=VARCHAR},
+      from_project_code = #{fromProjectCode,jdbcType=VARCHAR},
+      from_group_customer_no = #{fromGroupCustomerNo,jdbcType=VARCHAR},
+      from_sales_info_no = #{fromSalesInfoNo,jdbcType=VARCHAR},
+      from_customer_no = #{fromCustomerNo,jdbcType=VARCHAR},
+      to_inventory_property_id = #{toInventoryPropertyId,jdbcType=BIGINT},
+      to_warehouse_code = #{toWarehouseCode,jdbcType=VARCHAR},
+      to_inventory_type_code = #{toInventoryTypeCode,jdbcType=VARCHAR},
+      to_ppl = #{toPpl,jdbcType=VARCHAR},
+      to_project_code = #{toProjectCode,jdbcType=VARCHAR},
+      to_group_customer_no = #{toGroupCustomerNo,jdbcType=VARCHAR},
+      to_sales_info_no = #{toSalesInfoNo,jdbcType=VARCHAR},
+      to_customer_no = #{toCustomerNo,jdbcType=VARCHAR},
+      in_quantity = #{inQuantity,jdbcType=INTEGER},
+      wms_dlv_date = #{wmsDlvDate,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=NVARCHAR},
+      update_user = #{updateUser,jdbcType=NVARCHAR},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      ship_qty = #{shipQty,jdbcType=INTEGER},
+      ship_date = #{shipDate,jdbcType=TIMESTAMP},
+      trans_flag = #{transFlag,jdbcType=BIT},
+      from_inventory_id = #{fromInventoryId,jdbcType=BIGINT},
+      from_associate_no = #{fromAssociateNo,jdbcType=VARCHAR},
+      from_associate_no_item = #{fromAssociateNoItem,jdbcType=INTEGER},
+      from_associate_no_split = #{fromAssociateNoSplit,jdbcType=INTEGER},
+      invoice_id = #{invoiceId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

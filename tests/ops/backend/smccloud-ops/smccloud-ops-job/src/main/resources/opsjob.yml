@@ -1,0 +1,185 @@
+server:
+  port: 8199
+  error:
+    whitelabel:
+      enabled: false # 禁止错误页
+
+spring:
+  application:
+    name: opsjob-service
+  devtools:
+    remote:
+      restart:
+        enabled: false #开启热部署
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.1.15
+                port: 5672
+                username: opsUser
+                password: opsSales**
+                virtual-host: /
+      bindings:
+        ops-order-state-sender:
+          destination: ops-order-state-exchange
+          content-type: application/json
+        ops-order-state-receiver:
+          destination: ops-order-state-exchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ops-order-state-group
+        ops-order-log-sender:
+          destination: ops-order-log-exchange
+          content-type: application/json
+        ops-order-log-receiver:
+          destination: ops-order-log-exchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ops-order-log-group
+        ops-order-create-sender:
+          destination: ops-order-create-exchange
+          content-type: application/json
+        ops-order-create-receiver:
+          destination: ops-order-create-exchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ops-order-create-group
+        ops-order-cancel-sender:
+          destination: ops-order-cancel-exchange
+          content-type: application/json
+        ops-order-cancel-receiver:
+          destination: ops-order-cancel-exchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ops-order-cancel-group
+        rabbit:
+          bindings:
+            ops-order-state-receiver:
+              consumer:
+                acknowledge-mode: manual
+                autoBindDlq: true
+            ops-order-log-receiver:
+              consumer:
+                acknowledge-mode: manual
+                autoBindDlq: true
+            ops-order-create-receiver:
+              consumer:
+                acknowledge-mode: manual
+                autoBindDlq: true
+            ops-order-cancel-receiver:
+              consumer:
+                acknowledge-mode: manual
+                autoBindDlq: true
+    loadbalancer:
+      ribbon:
+        enabled: false
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1 # 初始化大小
+        min-idle: 1 # 最小连接数
+        max-active: 20 # 最大连接数
+        max-wait: 60000 # 连接等待超时
+        time-between-eviction-runs-millis: 60000 # 检查需要关闭的空闲连接 时间间隔
+        min-evictable-idle-time-millis: 300000 # 连接最小生存时间
+        validation-query: SELECT 1 # 用来检测连接是否有效的sql,要求是一个查询语句,常用select 'x'.
+        test-on-borrow: false # 申请连接时执行validationQuery检测连接是否有效,开启该配置会降低性能. default=true
+        test-on-return: false # 归还连接时执行validationQuery检测连接是否有效,开启该配置会降低性能. default=false
+        test-while-idle: true # 是否对空闲连接的进行可用检验.如果验证失败,则剔除该连接,并重新获取下一条连接.
+        connection-error-retry-attempts: 1 # 设置错误重试次数，跳出循环设置为true
+        break-after-acquire-failure: false
+        pool-prepared-statements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+        max-pool-prepared-statement-per-connection-size: 20
+        keep-alive: true
+      primary: sharedb # 设置默认的数据源或者数据源组,默认值即为master
+      datasource:
+        sharedb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_sharedb
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_ui_dev
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  redis:
+    database: 0
+    host: 10.116.1.15
+    port: 6379
+    password:
+    max-active: 10000
+    max-idle: 100
+    min-idle: 10
+    max-wait: 6000
+    timeout: 25000
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+
+# mybatis-plus:
+#   configuration:
+#     map-underscore-to-camel-case: true
+#     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: product-service, wmservice
+  ConnectTimeout: 600000
+  ReadTimeout: 600000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+xxl:
+  job:
+    admin:
+      addresses: http://10.116.1.14:8024/ops-job-admin
+    accessToken: ops_task_accessToken
+    executor:
+      appname: opsjob-service-job-executor
+      address:
+      ip:
+      port: 9100
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.14:8800/oauth/token
+      user-authorization-uri: http://10.116.1.14:8800/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.14:8800/oauth/check_token
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 600000
+        readTimeout: 600000

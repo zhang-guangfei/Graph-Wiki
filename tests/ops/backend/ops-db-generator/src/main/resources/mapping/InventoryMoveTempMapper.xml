@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.InventoryMoveTempMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.InventoryMoveTemp">
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="itemNo" jdbcType="INTEGER" property="itemno" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="preReceiveDate" jdbcType="DATE" property="prereceivedate" />
+    <result column="invoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    warehouse_code, quantity, modelno, inventory_type_code, customer_no, ppl, project_code, 
+    group_customer_no, inventory_status, order_no, itemNo, supplierId, preReceiveDate, 
+    invoiceNo
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.InventoryMoveTempExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.inventory_move_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.InventoryMoveTempExample">
+    delete from dbo.inventory_move_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.InventoryMoveTemp">
+    insert into dbo.inventory_move_temp (warehouse_code, quantity, modelno, 
+      inventory_type_code, customer_no, ppl, 
+      project_code, group_customer_no, inventory_status, 
+      order_no, itemNo, supplierId, 
+      preReceiveDate, invoiceNo)
+    values (#{warehouseCode,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{modelno,jdbcType=VARCHAR}, 
+      #{inventoryTypeCode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{ppl,jdbcType=VARCHAR}, 
+      #{projectCode,jdbcType=VARCHAR}, #{groupCustomerNo,jdbcType=VARCHAR}, #{inventoryStatus,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{itemno,jdbcType=INTEGER}, #{supplierid,jdbcType=VARCHAR}, 
+      #{prereceivedate,jdbcType=DATE}, #{invoiceno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.InventoryMoveTemp">
+    insert into dbo.inventory_move_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="itemno != null">
+        itemNo,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="prereceivedate != null">
+        preReceiveDate,
+      </if>
+      <if test="invoiceno != null">
+        invoiceNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=INTEGER},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="prereceivedate != null">
+        #{prereceivedate,jdbcType=DATE},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.InventoryMoveTempExample" resultType="java.lang.Long">
+    select count(*) from dbo.inventory_move_temp
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.inventory_move_temp
+    <set>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        itemNo = #{record.itemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prereceivedate != null">
+        preReceiveDate = #{record.prereceivedate,jdbcType=DATE},
+      </if>
+      <if test="record.invoiceno != null">
+        invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.inventory_move_temp
+    set warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      itemNo = #{record.itemno,jdbcType=INTEGER},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      preReceiveDate = #{record.prereceivedate,jdbcType=DATE},
+      invoiceNo = #{record.invoiceno,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

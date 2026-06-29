@@ -1,0 +1,63 @@
+// base color
+$blue:#324157;
+$light-blue:#3A71A8;
+$red:#C03639;
+$pink: #E65D6E;
+$green: #30B08F;
+$tiffany: #4AB7BD;
+$yellow:#FEC171;
+$panGreen: #30B08F;
+
+// sidebar
+// $menuText:#bfcbd9;
+// $menuActiveText:#409EFF;
+// $subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
+
+// $menuBg:#304156;
+// $menuHover:#263445;
+
+// $subMenuBg:#1f2d3d;
+// $subMenuHover:#001528;
+
+// $sideBarWidth: 210px;
+// $menuText:#263445;
+// $menuActiveText:#409EFF;
+// $subMenuActiveText:#263445; // https://github.com/ElemeFE/element/issues/12951
+
+// $menuBg:#f4f4f5;
+// $menuHover:#f4f4f5;
+
+// $subMenuBg:#f4f4f5;
+// $subMenuHover:#f4f4f5;
+
+$menuText:#1e1e2c;
+// $menuText:#f4f4f5; // 除当前页面外所有菜单的字体颜色
+$menuActiveText:#0076BD; //当前页面的菜单颜色
+$subMenuActiveText: #0076BD; // 当前页面 的主菜单字体颜色
+// $subMenuActiveText: #f4f4f5;
+
+// $menuBg:#304156;// 整个菜单栏的背景色()
+// $menuBg:#e4e8eb;
+$menuBg: #FFFFFF;
+$menuHover:#f1f5fa;
+// $menuHover:#6378AB;// 鼠标移入菜单栏的颜色
+
+$subMenuBg:#FFFFFF;// 菜单内部的菜单背景色
+// $subMenuBg:#1f2d3d;
+$subMenuHover:#f1f5fa;// 鼠标移入子菜单时显示的颜色
+// $subMenuHover:red;
+
+$sideBarWidth: 190px;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}

@@ -1,0 +1,76 @@
+spring:
+  profiles:
+    active: dev-loc
+    
+
+#本地开发配置
+---
+spring:
+  profiles: dev-loc
+  application:
+    name: cpfr-service
+  devtools:
+    remote:
+      restart:
+        enabled: false #开启热部署
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1 # 初始化大小
+        min-idle: 20 # 最小连接数
+        max-active: 20 # 最大连接数
+        max-wait: 60000 # 连接等待超时
+        time-between-eviction-runs-millis: 60000 # 检查需要关闭的空闲连接 时间间隔
+        min-evictable-idle-time-millis: 300000 # 连接最小生存时间
+      primary: ops # 设置默认的数据源或者数据源组,默认值即为master
+      datasource:
+        ops:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+# log config
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+
+xxl:
+  job:
+    admin:
+      addresses: http://10.116.192.191:9001/xxl-job-admin
+    accessToken:
+    executor:
+      appname: order-service-job-executor
+      address:
+      ip:
+      port: 9100
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
+
+  #redis缓存配置
+  redis:
+    lettuce:
+      pool:
+        minIdle: 10
+        maxWaitMillis: 60000
+        maxIdle: 500
+        max-active: 500
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    redis-auth:
+      database: 15
+      hostName: 10.116.192.17
+      port: 6379
+      password: smcgz635
+      timeout: 5000

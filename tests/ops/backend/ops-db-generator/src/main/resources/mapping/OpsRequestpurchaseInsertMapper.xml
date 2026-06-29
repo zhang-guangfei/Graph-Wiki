@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsRequestpurchaseInsertMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsRequestpurchaseInsert">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="itemNo" jdbcType="INTEGER" property="itemno" />
+    <result column="splitItemNo" jdbcType="INTEGER" property="splititemno" />
+    <result column="stateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="mergeflag" jdbcType="BIT" property="mergeflag" />
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="userNo" jdbcType="VARCHAR" property="userno" />
+    <result column="deptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="apply_dept_no" jdbcType="VARCHAR" property="applyDeptNo" />
+    <result column="inqNo" jdbcType="VARCHAR" property="inqno" />
+    <result column="ordType" jdbcType="VARCHAR" property="ordtype" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="stdPrice" jdbcType="DECIMAL" property="stdprice" />
+    <result column="specMark" jdbcType="CHAR" property="specmark" />
+    <result column="shikomiAnswerNo" jdbcType="VARCHAR" property="shikomianswerno" />
+    <result column="shikomiRemainQty" jdbcType="INTEGER" property="shikomiremainqty" />
+    <result column="hopeDeliveryDate" jdbcType="DATE" property="hopedeliverydate" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="salesInfoNo" jdbcType="NVARCHAR" property="salesinfono" />
+    <result column="requestTime" jdbcType="TIMESTAMP" property="requesttime" />
+    <result column="productTag" jdbcType="CHAR" property="producttag" />
+    <result column="productTagRemark" jdbcType="NVARCHAR" property="producttagremark" />
+    <result column="requestWarehouseId" jdbcType="VARCHAR" property="requestwarehouseid" />
+    <result column="purchaseType" jdbcType="CHAR" property="purchasetype" />
+    <result column="orderDate" jdbcType="DATE" property="orderdate" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="purchaseWarehouseId" jdbcType="VARCHAR" property="purchasewarehouseid" />
+    <result column="transType" jdbcType="CHAR" property="transtype" />
+    <result column="hopeExportDate" jdbcType="DATE" property="hopeexportdate" />
+    <result column="smcCode" jdbcType="VARCHAR" property="smccode" />
+    <result column="isLot" jdbcType="BIT" property="islot" />
+    <result column="interceptMsg" jdbcType="NVARCHAR" property="interceptmsg" />
+    <result column="netWeight" jdbcType="DECIMAL" property="netweight" />
+    <result column="notUseShikomi" jdbcType="BIT" property="notuseshikomi" />
+    <result column="releaseReason" jdbcType="NVARCHAR" property="releasereason" />
+    <result column="isEdited" jdbcType="BIT" property="isedited" />
+    <result column="productType" jdbcType="INTEGER" property="producttype" />
+    <result column="warehouseType" jdbcType="VARCHAR" property="warehousetype" />
+    <result column="industryCode" jdbcType="VARCHAR" property="industrycode" />
+    <result column="inventoryTypeCode" jdbcType="VARCHAR" property="inventorytypecode" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="projectCode" jdbcType="VARCHAR" property="projectcode" />
+    <result column="groupCustomerNo" jdbcType="VARCHAR" property="groupcustomerno" />
+    <result column="wmTag" jdbcType="VARCHAR" property="wmtag" />
+    <result column="hsCode" jdbcType="NVARCHAR" property="hscode" />
+    <result column="supplierPartNo" jdbcType="NVARCHAR" property="supplierpartno" />
+    <result column="importFobPriceOriginal" jdbcType="DECIMAL" property="importfobpriceoriginal" />
+    <result column="importCurrencyId" jdbcType="NVARCHAR" property="importcurrencyid" />
+    <result column="inventoryPropertyId" jdbcType="BIGINT" property="inventorypropertyid" />
+    <result column="serverremark" jdbcType="NVARCHAR" property="serverremark" />
+    <result column="supplierInventory" jdbcType="INTEGER" property="supplierinventory" />
+    <result column="corderNO" jdbcType="VARCHAR" property="corderno" />
+    <result column="iseven" jdbcType="BIT" property="iseven" />
+    <result column="minpackunit" jdbcType="INTEGER" property="minpackunit" />
+    <result column="nonstandard_sized_product" jdbcType="VARCHAR" property="nonstandardSizedProduct" />
+    <result column="qtyImport" jdbcType="INTEGER" property="qtyimport" />
+    <result column="finishTime" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderNo, itemNo, splitItemNo, stateCode, mergeflag, customerNo, userNo, deptNo, 
+    apply_dept_no, inqNo, ordType, modelNo, quantity, stdPrice, specMark, shikomiAnswerNo, 
+    shikomiRemainQty, hopeDeliveryDate, remark, salesInfoNo, requestTime, productTag, 
+    productTagRemark, requestWarehouseId, purchaseType, orderDate, supplierId, purchaseWarehouseId, 
+    transType, hopeExportDate, smcCode, isLot, interceptMsg, netWeight, notUseShikomi, 
+    releaseReason, isEdited, productType, warehouseType, industryCode, inventoryTypeCode, 
+    ppl, projectCode, groupCustomerNo, wmTag, hsCode, supplierPartNo, importFobPriceOriginal, 
+    importCurrencyId, inventoryPropertyId, serverremark, supplierInventory, corderNO, 
+    iseven, minpackunit, nonstandard_sized_product, qtyImport, finishTime, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInsertExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_requestpurchase_insert
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInsertExample">
+    delete from dbo.ops_requestpurchase_insert
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInsert">
+    insert into dbo.ops_requestpurchase_insert (id, orderNo, itemNo, 
+      splitItemNo, stateCode, mergeflag, 
+      customerNo, userNo, deptNo, 
+      apply_dept_no, inqNo, ordType, 
+      modelNo, quantity, stdPrice, 
+      specMark, shikomiAnswerNo, shikomiRemainQty, 
+      hopeDeliveryDate, remark, salesInfoNo, 
+      requestTime, productTag, productTagRemark, 
+      requestWarehouseId, purchaseType, orderDate, 
+      supplierId, purchaseWarehouseId, transType, 
+      hopeExportDate, smcCode, isLot, 
+      interceptMsg, netWeight, notUseShikomi, 
+      releaseReason, isEdited, productType, 
+      warehouseType, industryCode, inventoryTypeCode, 
+      ppl, projectCode, groupCustomerNo, 
+      wmTag, hsCode, supplierPartNo, 
+      importFobPriceOriginal, importCurrencyId, 
+      inventoryPropertyId, serverremark, supplierInventory, 
+      corderNO, iseven, minpackunit, 
+      nonstandard_sized_product, qtyImport, finishTime, 
+      updateTime)
+    values (#{id,jdbcType=BIGINT}, #{orderno,jdbcType=VARCHAR}, #{itemno,jdbcType=INTEGER}, 
+      #{splititemno,jdbcType=INTEGER}, #{statecode,jdbcType=VARCHAR}, #{mergeflag,jdbcType=BIT}, 
+      #{customerno,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, 
+      #{applyDeptNo,jdbcType=VARCHAR}, #{inqno,jdbcType=VARCHAR}, #{ordtype,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{stdprice,jdbcType=DECIMAL}, 
+      #{specmark,jdbcType=CHAR}, #{shikomianswerno,jdbcType=VARCHAR}, #{shikomiremainqty,jdbcType=INTEGER}, 
+      #{hopedeliverydate,jdbcType=DATE}, #{remark,jdbcType=NVARCHAR}, #{salesinfono,jdbcType=NVARCHAR}, 
+      #{requesttime,jdbcType=TIMESTAMP}, #{producttag,jdbcType=CHAR}, #{producttagremark,jdbcType=NVARCHAR}, 
+      #{requestwarehouseid,jdbcType=VARCHAR}, #{purchasetype,jdbcType=CHAR}, #{orderdate,jdbcType=DATE}, 
+      #{supplierid,jdbcType=VARCHAR}, #{purchasewarehouseid,jdbcType=VARCHAR}, #{transtype,jdbcType=CHAR}, 
+      #{hopeexportdate,jdbcType=DATE}, #{smccode,jdbcType=VARCHAR}, #{islot,jdbcType=BIT}, 
+      #{interceptmsg,jdbcType=NVARCHAR}, #{netweight,jdbcType=DECIMAL}, #{notuseshikomi,jdbcType=BIT}, 
+      #{releasereason,jdbcType=NVARCHAR}, #{isedited,jdbcType=BIT}, #{producttype,jdbcType=INTEGER}, 
+      #{warehousetype,jdbcType=VARCHAR}, #{industrycode,jdbcType=VARCHAR}, #{inventorytypecode,jdbcType=VARCHAR}, 
+      #{ppl,jdbcType=VARCHAR}, #{projectcode,jdbcType=VARCHAR}, #{groupcustomerno,jdbcType=VARCHAR}, 
+      #{wmtag,jdbcType=VARCHAR}, #{hscode,jdbcType=NVARCHAR}, #{supplierpartno,jdbcType=NVARCHAR}, 
+      #{importfobpriceoriginal,jdbcType=DECIMAL}, #{importcurrencyid,jdbcType=NVARCHAR}, 
+      #{inventorypropertyid,jdbcType=BIGINT}, #{serverremark,jdbcType=NVARCHAR}, #{supplierinventory,jdbcType=INTEGER}, 
+      #{corderno,jdbcType=VARCHAR}, #{iseven,jdbcType=BIT}, #{minpackunit,jdbcType=INTEGER}, 
+      #{nonstandardSizedProduct,jdbcType=VARCHAR}, #{qtyimport,jdbcType=INTEGER}, #{finishtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInsert">
+    insert into dbo.ops_requestpurchase_insert
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="itemno != null">
+        itemNo,
+      </if>
+      <if test="splititemno != null">
+        splitItemNo,
+      </if>
+      <if test="statecode != null">
+        stateCode,
+      </if>
+      <if test="mergeflag != null">
+        mergeflag,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="userno != null">
+        userNo,
+      </if>
+      <if test="deptno != null">
+        deptNo,
+      </if>
+      <if test="applyDeptNo != null">
+        apply_dept_no,
+      </if>
+      <if test="inqno != null">
+        inqNo,
+      </if>
+      <if test="ordtype != null">
+        ordType,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="stdprice != null">
+        stdPrice,
+      </if>
+      <if test="specmark != null">
+        specMark,
+      </if>
+      <if test="shikomianswerno != null">
+        shikomiAnswerNo,
+      </if>
+      <if test="shikomiremainqty != null">
+        shikomiRemainQty,
+      </if>
+      <if test="hopedeliverydate != null">
+        hopeDeliveryDate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="salesinfono != null">
+        salesInfoNo,
+      </if>
+      <if test="requesttime != null">
+        requestTime,
+      </if>
+      <if test="producttag != null">
+        productTag,
+      </if>
+      <if test="producttagremark != null">
+        productTagRemark,
+      </if>
+      <if test="requestwarehouseid != null">
+        requestWarehouseId,
+      </if>
+      <if test="purchasetype != null">
+        purchaseType,
+      </if>
+      <if test="orderdate != null">
+        orderDate,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="purchasewarehouseid != null">
+        purchaseWarehouseId,
+      </if>
+      <if test="transtype != null">
+        transType,
+      </if>
+      <if test="hopeexportdate != null">
+        hopeExportDate,
+      </if>
+      <if test="smccode != null">
+        smcCode,
+      </if>
+      <if test="islot != null">
+        isLot,
+      </if>
+      <if test="interceptmsg != null">
+        interceptMsg,
+      </if>
+      <if test="netweight != null">
+        netWeight,
+      </if>
+      <if test="notuseshikomi != null">
+        notUseShikomi,
+      </if>
+      <if test="releasereason != null">
+        releaseReason,
+      </if>
+      <if test="isedited != null">
+        isEdited,
+      </if>
+      <if test="producttype != null">
+        productType,
+      </if>
+      <if test="warehousetype != null">
+        warehouseType,
+      </if>
+      <if test="industrycode != null">
+        industryCode,
+      </if>
+      <if test="inventorytypecode != null">
+        inventoryTypeCode,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectcode != null">
+        projectCode,
+      </if>
+      <if test="groupcustomerno != null">
+        groupCustomerNo,
+      </if>
+      <if test="wmtag != null">
+        wmTag,
+      </if>
+      <if test="hscode != null">
+        hsCode,
+      </if>
+      <if test="supplierpartno != null">
+        supplierPartNo,
+      </if>
+      <if test="importfobpriceoriginal != null">
+        importFobPriceOriginal,
+      </if>
+      <if test="importcurrencyid != null">
+        importCurrencyId,
+      </if>
+      <if test="inventorypropertyid != null">
+        inventoryPropertyId,
+      </if>
+      <if test="serverremark != null">
+        serverremark,
+      </if>
+      <if test="supplierinventory != null">
+        supplierInventory,
+      </if>
+      <if test="corderno != null">
+        corderNO,
+      </if>
+      <if test="iseven != null">
+        iseven,
+      </if>
+      <if test="minpackunit != null">
+        minpackunit,
+      </if>
+      <if test="nonstandardSizedProduct != null">
+        nonstandard_sized_product,
+      </if>
+      <if test="qtyimport != null">
+        qtyImport,
+      </if>
+      <if test="finishtime != null">
+        finishTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=INTEGER},
+      </if>
+      <if test="splititemno != null">
+        #{splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="mergeflag != null">
+        #{mergeflag,jdbcType=BIT},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDeptNo != null">
+        #{applyDeptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inqno != null">
+        #{inqno,jdbcType=VARCHAR},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="stdprice != null">
+        #{stdprice,jdbcType=DECIMAL},
+      </if>
+      <if test="specmark != null">
+        #{specmark,jdbcType=CHAR},
+      </if>
+      <if test="shikomianswerno != null">
+        #{shikomianswerno,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomiremainqty != null">
+        #{shikomiremainqty,jdbcType=INTEGER},
+      </if>
+      <if test="hopedeliverydate != null">
+        #{hopedeliverydate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="salesinfono != null">
+        #{salesinfono,jdbcType=NVARCHAR},
+      </if>
+      <if test="requesttime != null">
+        #{requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="producttag != null">
+        #{producttag,jdbcType=CHAR},
+      </if>
+      <if test="producttagremark != null">
+        #{producttagremark,jdbcType=NVARCHAR},
+      </if>
+      <if test="requestwarehouseid != null">
+        #{requestwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetype != null">
+        #{purchasetype,jdbcType=CHAR},
+      </if>
+      <if test="orderdate != null">
+        #{orderdate,jdbcType=DATE},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasewarehouseid != null">
+        #{purchasewarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="hopeexportdate != null">
+        #{hopeexportdate,jdbcType=DATE},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="islot != null">
+        #{islot,jdbcType=BIT},
+      </if>
+      <if test="interceptmsg != null">
+        #{interceptmsg,jdbcType=NVARCHAR},
+      </if>
+      <if test="netweight != null">
+        #{netweight,jdbcType=DECIMAL},
+      </if>
+      <if test="notuseshikomi != null">
+        #{notuseshikomi,jdbcType=BIT},
+      </if>
+      <if test="releasereason != null">
+        #{releasereason,jdbcType=NVARCHAR},
+      </if>
+      <if test="isedited != null">
+        #{isedited,jdbcType=BIT},
+      </if>
+      <if test="producttype != null">
+        #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="warehousetype != null">
+        #{warehousetype,jdbcType=VARCHAR},
+      </if>
+      <if test="industrycode != null">
+        #{industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorytypecode != null">
+        #{inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectcode != null">
+        #{projectcode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupcustomerno != null">
+        #{groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="wmtag != null">
+        #{wmtag,jdbcType=VARCHAR},
+      </if>
+      <if test="hscode != null">
+        #{hscode,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierpartno != null">
+        #{supplierpartno,jdbcType=NVARCHAR},
+      </if>
+      <if test="importfobpriceoriginal != null">
+        #{importfobpriceoriginal,jdbcType=DECIMAL},
+      </if>
+      <if test="importcurrencyid != null">
+        #{importcurrencyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="inventorypropertyid != null">
+        #{inventorypropertyid,jdbcType=BIGINT},
+      </if>
+      <if test="serverremark != null">
+        #{serverremark,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierinventory != null">
+        #{supplierinventory,jdbcType=INTEGER},
+      </if>
+      <if test="corderno != null">
+        #{corderno,jdbcType=VARCHAR},
+      </if>
+      <if test="iseven != null">
+        #{iseven,jdbcType=BIT},
+      </if>
+      <if test="minpackunit != null">
+        #{minpackunit,jdbcType=INTEGER},
+      </if>
+      <if test="nonstandardSizedProduct != null">
+        #{nonstandardSizedProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyimport != null">
+        #{qtyimport,jdbcType=INTEGER},
+      </if>
+      <if test="finishtime != null">
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInsertExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_requestpurchase_insert
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_requestpurchase_insert
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        itemNo = #{record.itemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.splititemno != null">
+        splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.statecode != null">
+        stateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mergeflag != null">
+        mergeflag = #{record.mergeflag,jdbcType=BIT},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userno != null">
+        userNo = #{record.userno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptno != null">
+        deptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyDeptNo != null">
+        apply_dept_no = #{record.applyDeptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqno != null">
+        inqNo = #{record.inqno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordtype != null">
+        ordType = #{record.ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.stdprice != null">
+        stdPrice = #{record.stdprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.specmark != null">
+        specMark = #{record.specmark,jdbcType=CHAR},
+      </if>
+      <if test="record.shikomianswerno != null">
+        shikomiAnswerNo = #{record.shikomianswerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shikomiremainqty != null">
+        shikomiRemainQty = #{record.shikomiremainqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.hopedeliverydate != null">
+        hopeDeliveryDate = #{record.hopedeliverydate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.salesinfono != null">
+        salesInfoNo = #{record.salesinfono,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.requesttime != null">
+        requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.producttag != null">
+        productTag = #{record.producttag,jdbcType=CHAR},
+      </if>
+      <if test="record.producttagremark != null">
+        productTagRemark = #{record.producttagremark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.requestwarehouseid != null">
+        requestWarehouseId = #{record.requestwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasetype != null">
+        purchaseType = #{record.purchasetype,jdbcType=CHAR},
+      </if>
+      <if test="record.orderdate != null">
+        orderDate = #{record.orderdate,jdbcType=DATE},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasewarehouseid != null">
+        purchaseWarehouseId = #{record.purchasewarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transtype != null">
+        transType = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.hopeexportdate != null">
+        hopeExportDate = #{record.hopeexportdate,jdbcType=DATE},
+      </if>
+      <if test="record.smccode != null">
+        smcCode = #{record.smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.islot != null">
+        isLot = #{record.islot,jdbcType=BIT},
+      </if>
+      <if test="record.interceptmsg != null">
+        interceptMsg = #{record.interceptmsg,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.netweight != null">
+        netWeight = #{record.netweight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.notuseshikomi != null">
+        notUseShikomi = #{record.notuseshikomi,jdbcType=BIT},
+      </if>
+      <if test="record.releasereason != null">
+        releaseReason = #{record.releasereason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.isedited != null">
+        isEdited = #{record.isedited,jdbcType=BIT},
+      </if>
+      <if test="record.producttype != null">
+        productType = #{record.producttype,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehousetype != null">
+        warehouseType = #{record.warehousetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industrycode != null">
+        industryCode = #{record.industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventorytypecode != null">
+        inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectcode != null">
+        projectCode = #{record.projectcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupcustomerno != null">
+        groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wmtag != null">
+        wmTag = #{record.wmtag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hscode != null">
+        hsCode = #{record.hscode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.supplierpartno != null">
+        supplierPartNo = #{record.supplierpartno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.importfobpriceoriginal != null">
+        importFobPriceOriginal = #{record.importfobpriceoriginal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.importcurrencyid != null">
+        importCurrencyId = #{record.importcurrencyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inventorypropertyid != null">
+        inventoryPropertyId = #{record.inventorypropertyid,jdbcType=BIGINT},
+      </if>
+      <if test="record.serverremark != null">
+        serverremark = #{record.serverremark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.supplierinventory != null">
+        supplierInventory = #{record.supplierinventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.corderno != null">
+        corderNO = #{record.corderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iseven != null">
+        iseven = #{record.iseven,jdbcType=BIT},
+      </if>
+      <if test="record.minpackunit != null">
+        minpackunit = #{record.minpackunit,jdbcType=INTEGER},
+      </if>
+      <if test="record.nonstandardSizedProduct != null">
+        nonstandard_sized_product = #{record.nonstandardSizedProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyimport != null">
+        qtyImport = #{record.qtyimport,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishtime != null">
+        finishTime = #{record.finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_requestpurchase_insert
+    set id = #{record.id,jdbcType=BIGINT},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      itemNo = #{record.itemno,jdbcType=INTEGER},
+      splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      stateCode = #{record.statecode,jdbcType=VARCHAR},
+      mergeflag = #{record.mergeflag,jdbcType=BIT},
+      customerNo = #{record.customerno,jdbcType=VARCHAR},
+      userNo = #{record.userno,jdbcType=VARCHAR},
+      deptNo = #{record.deptno,jdbcType=VARCHAR},
+      apply_dept_no = #{record.applyDeptNo,jdbcType=VARCHAR},
+      inqNo = #{record.inqno,jdbcType=VARCHAR},
+      ordType = #{record.ordtype,jdbcType=VARCHAR},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      stdPrice = #{record.stdprice,jdbcType=DECIMAL},
+      specMark = #{record.specmark,jdbcType=CHAR},
+      shikomiAnswerNo = #{record.shikomianswerno,jdbcType=VARCHAR},
+      shikomiRemainQty = #{record.shikomiremainqty,jdbcType=INTEGER},
+      hopeDeliveryDate = #{record.hopedeliverydate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      salesInfoNo = #{record.salesinfono,jdbcType=NVARCHAR},
+      requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      productTag = #{record.producttag,jdbcType=CHAR},
+      productTagRemark = #{record.producttagremark,jdbcType=NVARCHAR},
+      requestWarehouseId = #{record.requestwarehouseid,jdbcType=VARCHAR},
+      purchaseType = #{record.purchasetype,jdbcType=CHAR},
+      orderDate = #{record.orderdate,jdbcType=DATE},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      purchaseWarehouseId = #{record.purchasewarehouseid,jdbcType=VARCHAR},
+      transType = #{record.transtype,jdbcType=CHAR},
+      hopeExportDate = #{record.hopeexportdate,jdbcType=DATE},
+      smcCode = #{record.smccode,jdbcType=VARCHAR},
+      isLot = #{record.islot,jdbcType=BIT},
+      interceptMsg = #{record.interceptmsg,jdbcType=NVARCHAR},
+      netWeight = #{record.netweight,jdbcType=DECIMAL},
+      notUseShikomi = #{record.notuseshikomi,jdbcType=BIT},
+      releaseReason = #{record.releasereason,jdbcType=NVARCHAR},
+      isEdited = #{record.isedited,jdbcType=BIT},
+      productType = #{record.producttype,jdbcType=INTEGER},
+      warehouseType = #{record.warehousetype,jdbcType=VARCHAR},
+      industryCode = #{record.industrycode,jdbcType=VARCHAR},
+      inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      projectCode = #{record.projectcode,jdbcType=VARCHAR},
+      groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      wmTag = #{record.wmtag,jdbcType=VARCHAR},
+      hsCode = #{record.hscode,jdbcType=NVARCHAR},
+      supplierPartNo = #{record.supplierpartno,jdbcType=NVARCHAR},
+      importFobPriceOriginal = #{record.importfobpriceoriginal,jdbcType=DECIMAL},
+      importCurrencyId = #{record.importcurrencyid,jdbcType=NVARCHAR},
+      inventoryPropertyId = #{record.inventorypropertyid,jdbcType=BIGINT},
+      serverremark = #{record.serverremark,jdbcType=NVARCHAR},
+      supplierInventory = #{record.supplierinventory,jdbcType=INTEGER},
+      corderNO = #{record.corderno,jdbcType=VARCHAR},
+      iseven = #{record.iseven,jdbcType=BIT},
+      minpackunit = #{record.minpackunit,jdbcType=INTEGER},
+      nonstandard_sized_product = #{record.nonstandardSizedProduct,jdbcType=VARCHAR},
+      qtyImport = #{record.qtyimport,jdbcType=INTEGER},
+      finishTime = #{record.finishtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,67 @@
+.order-edit-class {
+  td.table-td-title {
+    width: 110px;
+  }
+  td.table-td-content {
+    padding-left: 5px;
+    width: 160px;
+    line-height: 26px;
+    font-size: 12px;
+  }
+  exchangeProvision-content {
+    .el-form-item__content {
+      line-height: 24px;
+      .el-select {
+        width: 100%;
+      }
+    }
+  }
+  table {
+    .el-form-item {
+      margin:0px;
+      padding: 0px;
+      width: 100%;
+      .el-form-item__content {
+        line-height: 24px;
+        .el-select {
+          width: 100%;
+        }
+      }
+      .el-form-item__error {
+        right: 27px;
+        left: unset;
+        top: 0px;
+        bottom: 5px;
+        line-height: 28px;
+      }
+    }
+  }
+  .vxe-table {    
+    .el-radio {
+      margin-right: 5px;
+      .el-radio__label {
+        padding-left: 2px;
+      }
+    }
+  }
+  .upload-demo {
+    width: 280px;
+  }
+}
+
+.input-range-class {
+  .el-input__inner {
+    padding: 0 0 0 15px;
+  }
+  .el-input-group__append, .el-input-group__prepend {
+    padding: 0 5px;
+  }
+  .el-form--inline .el-form-item {
+    margin-right: 0px;
+  }
+  .el-input {
+    .el-input__suffix {
+      display: none !important;
+    }
+  }
+}

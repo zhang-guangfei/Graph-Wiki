@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.ProductInspectionsGroupDao">
+	<!-- bug10654 马腾 增加监管条件Credentials的查询 -->
+	<select id="selectInfos"
+		resultType="com.sales.ops.dto.product.ProductInspectionsGroupInfo">
+		SELECT
+		PlantMark,Model,TariffCode,Inspections,InspectionsGroupId,Credentials
+		FROM
+		ops_sharedb.dbo.MDM_V_InspectionsGroup
+		where Model in
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectAll"
+		resultType="com.sales.ops.dto.product.ProductRecordRefModelToSales">
+		SELECT [model]
+		,[descriptionCustoms]
+		,[refModel]
+		,[status]
+		,[deleted]
+		,[affirmant]
+		,[category]
+		FROM [ops_sharedb].[dbo].[OPS_V_RecordRefModelToSales] where deleted=0
+	</select>
+
+	<select id="selectByModelNo"
+		resultType="com.sales.ops.dto.product.ProductRecordRefModelToSales">
+		SELECT top 1 [model]
+		,[descriptionCustoms]
+		,[refModel]
+		,[status]
+		,[deleted]
+		,[affirmant]
+		,[category]
+		FROM [ops_sharedb].[dbo].[OPS_V_RecordRefModelToSales] where
+		refModel=#{modelNo} and deleted=0
+	</select>
+
+</mapper>

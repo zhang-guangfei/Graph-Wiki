@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDrawupinventoryMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDrawupinventory">
+    <result column="bathid" jdbcType="VARCHAR" property="bathid" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="practicalityqty" jdbcType="INTEGER" property="practicalityqty" />
+    <result column="differenceqty" jdbcType="INTEGER" property="differenceqty" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="qa_status" jdbcType="INTEGER" property="qaStatus" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    bathid, warehouse_code, customer_no, quantity, practicalityqty, differenceqty, unit, 
+    qa_status, modelno, cre_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDrawupinventoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_drawupinventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDrawupinventoryExample">
+    delete from dbo.ops_drawupinventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDrawupinventory">
+    insert into dbo.ops_drawupinventory (bathid, warehouse_code, customer_no, 
+      quantity, practicalityqty, differenceqty, 
+      unit, qa_status, modelno, 
+      cre_time)
+    values (#{bathid,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{practicalityqty,jdbcType=INTEGER}, #{differenceqty,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{qaStatus,jdbcType=INTEGER}, #{modelno,jdbcType=VARCHAR}, 
+      #{creTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDrawupinventory">
+    insert into dbo.ops_drawupinventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bathid != null">
+        bathid,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="practicalityqty != null">
+        practicalityqty,
+      </if>
+      <if test="differenceqty != null">
+        differenceqty,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="qaStatus != null">
+        qa_status,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bathid != null">
+        #{bathid,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="practicalityqty != null">
+        #{practicalityqty,jdbcType=INTEGER},
+      </if>
+      <if test="differenceqty != null">
+        #{differenceqty,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="qaStatus != null">
+        #{qaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDrawupinventoryExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_drawupinventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_drawupinventory
+    <set>
+      <if test="record.bathid != null">
+        bathid = #{record.bathid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.practicalityqty != null">
+        practicalityqty = #{record.practicalityqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.differenceqty != null">
+        differenceqty = #{record.differenceqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qaStatus != null">
+        qa_status = #{record.qaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_drawupinventory
+    set bathid = #{record.bathid,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      practicalityqty = #{record.practicalityqty,jdbcType=INTEGER},
+      differenceqty = #{record.differenceqty,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      qa_status = #{record.qaStatus,jdbcType=INTEGER},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

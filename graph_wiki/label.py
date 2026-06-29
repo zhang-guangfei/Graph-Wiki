@@ -1,6 +1,7 @@
 """LLM 标注：为业务域生成名称、描述、summary.md"""
 
 import json
+import os
 import re
 import time
 from datetime import datetime
@@ -11,6 +12,18 @@ from dataclasses import dataclass
 
 from .models import Domain
 
+# ── 异常定义 ──
+
+class LabelError(Exception): pass
+class LlmApiError(LabelError):
+    """LLM API 调用失败"""
+class LlmConfigError(LabelError):
+    """LLM 配置错误（缺少 API Key 等）"""
+class LlmRateLimitError(LabelError):
+    """API rate limit 超限"""
+
+
+# ── 配置 ──
 
 class LlmBackend(Enum):
     CLAUDE = "claude"
@@ -26,6 +39,32 @@ class LabelConfig:
     retry_count: int = 3
     sampling_lines: int = 50
 
+RETRY_DELAYS = [5, 15, 30]  # 秒，指数退避
+
+
+# ── API Key 检测 ──
+
+def _check_api_key() -> None:
+    """检查 LLM API Key 是否存在，不存在时抛出 LlmConfigError"""
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("DEEPSEEK_API_KEY")):
+        raise LlmConfigError(
+            "未设置 ANTHROPIC_API_KEY 或 DEEPSEEK_API_KEY 环境变量。\n"
+            "请设置后重试，或使用 --no-llm 跳过 LLM 标注。"
+        )
+
+
+# ── 敏感路径排除 ──
+
+_SENSITIVE_PATH_KEYWORDS = {
+    "secret", "password", "token", "key", "credential",
+    ".env", "application-", "credentials",
+}
+
+
+def _is_sensitive_path(source_file: str) -> bool:
+    """检查文件路径是否包含敏感关键词（配置/密钥文件）"""
+    return any(kw in source_file.lower() for kw in _SENSITIVE_PATH_KEYWORDS)
+
 
 def label_domains(
     domains: list[Domain],
@@ -33,6 +72,13 @@ def label_domains(
     backend_root: Path,
     config: LabelConfig = LabelConfig(),
 ) -> list[Domain]:
+    # 入口检测：API Key 缺失时优雅降级
+    try:
+        _check_api_key()
+    except LlmConfigError as e:
+        print(f"  [label] 跳过 LLM 标注: {e}")
+        return domains
+
     with ThreadPoolExecutor(max_workers=config.parallel_calls) as executor:
         futures = {
             executor.submit(
@@ -49,6 +95,25 @@ def label_domains(
             except Exception:
                 results.append(domain)
         return results
+
+
+def _label_single_with_retry(
+    domain: Domain,
+    graph_data: dict,
+    backend_root: Path,
+    config: LabelConfig,
+) -> Domain:
+    """带指数退避重试的标注"""
+    for attempt in range(config.retry_count + 1):
+        try:
+            return _label_single(domain, graph_data, backend_root, config)
+        except (LlmApiError, LlmRateLimitError):
+            if attempt < config.retry_count:
+                delay = RETRY_DELAYS[min(attempt, len(RETRY_DELAYS) - 1)]
+                time.sleep(delay)
+            else:
+                raise
+    return domain  # unreachable
 
 
 def _label_single(
@@ -90,7 +155,7 @@ def _build_prompt(domain: Domain, backend_root: Path, config: LabelConfig) -> st
                [a.get("label", "") for a in domain.anchors.get("service_impl", [])]
     mappers = [a.get("label", "") for a in domain.anchors.get("mapper", [])] + \
               [a.get("label", "") for a in domain.anchors.get("dao", [])]
-    deps = [f"- {k}: {v} 次 import" for k, v in sorted(domain.dependencies.items(), key=lambda x: -x[1])[:5]]
+    deps = [f"- {dep['domain']}: {dep['import_count']} 次 import" for dep in sorted(domain.dependencies, key=lambda x: -x.get('import_count', 0))[:5]]
 
     return f"""你是代码库业务分析专家。根据以下信息分析业务模块。
 
@@ -124,14 +189,31 @@ def _build_prompt(domain: Domain, backend_root: Path, config: LabelConfig) -> st
 
 def _call_llm(prompt: str, config: LabelConfig) -> str:
     if config.backend == LlmBackend.CLAUDE:
+        import os
         from anthropic import Anthropic
-        client = Anthropic()
+        # 读取环境变量，支持 DeepSeek 等第三方代理
+        base_url = os.environ.get("ANTHROPIC_BASE_URL")
+        api_key = os.environ.get("ANTHROPIC_API_KEY", os.environ.get("DEEPSEEK_API_KEY"))
+        client_kwargs = {}
+        if base_url:
+            client_kwargs["base_url"] = base_url
+        if api_key:
+            client_kwargs["api_key"] = api_key
+        client = Anthropic(**client_kwargs)
         resp = client.messages.create(
             model=config.model,
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
-        return resp.content[0].text
+        # 提取文本内容：兼容 Claude 和 DeepSeek（含 ThinkingBlock）
+        for block in resp.content:
+            if hasattr(block, "text") and block.type == "text":
+                return block.text
+        # 回退：取第一个有 text 属性的 block
+        for block in resp.content:
+            if hasattr(block, "text"):
+                return block.text
+        return resp.content[0].text if hasattr(resp.content[0], "text") else str(resp.content[0])
     else:
         raise ValueError(f"Unsupported backend: {config.backend}")
 

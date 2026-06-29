@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TblWorkdayYearMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TblWorkdayYear">
+    <id column="Workday_date" jdbcType="DATE" property="workdayDate" />
+    <result column="Optdate" jdbcType="DATE" property="optdate" />
+    <result column="Username" jdbcType="CHAR" property="username" />
+    <result column="OptFlag" jdbcType="CHAR" property="optflag" />
+    <result column="OptFlag_JP" jdbcType="CHAR" property="optflagJp" />
+    <result column="OptFlag_CN" jdbcType="CHAR" property="optflagCn" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Workday_date, Optdate, Username, OptFlag, OptFlag_JP, OptFlag_CN
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TblWorkdayYearExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.Tbl_WorkDay_Year
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.util.Date" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.Tbl_WorkDay_Year
+    where Workday_date = #{workdayDate,jdbcType=DATE}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Date">
+    delete from dbo.Tbl_WorkDay_Year
+    where Workday_date = #{workdayDate,jdbcType=DATE}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TblWorkdayYearExample">
+    delete from dbo.Tbl_WorkDay_Year
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TblWorkdayYear">
+    insert into dbo.Tbl_WorkDay_Year (Workday_date, Optdate, Username, 
+      OptFlag, OptFlag_JP, OptFlag_CN
+      )
+    values (#{workdayDate,jdbcType=DATE}, #{optdate,jdbcType=DATE}, #{username,jdbcType=CHAR}, 
+      #{optflag,jdbcType=CHAR}, #{optflagJp,jdbcType=CHAR}, #{optflagCn,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TblWorkdayYear">
+    insert into dbo.Tbl_WorkDay_Year
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workdayDate != null">
+        Workday_date,
+      </if>
+      <if test="optdate != null">
+        Optdate,
+      </if>
+      <if test="username != null">
+        Username,
+      </if>
+      <if test="optflag != null">
+        OptFlag,
+      </if>
+      <if test="optflagJp != null">
+        OptFlag_JP,
+      </if>
+      <if test="optflagCn != null">
+        OptFlag_CN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workdayDate != null">
+        #{workdayDate,jdbcType=DATE},
+      </if>
+      <if test="optdate != null">
+        #{optdate,jdbcType=DATE},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="optflag != null">
+        #{optflag,jdbcType=CHAR},
+      </if>
+      <if test="optflagJp != null">
+        #{optflagJp,jdbcType=CHAR},
+      </if>
+      <if test="optflagCn != null">
+        #{optflagCn,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TblWorkdayYearExample" resultType="java.lang.Long">
+    select count(*) from dbo.Tbl_WorkDay_Year
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.Tbl_WorkDay_Year
+    <set>
+      <if test="record.workdayDate != null">
+        Workday_date = #{record.workdayDate,jdbcType=DATE},
+      </if>
+      <if test="record.optdate != null">
+        Optdate = #{record.optdate,jdbcType=DATE},
+      </if>
+      <if test="record.username != null">
+        Username = #{record.username,jdbcType=CHAR},
+      </if>
+      <if test="record.optflag != null">
+        OptFlag = #{record.optflag,jdbcType=CHAR},
+      </if>
+      <if test="record.optflagJp != null">
+        OptFlag_JP = #{record.optflagJp,jdbcType=CHAR},
+      </if>
+      <if test="record.optflagCn != null">
+        OptFlag_CN = #{record.optflagCn,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.Tbl_WorkDay_Year
+    set Workday_date = #{record.workdayDate,jdbcType=DATE},
+      Optdate = #{record.optdate,jdbcType=DATE},
+      Username = #{record.username,jdbcType=CHAR},
+      OptFlag = #{record.optflag,jdbcType=CHAR},
+      OptFlag_JP = #{record.optflagJp,jdbcType=CHAR},
+      OptFlag_CN = #{record.optflagCn,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TblWorkdayYear">
+    update dbo.Tbl_WorkDay_Year
+    <set>
+      <if test="optdate != null">
+        Optdate = #{optdate,jdbcType=DATE},
+      </if>
+      <if test="username != null">
+        Username = #{username,jdbcType=CHAR},
+      </if>
+      <if test="optflag != null">
+        OptFlag = #{optflag,jdbcType=CHAR},
+      </if>
+      <if test="optflagJp != null">
+        OptFlag_JP = #{optflagJp,jdbcType=CHAR},
+      </if>
+      <if test="optflagCn != null">
+        OptFlag_CN = #{optflagCn,jdbcType=CHAR},
+      </if>
+    </set>
+    where Workday_date = #{workdayDate,jdbcType=DATE}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TblWorkdayYear">
+    update dbo.Tbl_WorkDay_Year
+    set Optdate = #{optdate,jdbcType=DATE},
+      Username = #{username,jdbcType=CHAR},
+      OptFlag = #{optflag,jdbcType=CHAR},
+      OptFlag_JP = #{optflagJp,jdbcType=CHAR},
+      OptFlag_CN = #{optflagCn,jdbcType=CHAR}
+    where Workday_date = #{workdayDate,jdbcType=DATE}
+  </update>
+</mapper>

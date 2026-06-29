@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.BindataShMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.BindataSh">
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="QtyBin" jdbcType="INTEGER" property="qtybin" />
+    <result column="ClassCode" jdbcType="CHAR" property="classcode" />
+    <result column="CaseType" jdbcType="VARCHAR" property="casetype" />
+    <result column="ProdType" jdbcType="VARCHAR" property="prodtype" />
+    <result column="LogInDate" jdbcType="TIMESTAMP" property="logindate" />
+    <result column="BinCell" jdbcType="INTEGER" property="bincell" />
+    <result column="UpdDate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="StockCode" jdbcType="CHAR" property="stockcode" />
+    <result column="PositionNo" jdbcType="CHAR" property="positionno" />
+    <result column="MeshType" jdbcType="VARCHAR" property="meshtype" />
+    <result column="InCaseQty" jdbcType="INTEGER" property="incaseqty" />
+    <result column="Adjustable" jdbcType="CHAR" property="adjustable" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="QtyOrdpoint" jdbcType="INTEGER" property="qtyordpoint" />
+    <result column="ProdSeri" jdbcType="NVARCHAR" property="prodseri" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, CustomerNo, QtyBin, ClassCode, CaseType, ProdType, LogInDate, BinCell, UpdDate, 
+    StockCode, PositionNo, MeshType, InCaseQty, Adjustable, Remark, QtyOrdpoint, ProdSeri
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.BindataShExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._BinData_sh
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.BindataShKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._BinData_sh
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.BindataShKey">
+    delete from dbo._BinData_sh
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.BindataShExample">
+    delete from dbo._BinData_sh
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.BindataSh">
+    insert into dbo._BinData_sh (ModelNo, CustomerNo, QtyBin, 
+      ClassCode, CaseType, ProdType, 
+      LogInDate, BinCell, UpdDate, 
+      StockCode, PositionNo, MeshType, 
+      InCaseQty, Adjustable, Remark, 
+      QtyOrdpoint, ProdSeri)
+    values (#{modelno,jdbcType=VARCHAR}, #{customerno,jdbcType=CHAR}, #{qtybin,jdbcType=INTEGER}, 
+      #{classcode,jdbcType=CHAR}, #{casetype,jdbcType=VARCHAR}, #{prodtype,jdbcType=VARCHAR}, 
+      #{logindate,jdbcType=TIMESTAMP}, #{bincell,jdbcType=INTEGER}, #{upddate,jdbcType=TIMESTAMP}, 
+      #{stockcode,jdbcType=CHAR}, #{positionno,jdbcType=CHAR}, #{meshtype,jdbcType=VARCHAR}, 
+      #{incaseqty,jdbcType=INTEGER}, #{adjustable,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{qtyordpoint,jdbcType=INTEGER}, #{prodseri,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.BindataSh">
+    insert into dbo._BinData_sh
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="qtybin != null">
+        QtyBin,
+      </if>
+      <if test="classcode != null">
+        ClassCode,
+      </if>
+      <if test="casetype != null">
+        CaseType,
+      </if>
+      <if test="prodtype != null">
+        ProdType,
+      </if>
+      <if test="logindate != null">
+        LogInDate,
+      </if>
+      <if test="bincell != null">
+        BinCell,
+      </if>
+      <if test="upddate != null">
+        UpdDate,
+      </if>
+      <if test="stockcode != null">
+        StockCode,
+      </if>
+      <if test="positionno != null">
+        PositionNo,
+      </if>
+      <if test="meshtype != null">
+        MeshType,
+      </if>
+      <if test="incaseqty != null">
+        InCaseQty,
+      </if>
+      <if test="adjustable != null">
+        Adjustable,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="qtyordpoint != null">
+        QtyOrdpoint,
+      </if>
+      <if test="prodseri != null">
+        ProdSeri,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="qtybin != null">
+        #{qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="classcode != null">
+        #{classcode,jdbcType=CHAR},
+      </if>
+      <if test="casetype != null">
+        #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        #{prodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bincell != null">
+        #{bincell,jdbcType=INTEGER},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="positionno != null">
+        #{positionno,jdbcType=CHAR},
+      </if>
+      <if test="meshtype != null">
+        #{meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="incaseqty != null">
+        #{incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="adjustable != null">
+        #{adjustable,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyordpoint != null">
+        #{qtyordpoint,jdbcType=INTEGER},
+      </if>
+      <if test="prodseri != null">
+        #{prodseri,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.BindataShExample" resultType="java.lang.Long">
+    select count(*) from dbo._BinData_sh
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._BinData_sh
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.qtybin != null">
+        QtyBin = #{record.qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="record.classcode != null">
+        ClassCode = #{record.classcode,jdbcType=CHAR},
+      </if>
+      <if test="record.casetype != null">
+        CaseType = #{record.casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodtype != null">
+        ProdType = #{record.prodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logindate != null">
+        LogInDate = #{record.logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bincell != null">
+        BinCell = #{record.bincell,jdbcType=INTEGER},
+      </if>
+      <if test="record.upddate != null">
+        UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stockcode != null">
+        StockCode = #{record.stockcode,jdbcType=CHAR},
+      </if>
+      <if test="record.positionno != null">
+        PositionNo = #{record.positionno,jdbcType=CHAR},
+      </if>
+      <if test="record.meshtype != null">
+        MeshType = #{record.meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incaseqty != null">
+        InCaseQty = #{record.incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.adjustable != null">
+        Adjustable = #{record.adjustable,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyordpoint != null">
+        QtyOrdpoint = #{record.qtyordpoint,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodseri != null">
+        ProdSeri = #{record.prodseri,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._BinData_sh
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      QtyBin = #{record.qtybin,jdbcType=INTEGER},
+      ClassCode = #{record.classcode,jdbcType=CHAR},
+      CaseType = #{record.casetype,jdbcType=VARCHAR},
+      ProdType = #{record.prodtype,jdbcType=VARCHAR},
+      LogInDate = #{record.logindate,jdbcType=TIMESTAMP},
+      BinCell = #{record.bincell,jdbcType=INTEGER},
+      UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      StockCode = #{record.stockcode,jdbcType=CHAR},
+      PositionNo = #{record.positionno,jdbcType=CHAR},
+      MeshType = #{record.meshtype,jdbcType=VARCHAR},
+      InCaseQty = #{record.incaseqty,jdbcType=INTEGER},
+      Adjustable = #{record.adjustable,jdbcType=CHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      QtyOrdpoint = #{record.qtyordpoint,jdbcType=INTEGER},
+      ProdSeri = #{record.prodseri,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.BindataSh">
+    update dbo._BinData_sh
+    <set>
+      <if test="qtybin != null">
+        QtyBin = #{qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="classcode != null">
+        ClassCode = #{classcode,jdbcType=CHAR},
+      </if>
+      <if test="casetype != null">
+        CaseType = #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        ProdType = #{prodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        LogInDate = #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bincell != null">
+        BinCell = #{bincell,jdbcType=INTEGER},
+      </if>
+      <if test="upddate != null">
+        UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockcode != null">
+        StockCode = #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="positionno != null">
+        PositionNo = #{positionno,jdbcType=CHAR},
+      </if>
+      <if test="meshtype != null">
+        MeshType = #{meshtype,jdbcType=VARCHAR},
+      </if>
+      <if test="incaseqty != null">
+        InCaseQty = #{incaseqty,jdbcType=INTEGER},
+      </if>
+      <if test="adjustable != null">
+        Adjustable = #{adjustable,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyordpoint != null">
+        QtyOrdpoint = #{qtyordpoint,jdbcType=INTEGER},
+      </if>
+      <if test="prodseri != null">
+        ProdSeri = #{prodseri,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.BindataSh">
+    update dbo._BinData_sh
+    set QtyBin = #{qtybin,jdbcType=INTEGER},
+      ClassCode = #{classcode,jdbcType=CHAR},
+      CaseType = #{casetype,jdbcType=VARCHAR},
+      ProdType = #{prodtype,jdbcType=VARCHAR},
+      LogInDate = #{logindate,jdbcType=TIMESTAMP},
+      BinCell = #{bincell,jdbcType=INTEGER},
+      UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      StockCode = #{stockcode,jdbcType=CHAR},
+      PositionNo = #{positionno,jdbcType=CHAR},
+      MeshType = #{meshtype,jdbcType=VARCHAR},
+      InCaseQty = #{incaseqty,jdbcType=INTEGER},
+      Adjustable = #{adjustable,jdbcType=CHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      QtyOrdpoint = #{qtyordpoint,jdbcType=INTEGER},
+      ProdSeri = #{prodseri,jdbcType=NVARCHAR}
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and CustomerNo = #{customerno,jdbcType=CHAR}
+  </update>
+</mapper>

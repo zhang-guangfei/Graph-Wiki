@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoWarehouseDeliverydayMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoWarehouseDeliveryday">
+    <id column="fromWarehouse" jdbcType="VARCHAR" property="fromwarehouse" />
+    <id column="toWarehouse" jdbcType="VARCHAR" property="towarehouse" />
+    <result column="deliveryDay" jdbcType="INTEGER" property="deliveryday" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    fromWarehouse, toWarehouse, deliveryDay, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliverydayExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_warehouse_deliveryday
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliverydayKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_warehouse_deliveryday
+    where fromWarehouse = #{fromwarehouse,jdbcType=VARCHAR}
+      and toWarehouse = #{towarehouse,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliverydayKey">
+    delete from dbo.ops_po_warehouse_deliveryday
+    where fromWarehouse = #{fromwarehouse,jdbcType=VARCHAR}
+      and toWarehouse = #{towarehouse,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliverydayExample">
+    delete from dbo.ops_po_warehouse_deliveryday
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliveryday">
+    insert into dbo.ops_po_warehouse_deliveryday (fromWarehouse, toWarehouse, deliveryDay, 
+      updateTime)
+    values (#{fromwarehouse,jdbcType=VARCHAR}, #{towarehouse,jdbcType=VARCHAR}, #{deliveryday,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliveryday">
+    insert into dbo.ops_po_warehouse_deliveryday
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fromwarehouse != null">
+        fromWarehouse,
+      </if>
+      <if test="towarehouse != null">
+        toWarehouse,
+      </if>
+      <if test="deliveryday != null">
+        deliveryDay,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fromwarehouse != null">
+        #{fromwarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="towarehouse != null">
+        #{towarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryday != null">
+        #{deliveryday,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliverydayExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_warehouse_deliveryday
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_warehouse_deliveryday
+    <set>
+      <if test="record.fromwarehouse != null">
+        fromWarehouse = #{record.fromwarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.towarehouse != null">
+        toWarehouse = #{record.towarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryday != null">
+        deliveryDay = #{record.deliveryday,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_warehouse_deliveryday
+    set fromWarehouse = #{record.fromwarehouse,jdbcType=VARCHAR},
+      toWarehouse = #{record.towarehouse,jdbcType=VARCHAR},
+      deliveryDay = #{record.deliveryday,jdbcType=INTEGER},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliveryday">
+    update dbo.ops_po_warehouse_deliveryday
+    <set>
+      <if test="deliveryday != null">
+        deliveryDay = #{deliveryday,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fromWarehouse = #{fromwarehouse,jdbcType=VARCHAR}
+      and toWarehouse = #{towarehouse,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoWarehouseDeliveryday">
+    update dbo.ops_po_warehouse_deliveryday
+    set deliveryDay = #{deliveryday,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where fromWarehouse = #{fromwarehouse,jdbcType=VARCHAR}
+      and toWarehouse = #{towarehouse,jdbcType=VARCHAR}
+  </update>
+</mapper>

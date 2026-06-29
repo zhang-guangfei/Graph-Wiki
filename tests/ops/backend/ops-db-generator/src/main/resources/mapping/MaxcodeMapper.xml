@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.MaxcodeMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Maxcode">
+    <id column="OptType" jdbcType="VARCHAR" property="opttype" />
+    <result column="PickCode" jdbcType="VARCHAR" property="pickcode" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+    <result column="OptDate" jdbcType="TIMESTAMP" property="optdate" />
+    <result column="Operator" jdbcType="VARCHAR" property="operator" />
+    <result column="OptTime" jdbcType="TIMESTAMP" property="opttime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    OptType, PickCode, Description, OptDate, Operator, OptTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.MaxcodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.MaxCode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.MaxCode
+    where OptType = #{opttype,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.MaxCode
+    where OptType = #{opttype,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.MaxcodeExample">
+    delete from dbo.MaxCode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Maxcode">
+    insert into dbo.MaxCode (OptType, PickCode, Description, 
+      OptDate, Operator, OptTime
+      )
+    values (#{opttype,jdbcType=VARCHAR}, #{pickcode,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{optdate,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, #{opttime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Maxcode">
+    insert into dbo.MaxCode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="opttype != null">
+        OptType,
+      </if>
+      <if test="pickcode != null">
+        PickCode,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+      <if test="optdate != null">
+        OptDate,
+      </if>
+      <if test="operator != null">
+        Operator,
+      </if>
+      <if test="opttime != null">
+        OptTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="opttype != null">
+        #{opttype,jdbcType=VARCHAR},
+      </if>
+      <if test="pickcode != null">
+        #{pickcode,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="optdate != null">
+        #{optdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.MaxcodeExample" resultType="java.lang.Long">
+    select count(*) from dbo.MaxCode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.MaxCode
+    <set>
+      <if test="record.opttype != null">
+        OptType = #{record.opttype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pickcode != null">
+        PickCode = #{record.pickcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        Description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optdate != null">
+        OptDate = #{record.optdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null">
+        Operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opttime != null">
+        OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.MaxCode
+    set OptType = #{record.opttype,jdbcType=VARCHAR},
+      PickCode = #{record.pickcode,jdbcType=VARCHAR},
+      Description = #{record.description,jdbcType=VARCHAR},
+      OptDate = #{record.optdate,jdbcType=TIMESTAMP},
+      Operator = #{record.operator,jdbcType=VARCHAR},
+      OptTime = #{record.opttime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Maxcode">
+    update dbo.MaxCode
+    <set>
+      <if test="pickcode != null">
+        PickCode = #{pickcode,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="optdate != null">
+        OptDate = #{optdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        Operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="opttime != null">
+        OptTime = #{opttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OptType = #{opttype,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Maxcode">
+    update dbo.MaxCode
+    set PickCode = #{pickcode,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      OptDate = #{optdate,jdbcType=TIMESTAMP},
+      Operator = #{operator,jdbcType=VARCHAR},
+      OptTime = #{opttime,jdbcType=TIMESTAMP}
+    where OptType = #{opttype,jdbcType=VARCHAR}
+  </update>
+</mapper>

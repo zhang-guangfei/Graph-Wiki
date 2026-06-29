@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductTypeCostMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductTypeCost">
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="MinQuantity" jdbcType="INTEGER" property="minquantity" />
+    <result column="EPrice" jdbcType="DECIMAL" property="eprice" />
+    <result column="CostPriceR" jdbcType="DECIMAL" property="costpricer" />
+    <result column="RERate" jdbcType="DECIMAL" property="rerate" />
+    <result column="SourceTypeId" jdbcType="INTEGER" property="sourcetypeid" />
+    <result column="ConfirmCost" jdbcType="DECIMAL" property="confirmcost" />
+    <result column="CalculateCost" jdbcType="DECIMAL" property="calculatecost" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sales.ops.db.entity.ProductTypeCost">
+    <result column="Detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, MinQuantity, EPrice, CostPriceR, RERate, SourceTypeId, ConfirmCost, CalculateCost, 
+    UpdateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    Detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sales.ops.db.entity.ProductTypeCostExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dbo.product_type_cost
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductTypeCostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_type_cost
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductTypeCostExample">
+    delete from dbo.product_type_cost
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductTypeCost">
+    insert into dbo.product_type_cost (ModelNo, MinQuantity, EPrice, 
+      CostPriceR, RERate, SourceTypeId, 
+      ConfirmCost, CalculateCost, UpdateTime, 
+      Detail)
+    values (#{modelno,jdbcType=VARCHAR}, #{minquantity,jdbcType=INTEGER}, #{eprice,jdbcType=DECIMAL}, 
+      #{costpricer,jdbcType=DECIMAL}, #{rerate,jdbcType=DECIMAL}, #{sourcetypeid,jdbcType=INTEGER}, 
+      #{confirmcost,jdbcType=DECIMAL}, #{calculatecost,jdbcType=DECIMAL}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductTypeCost">
+    insert into dbo.product_type_cost
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="minquantity != null">
+        MinQuantity,
+      </if>
+      <if test="eprice != null">
+        EPrice,
+      </if>
+      <if test="costpricer != null">
+        CostPriceR,
+      </if>
+      <if test="rerate != null">
+        RERate,
+      </if>
+      <if test="sourcetypeid != null">
+        SourceTypeId,
+      </if>
+      <if test="confirmcost != null">
+        ConfirmCost,
+      </if>
+      <if test="calculatecost != null">
+        CalculateCost,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="detail != null">
+        Detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="minquantity != null">
+        #{minquantity,jdbcType=INTEGER},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="costpricer != null">
+        #{costpricer,jdbcType=DECIMAL},
+      </if>
+      <if test="rerate != null">
+        #{rerate,jdbcType=DECIMAL},
+      </if>
+      <if test="sourcetypeid != null">
+        #{sourcetypeid,jdbcType=INTEGER},
+      </if>
+      <if test="confirmcost != null">
+        #{confirmcost,jdbcType=DECIMAL},
+      </if>
+      <if test="calculatecost != null">
+        #{calculatecost,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductTypeCostExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_type_cost
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_type_cost
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minquantity != null">
+        MinQuantity = #{record.minquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.eprice != null">
+        EPrice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.costpricer != null">
+        CostPriceR = #{record.costpricer,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rerate != null">
+        RERate = #{record.rerate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sourcetypeid != null">
+        SourceTypeId = #{record.sourcetypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.confirmcost != null">
+        ConfirmCost = #{record.confirmcost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.calculatecost != null">
+        CalculateCost = #{record.calculatecost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.detail != null">
+        Detail = #{record.detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dbo.product_type_cost
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      MinQuantity = #{record.minquantity,jdbcType=INTEGER},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      CostPriceR = #{record.costpricer,jdbcType=DECIMAL},
+      RERate = #{record.rerate,jdbcType=DECIMAL},
+      SourceTypeId = #{record.sourcetypeid,jdbcType=INTEGER},
+      ConfirmCost = #{record.confirmcost,jdbcType=DECIMAL},
+      CalculateCost = #{record.calculatecost,jdbcType=DECIMAL},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      Detail = #{record.detail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_type_cost
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      MinQuantity = #{record.minquantity,jdbcType=INTEGER},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      CostPriceR = #{record.costpricer,jdbcType=DECIMAL},
+      RERate = #{record.rerate,jdbcType=DECIMAL},
+      SourceTypeId = #{record.sourcetypeid,jdbcType=INTEGER},
+      ConfirmCost = #{record.confirmcost,jdbcType=DECIMAL},
+      CalculateCost = #{record.calculatecost,jdbcType=DECIMAL},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,189 @@
+server:
+  port: 8070
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: ops-log
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.1.15
+                port: 5672
+                username: opsUser
+                password: opsSales**
+                virtual-host: /
+      default-binder: defaultRabbit
+      bindings:
+        ops-common-log-sender:
+          binder: defaultRabbit
+          destination: ops-common-log-exchange
+          content-type: application/json
+        ops-common-log-receiver:
+          binder: defaultRabbit
+          destination: ops-common-log-exchange
+          content-type: application/json
+          group: ops-common-log-group
+          consumer:
+            maxAttempts: 1
+            concurrency: 10
+            durable-subscription: true
+      rabbit:
+        bindings:
+          ops-common-log-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #设置总上传的数据大小，最大请求文件的大小
+      max-file-size: 30MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+    # loadbalancer:
+    #   ribbon:
+    #     enabled: false
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 40
+        max-wait: 90000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_core
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opslog:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_log
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        sharedb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_sharedb
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  redis:
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 100
+        max-active: 100
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      cluster:
+        nodes: 10.116.33.151:2003,10.116.33.151:2004,10.116.0.207:2001,10.116.0.207:2002,10.116.1.252:2005,10.116.1.252:2006
+        max-redirects: 6
+      database: 0
+      password: "Smc@RedisQ!W@E#R$"
+      timeout: 25000
+      timeToLive: 120
+  # 邮箱配置
+  mail:
+    host: smtp-legacy.partner.outlook.cn
+    username: salessql@smc.com.cn
+    password: D0p3v0i1
+    port: 587
+    defalut-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+    max-size: 50MB
+    max-history: 5
+
+feign:
+  hystrix:
+    enabled: false
+  okhttp:
+    enabled: false
+  httpclient:
+    enabled: true
+    maxConnections: 20000
+    maxConnectionsPerRoute: 5000
+    connectionTimeout: 12000
+    time-to-live: 900
+
+management:
+  health:
+    redis:
+      enabled: false
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: product-service, common-service, adapter-service
+  ReadTimeout: 500000
+  ConnectTimeout: 500000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 2000       #并发执行的核心线程数，默认10。不能设置为0，初始化setter的时候会出现异常。设置服务端容器线程差不多，吞吐量较高
+      maximumSize: 3000　　 #并发执行的最大线程数，默认10。
+      maxQueueSize: 2000 　#BlockingQueue的最大队列数，当设为－1，会使用SynchronousQueue，值为正时使用LinkedBlcokingQueue。
+      queueSizeRejectionThreshold: 500 #队列截断阈值，即使maxQueueSize没有达到，达到queueSizeRejectionThreshold后，请求也会被拒绝。若maxQueueSize=-1，该字段将不起作用。
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600001
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+smccloud:
+  token:
+    interceptor:
+      enabled: true
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.14:8800/oauth/token
+      user-authorization-uri: http://10.116.1.14:8800/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.14:8800/oauth/check_token
+menhu:
+  url: http://10.116.2.36:8081
+buService:
+  token-address: http://10.116.1.234:10300/auth/buoath/token
+  interface-address: http://10.116.1.236:10100
+sendMail:
+  flag: dev

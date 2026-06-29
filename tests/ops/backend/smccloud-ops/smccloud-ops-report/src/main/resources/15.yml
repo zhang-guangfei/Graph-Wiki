@@ -1,0 +1,160 @@
+server:
+  port: 8104
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: report-service
+  devtools:
+    remote:
+      restart:
+        enabled: false
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.1.15
+                port: 5672
+                username: opsUser
+                password: opsSales**
+                virtual-host: /
+      default-binder: defaultRabbit
+      bindings:
+        ops-common-log-sender:
+          binder: defaultRabbit
+          destination: ops-common-log-exchange
+          content-type: application/json
+        ops-common-log-receiver:
+          binder: defaultRabbit
+          destination: ops-common-log-exchange
+          content-type: application/json
+          group: ops-common-log-group
+          consumer:
+            maxAttempts: 1
+            concurrency: 10
+            durable-subscription: true
+      rabbit:
+        bindings:
+          ops-common-log-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 200
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: reportdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_core
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        reportdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_report
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_ui
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        smcdb30:
+          url: jdbc:sqlserver://10.116.32.17:1433;DatabaseName=smcdb30;Application Name=orderService
+          username: App_Sales_Common
+          password: x60afcb567517hdsf1a5d4d34gf5ds3d
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  redis:
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 500
+        max-active: 10000
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      cluster:
+        nodes: 10.116.33.151:2003,10.116.33.151:2004,10.116.0.207:2001,10.116.0.207:2002,10.116.1.252:2005,10.116.1.252:2006
+        max-redirects: 6
+      database: 0
+      password: "Smc@RedisQ!W@E#R$"
+      timeout: 25000
+      timeToLive: 120
+
+  # 邮箱配置
+  mail:
+    host: smtp-legacy.partner.outlook.cn
+    username: m365test@smc.com.cn
+    password: N3w9k1f0
+    port: 587
+    defalut-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+    max-size: 50MB
+    max-history: 7
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: product-service, cpfr-service, shareapp-service
+  ConnectTimeout: 10000
+  ReadTimeout: 1800000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 7200000
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.15:9000/manage/oauth/token
+      user-authorization-uri: http://10.116.1.15:9000/manage/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.15:9000/manage/oauth/check_token
+menhu:
+  url: http://10.116.2.36:8081
+jasypt:
+  encryptor:
+    password: salesops

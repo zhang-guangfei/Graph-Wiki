@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.116.2.44:8848
+        namespace: prod
+      config:
+        server-addr: http://10.116.2.44:8848
+        namespace: prod
+        group: DEFAULT_GROUP
+        name: ${spring.application.name}
+        file-extension: yml
+        refresh: true
+        shared-configs:
+          - data-id: delivery-server.yml
+  main:
+    allow-bean-definition-overriding: true
+

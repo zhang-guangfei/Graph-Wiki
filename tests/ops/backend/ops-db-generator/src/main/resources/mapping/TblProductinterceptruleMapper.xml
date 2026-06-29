@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TblProductinterceptruleMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TblProductinterceptrule">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="NVARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="applyType" jdbcType="INTEGER" property="applytype" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="matchModelNo" jdbcType="VARCHAR" property="matchmodelno" />
+    <result column="modelType" jdbcType="SMALLINT" property="modeltype" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="warehouseCode" jdbcType="VARCHAR" property="warehousecode" />
+    <result column="allowCustomerNos" jdbcType="NVARCHAR" property="allowcustomernos" />
+    <result column="minQty" jdbcType="INTEGER" property="minqty" />
+    <result column="maxQty" jdbcType="INTEGER" property="maxqty" />
+    <result column="actionType" jdbcType="INTEGER" property="actiontype" />
+    <result column="toWarehouseCode" jdbcType="VARCHAR" property="towarehousecode" />
+    <result column="toSupplierId" jdbcType="VARCHAR" property="tosupplierid" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="restartFlag" jdbcType="SMALLINT" property="restartflag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, status, applyType, modelNo, matchModelNo, modelType, supplierId, origin, 
+    warehouseCode, allowCustomerNos, minQty, maxQty, actionType, toWarehouseCode, toSupplierId, 
+    remark, updateUser, createUser, createTime, updateTime, restartFlag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TblProductinterceptruleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.tbl_ProductInterceptRule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.tbl_ProductInterceptRule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.tbl_ProductInterceptRule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TblProductinterceptruleExample">
+    delete from dbo.tbl_ProductInterceptRule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TblProductinterceptrule">
+    insert into dbo.tbl_ProductInterceptRule (id, name, status, 
+      applyType, modelNo, matchModelNo, 
+      modelType, supplierId, origin, 
+      warehouseCode, allowCustomerNos, minQty, 
+      maxQty, actionType, toWarehouseCode, 
+      toSupplierId, remark, updateUser, 
+      createUser, createTime, updateTime, 
+      restartFlag)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=NVARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{applytype,jdbcType=INTEGER}, #{modelno,jdbcType=VARCHAR}, #{matchmodelno,jdbcType=VARCHAR}, 
+      #{modeltype,jdbcType=SMALLINT}, #{supplierid,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
+      #{warehousecode,jdbcType=VARCHAR}, #{allowcustomernos,jdbcType=NVARCHAR}, #{minqty,jdbcType=INTEGER}, 
+      #{maxqty,jdbcType=INTEGER}, #{actiontype,jdbcType=INTEGER}, #{towarehousecode,jdbcType=VARCHAR}, 
+      #{tosupplierid,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{restartflag,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TblProductinterceptrule">
+    insert into dbo.tbl_ProductInterceptRule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="applytype != null">
+        applyType,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="matchmodelno != null">
+        matchModelNo,
+      </if>
+      <if test="modeltype != null">
+        modelType,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode,
+      </if>
+      <if test="allowcustomernos != null">
+        allowCustomerNos,
+      </if>
+      <if test="minqty != null">
+        minQty,
+      </if>
+      <if test="maxqty != null">
+        maxQty,
+      </if>
+      <if test="actiontype != null">
+        actionType,
+      </if>
+      <if test="towarehousecode != null">
+        toWarehouseCode,
+      </if>
+      <if test="tosupplierid != null">
+        toSupplierId,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="updateuser != null">
+        updateUser,
+      </if>
+      <if test="createuser != null">
+        createUser,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="restartflag != null">
+        restartFlag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applytype != null">
+        #{applytype,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="matchmodelno != null">
+        #{matchmodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="modeltype != null">
+        #{modeltype,jdbcType=SMALLINT},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousecode != null">
+        #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowcustomernos != null">
+        #{allowcustomernos,jdbcType=NVARCHAR},
+      </if>
+      <if test="minqty != null">
+        #{minqty,jdbcType=INTEGER},
+      </if>
+      <if test="maxqty != null">
+        #{maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="actiontype != null">
+        #{actiontype,jdbcType=INTEGER},
+      </if>
+      <if test="towarehousecode != null">
+        #{towarehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="tosupplierid != null">
+        #{tosupplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="restartflag != null">
+        #{restartflag,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TblProductinterceptruleExample" resultType="java.lang.Long">
+    select count(*) from dbo.tbl_ProductInterceptRule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.tbl_ProductInterceptRule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.applytype != null">
+        applyType = #{record.applytype,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matchmodelno != null">
+        matchModelNo = #{record.matchmodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modeltype != null">
+        modelType = #{record.modeltype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origin != null">
+        origin = #{record.origin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehousecode != null">
+        warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowcustomernos != null">
+        allowCustomerNos = #{record.allowcustomernos,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.minqty != null">
+        minQty = #{record.minqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxqty != null">
+        maxQty = #{record.maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.actiontype != null">
+        actionType = #{record.actiontype,jdbcType=INTEGER},
+      </if>
+      <if test="record.towarehousecode != null">
+        toWarehouseCode = #{record.towarehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tosupplierid != null">
+        toSupplierId = #{record.tosupplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateuser != null">
+        updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createuser != null">
+        createUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.restartflag != null">
+        restartFlag = #{record.restartflag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.tbl_ProductInterceptRule
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=NVARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      applyType = #{record.applytype,jdbcType=INTEGER},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      matchModelNo = #{record.matchmodelno,jdbcType=VARCHAR},
+      modelType = #{record.modeltype,jdbcType=SMALLINT},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      origin = #{record.origin,jdbcType=VARCHAR},
+      warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      allowCustomerNos = #{record.allowcustomernos,jdbcType=NVARCHAR},
+      minQty = #{record.minqty,jdbcType=INTEGER},
+      maxQty = #{record.maxqty,jdbcType=INTEGER},
+      actionType = #{record.actiontype,jdbcType=INTEGER},
+      toWarehouseCode = #{record.towarehousecode,jdbcType=VARCHAR},
+      toSupplierId = #{record.tosupplierid,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      restartFlag = #{record.restartflag,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TblProductinterceptrule">
+    update dbo.tbl_ProductInterceptRule
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applytype != null">
+        applyType = #{applytype,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        modelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="matchmodelno != null">
+        matchModelNo = #{matchmodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="modeltype != null">
+        modelType = #{modeltype,jdbcType=SMALLINT},
+      </if>
+      <if test="supplierid != null">
+        supplierId = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowcustomernos != null">
+        allowCustomerNos = #{allowcustomernos,jdbcType=NVARCHAR},
+      </if>
+      <if test="minqty != null">
+        minQty = #{minqty,jdbcType=INTEGER},
+      </if>
+      <if test="maxqty != null">
+        maxQty = #{maxqty,jdbcType=INTEGER},
+      </if>
+      <if test="actiontype != null">
+        actionType = #{actiontype,jdbcType=INTEGER},
+      </if>
+      <if test="towarehousecode != null">
+        toWarehouseCode = #{towarehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="tosupplierid != null">
+        toSupplierId = #{tosupplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateuser != null">
+        updateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="restartflag != null">
+        restartFlag = #{restartflag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TblProductinterceptrule">
+    update dbo.tbl_ProductInterceptRule
+    set name = #{name,jdbcType=NVARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      applyType = #{applytype,jdbcType=INTEGER},
+      modelNo = #{modelno,jdbcType=VARCHAR},
+      matchModelNo = #{matchmodelno,jdbcType=VARCHAR},
+      modelType = #{modeltype,jdbcType=SMALLINT},
+      supplierId = #{supplierid,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      allowCustomerNos = #{allowcustomernos,jdbcType=NVARCHAR},
+      minQty = #{minqty,jdbcType=INTEGER},
+      maxQty = #{maxqty,jdbcType=INTEGER},
+      actionType = #{actiontype,jdbcType=INTEGER},
+      toWarehouseCode = #{towarehousecode,jdbcType=VARCHAR},
+      toSupplierId = #{tosupplierid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      restartFlag = #{restartflag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

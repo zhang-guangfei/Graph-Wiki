@@ -1,0 +1,102 @@
+server:
+  port: 8101
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: product-service
+  devtools:
+    remote:
+      restart:
+        enabled: false
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.1.15
+                port: 5672
+                username: opsUser
+                password: opsSales**
+                virtual-host: /
+      default-binder: defaultRabbit
+      bindings:
+        inventory-supplier-sender:
+          binder: defaultRabbit
+          destination: inventory-supplier-exchange
+          content-type: application/json
+        inventory-supplier-receiver:
+          binder: defaultRabbit
+          destination: inventory-supplier-exchange
+          content-type: application/json
+          group: inventory-supplier-group
+      rabbit:
+        bindings:
+          inventory-supplier-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+    loadbalancer:
+      ribbon:
+        enabled: false
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude:
+      - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+      - org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 200
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_ui_dev
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  redis:
+    database: 0
+    host: 10.116.1.15
+    port: 6379
+    password:
+    max-active: 10000
+    max-idle: 100
+    min-idle: 10
+    max-wait: 6000
+    timeout: 25000
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.15:9000/manage/oauth/token
+      user-authorization-uri: http://10.116.1.15:9000/manage/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.15:9000/manage/oauth/check_token

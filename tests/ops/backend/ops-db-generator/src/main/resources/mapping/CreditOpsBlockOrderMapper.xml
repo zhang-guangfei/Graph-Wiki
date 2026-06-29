@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.CreditOpsBlockOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.CreditOpsBlockOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="orderItem" jdbcType="INTEGER" property="orderitem" />
+    <result column="insertTime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="isChangeStatus" jdbcType="BIT" property="ischangestatus" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderNo, orderItem, insertTime, isChangeStatus, creator
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._credit_ops_block_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._credit_ops_block_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo._credit_ops_block_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrderExample">
+    delete from dbo._credit_ops_block_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrder">
+    insert into dbo._credit_ops_block_order (id, orderNo, orderItem, 
+      insertTime, isChangeStatus, creator
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{orderitem,jdbcType=INTEGER}, 
+      #{inserttime,jdbcType=TIMESTAMP}, #{ischangestatus,jdbcType=BIT}, #{creator,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrder">
+    insert into dbo._credit_ops_block_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="orderitem != null">
+        orderItem,
+      </if>
+      <if test="inserttime != null">
+        insertTime,
+      </if>
+      <if test="ischangestatus != null">
+        isChangeStatus,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderitem != null">
+        #{orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ischangestatus != null">
+        #{ischangestatus,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrderExample" resultType="java.lang.Long">
+    select count(*) from dbo._credit_ops_block_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._credit_ops_block_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderitem != null">
+        orderItem = #{record.orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="record.inserttime != null">
+        insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ischangestatus != null">
+        isChangeStatus = #{record.ischangestatus,jdbcType=BIT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._credit_ops_block_order
+    set id = #{record.id,jdbcType=INTEGER},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      orderItem = #{record.orderitem,jdbcType=INTEGER},
+      insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
+      isChangeStatus = #{record.ischangestatus,jdbcType=BIT},
+      creator = #{record.creator,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrder">
+    update dbo._credit_ops_block_order
+    <set>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderitem != null">
+        orderItem = #{orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="inserttime != null">
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ischangestatus != null">
+        isChangeStatus = #{ischangestatus,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.CreditOpsBlockOrder">
+    update dbo._credit_ops_block_order
+    set orderNo = #{orderno,jdbcType=VARCHAR},
+      orderItem = #{orderitem,jdbcType=INTEGER},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      isChangeStatus = #{ischangestatus,jdbcType=BIT},
+      creator = #{creator,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

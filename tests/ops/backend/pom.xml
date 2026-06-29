@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.smc.smccloud</groupId>
+    <artifactId>smccloud-master</artifactId>
+    <name>smccloud-master</name>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+
+    <!-- spring boot-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <!--<relativePath/>-->
+    </parent>
+
+    <properties>
+        <log4j2.version>2.17.1</log4j2.version>
+        <smccloud.version>1.0</smccloud.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>8</java.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <alibaba-nacos.version>2.2.6.RELEASE</alibaba-nacos.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <junit.version>4.12</junit.version>
+        <mybatis-start.version>2.1.3</mybatis-start.version>
+        <mybatis.plus.version>3.4.0</mybatis.plus.version>
+        <mybatis.plus.join.version>1.1.8</mybatis.plus.join.version>
+        <dynamic.datasource.version>3.4.0</dynamic.datasource.version>
+        <druid.version>1.1.5</druid.version>
+        <fastjson.version>1.2.73</fastjson.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <activiti.version>7.1.0.M4</activiti.version>
+        <uuid.version>4.0.1</uuid.version>
+        <!--<elasticsearch.version>7.9.3</elasticsearch.version>-->
+        <xxl-job.version>2.3.0</xxl-job.version>
+        <ttl.version>2.12.1</ttl.version>
+        <okhttp.version>4.2.2</okhttp.version>
+        <redis.version>2.5.6</redis.version>
+        <redisson.version>3.15.0</redisson.version>
+        <!--<oauth2.version>2.4.1.RELEASE</oauth2.version> 版本太低 其方法好多被废弃-->
+        <oauth2.version>2.3.5.RELEASE</oauth2.version>
+        <!--<feign-okhttp.version>8.10.1</feign-okhttp.version> 改为使用 io.github.openfeign feign-okhttp-->
+        <poi.version>5.0.0</poi.version>
+        <itext.version>2.1.7</itext.version>
+        <weixin-java-mp.version>3.0.0</weixin-java-mp.version>
+        <commons-csv.version>1.7</commons-csv.version>
+
+        <cglib.version>3.3.0</cglib.version>
+        <reflectasm.version>1.11.9</reflectasm.version>
+        <lettuce.version>5.1.8.RELEASE</lettuce.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
+        <jwt.version>3.10.3</jwt.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <springcloud.stream.version>3.1.2</springcloud.stream.version>
+        <springtest.version>5.3.6</springtest.version>
+        <spring.validation>2.6.1</spring.validation>
+        <springboot.swagger2>2.9.2</springboot.swagger2>
+        <!--     <springboot.swagger2.ui>2.9.2</springboot.swagger2.ui>-->
+
+
+        <!--<feign.form>3.3.0</feign.form>-->
+        <commons-fileupload>1.3.3</commons-fileupload>
+        <!--        <spring.jta.atomikos>2.5.2</spring.jta.atomikos>-->
+
+        <!-- 架构 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <smc-version>1.02</smc-version>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.6.RELEASE</spring-cloud-alibaba.version>
+        <spring-activiti.version>7.1.0.M6</spring-activiti.version>
+        <lcn.last.version>4.1.0</lcn.last.version>
+
+
+        <!-- 组件 -->
+        <sqlserver-version>4.0</sqlserver-version>
+        <mybatis.version>3.4.6</mybatis.version>
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-spring-boot.version>2.1.3</mybatis-spring-boot.version>
+        <pagehelper-spring-boot.version>1.2.13</pagehelper-spring-boot.version> <!--1.3.0 不支持mybatis pagehelper分页查询-->
+        <xxl-job.version>2.3.0</xxl-job.version>
+
+        <!-- 工具 -->
+        <hutool.version>5.7.13</hutool.version>
+        <lombok.version>1.18.20</lombok.version>
+        <joda-time-version>2.10</joda-time-version>
+        <jasperreports-six.version>6.7.0</jasperreports-six.version>
+        <forest.version>1.5.17</forest.version>
+        <barcode.version>1.5-beta1</barcode.version>
+        <TinyPinyin.version>2.0.3.RELEASE</TinyPinyin.version>
+
+        <org.apache.commons-beanutils-version>1.9.3</org.apache.commons-beanutils-version>
+        <org.apache.commons-net-version>3.6</org.apache.commons-net-version>
+        <org.apache.commons-fileupload-version>1.3.3</org.apache.commons-fileupload-version>
+        <org.apache.commons-lang-version>2.6</org.apache.commons-lang-version>
+        <org.apache.commons-lang3-version>3.7</org.apache.commons-lang3-version>
+        <org.apache.commons-dbcp2-version>2.5.0</org.apache.commons-dbcp2-version>
+        <org.apache.commons-codec-version>1.11</org.apache.commons-codec-version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+    </properties>
+
+    <modules>
+
+        <module>smccloud-core</module>
+        <module>smccloud-base</module>
+        <module>smccloud-ops-api</module>
+        <module>smccloud-ops</module>
+
+        <module>ops-api</module>
+        <module>ops-log</module>
+        <module>ops-common</module>
+        <module>ops-db-generator</module>
+        <module>ops-db-entity</module>
+        <module>ops-dto</module>
+        <module>ops-job-admin</module>
+        <module>ops-job-executor</module>
+        <module>opsservice/ops-service-common</module>
+        <module>opsservice/ops-service-purchase</module>
+        <module>opsservice/ops-service-wm</module>
+        <module>opsservice/ops-service-ba</module>
+        <module>opsservice/ops-feign-api</module>
+
+        <module>opsserviceImpl/ops-serviceImpl-common</module>
+        <module>opsserviceImpl/ops-serviceImpl-purchase</module>
+        <module>opsserviceImpl/ops-serviceImpl-wm</module>
+        <module>opsserviceImpl/ops-serviceImpl-ba</module>
+
+        <module>opsweb/ops-web-controller-purchase</module>
+        <module>opsweb/ops-web-controller-wm</module>
+        <module>opsweb/ops-web-controller-ba</module>
+        <module>ops-common-service</module>
+        <module>ops-common-log</module>
+        <module>ops-delivery</module>
+        <module>ops-event</module>
+        <module>po-adapter</module>
+        <module>po-adapter-api</module>
+        <module>ops-kettle-job</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- nacos-discovery -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${alibaba-nacos.version}</version>
+            </dependency>
+
+            <!-- nacos-config -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${alibaba-nacos.version}</version>
+            </dependency>
+
+            <!--activiti-->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+
+                <!--排除mybatis3.4.2-->
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                    <!--排除JPA依赖-->
+                    <exclusion>
+                        <groupId>javax.persistence</groupId>
+                        <artifactId>persistence-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--oauth2-->
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${oauth2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--JWT -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-test</artifactId>-->
+            <!--<version>${springtest.version}</version>-->
+            <!--<scope>compile</scope>-->
+            <!--</dependency>-->
+
+            <!--TX-LCN分布式事务-->
+            <!--<dependency>
+                <groupId>com.codingapi</groupId>
+                <artifactId>transaction-springcloud</artifactId>
+                <version>${lcn.last.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codingapi</groupId>
+                <artifactId>tx-plugins-db</artifactId>
+                <version>${lcn.last.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>-->
+
+
+            <!-- 缓存 spring-boot-starter-cache -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- java-uuid-generator -->
+            <dependency>
+                <groupId>com.fasterxml.uuid</groupId>
+                <artifactId>java-uuid-generator</artifactId>
+                <version>${uuid.version}</version>
+            </dependency>
+
+            <!--导入 mybatis 启动器-->
+            <!--<dependency>-->
+            <!--<groupId>org.mybatis.spring.boot</groupId>-->
+            <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+            <!--<version>${mybatis-start.version}</version>-->
+            <!--</dependency>-->
+
+            <!-- mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.datasource.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join</artifactId>
+                <version>${mybatis.plus.join.version}</version>
+            </dependency>
+
+            <!--spring-cloud-starter-stream-rabbit -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                <version>${springcloud.stream.version}</version>
+            </dependency>
+
+
+            <!--druid数据源-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- alibaba fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>3.3.0</version>
+            </dependency>
+
+
+            <!-- cglib start -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>${reflectasm.version}</version>
+            </dependency>
+            <!-- cglib end -->
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- redis begin-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
+            <!-- redis end -->
+
+
+            <!-- itext -->
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>${itext.version}</version>
+            </dependency>
+            <!-- Excel -->
+            <!--<dependency>-->
+            <!--<groupId>org.apache.poi</groupId>-->
+            <!--<artifactId>poi</artifactId>-->
+            <!--<version>${poi.version}</version>-->
+            <!--</dependency>-->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--整合微信 -->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-mp</artifactId>
+                <version>${weixin-java-mp.version}</version>
+            </dependency>
+
+
+            <!-- spring-boot-starter-mail -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- pagehelper -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- csv file -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-csv</artifactId>
+                <version>${commons-csv.version}</version>
+            </dependency>
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.biezhi</groupId>
+                <artifactId>TinyPinyin</artifactId>
+                <version>${TinyPinyin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${ttl.version}</version>
+            </dependency>
+
+            <!-- redisson 分布式锁 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!--LDAP-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-ldap</artifactId>
+                <version>2.4.7</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.unboundid</groupId>
+                <artifactId>unboundid-ldapsdk</artifactId>
+                <version>4.0.9</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${org.apache.commons-net-version}</version>
+            </dependency>
+
+            <!-- smccloud start -->
+            <dependency>
+                <groupId>com.smc.smccloud.core</groupId>
+                <artifactId>smccloud-core-entity</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.core</groupId>
+                <artifactId>smccloud-core-security</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.core</groupId>
+                <artifactId>smccloud-core-common</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.ops.api</groupId>
+                <artifactId>smccloud-ops-order-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.ops.api</groupId>
+                <artifactId>smccloud-ops-product-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.smc.smccloud.ops.api</groupId>
+                <artifactId>smccloud-ops-base-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.smc.smccloud.ops.api</groupId>
+                <artifactId>smccloud-ops-cpfr-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.smc.smccloud.api</groupId>
+                <artifactId>smccloud-auth-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.smc.smccloud.api</groupId>
+                <artifactId>smccloud-common-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.smc.smccloud.base</groupId>
+                <artifactId>smccloud-auth</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.base</groupId>
+                <artifactId>smccloud-common</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.smc.smccloud.ops.api</groupId>
+                <artifactId>smccloud-ops-adapter-api</artifactId>
+                <version>${smccloud.version}</version>
+            </dependency>
+
+            <!--<dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
+            </dependency>-->
+
+            <!-- smccloud end -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring.validation}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cloud-com</groupId>
+                <artifactId>cloud-base</artifactId>
+                <version>1.04</version>
+            </dependency>
+            <dependency>
+                <groupId>cloud-com</groupId>
+                <artifactId>cloud-base-page</artifactId>
+                <version>1.04</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>io.github.openfeign.form</groupId>-->
+            <!--<artifactId>feign-form</artifactId>-->
+            <!--<version>${feign.form}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>io.github.openfeign.form</groupId>-->
+            <!--<artifactId>feign-form-spring</artifactId>-->
+            <!--<version>${feign.form}</version>-->
+            <!--</dependency>-->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload}</version>
+            </dependency>
+
+            <!-- <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+                 <version>${spring.jta.atomikos}</version>
+             </dependency>-->
+
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springboot.swagger2}</version>
+            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>io.springfox</groupId>-->
+            <!--<artifactId>springfox-swagger-ui</artifactId>-->
+            <!--<version>${springboot.swagger2}</version>-->
+            <!--</dependency>-->
+
+            <!-- 一维码 -->
+            <dependency>
+                <groupId>net.sourceforge.barbecue</groupId>
+                <artifactId>barbecue</artifactId>
+                <version>${barcode.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classifier>exec</classifier>
+                    <jvmArguments>
+                        -Xdebug
+                        -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                    </jvmArguments>
+                </configuration>
+            </plugin>
+            <!--忽略test-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <verbose/>
+                        <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <repositories>
+        <!--<repository>
+            <id>public</id>
+            <url>http://10.116.0.73:8081/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>-->
+        <repository>
+            <id>ops</id>
+            <url>http://10.196.34.23:9090/repository/ops-group/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <!--<pluginRepository>
+            <id>public</id>
+            <url>http://10.116.0.73:8081/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>-->
+        <pluginRepository>
+            <id>ops</id>
+            <url>http://10.196.34.23:9090/repository/ops-group/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <!-- 部署本地jar，第三方jar到私服 -->
+        <!--<repository>
+            <id>maven-third-party</id>
+            <name>3rdParty Repository</name>
+            <url>http://10.116.0.73:8081/repository/maven-third-party/</url>
+        </repository>-->
+
+        <repository>
+            <id>ops</id>
+            <name>admin</name>
+            <url>http://10.196.34.23:9090/repository/ops-hosted/</url>
+        </repository>
+        <!-- <repository> <id>releases</id> <name>Nexus Release Repository</name>
+            <url>http://10.116.0.73:8081/repository/maven-releases/</url> </repository>
+            <snapshotRepository> <id>snapshots</id> <name>Nexus Snapshots Repository</name>
+            <url>http://10.116.0.73:8081/repository/maven-snapshots/</url> </snapshotRepository> -->
+    </distributionManagement>
+</project>

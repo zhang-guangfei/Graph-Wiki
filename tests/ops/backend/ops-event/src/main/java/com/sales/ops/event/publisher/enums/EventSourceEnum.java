@@ -1,0 +1,186 @@
+package com.sales.ops.event.publisher.enums;
+
+import java.util.Arrays;
+
+public enum EventSourceEnum implements EventTypeEnum {
+
+    // 以下事件的颗粒度为请购单、采购单
+    REQUEST_PREPROCESS("REQUEST_PREPROCESS", "请购-预处理"),
+    REQUEST_INTERCEPT("REQUEST_INTERCEPT", "请购-拦截"),
+    REQUEST_RELEASE("REQUEST_RELEASE", "请购-拦截放行"),
+    PURCHASE_ORDER_RESET("PURCHASE_ORDER_RESET", "采购-转订"),
+    PURCHASE_ORDER_SEND("PURCHASE_ORDER_SEND", "采购-发单"),
+    PURCHASE_ORDER_RECEIVE("PURCHASE_ORDER_RECEIVE", "采购-接单"),
+    PURCHASE_ORDER_RECEIVE_ERROR("PURCHASE_ORDER_RECEIVE_ERROR", "采购-接单异常"),
+    PURCHASE_ORDER_SUPPLIER("PURCHASE_ORDER_SUPPLIER", "采购-更新供应商"),
+    PURCHASE_ORDER_PRODUCT("PURCHASE_ORDER_PRODUCT", "采购-生产中"),
+    PURCHASE_ORDER_REPLY_DATE("PURCHASE_ORDER_REPLY_DATE", "采购-返信变更"),
+    PURCHASE_ORDER_DELAY_DATE("PURCHASE_ORDER_DELAY_DATE", "采购-返信延期"),
+    PURCHASE_ORDER_CUSTOMS("PURCHASE_ORDER_CUSTOMS", "采购-已报关"),
+    PURCHASE_ORDER_UPDATE("PURCHASE_ORDER_UPDATE", "采购-更新"),
+    PURCHASE_ORDER_CANCEL("PURCHASE_ORDER_CANCEL", "采购-删单"),
+    PURCHASE_ORDER_RO_CONFIRM("PURCHASE_ORDER_RO_CONFIRM", "采购-已完全收货"),
+    // 以下事件的颗粒度为采购发票
+    PURCHASE_INVOICE_IMPORT("PURCHASE_INVOICE_IMPORT", "采购-预到货发票导入"),
+    PURCHASE_INVOICE_CONFIRM("PURCHASE_INVOICE_CONFIRM", "采购-发票确认"),
+    PURCHASE_INVOICE_TRANSFER("PURCHASE_INVOICE_TRANSFER", "采购-发票转运"),
+    PURCHASE_INVOICE_SIGNED("PURCHASE_INVOICE_SIGNED", "采购-发票签收"),
+    PURCHASE_INVOICE_GOODS("PURCHASE_INVOICE_GOODS", "采购-到货确认"),
+
+    CUSTOMER_ORDER_MODIFY_WAREHOUSE("CUSTOMER_ORDER_MODIFY_WAREHOUSE", "客户订单-修改发货仓"),
+    CUSTOMER_ORDER_MODIFY_DELIVERY_TYPE("CUSTOMER_ORDER_MODIFY_DELIVERY_TYPE", "客户订单-修改发货方式"),
+    CUSTOMER_ORDER_MODIFY_DELIVERY_CONFIG("CUSTOMER_ORDER_MODIFY_DELIVERY_CONFIG", "客户订单-修改发货信息"),
+    CUSTOMER_ORDER_MODIFY_NOTIFY_SHIPMENT_PLAN("CUSTOMER_ORDER_MODIFY_NOTIFY_SHIPMENT_PLAN", "客户订单-创建通知发货计划"),
+
+    // 以下事件的颗粒度为客户订单
+    CUSTOMER_ORDER_ALLOT_FAILURE("CUSTOMER_ORDER_ALLOT_FAILURE", "客户订单-接入失败"),
+    CUSTOMER_ORDER_ALLOT_BEFORE("CUSTOMER_ORDER_ALLOT_BEFORE", "客户订单-分配前"),
+    CUSTOMER_ORDER_NOT_ALLOT("CUSTOMER_ORDER_NOT_ALLOT", "客户订单-暂不处理"),
+    CUSTOMER_ORDER_ALLOT_AFTER("CUSTOMER_ORDER_ALLOT_AFTER", "客户订单-分配后"),
+    CUSTOMER_ORDER_DELIVERY_PLAN_AFTER("CUSTOMER_ORDER_DELIVERY_PLAN_AFTER", "客户订单-交付计划后"),
+    CUSTOMER_ORDER_PRINT_WEIGHT("CUSTOMER_ORDER_PRINT_WEIGHT", "客户订单-称重打印"),
+    CUSTOMER_ORDER_CARRIER_INFO("CUSTOMER_ORDER_CARRIER_INFO", "客户订单-承运商交接"),
+    CUSTOMER_ORDER_IMPDATA("CUSTOMER_ORDER_IMPDATA", "客户订单-发货数据"),
+    CUSTOMER_ORDER_IMPDATA_INVOICE("CUSTOMER_ORDER_IMPDATA_INVOICE", "客户订单-发货发票数据"),
+    CUSTOMER_ORDER_STATUS_INVOICED("CUSTOMER_ORDER_STATUS_INVOICED", "客户订单-订单已开票"),
+
+
+    CUSTOMER_ORDER_ALLOT("CUSTOMER_ORDER_ALLOT", "客户订单-分配"),
+    CUSTOMER_ORDER_REALLOT("CUSTOMER_ORDER_REALLOT", "客户订单-重新分配"),
+    CUSTOMER_ORDER_ADJUST("CUSTOMER_ORDER_ADJUST", "客户订单-转订"),
+
+    CUSTOMER_ORDER_REQUEST_PREPROCESS("CUSTOMER_ORDER_REQUEST_PREPROCESS", "客户订单-请购预处理"),
+    CUSTOMER_ORDER_REQUEST_INTERCEPT("CUSTOMER_ORDER_REQUEST_INTERCEPT", "客户订单-请购拦截"),
+    CUSTOMER_ORDER_REQUEST_RELEASE("CUSTOMER_ORDER_REQUEST_RELEASE", "客户订单-请购拦截放行"),
+    CUSTOMER_ORDER_PURCHASE_RESET("CUSTOMER_ORDER_PURCHASE_RESET", "客户订单-采购转订"),
+    CUSTOMER_ORDER_PURCHASE_SEND("CUSTOMER_ORDER_PURCHASE_SEND", "客户订单-采购发单"),
+    CUSTOMER_ORDER_PURCHASE_RECEIVE("CUSTOMER_ORDER_PURCHASE_RECEIVE", "客户订单-采购接单"),
+    CUSTOMER_ORDER_PURCHASE_RECEIVE_ERROR("CUSTOMER_ORDER_PURCHASE_RECEIVE_ERROR", "客户订单-采购接单异常"),
+    CUSTOMER_ORDER_PURCHASE_SUPPLIER("CUSTOMER_ORDER_PURCHASE_SUPPLIER", "客户订单-采购更新供应商"),
+    CUSTOMER_ORDER_PURCHASE_UPDATE("CUSTOMER_ORDER_PURCHASE_UPDATE", "客户订单-更新采购单状态"),
+    CUSTOMER_ORDER_PURCHASE_PRODUCT("CUSTOMER_ORDER_PURCHASE_PRODUCT", "客户订单-采购生产中"),
+    CUSTOMER_ORDER_PURCHASE_INVOICE_IMPORT("CUSTOMER_ORDER_PURCHASE_INVOICE_IMPORT", "客户订单-采购预到货发票导入"),
+    CUSTOMER_ORDER_PURCHASE_CUSTOMS("CUSTOMER_ORDER_PURCHASE_CUSTOMS", "客户订单-采购已报关"),
+    CUSTOMER_ORDER_PURCHASE_INVOICE_CONFIRM("CUSTOMER_ORDER_PURCHASE_INVOICE_CONFIRM", "客户订单-采购发票入库"),
+    CUSTOMER_ORDER_PURCHASE_TRANSFER_INFO("CUSTOMER_ORDER_PURCHASE_TRANSFER_INFO", "客户订单-采购单转运"),
+
+    CUSTOMER_ORDER_PURCHASE_CANCEL("CUSTOMER_ORDER_PURCHASE_CANCEL", "客户订单-采购删单"),
+    CUSTOMER_ORDER_RETURN("CUSTOMER_ORDER_RETURN", "客户订单-退货"),
+    CUSTOMER_ORDER_INVOICE_ISSUED("CUSTOMER_ORDER_INVOICE_ISSUED", "发票处理-开票"),
+    CUSTOMER_ORDER_FINISH("CUSTOMER_ORDER_FINISH", "客户订单-完纳"),
+    CUSTOMER_ORDER_CANCEL("CUSTOMER_ORDER_CANCEL", "客户订单-删单"),
+
+
+    // 以下事件的颗粒度为物流发票
+    WAREHOUSE_SIGNIN_CONFIRM("WAREHOUSE_SIGNIN_CONFIRM", "物流入库-签收确认"),
+    WAREHOUSE_GOODS_CONFIRM("WAREHOUSE_GOODS_CONFIRM", "物流入库-到货确认"),
+    WAREHOUSE_RECEIVE_CONFIRM("WAREHOUSE_RECEIVE_CONFIRM", "物流入库-收货确认"),
+
+    // 以下事件的颗粒度为指令
+    WAREHOUSE_DELIVERY_GOODS_READY("WAREHOUSE_DELIVERY_GOODS_READY", "物流出库-货齐就绪"), // task3->1
+    WAREHOUSE_DELIVERY_COMMAND_DISPATCHED("WAREHOUSE_DELIVERY_COMMAND_DISPATCHED", "物流出库-指令下发"),// prepare
+    WAREHOUSE_DELIVERY_WAVE_CONFIRM("WAREHOUSE_DELIVERY_WAVE_CONFIRM", "物流出库-已组波次"),// 开始出库 start
+    WAREHOUSE_DELIVERY_WAVE_CANCEL("WAREHOUSE_DELIVERY_WAVE_CANCEL", "物流出库-退波次"),
+    WAREHOUSE_DELIVERY_CREDIT_INTERCEPT("WAREHOUSE_DELIVERY_CREDIT_INTERCEPT", "物流出库-信用拦截"),
+    WAREHOUSE_DELIVERY_CREDIT_RELEASE("WAREHOUSE_DELIVERY_CREDIT_RELEASE", "物流出库-信用释放"),
+    WAREHOUSE_DELIVERY_OPERATION("WAREHOUSE_DELIVERY_OPERATION", "物流出库-出库操作"),// 拣货包装
+    WAREHOUSE_DELIVERY_FINISHED("WAREHOUSE_DELIVERY_FINISHED", "物流出库-出库完成"),
+    WAREHOUSE_DELIVERY_HANDOVER("WAREHOUSE_DELIVERY_HANDOVER", "物流出库-发运完成"),
+    TRANSPORT_ROUTE_INFO("TRANSPORT_ROUTE_INFO", "运输-路由信息"),
+
+    INVENTORY_TRANS_ORDER_WAITING("INVENTORY_TRANS_ORDER_WAITING", "库存调整-调库待出库"),
+    INVENTORY_TRANS_ORDER_OUTING("INVENTORY_TRANS_ORDER_OUTING", "库存调整-调库出库中"),
+    INVENTORY_TRANS_ORDER_SHIPPED("INVENTORY_TRANS_ORDER_SHIPPED", "库存调整-调库已出库"),
+    INVENTORY_TRANS_ORDER_SIGNIN("INVENTORY_TRANS_ORDER_SIGNIN", "库存调整-调库已签收"),
+    INVENTORY_TRANS_ORDER_GOODS_CONFIRM("INVENTORY_TRANS_ORDER_GOODS_CONFIRM", "库存调整-调库到货确认"),
+    INVENTORY_TRANS_ORDER_RECEIVE_CONFIRM("INVENTORY_TRANS_ORDER_RECEIVE_CONFIRM", "库存调整-调库收货确认"),
+    INVENTORY_TRANS_ORDER_DELIVERY_PLAN("INVENTORY_TRANS_ORDER_DELIVERY_PLAN", "库存调整-调库计划"),
+    ;
+
+
+    private String code;
+    private String desc;
+
+    EventSourceEnum(String code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+
+    @Override
+    public String getCode() {
+        return this.code;
+    }
+
+    @Override
+    public String getDesc() {
+        return this.desc;
+    }
+
+    public static EventTypeEnum parse(String code) {
+        return Arrays.stream(EventSourceEnum.values())
+                .filter(e -> e.getCode().equals(code))
+                .findFirst().orElse(null);
+    }
+
+
+    public static EventTypeEnum toCustomerEvent(EventTypeEnum eventType) {
+        EventTypeEnum event = null;
+        if (eventType instanceof EventSourceEnum) {
+            EventSourceEnum eventSource = (EventSourceEnum) eventType;
+            switch (eventSource) {
+                case REQUEST_PREPROCESS:
+                    event = CUSTOMER_ORDER_REQUEST_PREPROCESS;
+                    break;
+                case REQUEST_INTERCEPT:
+                    event = CUSTOMER_ORDER_REQUEST_INTERCEPT;
+                    break;
+                case REQUEST_RELEASE:
+                    event = CUSTOMER_ORDER_REQUEST_RELEASE;
+                    break;
+                case PURCHASE_ORDER_RESET:
+                    event = CUSTOMER_ORDER_PURCHASE_RESET;
+                    break;
+                case PURCHASE_ORDER_SEND:
+                    event = CUSTOMER_ORDER_PURCHASE_SEND;
+                    break;
+                case PURCHASE_ORDER_RECEIVE:
+                    event = CUSTOMER_ORDER_PURCHASE_RECEIVE;
+                    break;
+                case PURCHASE_ORDER_RECEIVE_ERROR:
+                    event = CUSTOMER_ORDER_PURCHASE_RECEIVE_ERROR;
+                    break;
+                case PURCHASE_ORDER_SUPPLIER:
+                    event = CUSTOMER_ORDER_PURCHASE_SUPPLIER;
+                    break;
+                case PURCHASE_ORDER_PRODUCT:
+                    event = CUSTOMER_ORDER_PURCHASE_PRODUCT;
+                    break;
+                case PURCHASE_ORDER_CUSTOMS:
+                    event = CUSTOMER_ORDER_PURCHASE_CUSTOMS;
+                    break;
+                case PURCHASE_ORDER_UPDATE:
+                    event = CUSTOMER_ORDER_PURCHASE_UPDATE;
+                    break;
+                case PURCHASE_INVOICE_IMPORT:
+                    event = CUSTOMER_ORDER_PURCHASE_INVOICE_IMPORT;
+                    break;
+                case PURCHASE_INVOICE_CONFIRM:
+                    event = CUSTOMER_ORDER_PURCHASE_INVOICE_CONFIRM;
+                    break;
+                case PURCHASE_INVOICE_SIGNED:
+                    event = WAREHOUSE_SIGNIN_CONFIRM;
+                    break;
+                case PURCHASE_INVOICE_GOODS:
+                    event = WAREHOUSE_GOODS_CONFIRM;
+                    break;
+                case PURCHASE_INVOICE_TRANSFER:
+                    event = CUSTOMER_ORDER_PURCHASE_TRANSFER_INFO;
+                    break;
+            }
+        }
+
+        return event;
+    }
+
+
+}

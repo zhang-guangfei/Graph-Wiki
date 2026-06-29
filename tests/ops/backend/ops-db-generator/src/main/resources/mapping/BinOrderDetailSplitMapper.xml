@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.BinOrderDetailSplitMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.BinOrderDetailSplit">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="from_id" jdbcType="BIGINT" property="fromId" />
+    <result column="calc_id" jdbcType="BIGINT" property="calcId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="trans_type" jdbcType="VARCHAR" property="transType" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="del_flag" jdbcType="SMALLINT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, from_id, calc_id, status, app_id, model_no, quantity, order_no, trans_type, order_type, 
+    dlv_date, supplier_code, del_flag, create_time, update_time, update_user, create_user, 
+    item_no, warehouse_code
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.BinOrderDetailSplitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.bin_order_detail_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.bin_order_detail_split
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.bin_order_detail_split
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.BinOrderDetailSplitExample">
+    delete from dbo.bin_order_detail_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.BinOrderDetailSplit">
+    insert into dbo.bin_order_detail_split (id, from_id, calc_id, 
+      status, app_id, model_no, 
+      quantity, order_no, trans_type, 
+      order_type, dlv_date, supplier_code, 
+      del_flag, create_time, update_time, 
+      update_user, create_user, item_no, 
+      warehouse_code)
+    values (#{id,jdbcType=BIGINT}, #{fromId,jdbcType=BIGINT}, #{calcId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{appId,jdbcType=BIGINT}, #{modelNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{dlvDate,jdbcType=TIMESTAMP}, #{supplierCode,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{warehouseCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.BinOrderDetailSplit">
+    insert into dbo.bin_order_detail_split
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fromId != null">
+        from_id,
+      </if>
+      <if test="calcId != null">
+        calc_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="transType != null">
+        trans_type,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="dlvDate != null">
+        dlv_date,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fromId != null">
+        #{fromId,jdbcType=BIGINT},
+      </if>
+      <if test="calcId != null">
+        #{calcId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null">
+        #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="dlvDate != null">
+        #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.BinOrderDetailSplitExample" resultType="java.lang.Long">
+    select count(*) from dbo.bin_order_detail_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.bin_order_detail_split
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fromId != null">
+        from_id = #{record.fromId,jdbcType=BIGINT},
+      </if>
+      <if test="record.calcId != null">
+        calc_id = #{record.calcId,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=BIGINT},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transType != null">
+        trans_type = #{record.transType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvDate != null">
+        dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.supplierCode != null">
+        supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.bin_order_detail_split
+    set id = #{record.id,jdbcType=BIGINT},
+      from_id = #{record.fromId,jdbcType=BIGINT},
+      calc_id = #{record.calcId,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=BIGINT},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      trans_type = #{record.transType,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=SMALLINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.BinOrderDetailSplit">
+    update dbo.bin_order_detail_split
+    <set>
+      <if test="fromId != null">
+        from_id = #{fromId,jdbcType=BIGINT},
+      </if>
+      <if test="calcId != null">
+        calc_id = #{calcId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null">
+        trans_type = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="dlvDate != null">
+        dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.BinOrderDetailSplit">
+    update dbo.bin_order_detail_split
+    set from_id = #{fromId,jdbcType=BIGINT},
+      calc_id = #{calcId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=BIGINT},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      trans_type = #{transType,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInquiryAdapterConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInquiryAdapterConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="supplier_class" jdbcType="NVARCHAR" property="supplierClass" />
+    <result column="supplier_name" jdbcType="NVARCHAR" property="supplierName" />
+    <result column="connect_type" jdbcType="VARCHAR" property="connectType" />
+    <result column="send_class_name" jdbcType="VARCHAR" property="sendClassName" />
+    <result column="send_method_name" jdbcType="VARCHAR" property="sendMethodName" />
+    <result column="callback_class_name" jdbcType="VARCHAR" property="callbackClassName" />
+    <result column="callback_method_name" jdbcType="VARCHAR" property="callbackMethodName" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="callback_increment_lastid" jdbcType="VARCHAR" property="callbackIncrementLastid" />
+    <result column="callback_increment_lasttime" jdbcType="TIMESTAMP" property="callbackIncrementLasttime" />
+    <result column="callback_increment_class_name" jdbcType="VARCHAR" property="callbackIncrementClassName" />
+    <result column="callback_increment_method_name" jdbcType="VARCHAR" property="callbackIncrementMethodName" />
+    <result column="warning_mail_to" jdbcType="VARCHAR" property="warningMailTo" />
+    <result column="warning_mail_cc" jdbcType="VARCHAR" property="warningMailCc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, supplier_id, supplier_class, supplier_name, connect_type, send_class_name, send_method_name, 
+    callback_class_name, callback_method_name, is_deleted, create_user, create_time, 
+    update_user, update_time, callback_increment_lastid, callback_increment_lasttime, 
+    callback_increment_class_name, callback_increment_method_name, warning_mail_to, warning_mail_cc
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_adapter_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_adapter_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inquiry_adapter_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfigExample">
+    delete from dbo.ops_inquiry_adapter_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfig">
+    insert into dbo.ops_inquiry_adapter_config (id, supplier_id, supplier_class, 
+      supplier_name, connect_type, send_class_name, 
+      send_method_name, callback_class_name, callback_method_name, 
+      is_deleted, create_user, create_time, 
+      update_user, update_time, callback_increment_lastid, 
+      callback_increment_lasttime, callback_increment_class_name, 
+      callback_increment_method_name, warning_mail_to, 
+      warning_mail_cc)
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=VARCHAR}, #{supplierClass,jdbcType=NVARCHAR}, 
+      #{supplierName,jdbcType=NVARCHAR}, #{connectType,jdbcType=VARCHAR}, #{sendClassName,jdbcType=VARCHAR}, 
+      #{sendMethodName,jdbcType=VARCHAR}, #{callbackClassName,jdbcType=VARCHAR}, #{callbackMethodName,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{callbackIncrementLastid,jdbcType=VARCHAR}, 
+      #{callbackIncrementLasttime,jdbcType=TIMESTAMP}, #{callbackIncrementClassName,jdbcType=VARCHAR}, 
+      #{callbackIncrementMethodName,jdbcType=VARCHAR}, #{warningMailTo,jdbcType=VARCHAR}, 
+      #{warningMailCc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfig">
+    insert into dbo.ops_inquiry_adapter_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierClass != null">
+        supplier_class,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="connectType != null">
+        connect_type,
+      </if>
+      <if test="sendClassName != null">
+        send_class_name,
+      </if>
+      <if test="sendMethodName != null">
+        send_method_name,
+      </if>
+      <if test="callbackClassName != null">
+        callback_class_name,
+      </if>
+      <if test="callbackMethodName != null">
+        callback_method_name,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="callbackIncrementLastid != null">
+        callback_increment_lastid,
+      </if>
+      <if test="callbackIncrementLasttime != null">
+        callback_increment_lasttime,
+      </if>
+      <if test="callbackIncrementClassName != null">
+        callback_increment_class_name,
+      </if>
+      <if test="callbackIncrementMethodName != null">
+        callback_increment_method_name,
+      </if>
+      <if test="warningMailTo != null">
+        warning_mail_to,
+      </if>
+      <if test="warningMailCc != null">
+        warning_mail_cc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierClass != null">
+        #{supplierClass,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=NVARCHAR},
+      </if>
+      <if test="connectType != null">
+        #{connectType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendClassName != null">
+        #{sendClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMethodName != null">
+        #{sendMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackClassName != null">
+        #{callbackClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackMethodName != null">
+        #{callbackMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callbackIncrementLastid != null">
+        #{callbackIncrementLastid,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackIncrementLasttime != null">
+        #{callbackIncrementLasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callbackIncrementClassName != null">
+        #{callbackIncrementClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackIncrementMethodName != null">
+        #{callbackIncrementMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="warningMailTo != null">
+        #{warningMailTo,jdbcType=VARCHAR},
+      </if>
+      <if test="warningMailCc != null">
+        #{warningMailCc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inquiry_adapter_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inquiry_adapter_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.supplierId != null">
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierClass != null">
+        supplier_class = #{record.supplierClass,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.supplierName != null">
+        supplier_name = #{record.supplierName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.connectType != null">
+        connect_type = #{record.connectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendClassName != null">
+        send_class_name = #{record.sendClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendMethodName != null">
+        send_method_name = #{record.sendMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.callbackClassName != null">
+        callback_class_name = #{record.callbackClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.callbackMethodName != null">
+        callback_method_name = #{record.callbackMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.callbackIncrementLastid != null">
+        callback_increment_lastid = #{record.callbackIncrementLastid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.callbackIncrementLasttime != null">
+        callback_increment_lasttime = #{record.callbackIncrementLasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.callbackIncrementClassName != null">
+        callback_increment_class_name = #{record.callbackIncrementClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.callbackIncrementMethodName != null">
+        callback_increment_method_name = #{record.callbackIncrementMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warningMailTo != null">
+        warning_mail_to = #{record.warningMailTo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warningMailCc != null">
+        warning_mail_cc = #{record.warningMailCc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inquiry_adapter_config
+    set id = #{record.id,jdbcType=BIGINT},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      supplier_class = #{record.supplierClass,jdbcType=NVARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=NVARCHAR},
+      connect_type = #{record.connectType,jdbcType=VARCHAR},
+      send_class_name = #{record.sendClassName,jdbcType=VARCHAR},
+      send_method_name = #{record.sendMethodName,jdbcType=VARCHAR},
+      callback_class_name = #{record.callbackClassName,jdbcType=VARCHAR},
+      callback_method_name = #{record.callbackMethodName,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      callback_increment_lastid = #{record.callbackIncrementLastid,jdbcType=VARCHAR},
+      callback_increment_lasttime = #{record.callbackIncrementLasttime,jdbcType=TIMESTAMP},
+      callback_increment_class_name = #{record.callbackIncrementClassName,jdbcType=VARCHAR},
+      callback_increment_method_name = #{record.callbackIncrementMethodName,jdbcType=VARCHAR},
+      warning_mail_to = #{record.warningMailTo,jdbcType=VARCHAR},
+      warning_mail_cc = #{record.warningMailCc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfig">
+    update dbo.ops_inquiry_adapter_config
+    <set>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierClass != null">
+        supplier_class = #{supplierClass,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=NVARCHAR},
+      </if>
+      <if test="connectType != null">
+        connect_type = #{connectType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendClassName != null">
+        send_class_name = #{sendClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMethodName != null">
+        send_method_name = #{sendMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackClassName != null">
+        callback_class_name = #{callbackClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackMethodName != null">
+        callback_method_name = #{callbackMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callbackIncrementLastid != null">
+        callback_increment_lastid = #{callbackIncrementLastid,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackIncrementLasttime != null">
+        callback_increment_lasttime = #{callbackIncrementLasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callbackIncrementClassName != null">
+        callback_increment_class_name = #{callbackIncrementClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackIncrementMethodName != null">
+        callback_increment_method_name = #{callbackIncrementMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="warningMailTo != null">
+        warning_mail_to = #{warningMailTo,jdbcType=VARCHAR},
+      </if>
+      <if test="warningMailCc != null">
+        warning_mail_cc = #{warningMailCc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInquiryAdapterConfig">
+    update dbo.ops_inquiry_adapter_config
+    set supplier_id = #{supplierId,jdbcType=VARCHAR},
+      supplier_class = #{supplierClass,jdbcType=NVARCHAR},
+      supplier_name = #{supplierName,jdbcType=NVARCHAR},
+      connect_type = #{connectType,jdbcType=VARCHAR},
+      send_class_name = #{sendClassName,jdbcType=VARCHAR},
+      send_method_name = #{sendMethodName,jdbcType=VARCHAR},
+      callback_class_name = #{callbackClassName,jdbcType=VARCHAR},
+      callback_method_name = #{callbackMethodName,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      callback_increment_lastid = #{callbackIncrementLastid,jdbcType=VARCHAR},
+      callback_increment_lasttime = #{callbackIncrementLasttime,jdbcType=TIMESTAMP},
+      callback_increment_class_name = #{callbackIncrementClassName,jdbcType=VARCHAR},
+      callback_increment_method_name = #{callbackIncrementMethodName,jdbcType=VARCHAR},
+      warning_mail_to = #{warningMailTo,jdbcType=VARCHAR},
+      warning_mail_cc = #{warningMailCc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

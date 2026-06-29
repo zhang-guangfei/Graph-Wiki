@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPurchasereplyinfoMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPurchasereplyinfo">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="poNo" jdbcType="VARCHAR" property="pono" />
+    <result column="lineItem" jdbcType="INTEGER" property="lineitem" />
+    <result column="invoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="invoiceId" jdbcType="BIGINT" property="invoiceid" />
+    <result column="cnNo" jdbcType="VARCHAR" property="cnno" />
+    <result column="transType" jdbcType="CHAR" property="transtype" />
+    <result column="supplierId" jdbcType="CHAR" property="supplierid" />
+    <result column="replyOrderNo" jdbcType="VARCHAR" property="replyorderno" />
+    <result column="replyOrderDate" jdbcType="DATE" property="replyorderdate" />
+    <result column="replyExportDate" jdbcType="DATE" property="replyexportdate" />
+    <result column="qtyTrans" jdbcType="INTEGER" property="qtytrans" />
+    <result column="qtyReceive" jdbcType="INTEGER" property="qtyreceive" />
+    <result column="reasonRemark" jdbcType="VARCHAR" property="reasonremark" />
+    <result column="dlvAnswerNo" jdbcType="VARCHAR" property="dlvanswerno" />
+    <result column="produceFactory" jdbcType="NVARCHAR" property="producefactory" />
+    <result column="produceHolon" jdbcType="NVARCHAR" property="produceholon" />
+    <result column="errDescription" jdbcType="NVARCHAR" property="errdescription" />
+    <result column="barCode" jdbcType="VARCHAR" property="barcode" />
+    <result column="caseNo" jdbcType="VARCHAR" property="caseno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, poNo, lineItem, invoiceNo, invoiceId, cnNo, transType, supplierId, replyOrderNo, 
+    replyOrderDate, replyExportDate, qtyTrans, qtyReceive, reasonRemark, dlvAnswerNo, 
+    produceFactory, produceHolon, errDescription, barCode, caseNo
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPurchasereplyinfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_purchaseReplyInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPurchasereplyinfoExample">
+    delete from dbo.ops_purchaseReplyInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPurchasereplyinfo">
+    insert into dbo.ops_purchaseReplyInfo (id, poNo, lineItem, 
+      invoiceNo, invoiceId, cnNo, 
+      transType, supplierId, replyOrderNo, 
+      replyOrderDate, replyExportDate, qtyTrans, 
+      qtyReceive, reasonRemark, dlvAnswerNo, 
+      produceFactory, produceHolon, errDescription, 
+      barCode, caseNo)
+    values (#{id,jdbcType=BIGINT}, #{pono,jdbcType=VARCHAR}, #{lineitem,jdbcType=INTEGER}, 
+      #{invoiceno,jdbcType=VARCHAR}, #{invoiceid,jdbcType=BIGINT}, #{cnno,jdbcType=VARCHAR}, 
+      #{transtype,jdbcType=CHAR}, #{supplierid,jdbcType=CHAR}, #{replyorderno,jdbcType=VARCHAR}, 
+      #{replyorderdate,jdbcType=DATE}, #{replyexportdate,jdbcType=DATE}, #{qtytrans,jdbcType=INTEGER}, 
+      #{qtyreceive,jdbcType=INTEGER}, #{reasonremark,jdbcType=VARCHAR}, #{dlvanswerno,jdbcType=VARCHAR}, 
+      #{producefactory,jdbcType=NVARCHAR}, #{produceholon,jdbcType=NVARCHAR}, #{errdescription,jdbcType=NVARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{caseno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPurchasereplyinfo">
+    insert into dbo.ops_purchaseReplyInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pono != null">
+        poNo,
+      </if>
+      <if test="lineitem != null">
+        lineItem,
+      </if>
+      <if test="invoiceno != null">
+        invoiceNo,
+      </if>
+      <if test="invoiceid != null">
+        invoiceId,
+      </if>
+      <if test="cnno != null">
+        cnNo,
+      </if>
+      <if test="transtype != null">
+        transType,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="replyorderno != null">
+        replyOrderNo,
+      </if>
+      <if test="replyorderdate != null">
+        replyOrderDate,
+      </if>
+      <if test="replyexportdate != null">
+        replyExportDate,
+      </if>
+      <if test="qtytrans != null">
+        qtyTrans,
+      </if>
+      <if test="qtyreceive != null">
+        qtyReceive,
+      </if>
+      <if test="reasonremark != null">
+        reasonRemark,
+      </if>
+      <if test="dlvanswerno != null">
+        dlvAnswerNo,
+      </if>
+      <if test="producefactory != null">
+        produceFactory,
+      </if>
+      <if test="produceholon != null">
+        produceHolon,
+      </if>
+      <if test="errdescription != null">
+        errDescription,
+      </if>
+      <if test="barcode != null">
+        barCode,
+      </if>
+      <if test="caseno != null">
+        caseNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pono != null">
+        #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="lineitem != null">
+        #{lineitem,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceid != null">
+        #{invoiceid,jdbcType=BIGINT},
+      </if>
+      <if test="cnno != null">
+        #{cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=CHAR},
+      </if>
+      <if test="replyorderno != null">
+        #{replyorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="replyorderdate != null">
+        #{replyorderdate,jdbcType=DATE},
+      </if>
+      <if test="replyexportdate != null">
+        #{replyexportdate,jdbcType=DATE},
+      </if>
+      <if test="qtytrans != null">
+        #{qtytrans,jdbcType=INTEGER},
+      </if>
+      <if test="qtyreceive != null">
+        #{qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="reasonremark != null">
+        #{reasonremark,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvanswerno != null">
+        #{dlvanswerno,jdbcType=VARCHAR},
+      </if>
+      <if test="producefactory != null">
+        #{producefactory,jdbcType=NVARCHAR},
+      </if>
+      <if test="produceholon != null">
+        #{produceholon,jdbcType=NVARCHAR},
+      </if>
+      <if test="errdescription != null">
+        #{errdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseno != null">
+        #{caseno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPurchasereplyinfoExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_purchaseReplyInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_purchaseReplyInfo
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.pono != null">
+        poNo = #{record.pono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineitem != null">
+        lineItem = #{record.lineitem,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceno != null">
+        invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceid != null">
+        invoiceId = #{record.invoiceid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cnno != null">
+        cnNo = #{record.cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transtype != null">
+        transType = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=CHAR},
+      </if>
+      <if test="record.replyorderno != null">
+        replyOrderNo = #{record.replyorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyorderdate != null">
+        replyOrderDate = #{record.replyorderdate,jdbcType=DATE},
+      </if>
+      <if test="record.replyexportdate != null">
+        replyExportDate = #{record.replyexportdate,jdbcType=DATE},
+      </if>
+      <if test="record.qtytrans != null">
+        qtyTrans = #{record.qtytrans,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtyreceive != null">
+        qtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="record.reasonremark != null">
+        reasonRemark = #{record.reasonremark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvanswerno != null">
+        dlvAnswerNo = #{record.dlvanswerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.producefactory != null">
+        produceFactory = #{record.producefactory,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.produceholon != null">
+        produceHolon = #{record.produceholon,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.errdescription != null">
+        errDescription = #{record.errdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.barcode != null">
+        barCode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseno != null">
+        caseNo = #{record.caseno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_purchaseReplyInfo
+    set id = #{record.id,jdbcType=BIGINT},
+      poNo = #{record.pono,jdbcType=VARCHAR},
+      lineItem = #{record.lineitem,jdbcType=INTEGER},
+      invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      invoiceId = #{record.invoiceid,jdbcType=BIGINT},
+      cnNo = #{record.cnno,jdbcType=VARCHAR},
+      transType = #{record.transtype,jdbcType=CHAR},
+      supplierId = #{record.supplierid,jdbcType=CHAR},
+      replyOrderNo = #{record.replyorderno,jdbcType=VARCHAR},
+      replyOrderDate = #{record.replyorderdate,jdbcType=DATE},
+      replyExportDate = #{record.replyexportdate,jdbcType=DATE},
+      qtyTrans = #{record.qtytrans,jdbcType=INTEGER},
+      qtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      reasonRemark = #{record.reasonremark,jdbcType=VARCHAR},
+      dlvAnswerNo = #{record.dlvanswerno,jdbcType=VARCHAR},
+      produceFactory = #{record.producefactory,jdbcType=NVARCHAR},
+      produceHolon = #{record.produceholon,jdbcType=NVARCHAR},
+      errDescription = #{record.errdescription,jdbcType=NVARCHAR},
+      barCode = #{record.barcode,jdbcType=VARCHAR},
+      caseNo = #{record.caseno,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

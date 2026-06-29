@@ -19,8 +19,8 @@ def export_domain_html(domains: list[Domain], output_path: Path = Path("domain_g
     links = []
     for d in domains:
         name = d.name or d.id
-        for dep_id, count in d.dependencies.items():
-            links.append({"source": name, "target": dep_id, "weight": count})
+        for dep in d.dependencies:
+            links.append({"source": name, "target": dep.get("domain", ""), "weight": dep.get("import_count", 0)})
 
     html = _render_html(domain_data, links)
     output_path.write_text(html, encoding="utf-8")
@@ -51,7 +51,16 @@ svg{{width:100vw;height:100vh}}
 </style></head><body>
 <div class="header">业务域依赖图谱 &mdash; {len(domains)} 个域</div>
 <div class="tooltip" style="display:none"></div><svg></svg>
-<script src="https://d3js.org/d3.v7.min.js"></script><script>
+<script>
+// CDN 加载 D3.js，失败时回退到备选 CDN
+(function() {{
+  var s=document.createElement('script');
+  s.src='https://d3js.org/d3.v7.min.js';
+  s.onerror=function(){{document.write('<script src=\"https://cdn.jsdelivr.net/npm/d3@7\"><\\/script>');}};
+  s.onload=function(){{initGraph();}};
+  document.head.appendChild(s);
+}})();
+function initGraph() {{
 const domains={djson},links={ljson};
 const W=window.innerWidth,H=window.innerHeight;
 const colors=d3.scaleOrdinal(d3.schemeTableau10);
@@ -70,7 +79,7 @@ svg.append("defs").selectAll("marker").data(["arrow"]).join("marker")
 g.append("g").selectAll("line").data(links).join("line")
   .attr("stroke","#bbb")
   .attr("stroke-opacity",d=>Math.min(0.6,d.weight/200+0.1))
-  .attr("stroke-width",d=>Math.max(0.3,Math.min(10,d.weight/6)))
+  .attr("stroke-width",d=>Math.max(0.3,Math.min(10,d.weight/200)))
   .attr("marker-end","url(#arrow)");
 const tip=d3.select(".tooltip");
 const node=g.append("g").selectAll("g").data(domains).join("g")
@@ -95,4 +104,5 @@ sim.on("tick",()=>{{
       .attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
   node.attr("transform",d=>`translate(${{d.x}},${{d.y}})`);
 }});
+}}  // end initGraph
 </script></body></html>'''

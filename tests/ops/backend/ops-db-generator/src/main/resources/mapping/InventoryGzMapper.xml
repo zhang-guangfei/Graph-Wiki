@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.InventoryGzMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.InventoryGz">
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="stockCode" jdbcType="CHAR" property="stockcode" />
+    <result column="qtyonhand" jdbcType="NUMERIC" property="qtyonhand" />
+    <result column="qtyprepare" jdbcType="NUMERIC" property="qtyprepare" />
+    <result column="customerNo" jdbcType="CHAR" property="customerno" />
+    <result column="property_id" jdbcType="BIGINT" property="propertyId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    modelno, stockCode, qtyonhand, qtyprepare, customerNo, property_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.InventoryGzExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.inventory_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.InventoryGzExample">
+    delete from dbo.inventory_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.InventoryGz">
+    insert into dbo.inventory_gz (modelno, stockCode, qtyonhand, 
+      qtyprepare, customerNo, property_id
+      )
+    values (#{modelno,jdbcType=VARCHAR}, #{stockcode,jdbcType=CHAR}, #{qtyonhand,jdbcType=NUMERIC}, 
+      #{qtyprepare,jdbcType=NUMERIC}, #{customerno,jdbcType=CHAR}, #{propertyId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.InventoryGz">
+    insert into dbo.inventory_gz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="stockcode != null">
+        stockCode,
+      </if>
+      <if test="qtyonhand != null">
+        qtyonhand,
+      </if>
+      <if test="qtyprepare != null">
+        qtyprepare,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="propertyId != null">
+        property_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=CHAR},
+      </if>
+      <if test="qtyonhand != null">
+        #{qtyonhand,jdbcType=NUMERIC},
+      </if>
+      <if test="qtyprepare != null">
+        #{qtyprepare,jdbcType=NUMERIC},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="propertyId != null">
+        #{propertyId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.InventoryGzExample" resultType="java.lang.Long">
+    select count(*) from dbo.inventory_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.inventory_gz
+    <set>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockcode != null">
+        stockCode = #{record.stockcode,jdbcType=CHAR},
+      </if>
+      <if test="record.qtyonhand != null">
+        qtyonhand = #{record.qtyonhand,jdbcType=NUMERIC},
+      </if>
+      <if test="record.qtyprepare != null">
+        qtyprepare = #{record.qtyprepare,jdbcType=NUMERIC},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.propertyId != null">
+        property_id = #{record.propertyId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.inventory_gz
+    set modelno = #{record.modelno,jdbcType=VARCHAR},
+      stockCode = #{record.stockcode,jdbcType=CHAR},
+      qtyonhand = #{record.qtyonhand,jdbcType=NUMERIC},
+      qtyprepare = #{record.qtyprepare,jdbcType=NUMERIC},
+      customerNo = #{record.customerno,jdbcType=CHAR},
+      property_id = #{record.propertyId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

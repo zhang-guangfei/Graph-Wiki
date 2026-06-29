@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.MigRcvdetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.MigRcvdetail">
+    <result column="ROrderNo" jdbcType="CHAR" property="rorderno" />
+    <result column="ROrderItem" jdbcType="CHAR" property="rorderitem" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="Price" jdbcType="DECIMAL" property="price" />
+    <result column="DlvDate" jdbcType="TIMESTAMP" property="dlvdate" />
+    <result column="DlvType" jdbcType="CHAR" property="dlvtype" />
+    <result column="OptCode" jdbcType="CHAR" property="optcode" />
+    <result column="OptState" jdbcType="CHAR" property="optstate" />
+    <result column="RcvClassify" jdbcType="CHAR" property="rcvclassify" />
+    <result column="StockCode" jdbcType="VARCHAR" property="stockcode" />
+    <result column="CProductNo" jdbcType="NVARCHAR" property="cproductno" />
+    <result column="ExpInvCode" jdbcType="VARCHAR" property="expinvcode" />
+    <result column="OrdTransType" jdbcType="CHAR" property="ordtranstype" />
+    <result column="SpecOfferNo" jdbcType="VARCHAR" property="specofferno" />
+    <result column="OptDate" jdbcType="TIMESTAMP" property="optdate" />
+    <result column="ProdFlag" jdbcType="CHAR" property="prodflag" />
+    <result column="SpecMark" jdbcType="CHAR" property="specmark" />
+    <result column="OROrderNo" jdbcType="CHAR" property="ororderno" />
+    <result column="InvFlag" jdbcType="CHAR" property="invflag" />
+    <result column="NDlvDate" jdbcType="TIMESTAMP" property="ndlvdate" />
+    <result column="Discount" jdbcType="DOUBLE" property="discount" />
+    <result column="Opttime" jdbcType="TIMESTAMP" property="opttime" />
+    <result column="Operator" jdbcType="VARCHAR" property="operator" />
+    <result column="Remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="SHIKOMI" jdbcType="VARCHAR" property="shikomi" />
+    <result column="OptRecord" jdbcType="VARCHAR" property="optrecord" />
+    <result column="Price_EndUser" jdbcType="DECIMAL" property="priceEnduser" />
+    <result column="SmcCode" jdbcType="CHAR" property="smccode" />
+    <result column="DlvDate_BJ" jdbcType="TIMESTAMP" property="dlvdateBj" />
+    <result column="CProductName" jdbcType="NVARCHAR" property="cproductname" />
+    <result column="PreSaleOrderNo" jdbcType="VARCHAR" property="presaleorderno" />
+    <result column="Opponent" jdbcType="VARCHAR" property="opponent" />
+    <result column="EPrice" jdbcType="DECIMAL" property="eprice" />
+    <result column="StockCustomerNo" jdbcType="CHAR" property="stockcustomerno" />
+    <result column="FullOrderNo" jdbcType="CHAR" property="fullorderno" />
+    <result column="InvoiceGroupKey" jdbcType="NVARCHAR" property="invoicegroupkey" />
+    <result column="ext_orderno" jdbcType="NVARCHAR" property="extOrderno" />
+    <result column="ext_order_item" jdbcType="VARCHAR" property="extOrderItem" />
+    <result column="OrderSourceSys" jdbcType="CHAR" property="ordersourcesys" />
+    <result column="Inserttime" jdbcType="TIMESTAMP" property="inserttime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ROrderNo, ROrderItem, ModelNo, Quantity, Price, DlvDate, DlvType, OptCode, OptState, 
+    RcvClassify, StockCode, CProductNo, ExpInvCode, OrdTransType, SpecOfferNo, OptDate, 
+    ProdFlag, SpecMark, OROrderNo, InvFlag, NDlvDate, Discount, Opttime, Operator, Remark, 
+    SHIKOMI, OptRecord, Price_EndUser, SmcCode, DlvDate_BJ, CProductName, PreSaleOrderNo, 
+    Opponent, EPrice, StockCustomerNo, FullOrderNo, InvoiceGroupKey, ext_orderno, ext_order_item, 
+    OrderSourceSys, Inserttime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.MigRcvdetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.mig_RcvDetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.MigRcvdetailExample">
+    delete from dbo.mig_RcvDetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.MigRcvdetail">
+    insert into dbo.mig_RcvDetail (ROrderNo, ROrderItem, ModelNo, 
+      Quantity, Price, DlvDate, 
+      DlvType, OptCode, OptState, 
+      RcvClassify, StockCode, CProductNo, 
+      ExpInvCode, OrdTransType, SpecOfferNo, 
+      OptDate, ProdFlag, SpecMark, 
+      OROrderNo, InvFlag, NDlvDate, 
+      Discount, Opttime, Operator, 
+      Remark, SHIKOMI, OptRecord, 
+      Price_EndUser, SmcCode, DlvDate_BJ, 
+      CProductName, PreSaleOrderNo, Opponent, 
+      EPrice, StockCustomerNo, FullOrderNo, 
+      InvoiceGroupKey, ext_orderno, ext_order_item, 
+      OrderSourceSys, Inserttime)
+    values (#{rorderno,jdbcType=CHAR}, #{rorderitem,jdbcType=CHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{dlvdate,jdbcType=TIMESTAMP}, 
+      #{dlvtype,jdbcType=CHAR}, #{optcode,jdbcType=CHAR}, #{optstate,jdbcType=CHAR}, 
+      #{rcvclassify,jdbcType=CHAR}, #{stockcode,jdbcType=VARCHAR}, #{cproductno,jdbcType=NVARCHAR}, 
+      #{expinvcode,jdbcType=VARCHAR}, #{ordtranstype,jdbcType=CHAR}, #{specofferno,jdbcType=VARCHAR}, 
+      #{optdate,jdbcType=TIMESTAMP}, #{prodflag,jdbcType=CHAR}, #{specmark,jdbcType=CHAR}, 
+      #{ororderno,jdbcType=CHAR}, #{invflag,jdbcType=CHAR}, #{ndlvdate,jdbcType=TIMESTAMP}, 
+      #{discount,jdbcType=DOUBLE}, #{opttime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{shikomi,jdbcType=VARCHAR}, #{optrecord,jdbcType=VARCHAR}, 
+      #{priceEnduser,jdbcType=DECIMAL}, #{smccode,jdbcType=CHAR}, #{dlvdateBj,jdbcType=TIMESTAMP}, 
+      #{cproductname,jdbcType=NVARCHAR}, #{presaleorderno,jdbcType=VARCHAR}, #{opponent,jdbcType=VARCHAR}, 
+      #{eprice,jdbcType=DECIMAL}, #{stockcustomerno,jdbcType=CHAR}, #{fullorderno,jdbcType=CHAR}, 
+      #{invoicegroupkey,jdbcType=NVARCHAR}, #{extOrderno,jdbcType=NVARCHAR}, #{extOrderItem,jdbcType=VARCHAR}, 
+      #{ordersourcesys,jdbcType=CHAR}, #{inserttime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.MigRcvdetail">
+    insert into dbo.mig_RcvDetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        ROrderNo,
+      </if>
+      <if test="rorderitem != null">
+        ROrderItem,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="price != null">
+        Price,
+      </if>
+      <if test="dlvdate != null">
+        DlvDate,
+      </if>
+      <if test="dlvtype != null">
+        DlvType,
+      </if>
+      <if test="optcode != null">
+        OptCode,
+      </if>
+      <if test="optstate != null">
+        OptState,
+      </if>
+      <if test="rcvclassify != null">
+        RcvClassify,
+      </if>
+      <if test="stockcode != null">
+        StockCode,
+      </if>
+      <if test="cproductno != null">
+        CProductNo,
+      </if>
+      <if test="expinvcode != null">
+        ExpInvCode,
+      </if>
+      <if test="ordtranstype != null">
+        OrdTransType,
+      </if>
+      <if test="specofferno != null">
+        SpecOfferNo,
+      </if>
+      <if test="optdate != null">
+        OptDate,
+      </if>
+      <if test="prodflag != null">
+        ProdFlag,
+      </if>
+      <if test="specmark != null">
+        SpecMark,
+      </if>
+      <if test="ororderno != null">
+        OROrderNo,
+      </if>
+      <if test="invflag != null">
+        InvFlag,
+      </if>
+      <if test="ndlvdate != null">
+        NDlvDate,
+      </if>
+      <if test="discount != null">
+        Discount,
+      </if>
+      <if test="opttime != null">
+        Opttime,
+      </if>
+      <if test="operator != null">
+        Operator,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="shikomi != null">
+        SHIKOMI,
+      </if>
+      <if test="optrecord != null">
+        OptRecord,
+      </if>
+      <if test="priceEnduser != null">
+        Price_EndUser,
+      </if>
+      <if test="smccode != null">
+        SmcCode,
+      </if>
+      <if test="dlvdateBj != null">
+        DlvDate_BJ,
+      </if>
+      <if test="cproductname != null">
+        CProductName,
+      </if>
+      <if test="presaleorderno != null">
+        PreSaleOrderNo,
+      </if>
+      <if test="opponent != null">
+        Opponent,
+      </if>
+      <if test="eprice != null">
+        EPrice,
+      </if>
+      <if test="stockcustomerno != null">
+        StockCustomerNo,
+      </if>
+      <if test="fullorderno != null">
+        FullOrderNo,
+      </if>
+      <if test="invoicegroupkey != null">
+        InvoiceGroupKey,
+      </if>
+      <if test="extOrderno != null">
+        ext_orderno,
+      </if>
+      <if test="extOrderItem != null">
+        ext_order_item,
+      </if>
+      <if test="ordersourcesys != null">
+        OrderSourceSys,
+      </if>
+      <if test="inserttime != null">
+        Inserttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        #{rorderno,jdbcType=CHAR},
+      </if>
+      <if test="rorderitem != null">
+        #{rorderitem,jdbcType=CHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="dlvdate != null">
+        #{dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvtype != null">
+        #{dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="optcode != null">
+        #{optcode,jdbcType=CHAR},
+      </if>
+      <if test="optstate != null">
+        #{optstate,jdbcType=CHAR},
+      </if>
+      <if test="rcvclassify != null">
+        #{rcvclassify,jdbcType=CHAR},
+      </if>
+      <if test="stockcode != null">
+        #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cproductno != null">
+        #{cproductno,jdbcType=NVARCHAR},
+      </if>
+      <if test="expinvcode != null">
+        #{expinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ordtranstype != null">
+        #{ordtranstype,jdbcType=CHAR},
+      </if>
+      <if test="specofferno != null">
+        #{specofferno,jdbcType=VARCHAR},
+      </if>
+      <if test="optdate != null">
+        #{optdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodflag != null">
+        #{prodflag,jdbcType=CHAR},
+      </if>
+      <if test="specmark != null">
+        #{specmark,jdbcType=CHAR},
+      </if>
+      <if test="ororderno != null">
+        #{ororderno,jdbcType=CHAR},
+      </if>
+      <if test="invflag != null">
+        #{invflag,jdbcType=CHAR},
+      </if>
+      <if test="ndlvdate != null">
+        #{ndlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="shikomi != null">
+        #{shikomi,jdbcType=VARCHAR},
+      </if>
+      <if test="optrecord != null">
+        #{optrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="priceEnduser != null">
+        #{priceEnduser,jdbcType=DECIMAL},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=CHAR},
+      </if>
+      <if test="dlvdateBj != null">
+        #{dlvdateBj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cproductname != null">
+        #{cproductname,jdbcType=NVARCHAR},
+      </if>
+      <if test="presaleorderno != null">
+        #{presaleorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="opponent != null">
+        #{opponent,jdbcType=VARCHAR},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="stockcustomerno != null">
+        #{stockcustomerno,jdbcType=CHAR},
+      </if>
+      <if test="fullorderno != null">
+        #{fullorderno,jdbcType=CHAR},
+      </if>
+      <if test="invoicegroupkey != null">
+        #{invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="extOrderno != null">
+        #{extOrderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="extOrderItem != null">
+        #{extOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="ordersourcesys != null">
+        #{ordersourcesys,jdbcType=CHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.MigRcvdetailExample" resultType="java.lang.Long">
+    select count(*) from dbo.mig_RcvDetail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.mig_RcvDetail
+    <set>
+      <if test="record.rorderno != null">
+        ROrderNo = #{record.rorderno,jdbcType=CHAR},
+      </if>
+      <if test="record.rorderitem != null">
+        ROrderItem = #{record.rorderitem,jdbcType=CHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        Price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dlvdate != null">
+        DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvtype != null">
+        DlvType = #{record.dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="record.optcode != null">
+        OptCode = #{record.optcode,jdbcType=CHAR},
+      </if>
+      <if test="record.optstate != null">
+        OptState = #{record.optstate,jdbcType=CHAR},
+      </if>
+      <if test="record.rcvclassify != null">
+        RcvClassify = #{record.rcvclassify,jdbcType=CHAR},
+      </if>
+      <if test="record.stockcode != null">
+        StockCode = #{record.stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cproductno != null">
+        CProductNo = #{record.cproductno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.expinvcode != null">
+        ExpInvCode = #{record.expinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordtranstype != null">
+        OrdTransType = #{record.ordtranstype,jdbcType=CHAR},
+      </if>
+      <if test="record.specofferno != null">
+        SpecOfferNo = #{record.specofferno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optdate != null">
+        OptDate = #{record.optdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prodflag != null">
+        ProdFlag = #{record.prodflag,jdbcType=CHAR},
+      </if>
+      <if test="record.specmark != null">
+        SpecMark = #{record.specmark,jdbcType=CHAR},
+      </if>
+      <if test="record.ororderno != null">
+        OROrderNo = #{record.ororderno,jdbcType=CHAR},
+      </if>
+      <if test="record.invflag != null">
+        InvFlag = #{record.invflag,jdbcType=CHAR},
+      </if>
+      <if test="record.ndlvdate != null">
+        NDlvDate = #{record.ndlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.discount != null">
+        Discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.opttime != null">
+        Opttime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null">
+        Operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.shikomi != null">
+        SHIKOMI = #{record.shikomi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optrecord != null">
+        OptRecord = #{record.optrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priceEnduser != null">
+        Price_EndUser = #{record.priceEnduser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.smccode != null">
+        SmcCode = #{record.smccode,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvdateBj != null">
+        DlvDate_BJ = #{record.dlvdateBj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cproductname != null">
+        CProductName = #{record.cproductname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.presaleorderno != null">
+        PreSaleOrderNo = #{record.presaleorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opponent != null">
+        Opponent = #{record.opponent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eprice != null">
+        EPrice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stockcustomerno != null">
+        StockCustomerNo = #{record.stockcustomerno,jdbcType=CHAR},
+      </if>
+      <if test="record.fullorderno != null">
+        FullOrderNo = #{record.fullorderno,jdbcType=CHAR},
+      </if>
+      <if test="record.invoicegroupkey != null">
+        InvoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.extOrderno != null">
+        ext_orderno = #{record.extOrderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.extOrderItem != null">
+        ext_order_item = #{record.extOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordersourcesys != null">
+        OrderSourceSys = #{record.ordersourcesys,jdbcType=CHAR},
+      </if>
+      <if test="record.inserttime != null">
+        Inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.mig_RcvDetail
+    set ROrderNo = #{record.rorderno,jdbcType=CHAR},
+      ROrderItem = #{record.rorderitem,jdbcType=CHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      Price = #{record.price,jdbcType=DECIMAL},
+      DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      DlvType = #{record.dlvtype,jdbcType=CHAR},
+      OptCode = #{record.optcode,jdbcType=CHAR},
+      OptState = #{record.optstate,jdbcType=CHAR},
+      RcvClassify = #{record.rcvclassify,jdbcType=CHAR},
+      StockCode = #{record.stockcode,jdbcType=VARCHAR},
+      CProductNo = #{record.cproductno,jdbcType=NVARCHAR},
+      ExpInvCode = #{record.expinvcode,jdbcType=VARCHAR},
+      OrdTransType = #{record.ordtranstype,jdbcType=CHAR},
+      SpecOfferNo = #{record.specofferno,jdbcType=VARCHAR},
+      OptDate = #{record.optdate,jdbcType=TIMESTAMP},
+      ProdFlag = #{record.prodflag,jdbcType=CHAR},
+      SpecMark = #{record.specmark,jdbcType=CHAR},
+      OROrderNo = #{record.ororderno,jdbcType=CHAR},
+      InvFlag = #{record.invflag,jdbcType=CHAR},
+      NDlvDate = #{record.ndlvdate,jdbcType=TIMESTAMP},
+      Discount = #{record.discount,jdbcType=DOUBLE},
+      Opttime = #{record.opttime,jdbcType=TIMESTAMP},
+      Operator = #{record.operator,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
+      SHIKOMI = #{record.shikomi,jdbcType=VARCHAR},
+      OptRecord = #{record.optrecord,jdbcType=VARCHAR},
+      Price_EndUser = #{record.priceEnduser,jdbcType=DECIMAL},
+      SmcCode = #{record.smccode,jdbcType=CHAR},
+      DlvDate_BJ = #{record.dlvdateBj,jdbcType=TIMESTAMP},
+      CProductName = #{record.cproductname,jdbcType=NVARCHAR},
+      PreSaleOrderNo = #{record.presaleorderno,jdbcType=VARCHAR},
+      Opponent = #{record.opponent,jdbcType=VARCHAR},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      StockCustomerNo = #{record.stockcustomerno,jdbcType=CHAR},
+      FullOrderNo = #{record.fullorderno,jdbcType=CHAR},
+      InvoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      ext_orderno = #{record.extOrderno,jdbcType=NVARCHAR},
+      ext_order_item = #{record.extOrderItem,jdbcType=VARCHAR},
+      OrderSourceSys = #{record.ordersourcesys,jdbcType=CHAR},
+      Inserttime = #{record.inserttime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.smc.smccloud.ops</groupId>
+        <artifactId>smccloud-ops</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>smccloud-ops-adapter</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-adapter-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.api</groupId>
+            <artifactId>smccloud-common-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-order-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-shareapp-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-product-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-cpfr-api</artifactId>
+        </dependency>
+
+        <!-- swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-swagger-ui</artifactId>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>cloud-com</groupId>
+            <artifactId>cloud-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud</groupId>
+            <artifactId>ops-feign-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops</groupId>
+            <artifactId>smccloud-ops-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud</groupId>
+            <artifactId>ops-common-log</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>smccloud-ops-adapter</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

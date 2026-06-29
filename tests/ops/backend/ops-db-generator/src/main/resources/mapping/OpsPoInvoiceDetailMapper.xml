@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoInvoiceDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoInvoiceDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="imp_date" jdbcType="DATE" property="impDate" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="amount_adjust" jdbcType="DECIMAL" property="amountAdjust" />
+    <result column="price_rmb" jdbcType="DECIMAL" property="priceRmb" />
+    <result column="amount_rmb" jdbcType="DECIMAL" property="amountRmb" />
+    <result column="product_name_en" jdbcType="NVARCHAR" property="productNameEn" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="prod_country" jdbcType="VARCHAR" property="prodCountry" />
+    <result column="imp_type" jdbcType="CHAR" property="impType" />
+    <result column="customs_fee" jdbcType="DECIMAL" property="customsFee" />
+    <result column="vat_fee" jdbcType="DECIMAL" property="vatFee" />
+    <result column="trans_fee" jdbcType="DECIMAL" property="transFee" />
+    <result column="other_fee" jdbcType="DECIMAL" property="otherFee" />
+    <result column="price_total" jdbcType="DECIMAL" property="priceTotal" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="order_type" jdbcType="SMALLINT" property="orderType" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="nonCommercial" jdbcType="CHAR" property="noncommercial" />
+    <result column="excise_tax" jdbcType="DECIMAL" property="exciseTax" />
+    <result column="oversea_invoice_no" jdbcType="VARCHAR" property="overseaInvoiceNo" />
+    <result column="product_name" jdbcType="NVARCHAR" property="productName" />
+    <result column="ecode" jdbcType="VARCHAR" property="ecode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, imp_date, supplier_code, invoice_id, invoice_no, order_no, model_no, quantity, 
+    price, amount, amount_adjust, price_rmb, amount_rmb, product_name_en, weight, prod_country, 
+    imp_type, customs_fee, vat_fee, trans_fee, other_fee, price_total, amount_total, 
+    remark, create_time, update_time, create_user, update_user, order_type, currency, 
+    status, nonCommercial, excise_tax, oversea_invoice_no, product_name, ecode
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_invoice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_invoice_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_po_invoice_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetailExample">
+    delete from dbo.ops_po_invoice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetail">
+    insert into dbo.ops_po_invoice_detail (id, imp_date, supplier_code, 
+      invoice_id, invoice_no, order_no, 
+      model_no, quantity, price, 
+      amount, amount_adjust, price_rmb, 
+      amount_rmb, product_name_en, weight, 
+      prod_country, imp_type, customs_fee, 
+      vat_fee, trans_fee, other_fee, 
+      price_total, amount_total, remark, 
+      create_time, update_time, create_user, 
+      update_user, order_type, currency, 
+      status, nonCommercial, excise_tax, 
+      oversea_invoice_no, product_name, ecode
+      )
+    values (#{id,jdbcType=BIGINT}, #{impDate,jdbcType=DATE}, #{supplierCode,jdbcType=VARCHAR}, 
+      #{invoiceId,jdbcType=BIGINT}, #{invoiceNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{amountAdjust,jdbcType=DECIMAL}, #{priceRmb,jdbcType=DECIMAL}, 
+      #{amountRmb,jdbcType=DECIMAL}, #{productNameEn,jdbcType=NVARCHAR}, #{weight,jdbcType=DECIMAL}, 
+      #{prodCountry,jdbcType=VARCHAR}, #{impType,jdbcType=CHAR}, #{customsFee,jdbcType=DECIMAL}, 
+      #{vatFee,jdbcType=DECIMAL}, #{transFee,jdbcType=DECIMAL}, #{otherFee,jdbcType=DECIMAL}, 
+      #{priceTotal,jdbcType=DECIMAL}, #{amountTotal,jdbcType=DECIMAL}, #{remark,jdbcType=NVARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{orderType,jdbcType=SMALLINT}, #{currency,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT}, #{noncommercial,jdbcType=CHAR}, #{exciseTax,jdbcType=DECIMAL}, 
+      #{overseaInvoiceNo,jdbcType=VARCHAR}, #{productName,jdbcType=NVARCHAR}, #{ecode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetail">
+    insert into dbo.ops_po_invoice_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="impDate != null">
+        imp_date,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="amountAdjust != null">
+        amount_adjust,
+      </if>
+      <if test="priceRmb != null">
+        price_rmb,
+      </if>
+      <if test="amountRmb != null">
+        amount_rmb,
+      </if>
+      <if test="productNameEn != null">
+        product_name_en,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="prodCountry != null">
+        prod_country,
+      </if>
+      <if test="impType != null">
+        imp_type,
+      </if>
+      <if test="customsFee != null">
+        customs_fee,
+      </if>
+      <if test="vatFee != null">
+        vat_fee,
+      </if>
+      <if test="transFee != null">
+        trans_fee,
+      </if>
+      <if test="otherFee != null">
+        other_fee,
+      </if>
+      <if test="priceTotal != null">
+        price_total,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="currency != null">
+        currency,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="noncommercial != null">
+        nonCommercial,
+      </if>
+      <if test="exciseTax != null">
+        excise_tax,
+      </if>
+      <if test="overseaInvoiceNo != null">
+        oversea_invoice_no,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="ecode != null">
+        ecode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="impDate != null">
+        #{impDate,jdbcType=DATE},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="amountAdjust != null">
+        #{amountAdjust,jdbcType=DECIMAL},
+      </if>
+      <if test="priceRmb != null">
+        #{priceRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="amountRmb != null">
+        #{amountRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="productNameEn != null">
+        #{productNameEn,jdbcType=NVARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="prodCountry != null">
+        #{prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="impType != null">
+        #{impType,jdbcType=CHAR},
+      </if>
+      <if test="customsFee != null">
+        #{customsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="vatFee != null">
+        #{vatFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transFee != null">
+        #{transFee,jdbcType=DECIMAL},
+      </if>
+      <if test="otherFee != null">
+        #{otherFee,jdbcType=DECIMAL},
+      </if>
+      <if test="priceTotal != null">
+        #{priceTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="noncommercial != null">
+        #{noncommercial,jdbcType=CHAR},
+      </if>
+      <if test="exciseTax != null">
+        #{exciseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="overseaInvoiceNo != null">
+        #{overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=NVARCHAR},
+      </if>
+      <if test="ecode != null">
+        #{ecode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetailExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_invoice_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_invoice_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.impDate != null">
+        imp_date = #{record.impDate,jdbcType=DATE},
+      </if>
+      <if test="record.supplierCode != null">
+        supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amountAdjust != null">
+        amount_adjust = #{record.amountAdjust,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceRmb != null">
+        price_rmb = #{record.priceRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amountRmb != null">
+        amount_rmb = #{record.amountRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productNameEn != null">
+        product_name_en = #{record.productNameEn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.prodCountry != null">
+        prod_country = #{record.prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impType != null">
+        imp_type = #{record.impType,jdbcType=CHAR},
+      </if>
+      <if test="record.customsFee != null">
+        customs_fee = #{record.customsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vatFee != null">
+        vat_fee = #{record.vatFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transFee != null">
+        trans_fee = #{record.transFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherFee != null">
+        other_fee = #{record.otherFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceTotal != null">
+        price_total = #{record.priceTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amountTotal != null">
+        amount_total = #{record.amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.currency != null">
+        currency = #{record.currency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.noncommercial != null">
+        nonCommercial = #{record.noncommercial,jdbcType=CHAR},
+      </if>
+      <if test="record.exciseTax != null">
+        excise_tax = #{record.exciseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.overseaInvoiceNo != null">
+        oversea_invoice_no = #{record.overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ecode != null">
+        ecode = #{record.ecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_invoice_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      imp_date = #{record.impDate,jdbcType=DATE},
+      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      amount_adjust = #{record.amountAdjust,jdbcType=DECIMAL},
+      price_rmb = #{record.priceRmb,jdbcType=DECIMAL},
+      amount_rmb = #{record.amountRmb,jdbcType=DECIMAL},
+      product_name_en = #{record.productNameEn,jdbcType=NVARCHAR},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      prod_country = #{record.prodCountry,jdbcType=VARCHAR},
+      imp_type = #{record.impType,jdbcType=CHAR},
+      customs_fee = #{record.customsFee,jdbcType=DECIMAL},
+      vat_fee = #{record.vatFee,jdbcType=DECIMAL},
+      trans_fee = #{record.transFee,jdbcType=DECIMAL},
+      other_fee = #{record.otherFee,jdbcType=DECIMAL},
+      price_total = #{record.priceTotal,jdbcType=DECIMAL},
+      amount_total = #{record.amountTotal,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=SMALLINT},
+      currency = #{record.currency,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=SMALLINT},
+      nonCommercial = #{record.noncommercial,jdbcType=CHAR},
+      excise_tax = #{record.exciseTax,jdbcType=DECIMAL},
+      oversea_invoice_no = #{record.overseaInvoiceNo,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=NVARCHAR},
+      ecode = #{record.ecode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetail">
+    update dbo.ops_po_invoice_detail
+    <set>
+      <if test="impDate != null">
+        imp_date = #{impDate,jdbcType=DATE},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="amountAdjust != null">
+        amount_adjust = #{amountAdjust,jdbcType=DECIMAL},
+      </if>
+      <if test="priceRmb != null">
+        price_rmb = #{priceRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="amountRmb != null">
+        amount_rmb = #{amountRmb,jdbcType=DECIMAL},
+      </if>
+      <if test="productNameEn != null">
+        product_name_en = #{productNameEn,jdbcType=NVARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="prodCountry != null">
+        prod_country = #{prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="impType != null">
+        imp_type = #{impType,jdbcType=CHAR},
+      </if>
+      <if test="customsFee != null">
+        customs_fee = #{customsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="vatFee != null">
+        vat_fee = #{vatFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transFee != null">
+        trans_fee = #{transFee,jdbcType=DECIMAL},
+      </if>
+      <if test="otherFee != null">
+        other_fee = #{otherFee,jdbcType=DECIMAL},
+      </if>
+      <if test="priceTotal != null">
+        price_total = #{priceTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="currency != null">
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="noncommercial != null">
+        nonCommercial = #{noncommercial,jdbcType=CHAR},
+      </if>
+      <if test="exciseTax != null">
+        excise_tax = #{exciseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="overseaInvoiceNo != null">
+        oversea_invoice_no = #{overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=NVARCHAR},
+      </if>
+      <if test="ecode != null">
+        ecode = #{ecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoInvoiceDetail">
+    update dbo.ops_po_invoice_detail
+    set imp_date = #{impDate,jdbcType=DATE},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      amount_adjust = #{amountAdjust,jdbcType=DECIMAL},
+      price_rmb = #{priceRmb,jdbcType=DECIMAL},
+      amount_rmb = #{amountRmb,jdbcType=DECIMAL},
+      product_name_en = #{productNameEn,jdbcType=NVARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      prod_country = #{prodCountry,jdbcType=VARCHAR},
+      imp_type = #{impType,jdbcType=CHAR},
+      customs_fee = #{customsFee,jdbcType=DECIMAL},
+      vat_fee = #{vatFee,jdbcType=DECIMAL},
+      trans_fee = #{transFee,jdbcType=DECIMAL},
+      other_fee = #{otherFee,jdbcType=DECIMAL},
+      price_total = #{priceTotal,jdbcType=DECIMAL},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=NVARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=SMALLINT},
+      currency = #{currency,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      nonCommercial = #{noncommercial,jdbcType=CHAR},
+      excise_tax = #{exciseTax,jdbcType=DECIMAL},
+      oversea_invoice_no = #{overseaInvoiceNo,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=NVARCHAR},
+      ecode = #{ecode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

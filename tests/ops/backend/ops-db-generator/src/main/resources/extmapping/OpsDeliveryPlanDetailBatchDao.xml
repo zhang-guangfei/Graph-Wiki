@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.OpsDeliveryPlanDetailBatchDao">
+
+
+    <insert id="batchInsert" parameterType="List" useGeneratedKeys="false">
+        INSERT INTO ops_delivery_plan_detail(
+            order_id,
+            order_item,
+            po_no,
+            po_no_item,
+            po_no_split_no,
+            do_source,
+            do_id,
+            pco_id,
+            db_id,
+            model_no,
+            quantity,
+            inventory_id,
+            inventory_status,
+            delivery,
+            receive,
+            event_source,
+            sort,
+            current_cycle,
+            cycle_name,
+            begin_name,
+            begin_date,
+            end_date,
+            cycle_days,
+            work_day,
+            version,
+            current_valid,
+            delflag,
+            cre_time,
+            creator,
+            remark,
+            ex_relation
+        ) values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (
+                #{item.orderId,jdbcType=VARCHAR},
+                #{item.orderItem,jdbcType=VARCHAR},
+                #{item.poNo,jdbcType=VARCHAR},
+                #{item.poNoItem,jdbcType=INTEGER},
+                #{item.poNoSplitNo,jdbcType=INTEGER},
+                #{item.doSource,jdbcType=VARCHAR},
+                #{item.doId,jdbcType=VARCHAR},
+                #{item.pcoId,jdbcType=VARCHAR},
+                #{item.dbId,jdbcType=VARCHAR},
+                #{item.modelNo,jdbcType=VARCHAR},
+                #{item.quantity,jdbcType=INTEGER},
+                #{item.inventoryId,jdbcType=BIGINT},
+                #{item.inventoryStatus,jdbcType=VARCHAR},
+                #{item.delivery,jdbcType=VARCHAR},
+                #{item.receive,jdbcType=VARCHAR},
+                #{item.eventSource,jdbcType=VARCHAR},
+                #{item.sort,jdbcType=INTEGER},
+                #{item.currentCycle,jdbcType=VARCHAR},
+                #{item.cycleName,jdbcType=VARCHAR},
+                #{item.beginName,jdbcType=VARCHAR},
+                #{item.beginDate,jdbcType=DATE},
+                #{item.endDate,jdbcType=DATE},
+                #{item.cycleDays,jdbcType=INTEGER},
+                #{item.workDay,jdbcType=INTEGER},
+                #{item.version,jdbcType=BIGINT},
+                #{item.currentValid,jdbcType=INTEGER},
+                #{item.delflag,jdbcType=INTEGER},
+                #{item.creTime,jdbcType=TIMESTAMP},
+                #{item.creator,jdbcType=VARCHAR},
+                #{item.remark,jdbcType=VARCHAR},
+                #{item.exRelation,jdbcType=INTEGER}
+
+            )
+        </foreach>
+    </insert>
+
+</mapper>

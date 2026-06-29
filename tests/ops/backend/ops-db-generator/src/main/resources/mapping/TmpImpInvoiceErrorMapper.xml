@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TmpImpInvoiceErrorMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TmpImpInvoiceError">
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="poNo" jdbcType="VARCHAR" property="pono" />
+    <result column="poItemNo" jdbcType="INTEGER" property="poitemno" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="po_model_no" jdbcType="VARCHAR" property="poModelNo" />
+    <result column="error_type" jdbcType="INTEGER" property="errorType" />
+    <result column="error_text" jdbcType="NVARCHAR" property="errorText" />
+    <result column="po_qty" jdbcType="INTEGER" property="poQty" />
+    <result column="pack_qty" jdbcType="INTEGER" property="packQty" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="po_warehouse_code" jdbcType="VARCHAR" property="poWarehouseCode" />
+    <result column="po_supplier_code" jdbcType="VARCHAR" property="poSupplierCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    invoice_id, invoice_no, poNo, poItemNo, order_no, model_no, qty, po_model_no, error_type, 
+    error_text, po_qty, pack_qty, remark, po_warehouse_code, po_supplier_code
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TmpImpInvoiceErrorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.tmp_imp_invoice_error
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TmpImpInvoiceErrorExample">
+    delete from dbo.tmp_imp_invoice_error
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TmpImpInvoiceError">
+    insert into dbo.tmp_imp_invoice_error (invoice_id, invoice_no, poNo, 
+      poItemNo, order_no, model_no, 
+      qty, po_model_no, error_type, 
+      error_text, po_qty, pack_qty, 
+      remark, po_warehouse_code, po_supplier_code
+      )
+    values (#{invoiceId,jdbcType=BIGINT}, #{invoiceNo,jdbcType=VARCHAR}, #{pono,jdbcType=VARCHAR}, 
+      #{poitemno,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=INTEGER}, #{poModelNo,jdbcType=VARCHAR}, #{errorType,jdbcType=INTEGER}, 
+      #{errorText,jdbcType=NVARCHAR}, #{poQty,jdbcType=INTEGER}, #{packQty,jdbcType=INTEGER}, 
+      #{remark,jdbcType=NVARCHAR}, #{poWarehouseCode,jdbcType=VARCHAR}, #{poSupplierCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TmpImpInvoiceError">
+    insert into dbo.tmp_imp_invoice_error
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="pono != null">
+        poNo,
+      </if>
+      <if test="poitemno != null">
+        poItemNo,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="poModelNo != null">
+        po_model_no,
+      </if>
+      <if test="errorType != null">
+        error_type,
+      </if>
+      <if test="errorText != null">
+        error_text,
+      </if>
+      <if test="poQty != null">
+        po_qty,
+      </if>
+      <if test="packQty != null">
+        pack_qty,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="poWarehouseCode != null">
+        po_warehouse_code,
+      </if>
+      <if test="poSupplierCode != null">
+        po_supplier_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="poitemno != null">
+        #{poitemno,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="poModelNo != null">
+        #{poModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="errorType != null">
+        #{errorType,jdbcType=INTEGER},
+      </if>
+      <if test="errorText != null">
+        #{errorText,jdbcType=NVARCHAR},
+      </if>
+      <if test="poQty != null">
+        #{poQty,jdbcType=INTEGER},
+      </if>
+      <if test="packQty != null">
+        #{packQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="poWarehouseCode != null">
+        #{poWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="poSupplierCode != null">
+        #{poSupplierCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TmpImpInvoiceErrorExample" resultType="java.lang.Long">
+    select count(*) from dbo.tmp_imp_invoice_error
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.tmp_imp_invoice_error
+    <set>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pono != null">
+        poNo = #{record.pono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poitemno != null">
+        poItemNo = #{record.poitemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.poModelNo != null">
+        po_model_no = #{record.poModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorType != null">
+        error_type = #{record.errorType,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorText != null">
+        error_text = #{record.errorText,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.poQty != null">
+        po_qty = #{record.poQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.packQty != null">
+        pack_qty = #{record.packQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.poWarehouseCode != null">
+        po_warehouse_code = #{record.poWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poSupplierCode != null">
+        po_supplier_code = #{record.poSupplierCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.tmp_imp_invoice_error
+    set invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      poNo = #{record.pono,jdbcType=VARCHAR},
+      poItemNo = #{record.poitemno,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      po_model_no = #{record.poModelNo,jdbcType=VARCHAR},
+      error_type = #{record.errorType,jdbcType=INTEGER},
+      error_text = #{record.errorText,jdbcType=NVARCHAR},
+      po_qty = #{record.poQty,jdbcType=INTEGER},
+      pack_qty = #{record.packQty,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      po_warehouse_code = #{record.poWarehouseCode,jdbcType=VARCHAR},
+      po_supplier_code = #{record.poSupplierCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

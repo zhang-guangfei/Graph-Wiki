@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDeliveryPlanDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDeliveryPlanDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="po_no" jdbcType="VARCHAR" property="poNo" />
+    <result column="po_no_item" jdbcType="INTEGER" property="poNoItem" />
+    <result column="po_no_split_no" jdbcType="INTEGER" property="poNoSplitNo" />
+    <result column="do_source" jdbcType="VARCHAR" property="doSource" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="db_id" jdbcType="VARCHAR" property="dbId" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="delivery" jdbcType="VARCHAR" property="delivery" />
+    <result column="receive" jdbcType="VARCHAR" property="receive" />
+    <result column="event_source" jdbcType="VARCHAR" property="eventSource" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="current_cycle" jdbcType="VARCHAR" property="currentCycle" />
+    <result column="cycle_name" jdbcType="VARCHAR" property="cycleName" />
+    <result column="begin_name" jdbcType="VARCHAR" property="beginName" />
+    <result column="begin_date" jdbcType="DATE" property="beginDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="cycle_days" jdbcType="INTEGER" property="cycleDays" />
+    <result column="work_day" jdbcType="INTEGER" property="workDay" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="current_valid" jdbcType="INTEGER" property="currentValid" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ex_relation" jdbcType="INTEGER" property="exRelation" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, order_item, po_no, po_no_item, po_no_split_no, do_source, do_id, pco_id, 
+    db_id, model_no, quantity, inventory_id, inventory_status, delivery, receive, event_source, 
+    sort, current_cycle, cycle_name, begin_name, begin_date, end_date, cycle_days, work_day, 
+    version, current_valid, delflag, cre_time, creator, remark, ex_relation
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_delivery_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetailExample">
+    delete from dbo.ops_delivery_plan_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetail">
+    insert into dbo.ops_delivery_plan_detail (id, order_id, order_item, 
+      po_no, po_no_item, po_no_split_no, 
+      do_source, do_id, pco_id, 
+      db_id, model_no, quantity, 
+      inventory_id, inventory_status, delivery, 
+      receive, event_source, sort, 
+      current_cycle, cycle_name, begin_name, 
+      begin_date, end_date, cycle_days, 
+      work_day, version, current_valid, 
+      delflag, cre_time, creator, 
+      remark, ex_relation)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, 
+      #{poNo,jdbcType=VARCHAR}, #{poNoItem,jdbcType=INTEGER}, #{poNoSplitNo,jdbcType=INTEGER}, 
+      #{doSource,jdbcType=VARCHAR}, #{doId,jdbcType=VARCHAR}, #{pcoId,jdbcType=VARCHAR}, 
+      #{dbId,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{inventoryId,jdbcType=BIGINT}, #{inventoryStatus,jdbcType=VARCHAR}, #{delivery,jdbcType=VARCHAR}, 
+      #{receive,jdbcType=VARCHAR}, #{eventSource,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{currentCycle,jdbcType=VARCHAR}, #{cycleName,jdbcType=VARCHAR}, #{beginName,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{cycleDays,jdbcType=INTEGER}, 
+      #{workDay,jdbcType=INTEGER}, #{version,jdbcType=BIGINT}, #{currentValid,jdbcType=INTEGER}, 
+      #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{exRelation,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetail">
+    insert into dbo.ops_delivery_plan_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="poNo != null">
+        po_no,
+      </if>
+      <if test="poNoItem != null">
+        po_no_item,
+      </if>
+      <if test="poNoSplitNo != null">
+        po_no_split_no,
+      </if>
+      <if test="doSource != null">
+        do_source,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="dbId != null">
+        db_id,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="delivery != null">
+        delivery,
+      </if>
+      <if test="receive != null">
+        receive,
+      </if>
+      <if test="eventSource != null">
+        event_source,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="currentCycle != null">
+        current_cycle,
+      </if>
+      <if test="cycleName != null">
+        cycle_name,
+      </if>
+      <if test="beginName != null">
+        begin_name,
+      </if>
+      <if test="beginDate != null">
+        begin_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="cycleDays != null">
+        cycle_days,
+      </if>
+      <if test="workDay != null">
+        work_day,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="currentValid != null">
+        current_valid,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="exRelation != null">
+        ex_relation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null">
+        #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poNoItem != null">
+        #{poNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="poNoSplitNo != null">
+        #{poNoSplitNo,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="dbId != null">
+        #{dbId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="delivery != null">
+        #{delivery,jdbcType=VARCHAR},
+      </if>
+      <if test="receive != null">
+        #{receive,jdbcType=VARCHAR},
+      </if>
+      <if test="eventSource != null">
+        #{eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="currentCycle != null">
+        #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleName != null">
+        #{cycleName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginName != null">
+        #{beginName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="cycleDays != null">
+        #{cycleDays,jdbcType=INTEGER},
+      </if>
+      <if test="workDay != null">
+        #{workDay,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="currentValid != null">
+        #{currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="exRelation != null">
+        #{exRelation,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetailExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_delivery_plan_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_delivery_plan_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poNo != null">
+        po_no = #{record.poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poNoItem != null">
+        po_no_item = #{record.poNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.poNoSplitNo != null">
+        po_no_split_no = #{record.poNoSplitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.doSource != null">
+        do_source = #{record.doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dbId != null">
+        db_id = #{record.dbId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delivery != null">
+        delivery = #{record.delivery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receive != null">
+        receive = #{record.receive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventSource != null">
+        event_source = #{record.eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentCycle != null">
+        current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleName != null">
+        cycle_name = #{record.cycleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginName != null">
+        begin_name = #{record.beginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginDate != null">
+        begin_date = #{record.beginDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.cycleDays != null">
+        cycle_days = #{record.cycleDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.workDay != null">
+        work_day = #{record.workDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.currentValid != null">
+        current_valid = #{record.currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exRelation != null">
+        ex_relation = #{record.exRelation,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_delivery_plan_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      po_no = #{record.poNo,jdbcType=VARCHAR},
+      po_no_item = #{record.poNoItem,jdbcType=INTEGER},
+      po_no_split_no = #{record.poNoSplitNo,jdbcType=INTEGER},
+      do_source = #{record.doSource,jdbcType=VARCHAR},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      db_id = #{record.dbId,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      delivery = #{record.delivery,jdbcType=VARCHAR},
+      receive = #{record.receive,jdbcType=VARCHAR},
+      event_source = #{record.eventSource,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER},
+      current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      cycle_name = #{record.cycleName,jdbcType=VARCHAR},
+      begin_name = #{record.beginName,jdbcType=VARCHAR},
+      begin_date = #{record.beginDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      cycle_days = #{record.cycleDays,jdbcType=INTEGER},
+      work_day = #{record.workDay,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=BIGINT},
+      current_valid = #{record.currentValid,jdbcType=INTEGER},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      ex_relation = #{record.exRelation,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetail">
+    update dbo.ops_delivery_plan_detail
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="poNo != null">
+        po_no = #{poNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poNoItem != null">
+        po_no_item = #{poNoItem,jdbcType=INTEGER},
+      </if>
+      <if test="poNoSplitNo != null">
+        po_no_split_no = #{poNoSplitNo,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        do_source = #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="dbId != null">
+        db_id = #{dbId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="delivery != null">
+        delivery = #{delivery,jdbcType=VARCHAR},
+      </if>
+      <if test="receive != null">
+        receive = #{receive,jdbcType=VARCHAR},
+      </if>
+      <if test="eventSource != null">
+        event_source = #{eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="currentCycle != null">
+        current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleName != null">
+        cycle_name = #{cycleName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginName != null">
+        begin_name = #{beginName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="cycleDays != null">
+        cycle_days = #{cycleDays,jdbcType=INTEGER},
+      </if>
+      <if test="workDay != null">
+        work_day = #{workDay,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="currentValid != null">
+        current_valid = #{currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="exRelation != null">
+        ex_relation = #{exRelation,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanDetail">
+    update dbo.ops_delivery_plan_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      po_no = #{poNo,jdbcType=VARCHAR},
+      po_no_item = #{poNoItem,jdbcType=INTEGER},
+      po_no_split_no = #{poNoSplitNo,jdbcType=INTEGER},
+      do_source = #{doSource,jdbcType=VARCHAR},
+      do_id = #{doId,jdbcType=VARCHAR},
+      pco_id = #{pcoId,jdbcType=VARCHAR},
+      db_id = #{dbId,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      inventory_id = #{inventoryId,jdbcType=BIGINT},
+      inventory_status = #{inventoryStatus,jdbcType=VARCHAR},
+      delivery = #{delivery,jdbcType=VARCHAR},
+      receive = #{receive,jdbcType=VARCHAR},
+      event_source = #{eventSource,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      cycle_name = #{cycleName,jdbcType=VARCHAR},
+      begin_name = #{beginName,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      cycle_days = #{cycleDays,jdbcType=INTEGER},
+      work_day = #{workDay,jdbcType=INTEGER},
+      version = #{version,jdbcType=BIGINT},
+      current_valid = #{currentValid,jdbcType=INTEGER},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      ex_relation = #{exRelation,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

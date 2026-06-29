@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.smc.smccloud.ops</groupId>
+		<artifactId>smccloud-ops</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>smccloud-ops-cpfr</artifactId>
+    <packaging>jar</packaging>
+
+	<properties>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<dependencies>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.smc.smccloud.ops.api</groupId>
+			<artifactId>smccloud-ops-cpfr-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.smc.smccloud.api</groupId>
+			<artifactId>smccloud-common-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.smc.smccloud.ops.api</groupId>
+			<artifactId>smccloud-ops-product-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.smc.smccloud.ops.api</groupId>
+			<artifactId>smccloud-ops-base-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smc.smccloud</groupId>
+			<artifactId>ops-feign-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+				</exclusion>
+			</exclusions>
+			<version>1.0.0</version>
+		</dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.core</groupId>
+            <artifactId>smccloud-core-common</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-shareapp-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>com.smc.smccloud.ops</groupId>
+			<artifactId>smccloud-ops-common</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-cpfr-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<finalName>smccloud-ops-cpfr</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.3.10.RELEASE</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<!-- 过滤不需要编译的资源文件 防止文件编译后损坏 -->
+					<encoding>UTF-8</encoding>
+					<useDefaultDelimiters>true</useDefaultDelimiters>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.jks</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.jks</include>
+					<include>**/*.xlsx</include>
+					<include>**/*.csv</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	<repositories>
+		<!-- 添加 ops 仓库 -->
+		<repository>
+			<id>ops</id>
+			<url>http://10.116.1.119:8081/repository/ops-group/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+</project>

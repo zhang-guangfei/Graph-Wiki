@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.RcvorderViewMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.RcvorderView">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="rorder_item" jdbcType="INTEGER" property="rorderItem" />
+    <result column="rorder_fno" jdbcType="VARCHAR" property="rorderFno" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="price_enduser" jdbcType="DECIMAL" property="priceEnduser" />
+    <result column="eprice" jdbcType="DECIMAL" property="eprice" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="ntax_pice" jdbcType="DECIMAL" property="ntaxPice" />
+    <result column="ntax_amount" jdbcType="DECIMAL" property="ntaxAmount" />
+    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="cdlv_date" jdbcType="TIMESTAMP" property="cdlvDate" />
+    <result column="wms_dlv_date" jdbcType="DATE" property="wmsDlvDate" />
+    <result column="spec_offer_no" jdbcType="VARCHAR" property="specOfferNo" />
+    <result column="source_type" jdbcType="CHAR" property="sourceType" />
+    <result column="cproduct_no" jdbcType="NVARCHAR" property="cproductNo" />
+    <result column="spec_mark" jdbcType="CHAR" property="specMark" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="product_name" jdbcType="NVARCHAR" property="productName" />
+    <result column="opponent" jdbcType="VARCHAR" property="opponent" />
+    <result column="ppl_no" jdbcType="VARCHAR" property="pplNo" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="shikomi_no" jdbcType="VARCHAR" property="shikomiNo" />
+    <result column="sales_info_no" jdbcType="VARCHAR" property="salesInfoNo" />
+    <result column="pre_sales_order_no" jdbcType="VARCHAR" property="preSalesOrderNo" />
+    <result column="corder_no" jdbcType="NVARCHAR" property="corderNo" />
+    <result column="custom_code" jdbcType="VARCHAR" property="customCode" />
+    <result column="order_type" jdbcType="SMALLINT" property="orderType" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="delete_status" jdbcType="SMALLINT" property="deleteStatus" />
+    <result column="stock_code" jdbcType="VARCHAR" property="stockCode" />
+    <result column="stock_type" jdbcType="VARCHAR" property="stockType" />
+    <result column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="prod_flag" jdbcType="CHAR" property="prodFlag" />
+    <result column="allot_time" jdbcType="TIMESTAMP" property="allotTime" />
+    <result column="ready_time" jdbcType="TIMESTAMP" property="readyTime" />
+    <result column="exp_time" jdbcType="TIMESTAMP" property="expTime" />
+    <result column="ship_time" jdbcType="TIMESTAMP" property="shipTime" />
+    <result column="ready_qty" jdbcType="INTEGER" property="readyQty" />
+    <result column="exp_qty" jdbcType="INTEGER" property="expQty" />
+    <result column="returned_qty" jdbcType="INTEGER" property="returnedQty" />
+    <result column="address_no" jdbcType="VARCHAR" property="addressNo" />
+    <result column="process_date" jdbcType="TIMESTAMP" property="processDate" />
+    <result column="borrow_no" jdbcType="VARCHAR" property="borrowNo" />
+    <result column="po_qty" jdbcType="INTEGER" property="poQty" />
+    <result column="exp_msg" jdbcType="VARCHAR" property="expMsg" />
+    <result column="exp_dlv_type" jdbcType="INTEGER" property="expDlvType" />
+    <result column="exp_link_no" jdbcType="VARCHAR" property="expLinkNo" />
+    <result column="invoiceGroupKey" jdbcType="NVARCHAR" property="invoicegroupkey" />
+    <result column="invoice_qty" jdbcType="INTEGER" property="invoiceQty" />
+    <result column="invoice_time" jdbcType="TIMESTAMP" property="invoiceTime" />
+    <result column="carrierId" jdbcType="VARCHAR" property="carrierid" />
+    <result column="expressNo" jdbcType="VARCHAR" property="expressno" />
+    <result column="handover_time" jdbcType="TIMESTAMP" property="handoverTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="price_user" jdbcType="DECIMAL" property="priceUser" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="end_user" jdbcType="VARCHAR" property="endUser" />
+    <result column="ROrdDate" jdbcType="TIMESTAMP" property="rorddate" />
+    <result column="dlv_entire" jdbcType="CHAR" property="dlvEntire" />
+    <result column="DlvSite" jdbcType="CHAR" property="dlvsite" />
+    <result column="TransFee" jdbcType="CHAR" property="transfee" />
+    <result column="PrjCode" jdbcType="NVARCHAR" property="prjcode" />
+    <result column="DlvType" jdbcType="CHAR" property="dlvtype" />
+    <result column="Employee" jdbcType="VARCHAR" property="employee" />
+    <result column="EmployeeNo" jdbcType="VARCHAR" property="employeeno" />
+    <result column="OptTime" jdbcType="TIMESTAMP" property="opttime" />
+    <result column="Operator" jdbcType="VARCHAR" property="operator" />
+    <result column="ORorderNo" jdbcType="VARCHAR" property="ororderno" />
+    <result column="ContractNo" jdbcType="VARCHAR" property="contractno" />
+    <result column="QuotationNo" jdbcType="VARCHAR" property="quotationno" />
+    <result column="PurchaseNO" jdbcType="NVARCHAR" property="purchaseno" />
+    <result column="dept_No" jdbcType="VARCHAR" property="deptNo" />
+    <result column="HLCode" jdbcType="VARCHAR" property="hlcode" />
+    <result column="delivery_dept_no" jdbcType="VARCHAR" property="deliveryDeptNo" />
+    <result column="trade_companyId" jdbcType="VARCHAR" property="tradeCompanyid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, rorder_no, rorder_item, rorder_fno, model_no, quantity, price, price_enduser, 
+    eprice, tax_rate, ntax_pice, ntax_amount, tax_amount, amount, discount, dlv_date, 
+    cdlv_date, wms_dlv_date, spec_offer_no, source_type, cproduct_no, spec_mark, remark, 
+    product_name, opponent, ppl_no, project_no, group_customer_no, shikomi_no, sales_info_no, 
+    pre_sales_order_no, corder_no, custom_code, order_type, status, delete_status, stock_code, 
+    stock_type, inventory_type_code, prod_flag, allot_time, ready_time, exp_time, ship_time, 
+    ready_qty, exp_qty, returned_qty, address_no, process_date, borrow_no, po_qty, exp_msg, 
+    exp_dlv_type, exp_link_no, invoiceGroupKey, invoice_qty, invoice_time, carrierId, 
+    expressNo, handover_time, version, create_time, update_time, update_user, create_user, 
+    price_user, customer_no, user_no, end_user, ROrdDate, dlv_entire, DlvSite, TransFee, 
+    PrjCode, DlvType, Employee, EmployeeNo, OptTime, Operator, ORorderNo, ContractNo, 
+    QuotationNo, PurchaseNO, dept_No, HLCode, delivery_dept_no, trade_companyId
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.RcvorderViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.rcvorder_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.RcvorderViewExample">
+    delete from dbo.rcvorder_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.RcvorderView">
+    insert into dbo.rcvorder_view (id, rorder_no, rorder_item, 
+      rorder_fno, model_no, quantity, 
+      price, price_enduser, eprice, 
+      tax_rate, ntax_pice, ntax_amount, 
+      tax_amount, amount, discount, 
+      dlv_date, cdlv_date, wms_dlv_date, 
+      spec_offer_no, source_type, cproduct_no, 
+      spec_mark, remark, product_name, 
+      opponent, ppl_no, project_no, 
+      group_customer_no, shikomi_no, sales_info_no, 
+      pre_sales_order_no, corder_no, custom_code, 
+      order_type, status, delete_status, 
+      stock_code, stock_type, inventory_type_code, 
+      prod_flag, allot_time, ready_time, 
+      exp_time, ship_time, ready_qty, 
+      exp_qty, returned_qty, address_no, 
+      process_date, borrow_no, po_qty, 
+      exp_msg, exp_dlv_type, exp_link_no, 
+      invoiceGroupKey, invoice_qty, invoice_time, 
+      carrierId, expressNo, handover_time, 
+      version, create_time, update_time, 
+      update_user, create_user, price_user, 
+      customer_no, user_no, end_user, 
+      ROrdDate, dlv_entire, DlvSite, 
+      TransFee, PrjCode, DlvType, 
+      Employee, EmployeeNo, OptTime, 
+      Operator, ORorderNo, ContractNo, 
+      QuotationNo, PurchaseNO, dept_No, 
+      HLCode, delivery_dept_no, trade_companyId
+      )
+    values (#{id,jdbcType=BIGINT}, #{rorderNo,jdbcType=VARCHAR}, #{rorderItem,jdbcType=INTEGER}, 
+      #{rorderFno,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{priceEnduser,jdbcType=DECIMAL}, #{eprice,jdbcType=DECIMAL}, 
+      #{taxRate,jdbcType=DECIMAL}, #{ntaxPice,jdbcType=DECIMAL}, #{ntaxAmount,jdbcType=DECIMAL}, 
+      #{taxAmount,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{dlvDate,jdbcType=TIMESTAMP}, #{cdlvDate,jdbcType=TIMESTAMP}, #{wmsDlvDate,jdbcType=DATE}, 
+      #{specOfferNo,jdbcType=VARCHAR}, #{sourceType,jdbcType=CHAR}, #{cproductNo,jdbcType=NVARCHAR}, 
+      #{specMark,jdbcType=CHAR}, #{remark,jdbcType=NVARCHAR}, #{productName,jdbcType=NVARCHAR}, 
+      #{opponent,jdbcType=VARCHAR}, #{pplNo,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{groupCustomerNo,jdbcType=VARCHAR}, #{shikomiNo,jdbcType=VARCHAR}, #{salesInfoNo,jdbcType=VARCHAR}, 
+      #{preSalesOrderNo,jdbcType=VARCHAR}, #{corderNo,jdbcType=NVARCHAR}, #{customCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT}, #{deleteStatus,jdbcType=SMALLINT}, 
+      #{stockCode,jdbcType=VARCHAR}, #{stockType,jdbcType=VARCHAR}, #{inventoryTypeCode,jdbcType=VARCHAR}, 
+      #{prodFlag,jdbcType=CHAR}, #{allotTime,jdbcType=TIMESTAMP}, #{readyTime,jdbcType=TIMESTAMP}, 
+      #{expTime,jdbcType=TIMESTAMP}, #{shipTime,jdbcType=TIMESTAMP}, #{readyQty,jdbcType=INTEGER}, 
+      #{expQty,jdbcType=INTEGER}, #{returnedQty,jdbcType=INTEGER}, #{addressNo,jdbcType=VARCHAR}, 
+      #{processDate,jdbcType=TIMESTAMP}, #{borrowNo,jdbcType=VARCHAR}, #{poQty,jdbcType=INTEGER}, 
+      #{expMsg,jdbcType=VARCHAR}, #{expDlvType,jdbcType=INTEGER}, #{expLinkNo,jdbcType=VARCHAR}, 
+      #{invoicegroupkey,jdbcType=NVARCHAR}, #{invoiceQty,jdbcType=INTEGER}, #{invoiceTime,jdbcType=TIMESTAMP}, 
+      #{carrierid,jdbcType=VARCHAR}, #{expressno,jdbcType=VARCHAR}, #{handoverTime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{priceUser,jdbcType=DECIMAL}, 
+      #{customerNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{endUser,jdbcType=VARCHAR}, 
+      #{rorddate,jdbcType=TIMESTAMP}, #{dlvEntire,jdbcType=CHAR}, #{dlvsite,jdbcType=CHAR}, 
+      #{transfee,jdbcType=CHAR}, #{prjcode,jdbcType=NVARCHAR}, #{dlvtype,jdbcType=CHAR}, 
+      #{employee,jdbcType=VARCHAR}, #{employeeno,jdbcType=VARCHAR}, #{opttime,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=VARCHAR}, #{ororderno,jdbcType=VARCHAR}, #{contractno,jdbcType=VARCHAR}, 
+      #{quotationno,jdbcType=VARCHAR}, #{purchaseno,jdbcType=NVARCHAR}, #{deptNo,jdbcType=VARCHAR}, 
+      #{hlcode,jdbcType=VARCHAR}, #{deliveryDeptNo,jdbcType=VARCHAR}, #{tradeCompanyid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.RcvorderView">
+    insert into dbo.rcvorder_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="rorderFno != null">
+        rorder_fno,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="priceEnduser != null">
+        price_enduser,
+      </if>
+      <if test="eprice != null">
+        eprice,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="ntaxPice != null">
+        ntax_pice,
+      </if>
+      <if test="ntaxAmount != null">
+        ntax_amount,
+      </if>
+      <if test="taxAmount != null">
+        tax_amount,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="dlvDate != null">
+        dlv_date,
+      </if>
+      <if test="cdlvDate != null">
+        cdlv_date,
+      </if>
+      <if test="wmsDlvDate != null">
+        wms_dlv_date,
+      </if>
+      <if test="specOfferNo != null">
+        spec_offer_no,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="cproductNo != null">
+        cproduct_no,
+      </if>
+      <if test="specMark != null">
+        spec_mark,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="opponent != null">
+        opponent,
+      </if>
+      <if test="pplNo != null">
+        ppl_no,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="shikomiNo != null">
+        shikomi_no,
+      </if>
+      <if test="salesInfoNo != null">
+        sales_info_no,
+      </if>
+      <if test="preSalesOrderNo != null">
+        pre_sales_order_no,
+      </if>
+      <if test="corderNo != null">
+        corder_no,
+      </if>
+      <if test="customCode != null">
+        custom_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="deleteStatus != null">
+        delete_status,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="stockType != null">
+        stock_type,
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="prodFlag != null">
+        prod_flag,
+      </if>
+      <if test="allotTime != null">
+        allot_time,
+      </if>
+      <if test="readyTime != null">
+        ready_time,
+      </if>
+      <if test="expTime != null">
+        exp_time,
+      </if>
+      <if test="shipTime != null">
+        ship_time,
+      </if>
+      <if test="readyQty != null">
+        ready_qty,
+      </if>
+      <if test="expQty != null">
+        exp_qty,
+      </if>
+      <if test="returnedQty != null">
+        returned_qty,
+      </if>
+      <if test="addressNo != null">
+        address_no,
+      </if>
+      <if test="processDate != null">
+        process_date,
+      </if>
+      <if test="borrowNo != null">
+        borrow_no,
+      </if>
+      <if test="poQty != null">
+        po_qty,
+      </if>
+      <if test="expMsg != null">
+        exp_msg,
+      </if>
+      <if test="expDlvType != null">
+        exp_dlv_type,
+      </if>
+      <if test="expLinkNo != null">
+        exp_link_no,
+      </if>
+      <if test="invoicegroupkey != null">
+        invoiceGroupKey,
+      </if>
+      <if test="invoiceQty != null">
+        invoice_qty,
+      </if>
+      <if test="invoiceTime != null">
+        invoice_time,
+      </if>
+      <if test="carrierid != null">
+        carrierId,
+      </if>
+      <if test="expressno != null">
+        expressNo,
+      </if>
+      <if test="handoverTime != null">
+        handover_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="priceUser != null">
+        price_user,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="endUser != null">
+        end_user,
+      </if>
+      <if test="rorddate != null">
+        ROrdDate,
+      </if>
+      <if test="dlvEntire != null">
+        dlv_entire,
+      </if>
+      <if test="dlvsite != null">
+        DlvSite,
+      </if>
+      <if test="transfee != null">
+        TransFee,
+      </if>
+      <if test="prjcode != null">
+        PrjCode,
+      </if>
+      <if test="dlvtype != null">
+        DlvType,
+      </if>
+      <if test="employee != null">
+        Employee,
+      </if>
+      <if test="employeeno != null">
+        EmployeeNo,
+      </if>
+      <if test="opttime != null">
+        OptTime,
+      </if>
+      <if test="operator != null">
+        Operator,
+      </if>
+      <if test="ororderno != null">
+        ORorderNo,
+      </if>
+      <if test="contractno != null">
+        ContractNo,
+      </if>
+      <if test="quotationno != null">
+        QuotationNo,
+      </if>
+      <if test="purchaseno != null">
+        PurchaseNO,
+      </if>
+      <if test="deptNo != null">
+        dept_No,
+      </if>
+      <if test="hlcode != null">
+        HLCode,
+      </if>
+      <if test="deliveryDeptNo != null">
+        delivery_dept_no,
+      </if>
+      <if test="tradeCompanyid != null">
+        trade_companyId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="rorderFno != null">
+        #{rorderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="priceEnduser != null">
+        #{priceEnduser,jdbcType=DECIMAL},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxPice != null">
+        #{ntaxPice,jdbcType=DECIMAL},
+      </if>
+      <if test="ntaxAmount != null">
+        #{ntaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="dlvDate != null">
+        #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdlvDate != null">
+        #{cdlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wmsDlvDate != null">
+        #{wmsDlvDate,jdbcType=DATE},
+      </if>
+      <if test="specOfferNo != null">
+        #{specOfferNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=CHAR},
+      </if>
+      <if test="cproductNo != null">
+        #{cproductNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="specMark != null">
+        #{specMark,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=NVARCHAR},
+      </if>
+      <if test="opponent != null">
+        #{opponent,jdbcType=VARCHAR},
+      </if>
+      <if test="pplNo != null">
+        #{pplNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomiNo != null">
+        #{shikomiNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesInfoNo != null">
+        #{salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="preSalesOrderNo != null">
+        #{preSalesOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="corderNo != null">
+        #{corderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="customCode != null">
+        #{customCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockType != null">
+        #{stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodFlag != null">
+        #{prodFlag,jdbcType=CHAR},
+      </if>
+      <if test="allotTime != null">
+        #{allotTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readyTime != null">
+        #{readyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expTime != null">
+        #{expTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipTime != null">
+        #{shipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readyQty != null">
+        #{readyQty,jdbcType=INTEGER},
+      </if>
+      <if test="expQty != null">
+        #{expQty,jdbcType=INTEGER},
+      </if>
+      <if test="returnedQty != null">
+        #{returnedQty,jdbcType=INTEGER},
+      </if>
+      <if test="addressNo != null">
+        #{addressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="processDate != null">
+        #{processDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="borrowNo != null">
+        #{borrowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poQty != null">
+        #{poQty,jdbcType=INTEGER},
+      </if>
+      <if test="expMsg != null">
+        #{expMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="expDlvType != null">
+        #{expDlvType,jdbcType=INTEGER},
+      </if>
+      <if test="expLinkNo != null">
+        #{expLinkNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicegroupkey != null">
+        #{invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoiceQty != null">
+        #{invoiceQty,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceTime != null">
+        #{invoiceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carrierid != null">
+        #{carrierid,jdbcType=VARCHAR},
+      </if>
+      <if test="expressno != null">
+        #{expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="handoverTime != null">
+        #{handoverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUser != null">
+        #{priceUser,jdbcType=DECIMAL},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="endUser != null">
+        #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="rorddate != null">
+        #{rorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvEntire != null">
+        #{dlvEntire,jdbcType=CHAR},
+      </if>
+      <if test="dlvsite != null">
+        #{dlvsite,jdbcType=CHAR},
+      </if>
+      <if test="transfee != null">
+        #{transfee,jdbcType=CHAR},
+      </if>
+      <if test="prjcode != null">
+        #{prjcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvtype != null">
+        #{dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="employee != null">
+        #{employee,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeno != null">
+        #{employeeno,jdbcType=VARCHAR},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="ororderno != null">
+        #{ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null">
+        #{contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="quotationno != null">
+        #{quotationno,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseno != null">
+        #{purchaseno,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hlcode != null">
+        #{hlcode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDeptNo != null">
+        #{deliveryDeptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCompanyid != null">
+        #{tradeCompanyid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.RcvorderViewExample" resultType="java.lang.Long">
+    select count(*) from dbo.rcvorder_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.rcvorder_view
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.rorderFno != null">
+        rorder_fno = #{record.rorderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceEnduser != null">
+        price_enduser = #{record.priceEnduser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eprice != null">
+        eprice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxRate != null">
+        tax_rate = #{record.taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ntaxPice != null">
+        ntax_pice = #{record.ntaxPice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ntaxAmount != null">
+        ntax_amount = #{record.ntaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxAmount != null">
+        tax_amount = #{record.taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dlvDate != null">
+        dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cdlvDate != null">
+        cdlv_date = #{record.cdlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.wmsDlvDate != null">
+        wms_dlv_date = #{record.wmsDlvDate,jdbcType=DATE},
+      </if>
+      <if test="record.specOfferNo != null">
+        spec_offer_no = #{record.specOfferNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceType != null">
+        source_type = #{record.sourceType,jdbcType=CHAR},
+      </if>
+      <if test="record.cproductNo != null">
+        cproduct_no = #{record.cproductNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.specMark != null">
+        spec_mark = #{record.specMark,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.opponent != null">
+        opponent = #{record.opponent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pplNo != null">
+        ppl_no = #{record.pplNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNo != null">
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shikomiNo != null">
+        shikomi_no = #{record.shikomiNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salesInfoNo != null">
+        sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preSalesOrderNo != null">
+        pre_sales_order_no = #{record.preSalesOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corderNo != null">
+        corder_no = #{record.corderNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customCode != null">
+        custom_code = #{record.customCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deleteStatus != null">
+        delete_status = #{record.deleteStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockType != null">
+        stock_type = #{record.stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodFlag != null">
+        prod_flag = #{record.prodFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.allotTime != null">
+        allot_time = #{record.allotTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.readyTime != null">
+        ready_time = #{record.readyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expTime != null">
+        exp_time = #{record.expTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shipTime != null">
+        ship_time = #{record.shipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.readyQty != null">
+        ready_qty = #{record.readyQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.expQty != null">
+        exp_qty = #{record.expQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnedQty != null">
+        returned_qty = #{record.returnedQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.addressNo != null">
+        address_no = #{record.addressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processDate != null">
+        process_date = #{record.processDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.borrowNo != null">
+        borrow_no = #{record.borrowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poQty != null">
+        po_qty = #{record.poQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.expMsg != null">
+        exp_msg = #{record.expMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expDlvType != null">
+        exp_dlv_type = #{record.expDlvType,jdbcType=INTEGER},
+      </if>
+      <if test="record.expLinkNo != null">
+        exp_link_no = #{record.expLinkNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoicegroupkey != null">
+        invoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.invoiceQty != null">
+        invoice_qty = #{record.invoiceQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceTime != null">
+        invoice_time = #{record.invoiceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.carrierid != null">
+        carrierId = #{record.carrierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressno != null">
+        expressNo = #{record.expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handoverTime != null">
+        handover_time = #{record.handoverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priceUser != null">
+        price_user = #{record.priceUser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endUser != null">
+        end_user = #{record.endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorddate != null">
+        ROrdDate = #{record.rorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvEntire != null">
+        dlv_entire = #{record.dlvEntire,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvsite != null">
+        DlvSite = #{record.dlvsite,jdbcType=CHAR},
+      </if>
+      <if test="record.transfee != null">
+        TransFee = #{record.transfee,jdbcType=CHAR},
+      </if>
+      <if test="record.prjcode != null">
+        PrjCode = #{record.prjcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.dlvtype != null">
+        DlvType = #{record.dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="record.employee != null">
+        Employee = #{record.employee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeno != null">
+        EmployeeNo = #{record.employeeno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opttime != null">
+        OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null">
+        Operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ororderno != null">
+        ORorderNo = #{record.ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractno != null">
+        ContractNo = #{record.contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quotationno != null">
+        QuotationNo = #{record.quotationno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseno != null">
+        PurchaseNO = #{record.purchaseno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.deptNo != null">
+        dept_No = #{record.deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hlcode != null">
+        HLCode = #{record.hlcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryDeptNo != null">
+        delivery_dept_no = #{record.deliveryDeptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeCompanyid != null">
+        trade_companyId = #{record.tradeCompanyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.rcvorder_view
+    set id = #{record.id,jdbcType=BIGINT},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      rorder_fno = #{record.rorderFno,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      price_enduser = #{record.priceEnduser,jdbcType=DECIMAL},
+      eprice = #{record.eprice,jdbcType=DECIMAL},
+      tax_rate = #{record.taxRate,jdbcType=DECIMAL},
+      ntax_pice = #{record.ntaxPice,jdbcType=DECIMAL},
+      ntax_amount = #{record.ntaxAmount,jdbcType=DECIMAL},
+      tax_amount = #{record.taxAmount,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      cdlv_date = #{record.cdlvDate,jdbcType=TIMESTAMP},
+      wms_dlv_date = #{record.wmsDlvDate,jdbcType=DATE},
+      spec_offer_no = #{record.specOfferNo,jdbcType=VARCHAR},
+      source_type = #{record.sourceType,jdbcType=CHAR},
+      cproduct_no = #{record.cproductNo,jdbcType=NVARCHAR},
+      spec_mark = #{record.specMark,jdbcType=CHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      product_name = #{record.productName,jdbcType=NVARCHAR},
+      opponent = #{record.opponent,jdbcType=VARCHAR},
+      ppl_no = #{record.pplNo,jdbcType=VARCHAR},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      shikomi_no = #{record.shikomiNo,jdbcType=VARCHAR},
+      sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      pre_sales_order_no = #{record.preSalesOrderNo,jdbcType=VARCHAR},
+      corder_no = #{record.corderNo,jdbcType=NVARCHAR},
+      custom_code = #{record.customCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=SMALLINT},
+      status = #{record.status,jdbcType=SMALLINT},
+      delete_status = #{record.deleteStatus,jdbcType=SMALLINT},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      stock_type = #{record.stockType,jdbcType=VARCHAR},
+      inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      prod_flag = #{record.prodFlag,jdbcType=CHAR},
+      allot_time = #{record.allotTime,jdbcType=TIMESTAMP},
+      ready_time = #{record.readyTime,jdbcType=TIMESTAMP},
+      exp_time = #{record.expTime,jdbcType=TIMESTAMP},
+      ship_time = #{record.shipTime,jdbcType=TIMESTAMP},
+      ready_qty = #{record.readyQty,jdbcType=INTEGER},
+      exp_qty = #{record.expQty,jdbcType=INTEGER},
+      returned_qty = #{record.returnedQty,jdbcType=INTEGER},
+      address_no = #{record.addressNo,jdbcType=VARCHAR},
+      process_date = #{record.processDate,jdbcType=TIMESTAMP},
+      borrow_no = #{record.borrowNo,jdbcType=VARCHAR},
+      po_qty = #{record.poQty,jdbcType=INTEGER},
+      exp_msg = #{record.expMsg,jdbcType=VARCHAR},
+      exp_dlv_type = #{record.expDlvType,jdbcType=INTEGER},
+      exp_link_no = #{record.expLinkNo,jdbcType=VARCHAR},
+      invoiceGroupKey = #{record.invoicegroupkey,jdbcType=NVARCHAR},
+      invoice_qty = #{record.invoiceQty,jdbcType=INTEGER},
+      invoice_time = #{record.invoiceTime,jdbcType=TIMESTAMP},
+      carrierId = #{record.carrierid,jdbcType=VARCHAR},
+      expressNo = #{record.expressno,jdbcType=VARCHAR},
+      handover_time = #{record.handoverTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      price_user = #{record.priceUser,jdbcType=DECIMAL},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      end_user = #{record.endUser,jdbcType=VARCHAR},
+      ROrdDate = #{record.rorddate,jdbcType=TIMESTAMP},
+      dlv_entire = #{record.dlvEntire,jdbcType=CHAR},
+      DlvSite = #{record.dlvsite,jdbcType=CHAR},
+      TransFee = #{record.transfee,jdbcType=CHAR},
+      PrjCode = #{record.prjcode,jdbcType=NVARCHAR},
+      DlvType = #{record.dlvtype,jdbcType=CHAR},
+      Employee = #{record.employee,jdbcType=VARCHAR},
+      EmployeeNo = #{record.employeeno,jdbcType=VARCHAR},
+      OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      Operator = #{record.operator,jdbcType=VARCHAR},
+      ORorderNo = #{record.ororderno,jdbcType=VARCHAR},
+      ContractNo = #{record.contractno,jdbcType=VARCHAR},
+      QuotationNo = #{record.quotationno,jdbcType=VARCHAR},
+      PurchaseNO = #{record.purchaseno,jdbcType=NVARCHAR},
+      dept_No = #{record.deptNo,jdbcType=VARCHAR},
+      HLCode = #{record.hlcode,jdbcType=VARCHAR},
+      delivery_dept_no = #{record.deliveryDeptNo,jdbcType=VARCHAR},
+      trade_companyId = #{record.tradeCompanyid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsRequestpurchaseInterceptConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="typeId" jdbcType="CHAR" property="typeid" />
+    <result column="ruleKey" jdbcType="VARCHAR" property="rulekey" />
+    <result column="reason" jdbcType="NVARCHAR" property="reason" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="defaultAction" jdbcType="CHAR" property="defaultaction" />
+    <result column="operator" jdbcType="NVARCHAR" property="operator" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="auto_stock_out" jdbcType="BIT" property="autoStockOut" />
+    <result column="rule_key1" jdbcType="VARCHAR" property="ruleKey1" />
+    <result column="rule_key2" jdbcType="INTEGER" property="ruleKey2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, typeId, ruleKey, reason, remark, enable, defaultAction, operator, updateTime, 
+    auto_stock_out, rule_key1, rule_key2
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_requestPurchase_intercept_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_requestPurchase_intercept_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.ops_requestPurchase_intercept_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfigExample">
+    delete from dbo.ops_requestPurchase_intercept_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfig">
+    insert into dbo.ops_requestPurchase_intercept_config (id, typeId, ruleKey, 
+      reason, remark, enable, 
+      defaultAction, operator, updateTime, 
+      auto_stock_out, rule_key1, rule_key2
+      )
+    values (#{id,jdbcType=INTEGER}, #{typeid,jdbcType=CHAR}, #{rulekey,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, #{enable,jdbcType=BIT}, 
+      #{defaultaction,jdbcType=CHAR}, #{operator,jdbcType=NVARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{autoStockOut,jdbcType=BIT}, #{ruleKey1,jdbcType=VARCHAR}, #{ruleKey2,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfig">
+    insert into dbo.ops_requestPurchase_intercept_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeid != null">
+        typeId,
+      </if>
+      <if test="rulekey != null">
+        ruleKey,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="defaultaction != null">
+        defaultAction,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="autoStockOut != null">
+        auto_stock_out,
+      </if>
+      <if test="ruleKey1 != null">
+        rule_key1,
+      </if>
+      <if test="ruleKey2 != null">
+        rule_key2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=CHAR},
+      </if>
+      <if test="rulekey != null">
+        #{rulekey,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="defaultaction != null">
+        #{defaultaction,jdbcType=CHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="autoStockOut != null">
+        #{autoStockOut,jdbcType=BIT},
+      </if>
+      <if test="ruleKey1 != null">
+        #{ruleKey1,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleKey2 != null">
+        #{ruleKey2,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_requestPurchase_intercept_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_requestPurchase_intercept_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null">
+        typeId = #{record.typeid,jdbcType=CHAR},
+      </if>
+      <if test="record.rulekey != null">
+        ruleKey = #{record.rulekey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.enable != null">
+        enable = #{record.enable,jdbcType=BIT},
+      </if>
+      <if test="record.defaultaction != null">
+        defaultAction = #{record.defaultaction,jdbcType=CHAR},
+      </if>
+      <if test="record.operator != null">
+        operator = #{record.operator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.autoStockOut != null">
+        auto_stock_out = #{record.autoStockOut,jdbcType=BIT},
+      </if>
+      <if test="record.ruleKey1 != null">
+        rule_key1 = #{record.ruleKey1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleKey2 != null">
+        rule_key2 = #{record.ruleKey2,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_requestPurchase_intercept_config
+    set id = #{record.id,jdbcType=INTEGER},
+      typeId = #{record.typeid,jdbcType=CHAR},
+      ruleKey = #{record.rulekey,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=NVARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      enable = #{record.enable,jdbcType=BIT},
+      defaultAction = #{record.defaultaction,jdbcType=CHAR},
+      operator = #{record.operator,jdbcType=NVARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      auto_stock_out = #{record.autoStockOut,jdbcType=BIT},
+      rule_key1 = #{record.ruleKey1,jdbcType=VARCHAR},
+      rule_key2 = #{record.ruleKey2,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfig">
+    update dbo.ops_requestPurchase_intercept_config
+    <set>
+      <if test="typeid != null">
+        typeId = #{typeid,jdbcType=CHAR},
+      </if>
+      <if test="rulekey != null">
+        ruleKey = #{rulekey,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="defaultaction != null">
+        defaultAction = #{defaultaction,jdbcType=CHAR},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="autoStockOut != null">
+        auto_stock_out = #{autoStockOut,jdbcType=BIT},
+      </if>
+      <if test="ruleKey1 != null">
+        rule_key1 = #{ruleKey1,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleKey2 != null">
+        rule_key2 = #{ruleKey2,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsRequestpurchaseInterceptConfig">
+    update dbo.ops_requestPurchase_intercept_config
+    set typeId = #{typeid,jdbcType=CHAR},
+      ruleKey = #{rulekey,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=NVARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      enable = #{enable,jdbcType=BIT},
+      defaultAction = #{defaultaction,jdbcType=CHAR},
+      operator = #{operator,jdbcType=NVARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      auto_stock_out = #{autoStockOut,jdbcType=BIT},
+      rule_key1 = #{ruleKey1,jdbcType=VARCHAR},
+      rule_key2 = #{ruleKey2,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,110 @@
+.public-container{
+  padding: 10px 15px 0px 15px;
+  .el-card{
+    border-radius: 10px;
+    .el-card__body {
+      padding: 5px;
+    }
+  }
+  .el-form{
+    .el-form-item__label{
+      width: 80px;
+      font-size: 12px;
+    }
+    .operation-button{
+      float: right;
+    }
+    .el-form-item{
+      margin-bottom: 0px;
+      vertical-align: middle;
+      .el-input{
+        width: 220px;
+      }
+      .el-range-editor--mini{
+        width: 220px;
+      }
+      .el-icon-class {
+        font-size: 16px;
+        color: #337AB7;
+        cursor: pointer;
+      }
+      .max-select-class{
+        .el-input{
+          width:300px;
+        }
+      }
+      .max-select-class-apply{
+        .el-input{
+          width:523px;
+        }
+      }      
+    }
+  }
+}
+.public-table{
+  padding: 5px 15px;
+  .vxe-toolbar{
+    .el-button--small{
+      margin:0px;
+    }
+  }
+  .vxe-body--expanded-cell{
+    padding: 5px;
+    .vxe-table--header-wrapper{
+      .vxe-table--header{
+        .vxe-header--row{
+          background-color: rgb(215, 230, 243);
+        }
+      }
+    }
+  }
+  .vxe-table--header {
+    .vxe-header--row .vxe-cell{
+      cursor: pointer;
+    }
+  }
+}
+
+.public-container-transfer{
+  padding: 10px 15px 0px 15px;
+  .el-card{
+    border-radius: 10px;
+    .el-card__body {
+      padding: 5px;
+    }
+  }
+  .el-form{
+    .el-form-item__label{
+      width: 80px;
+      font-size: 10px;
+    }
+    .operation-button{
+      float: right;
+    }
+    .el-form-item{
+      margin-bottom: 0px;
+      vertical-align: middle;
+      .el-input{
+        width: 250px;
+      }
+      .el-range-editor--mini{
+        width: 250px;
+      }
+      .el-icon-class {
+        font-size: 10px;
+        color: #337AB7;
+        cursor: pointer;
+      }
+      .max-select-class{
+        .el-input{
+          width:300px;
+        }
+      }
+      .max-select-class-apply{
+        .el-input{
+          width:523px;
+        }
+      }      
+    }
+  }
+}

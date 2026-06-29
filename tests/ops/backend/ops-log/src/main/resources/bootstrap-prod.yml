@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.116.2.44:8848
+        namespace: prod
+        file-extension: yml
+      discovery:
+        server-addr: 10.116.2.44:8848
+        namespace: prod

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.PrepareOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.PrepareOrder">
+    <id column="rorderno" jdbcType="VARCHAR" property="rorderno" />
+    <id column="prepare_no" jdbcType="VARCHAR" property="prepareNo" />
+    <id column="prepare_type" jdbcType="INTEGER" property="prepareType" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="optstate" jdbcType="INTEGER" property="optstate" />
+    <result column="opttime" jdbcType="TIMESTAMP" property="opttime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rorderno, prepare_no, prepare_type, id, modelno, quantity, optstate, opttime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.PrepareOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._prepare_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.PrepareOrderKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._prepare_order
+    where rorderno = #{rorderno,jdbcType=VARCHAR}
+      and prepare_no = #{prepareNo,jdbcType=VARCHAR}
+      and prepare_type = #{prepareType,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.PrepareOrderKey">
+    delete from dbo._prepare_order
+    where rorderno = #{rorderno,jdbcType=VARCHAR}
+      and prepare_no = #{prepareNo,jdbcType=VARCHAR}
+      and prepare_type = #{prepareType,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.PrepareOrderExample">
+    delete from dbo._prepare_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.PrepareOrder">
+    insert into dbo._prepare_order (rorderno, prepare_no, prepare_type, 
+      id, modelno, quantity, 
+      optstate, opttime)
+    values (#{rorderno,jdbcType=VARCHAR}, #{prepareNo,jdbcType=VARCHAR}, #{prepareType,jdbcType=INTEGER}, 
+      #{id,jdbcType=BIGINT}, #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{optstate,jdbcType=INTEGER}, #{opttime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.PrepareOrder">
+    insert into dbo._prepare_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        rorderno,
+      </if>
+      <if test="prepareNo != null">
+        prepare_no,
+      </if>
+      <if test="prepareType != null">
+        prepare_type,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="optstate != null">
+        optstate,
+      </if>
+      <if test="opttime != null">
+        opttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        #{rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareNo != null">
+        #{prepareNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareType != null">
+        #{prepareType,jdbcType=INTEGER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="optstate != null">
+        #{optstate,jdbcType=INTEGER},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.PrepareOrderExample" resultType="java.lang.Long">
+    select count(*) from dbo._prepare_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._prepare_order
+    <set>
+      <if test="record.rorderno != null">
+        rorderno = #{record.rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepareNo != null">
+        prepare_no = #{record.prepareNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepareType != null">
+        prepare_type = #{record.prepareType,jdbcType=INTEGER},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.optstate != null">
+        optstate = #{record.optstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.opttime != null">
+        opttime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._prepare_order
+    set rorderno = #{record.rorderno,jdbcType=VARCHAR},
+      prepare_no = #{record.prepareNo,jdbcType=VARCHAR},
+      prepare_type = #{record.prepareType,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=BIGINT},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      optstate = #{record.optstate,jdbcType=INTEGER},
+      opttime = #{record.opttime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.PrepareOrder">
+    update dbo._prepare_order
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="modelno != null">
+        modelno = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="optstate != null">
+        optstate = #{optstate,jdbcType=INTEGER},
+      </if>
+      <if test="opttime != null">
+        opttime = #{opttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rorderno = #{rorderno,jdbcType=VARCHAR}
+      and prepare_no = #{prepareNo,jdbcType=VARCHAR}
+      and prepare_type = #{prepareType,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.PrepareOrder">
+    update dbo._prepare_order
+    set id = #{id,jdbcType=BIGINT},
+      modelno = #{modelno,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      optstate = #{optstate,jdbcType=INTEGER},
+      opttime = #{opttime,jdbcType=TIMESTAMP}
+    where rorderno = #{rorderno,jdbcType=VARCHAR}
+      and prepare_no = #{prepareNo,jdbcType=VARCHAR}
+      and prepare_type = #{prepareType,jdbcType=INTEGER}
+  </update>
+</mapper>

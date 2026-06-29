@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductDeliveryProdMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductDeliveryProd">
+    <id column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="supplyId" jdbcType="VARCHAR" property="supplyid" />
+    <result column="orgCountryId" jdbcType="VARCHAR" property="orgcountryid" />
+    <result column="stdDlvDay" jdbcType="INTEGER" property="stddlvday" />
+    <result column="stdDlvDateMaxNumber" jdbcType="INTEGER" property="stddlvdatemaxnumber" />
+    <result column="maxProdQty" jdbcType="INTEGER" property="maxprodqty" />
+    <result column="enableMaxProdQty" jdbcType="BIT" property="enablemaxprodqty" />
+    <result column="isPrimary" jdbcType="BIT" property="isprimary" />
+    <result column="supplierPartNo" jdbcType="NVARCHAR" property="supplierpartno" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    modelNo, supplyId, orgCountryId, stdDlvDay, stdDlvDateMaxNumber, maxProdQty, enableMaxProdQty, 
+    isPrimary, supplierPartNo, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductDeliveryProdExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_delivery_prod
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductDeliveryProdKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_delivery_prod
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and supplyId = #{supplyid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductDeliveryProdKey">
+    delete from dbo.product_delivery_prod
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and supplyId = #{supplyid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductDeliveryProdExample">
+    delete from dbo.product_delivery_prod
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductDeliveryProd">
+    insert into dbo.product_delivery_prod (modelNo, supplyId, orgCountryId, 
+      stdDlvDay, stdDlvDateMaxNumber, maxProdQty, 
+      enableMaxProdQty, isPrimary, supplierPartNo, 
+      updateTime)
+    values (#{modelno,jdbcType=VARCHAR}, #{supplyid,jdbcType=VARCHAR}, #{orgcountryid,jdbcType=VARCHAR}, 
+      #{stddlvday,jdbcType=INTEGER}, #{stddlvdatemaxnumber,jdbcType=INTEGER}, #{maxprodqty,jdbcType=INTEGER}, 
+      #{enablemaxprodqty,jdbcType=BIT}, #{isprimary,jdbcType=BIT}, #{supplierpartno,jdbcType=NVARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductDeliveryProd">
+    insert into dbo.product_delivery_prod
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="supplyid != null">
+        supplyId,
+      </if>
+      <if test="orgcountryid != null">
+        orgCountryId,
+      </if>
+      <if test="stddlvday != null">
+        stdDlvDay,
+      </if>
+      <if test="stddlvdatemaxnumber != null">
+        stdDlvDateMaxNumber,
+      </if>
+      <if test="maxprodqty != null">
+        maxProdQty,
+      </if>
+      <if test="enablemaxprodqty != null">
+        enableMaxProdQty,
+      </if>
+      <if test="isprimary != null">
+        isPrimary,
+      </if>
+      <if test="supplierpartno != null">
+        supplierPartNo,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyid != null">
+        #{supplyid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcountryid != null">
+        #{orgcountryid,jdbcType=VARCHAR},
+      </if>
+      <if test="stddlvday != null">
+        #{stddlvday,jdbcType=INTEGER},
+      </if>
+      <if test="stddlvdatemaxnumber != null">
+        #{stddlvdatemaxnumber,jdbcType=INTEGER},
+      </if>
+      <if test="maxprodqty != null">
+        #{maxprodqty,jdbcType=INTEGER},
+      </if>
+      <if test="enablemaxprodqty != null">
+        #{enablemaxprodqty,jdbcType=BIT},
+      </if>
+      <if test="isprimary != null">
+        #{isprimary,jdbcType=BIT},
+      </if>
+      <if test="supplierpartno != null">
+        #{supplierpartno,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductDeliveryProdExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_delivery_prod
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_delivery_prod
+    <set>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplyid != null">
+        supplyId = #{record.supplyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgcountryid != null">
+        orgCountryId = #{record.orgcountryid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stddlvday != null">
+        stdDlvDay = #{record.stddlvday,jdbcType=INTEGER},
+      </if>
+      <if test="record.stddlvdatemaxnumber != null">
+        stdDlvDateMaxNumber = #{record.stddlvdatemaxnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxprodqty != null">
+        maxProdQty = #{record.maxprodqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.enablemaxprodqty != null">
+        enableMaxProdQty = #{record.enablemaxprodqty,jdbcType=BIT},
+      </if>
+      <if test="record.isprimary != null">
+        isPrimary = #{record.isprimary,jdbcType=BIT},
+      </if>
+      <if test="record.supplierpartno != null">
+        supplierPartNo = #{record.supplierpartno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_delivery_prod
+    set modelNo = #{record.modelno,jdbcType=VARCHAR},
+      supplyId = #{record.supplyid,jdbcType=VARCHAR},
+      orgCountryId = #{record.orgcountryid,jdbcType=VARCHAR},
+      stdDlvDay = #{record.stddlvday,jdbcType=INTEGER},
+      stdDlvDateMaxNumber = #{record.stddlvdatemaxnumber,jdbcType=INTEGER},
+      maxProdQty = #{record.maxprodqty,jdbcType=INTEGER},
+      enableMaxProdQty = #{record.enablemaxprodqty,jdbcType=BIT},
+      isPrimary = #{record.isprimary,jdbcType=BIT},
+      supplierPartNo = #{record.supplierpartno,jdbcType=NVARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductDeliveryProd">
+    update dbo.product_delivery_prod
+    <set>
+      <if test="orgcountryid != null">
+        orgCountryId = #{orgcountryid,jdbcType=VARCHAR},
+      </if>
+      <if test="stddlvday != null">
+        stdDlvDay = #{stddlvday,jdbcType=INTEGER},
+      </if>
+      <if test="stddlvdatemaxnumber != null">
+        stdDlvDateMaxNumber = #{stddlvdatemaxnumber,jdbcType=INTEGER},
+      </if>
+      <if test="maxprodqty != null">
+        maxProdQty = #{maxprodqty,jdbcType=INTEGER},
+      </if>
+      <if test="enablemaxprodqty != null">
+        enableMaxProdQty = #{enablemaxprodqty,jdbcType=BIT},
+      </if>
+      <if test="isprimary != null">
+        isPrimary = #{isprimary,jdbcType=BIT},
+      </if>
+      <if test="supplierpartno != null">
+        supplierPartNo = #{supplierpartno,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and supplyId = #{supplyid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductDeliveryProd">
+    update dbo.product_delivery_prod
+    set orgCountryId = #{orgcountryid,jdbcType=VARCHAR},
+      stdDlvDay = #{stddlvday,jdbcType=INTEGER},
+      stdDlvDateMaxNumber = #{stddlvdatemaxnumber,jdbcType=INTEGER},
+      maxProdQty = #{maxprodqty,jdbcType=INTEGER},
+      enableMaxProdQty = #{enablemaxprodqty,jdbcType=BIT},
+      isPrimary = #{isprimary,jdbcType=BIT},
+      supplierPartNo = #{supplierpartno,jdbcType=NVARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where modelNo = #{modelno,jdbcType=VARCHAR}
+      and supplyId = #{supplyid,jdbcType=VARCHAR}
+  </update>
+</mapper>

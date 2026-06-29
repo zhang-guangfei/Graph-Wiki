@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.WmOrderTaskBatchDao">
+
+
+  <insert id="wmOrderTaskbatchInsert"  parameterType="List" useGeneratedKeys="false">
+    INSERT INTO ops_wm_order_task( wm_order_id, wm_order_type, task_type, flag, retry_num, msg, cre_time, creator,
+    modify_time, modifier, priority,delflag,sent_success_time) values
+    <foreach item="item" index="index" collection="list"
+             separator=",">
+      ( #{item.wmOrderId,jdbcType=VARCHAR}, #{item.wmOrderType,jdbcType=VARCHAR},
+      #{item.taskType,jdbcType=VARCHAR}, #{item.flag,jdbcType=INTEGER}, #{item.retryNum,jdbcType=INTEGER},
+      #{item.msg,jdbcType=NVARCHAR}, #{item.creTime,jdbcType=TIMESTAMP}, #{item.creator,jdbcType=NVARCHAR},
+      #{item.modifyTime,jdbcType=TIMESTAMP}, #{item.modifier,jdbcType=NVARCHAR}, #{item.priority,jdbcType=INTEGER}
+      , #{item.delflag,jdbcType=INTEGER}, #{item.sentSuccessTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.extdao.OpsUnitsTreeDao">
+  <resultMap id="BaseResultMap" type="com.sales.ops.dto.units.OpsUnitsTree">
+    <id column="Id" jdbcType="VARCHAR" property="Id"/>
+    <result column="ParentId" jdbcType="VARCHAR" property="ParentId"/>
+    <result column="Name" jdbcType="VARCHAR" property="Name"/>
+    <result column="K3Code" jdbcType="VARCHAR" property="K3Code"/>
+    <result column="FullName" jdbcType="VARCHAR" property="FullName"/>
+    <result column="Level" jdbcType="VARCHAR" property="Level"/>
+    <result column="Status" jdbcType="VARCHAR" property="Status"/>
+    <result column="SalesCustomized" jdbcType="BIT" property="SalesCustomized"/>
+    <result column="CompanyCode" jdbcType="VARCHAR" property="CompanyCode"/>
+    <result column="CompanyName" jdbcType="VARCHAR" property="CompanyName"/>
+    <result column="unitCode" jdbcType="VARCHAR" property="unitCode"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    Id, ParentId, Name, K3Code, FullName, Level, Status, SalesCustomized, CompanyCode, CompanyName, unitCode
+  </sql>
+
+  <select id="findAfterFiltrationDeptInfo" resultMap="BaseResultMap">
+      SELECT tion.*
+      FROM hr_organization tion
+      LEFT JOIN hr_holon holo ON tion.Id = holo.FNUMBER
+      WHERE holo.FNUMBER IS NULL
+      AND (SUBSTRING(tion.unitCode, 15, 6) = '220000'
+      OR SUBSTRING(tion.unitCode, 15, 6) = '240000'
+      OR SUBSTRING(tion.unitCode, 15, 6) = '260000'
+      OR SUBSTRING(tion.unitCode, 15, 6) = '235000')
+      AND LEN(SUBSTRING(tion.unitCode, 15, 6)) > 5
+      AND Id LIKE '2' + '%' AND Status = '0'
+  </select>
+</mapper>

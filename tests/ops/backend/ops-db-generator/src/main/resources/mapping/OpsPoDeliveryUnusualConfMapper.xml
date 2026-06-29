@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoDeliveryUnusualConfMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoDeliveryUnusualConf">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="unusual_identification_code" jdbcType="VARCHAR" property="unusualIdentificationCode" />
+    <result column="unusual_classify" jdbcType="VARCHAR" property="unusualClassify" />
+    <result column="unusual_type" jdbcType="VARCHAR" property="unusualType" />
+    <result column="unusual_level" jdbcType="INTEGER" property="unusualLevel" />
+    <result column="unusual_rule" jdbcType="VARCHAR" property="unusualRule" />
+    <result column="unusual_rule_condition" jdbcType="VARCHAR" property="unusualRuleCondition" />
+    <result column="unusual_code" jdbcType="VARCHAR" property="unusualCode" />
+    <result column="unusual_desc_eng" jdbcType="VARCHAR" property="unusualDescEng" />
+    <result column="unusual_desc_chn" jdbcType="VARCHAR" property="unusualDescChn" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="job_type" jdbcType="INTEGER" property="jobType" />
+    <result column="job_dept_code" jdbcType="VARCHAR" property="jobDeptCode" />
+    <result column="job_dept_name" jdbcType="VARCHAR" property="jobDeptName" />
+    <result column="job_user_code" jdbcType="VARCHAR" property="jobUserCode" />
+    <result column="job_user_name" jdbcType="NVARCHAR" property="jobUserName" />
+    <result column="job_user_mail" jdbcType="NVARCHAR" property="jobUserMail" />
+    <result column="job_handle" jdbcType="NVARCHAR" property="jobHandle" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unusual_identification_code, unusual_classify, unusual_type, unusual_level, unusual_rule, 
+    unusual_rule_condition, unusual_code, unusual_desc_eng, unusual_desc_chn, order_type, 
+    job_type, job_dept_code, job_dept_name, job_user_code, job_user_name, job_user_mail, 
+    job_handle, remark, del_flag, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConfExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_delivery_unusual_conf
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_delivery_unusual_conf
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_po_delivery_unusual_conf
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConfExample">
+    delete from dbo.ops_po_delivery_unusual_conf
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConf">
+    insert into dbo.ops_po_delivery_unusual_conf (id, unusual_identification_code, unusual_classify, 
+      unusual_type, unusual_level, unusual_rule, 
+      unusual_rule_condition, unusual_code, unusual_desc_eng, 
+      unusual_desc_chn, order_type, job_type, 
+      job_dept_code, job_dept_name, job_user_code, 
+      job_user_name, job_user_mail, job_handle, 
+      remark, del_flag, create_time, 
+      create_user, update_time, update_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{unusualIdentificationCode,jdbcType=VARCHAR}, #{unusualClassify,jdbcType=VARCHAR}, 
+      #{unusualType,jdbcType=VARCHAR}, #{unusualLevel,jdbcType=INTEGER}, #{unusualRule,jdbcType=VARCHAR}, 
+      #{unusualRuleCondition,jdbcType=VARCHAR}, #{unusualCode,jdbcType=VARCHAR}, #{unusualDescEng,jdbcType=VARCHAR}, 
+      #{unusualDescChn,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{jobType,jdbcType=INTEGER}, 
+      #{jobDeptCode,jdbcType=VARCHAR}, #{jobDeptName,jdbcType=VARCHAR}, #{jobUserCode,jdbcType=VARCHAR}, 
+      #{jobUserName,jdbcType=NVARCHAR}, #{jobUserMail,jdbcType=NVARCHAR}, #{jobHandle,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{delFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConf">
+    insert into dbo.ops_po_delivery_unusual_conf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unusualIdentificationCode != null">
+        unusual_identification_code,
+      </if>
+      <if test="unusualClassify != null">
+        unusual_classify,
+      </if>
+      <if test="unusualType != null">
+        unusual_type,
+      </if>
+      <if test="unusualLevel != null">
+        unusual_level,
+      </if>
+      <if test="unusualRule != null">
+        unusual_rule,
+      </if>
+      <if test="unusualRuleCondition != null">
+        unusual_rule_condition,
+      </if>
+      <if test="unusualCode != null">
+        unusual_code,
+      </if>
+      <if test="unusualDescEng != null">
+        unusual_desc_eng,
+      </if>
+      <if test="unusualDescChn != null">
+        unusual_desc_chn,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="jobType != null">
+        job_type,
+      </if>
+      <if test="jobDeptCode != null">
+        job_dept_code,
+      </if>
+      <if test="jobDeptName != null">
+        job_dept_name,
+      </if>
+      <if test="jobUserCode != null">
+        job_user_code,
+      </if>
+      <if test="jobUserName != null">
+        job_user_name,
+      </if>
+      <if test="jobUserMail != null">
+        job_user_mail,
+      </if>
+      <if test="jobHandle != null">
+        job_handle,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="unusualIdentificationCode != null">
+        #{unusualIdentificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualClassify != null">
+        #{unusualClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualType != null">
+        #{unusualType,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualLevel != null">
+        #{unusualLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unusualRule != null">
+        #{unusualRule,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualRuleCondition != null">
+        #{unusualRuleCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualCode != null">
+        #{unusualCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualDescEng != null">
+        #{unusualDescEng,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualDescChn != null">
+        #{unusualDescChn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null">
+        #{jobType,jdbcType=INTEGER},
+      </if>
+      <if test="jobDeptCode != null">
+        #{jobDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDeptName != null">
+        #{jobDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUserCode != null">
+        #{jobUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUserName != null">
+        #{jobUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="jobUserMail != null">
+        #{jobUserMail,jdbcType=NVARCHAR},
+      </if>
+      <if test="jobHandle != null">
+        #{jobHandle,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConfExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_delivery_unusual_conf
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_delivery_unusual_conf
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.unusualIdentificationCode != null">
+        unusual_identification_code = #{record.unusualIdentificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualClassify != null">
+        unusual_classify = #{record.unusualClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualType != null">
+        unusual_type = #{record.unusualType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualLevel != null">
+        unusual_level = #{record.unusualLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.unusualRule != null">
+        unusual_rule = #{record.unusualRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualRuleCondition != null">
+        unusual_rule_condition = #{record.unusualRuleCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualCode != null">
+        unusual_code = #{record.unusualCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualDescEng != null">
+        unusual_desc_eng = #{record.unusualDescEng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unusualDescChn != null">
+        unusual_desc_chn = #{record.unusualDescChn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobType != null">
+        job_type = #{record.jobType,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobDeptCode != null">
+        job_dept_code = #{record.jobDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobDeptName != null">
+        job_dept_name = #{record.jobDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobUserCode != null">
+        job_user_code = #{record.jobUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobUserName != null">
+        job_user_name = #{record.jobUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.jobUserMail != null">
+        job_user_mail = #{record.jobUserMail,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.jobHandle != null">
+        job_handle = #{record.jobHandle,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_delivery_unusual_conf
+    set id = #{record.id,jdbcType=BIGINT},
+      unusual_identification_code = #{record.unusualIdentificationCode,jdbcType=VARCHAR},
+      unusual_classify = #{record.unusualClassify,jdbcType=VARCHAR},
+      unusual_type = #{record.unusualType,jdbcType=VARCHAR},
+      unusual_level = #{record.unusualLevel,jdbcType=INTEGER},
+      unusual_rule = #{record.unusualRule,jdbcType=VARCHAR},
+      unusual_rule_condition = #{record.unusualRuleCondition,jdbcType=VARCHAR},
+      unusual_code = #{record.unusualCode,jdbcType=VARCHAR},
+      unusual_desc_eng = #{record.unusualDescEng,jdbcType=VARCHAR},
+      unusual_desc_chn = #{record.unusualDescChn,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=VARCHAR},
+      job_type = #{record.jobType,jdbcType=INTEGER},
+      job_dept_code = #{record.jobDeptCode,jdbcType=VARCHAR},
+      job_dept_name = #{record.jobDeptName,jdbcType=VARCHAR},
+      job_user_code = #{record.jobUserCode,jdbcType=VARCHAR},
+      job_user_name = #{record.jobUserName,jdbcType=NVARCHAR},
+      job_user_mail = #{record.jobUserMail,jdbcType=NVARCHAR},
+      job_handle = #{record.jobHandle,jdbcType=NVARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConf">
+    update dbo.ops_po_delivery_unusual_conf
+    <set>
+      <if test="unusualIdentificationCode != null">
+        unusual_identification_code = #{unusualIdentificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualClassify != null">
+        unusual_classify = #{unusualClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualType != null">
+        unusual_type = #{unusualType,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualLevel != null">
+        unusual_level = #{unusualLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unusualRule != null">
+        unusual_rule = #{unusualRule,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualRuleCondition != null">
+        unusual_rule_condition = #{unusualRuleCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualCode != null">
+        unusual_code = #{unusualCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualDescEng != null">
+        unusual_desc_eng = #{unusualDescEng,jdbcType=VARCHAR},
+      </if>
+      <if test="unusualDescChn != null">
+        unusual_desc_chn = #{unusualDescChn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null">
+        job_type = #{jobType,jdbcType=INTEGER},
+      </if>
+      <if test="jobDeptCode != null">
+        job_dept_code = #{jobDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDeptName != null">
+        job_dept_name = #{jobDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUserCode != null">
+        job_user_code = #{jobUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUserName != null">
+        job_user_name = #{jobUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="jobUserMail != null">
+        job_user_mail = #{jobUserMail,jdbcType=NVARCHAR},
+      </if>
+      <if test="jobHandle != null">
+        job_handle = #{jobHandle,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoDeliveryUnusualConf">
+    update dbo.ops_po_delivery_unusual_conf
+    set unusual_identification_code = #{unusualIdentificationCode,jdbcType=VARCHAR},
+      unusual_classify = #{unusualClassify,jdbcType=VARCHAR},
+      unusual_type = #{unusualType,jdbcType=VARCHAR},
+      unusual_level = #{unusualLevel,jdbcType=INTEGER},
+      unusual_rule = #{unusualRule,jdbcType=VARCHAR},
+      unusual_rule_condition = #{unusualRuleCondition,jdbcType=VARCHAR},
+      unusual_code = #{unusualCode,jdbcType=VARCHAR},
+      unusual_desc_eng = #{unusualDescEng,jdbcType=VARCHAR},
+      unusual_desc_chn = #{unusualDescChn,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      job_type = #{jobType,jdbcType=INTEGER},
+      job_dept_code = #{jobDeptCode,jdbcType=VARCHAR},
+      job_dept_name = #{jobDeptName,jdbcType=VARCHAR},
+      job_user_code = #{jobUserCode,jdbcType=VARCHAR},
+      job_user_name = #{jobUserName,jdbcType=NVARCHAR},
+      job_user_mail = #{jobUserMail,jdbcType=NVARCHAR},
+      job_handle = #{jobHandle,jdbcType=NVARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

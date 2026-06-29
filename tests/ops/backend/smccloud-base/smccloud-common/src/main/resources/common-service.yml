@@ -1,0 +1,86 @@
+server:
+  port: 8009
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: common-service
+  devtools:
+    remote:
+      restart:
+        enabled: false
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 20
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opscmm
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_ui_dev
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  redis:
+    database: 0
+    host: 10.116.1.15
+    port: 6379
+    password:
+    max-active: 10000
+    max-idle: 100
+    min-idle: 10
+    max-wait: 6000
+    timeout: 25000
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.13:8800/oauth/token
+      user-authorization-uri: http://10.116.1.13:8800/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.13:8800/oauth/check_token
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ConnectTimeout: 540000
+  ReadTimeout: 570000
+  eager-load:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000

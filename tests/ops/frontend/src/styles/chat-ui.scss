@@ -1,0 +1,78 @@
+// 聊天
+.userfaceImg {
+  width: 37px;
+  height: 37px;
+  border-radius: 30px;
+  margin-right: 10px;
+}
+
+.friendListDiv {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 20px;
+  box-sizing: border-box;
+  align-items: center;
+  width: 160px;
+  height: 40px;
+  border-color: #20a0ff;
+  border-left-style: solid;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-width: 1px;
+  cursor: pointer
+}
+
+.chatDiv {
+  border-color: #20a0ff;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  box-sizing: border-box;
+  width: 700px;
+  height: 450px;
+  overflow-y: auto;
+  padding-bottom: 50px;
+}
+
+.sendBtn {
+  padding-left: 25px;
+  padding-right: 25px
+}
+.chat-left-box {
+  display: inline-flex;
+  border-color: #409EFF;
+  color: #409EFF;
+  border: 1px solid rgba(64,158,255,.2);
+  border-radius: 4px;
+  padding: 5px 8px 5px 8px;
+  margin-right: 3px;
+  background-color: rgba(64,158,255,.1);
+}
+
+.chat-right-box {
+  display: inline-flex;
+  border: 1px solid rgba(64,158,255,.2);
+  border-radius: 4px;
+  padding: 5px 8px 5px 8px;
+  margin-right: 3px;
+  background-color: rgba(103,194,58,.1);
+  border-color: rgba(103,194,58,.2);
+  color: #67c23a;
+}
+
+.chat-form-card label{
+  width: 80px;
+}
+
+.currentChatFriend {
+  background-color: #dcdfe6;
+}
+.dialog-div {
+  .el-dialog__body {
+    padding-top: 5px;
+    padding-bottom: 18px;
+  }
+  .el-textarea {
+    width: 320px;
+  }
+}

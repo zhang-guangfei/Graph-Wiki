@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        name: ${spring.application.name}
+        server-addr: http://10.116.2.44:8848
+        namespace: prod
+      config:
+        server-addr: http://10.116.2.44:8848
+        namespace: prod
+        group: DEFAULT_GROUP
+        name: ${spring.application.name}
+        file-extension: yml
+        refresh: true
+        shared-configs:
+          - data-id: application.yml
+            refresh: true

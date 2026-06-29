@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoDeliveryPlanMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoDeliveryPlan">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="source_id" jdbcType="BIGINT" property="sourceId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="split_no" jdbcType="INTEGER" property="splitNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="latest_delivery_time" jdbcType="DATE" property="latestDeliveryTime" />
+    <result column="src_delivery_time" jdbcType="VARCHAR" property="srcDeliveryTime" />
+    <result column="transtype_code" jdbcType="VARCHAR" property="transtypeCode" />
+    <result column="reason_code" jdbcType="VARCHAR" property="reasonCode" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="newest" jdbcType="BIT" property="newest" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="VARCHAR" property="updator" />
+    <result column="delivery_H" jdbcType="TIMESTAMP" property="deliveryH" />
+    <result column="delivery_W" jdbcType="TIMESTAMP" property="deliveryW" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, source_id, order_no, item_no, split_no, model_no, quantity, latest_delivery_time, 
+    src_delivery_time, transtype_code, reason_code, remark, newest, del_flag, create_time, 
+    creat_user, update_time, updator, delivery_H, delivery_W
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_delivery_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryPlanExample">
+    delete from dbo.ops_po_delivery_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoDeliveryPlan">
+    insert into dbo.ops_po_delivery_plan (id, source_id, order_no, 
+      item_no, split_no, model_no, 
+      quantity, latest_delivery_time, src_delivery_time, 
+      transtype_code, reason_code, remark, 
+      newest, del_flag, create_time, 
+      creat_user, update_time, updator, 
+      delivery_H, delivery_W)
+    values (#{id,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, 
+      #{itemNo,jdbcType=INTEGER}, #{splitNo,jdbcType=INTEGER}, #{modelNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{latestDeliveryTime,jdbcType=DATE}, #{srcDeliveryTime,jdbcType=VARCHAR}, 
+      #{transtypeCode,jdbcType=VARCHAR}, #{reasonCode,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{newest,jdbcType=BIT}, #{delFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creatUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
+      #{deliveryH,jdbcType=TIMESTAMP}, #{deliveryW,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoDeliveryPlan">
+    insert into dbo.ops_po_delivery_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="splitNo != null">
+        split_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="latestDeliveryTime != null">
+        latest_delivery_time,
+      </if>
+      <if test="srcDeliveryTime != null">
+        src_delivery_time,
+      </if>
+      <if test="transtypeCode != null">
+        transtype_code,
+      </if>
+      <if test="reasonCode != null">
+        reason_code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="newest != null">
+        newest,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creatUser != null">
+        creat_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="deliveryH != null">
+        delivery_H,
+      </if>
+      <if test="deliveryW != null">
+        delivery_W,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="latestDeliveryTime != null">
+        #{latestDeliveryTime,jdbcType=DATE},
+      </if>
+      <if test="srcDeliveryTime != null">
+        #{srcDeliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="transtypeCode != null">
+        #{transtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonCode != null">
+        #{reasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="newest != null">
+        #{newest,jdbcType=BIT},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatUser != null">
+        #{creatUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryH != null">
+        #{deliveryH,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryW != null">
+        #{deliveryW,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryPlanExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_delivery_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_delivery_plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceId != null">
+        source_id = #{record.sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitNo != null">
+        split_no = #{record.splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.latestDeliveryTime != null">
+        latest_delivery_time = #{record.latestDeliveryTime,jdbcType=DATE},
+      </if>
+      <if test="record.srcDeliveryTime != null">
+        src_delivery_time = #{record.srcDeliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transtypeCode != null">
+        transtype_code = #{record.transtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reasonCode != null">
+        reason_code = #{record.reasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.newest != null">
+        newest = #{record.newest,jdbcType=BIT},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatUser != null">
+        creat_user = #{record.creatUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryH != null">
+        delivery_H = #{record.deliveryH,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryW != null">
+        delivery_W = #{record.deliveryW,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_delivery_plan
+    set id = #{record.id,jdbcType=BIGINT},
+      source_id = #{record.sourceId,jdbcType=BIGINT},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      split_no = #{record.splitNo,jdbcType=INTEGER},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      latest_delivery_time = #{record.latestDeliveryTime,jdbcType=DATE},
+      src_delivery_time = #{record.srcDeliveryTime,jdbcType=VARCHAR},
+      transtype_code = #{record.transtypeCode,jdbcType=VARCHAR},
+      reason_code = #{record.reasonCode,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      newest = #{record.newest,jdbcType=BIT},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creat_user = #{record.creatUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=VARCHAR},
+      delivery_H = #{record.deliveryH,jdbcType=TIMESTAMP},
+      delivery_W = #{record.deliveryW,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDeliveryPlanResultMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDeliveryPlanResult">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="expect_delivery_day" jdbcType="DATE" property="expectDeliveryDay" />
+    <result column="plan_delivery_day" jdbcType="DATE" property="planDeliveryDay" />
+    <result column="event_source" jdbcType="VARCHAR" property="eventSource" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="current_valid" jdbcType="INTEGER" property="currentValid" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ex_relation" jdbcType="INTEGER" property="exRelation" />
+    <result column="current_cycle" jdbcType="VARCHAR" property="currentCycle" />
+    <result column="current_cycle_point" jdbcType="VARCHAR" property="currentCyclePoint" />
+    <result column="reliability" jdbcType="INTEGER" property="reliability" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, order_item, do_id, expect_delivery_day, plan_delivery_day, event_source, 
+    version, current_valid, delflag, cre_time, creator, remark, ex_relation, current_cycle, 
+    current_cycle_point, reliability
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_delivery_plan_result
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_delivery_plan_result
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResultExample">
+    delete from dbo.ops_delivery_plan_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResult">
+    insert into dbo.ops_delivery_plan_result (id, order_id, order_item, 
+      do_id, expect_delivery_day, plan_delivery_day, 
+      event_source, version, current_valid, 
+      delflag, cre_time, creator, 
+      remark, ex_relation, current_cycle, 
+      current_cycle_point, reliability)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, 
+      #{doId,jdbcType=VARCHAR}, #{expectDeliveryDay,jdbcType=DATE}, #{planDeliveryDay,jdbcType=DATE}, 
+      #{eventSource,jdbcType=VARCHAR}, #{version,jdbcType=BIGINT}, #{currentValid,jdbcType=INTEGER}, 
+      #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{exRelation,jdbcType=INTEGER}, #{currentCycle,jdbcType=VARCHAR}, 
+      #{currentCyclePoint,jdbcType=VARCHAR}, #{reliability,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResult">
+    insert into dbo.ops_delivery_plan_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="expectDeliveryDay != null">
+        expect_delivery_day,
+      </if>
+      <if test="planDeliveryDay != null">
+        plan_delivery_day,
+      </if>
+      <if test="eventSource != null">
+        event_source,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="currentValid != null">
+        current_valid,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="exRelation != null">
+        ex_relation,
+      </if>
+      <if test="currentCycle != null">
+        current_cycle,
+      </if>
+      <if test="currentCyclePoint != null">
+        current_cycle_point,
+      </if>
+      <if test="reliability != null">
+        reliability,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDeliveryDay != null">
+        #{expectDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="planDeliveryDay != null">
+        #{planDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="eventSource != null">
+        #{eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="currentValid != null">
+        #{currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="exRelation != null">
+        #{exRelation,jdbcType=INTEGER},
+      </if>
+      <if test="currentCycle != null">
+        #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="currentCyclePoint != null">
+        #{currentCyclePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="reliability != null">
+        #{reliability,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResultExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_delivery_plan_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_delivery_plan_result
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectDeliveryDay != null">
+        expect_delivery_day = #{record.expectDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="record.planDeliveryDay != null">
+        plan_delivery_day = #{record.planDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="record.eventSource != null">
+        event_source = #{record.eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.currentValid != null">
+        current_valid = #{record.currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exRelation != null">
+        ex_relation = #{record.exRelation,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentCycle != null">
+        current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentCyclePoint != null">
+        current_cycle_point = #{record.currentCyclePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reliability != null">
+        reliability = #{record.reliability,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_delivery_plan_result
+    set id = #{record.id,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      expect_delivery_day = #{record.expectDeliveryDay,jdbcType=DATE},
+      plan_delivery_day = #{record.planDeliveryDay,jdbcType=DATE},
+      event_source = #{record.eventSource,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=BIGINT},
+      current_valid = #{record.currentValid,jdbcType=INTEGER},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      ex_relation = #{record.exRelation,jdbcType=INTEGER},
+      current_cycle = #{record.currentCycle,jdbcType=VARCHAR},
+      current_cycle_point = #{record.currentCyclePoint,jdbcType=VARCHAR},
+      reliability = #{record.reliability,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResult">
+    update dbo.ops_delivery_plan_result
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDeliveryDay != null">
+        expect_delivery_day = #{expectDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="planDeliveryDay != null">
+        plan_delivery_day = #{planDeliveryDay,jdbcType=DATE},
+      </if>
+      <if test="eventSource != null">
+        event_source = #{eventSource,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="currentValid != null">
+        current_valid = #{currentValid,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="exRelation != null">
+        ex_relation = #{exRelation,jdbcType=INTEGER},
+      </if>
+      <if test="currentCycle != null">
+        current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="currentCyclePoint != null">
+        current_cycle_point = #{currentCyclePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="reliability != null">
+        reliability = #{reliability,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsDeliveryPlanResult">
+    update dbo.ops_delivery_plan_result
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      do_id = #{doId,jdbcType=VARCHAR},
+      expect_delivery_day = #{expectDeliveryDay,jdbcType=DATE},
+      plan_delivery_day = #{planDeliveryDay,jdbcType=DATE},
+      event_source = #{eventSource,jdbcType=VARCHAR},
+      version = #{version,jdbcType=BIGINT},
+      current_valid = #{currentValid,jdbcType=INTEGER},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      ex_relation = #{exRelation,jdbcType=INTEGER},
+      current_cycle = #{currentCycle,jdbcType=VARCHAR},
+      current_cycle_point = #{currentCyclePoint,jdbcType=VARCHAR},
+      reliability = #{reliability,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.PsdataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Psdata">
+    <result column="ROrderNo" jdbcType="VARCHAR" property="rorderno" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="UserNo" jdbcType="VARCHAR" property="userno" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="DlvDate" jdbcType="TIMESTAMP" property="dlvdate" />
+    <result column="OptCode" jdbcType="VARCHAR" property="optcode" />
+    <result column="MidSize" jdbcType="VARCHAR" property="midsize" />
+    <result column="OrdDate" jdbcType="TIMESTAMP" property="orddate" />
+    <result column="OROrderNo" jdbcType="VARCHAR" property="ororderno" />
+    <result column="ImpDate" jdbcType="TIMESTAMP" property="impdate" />
+    <result column="CnNo" jdbcType="VARCHAR" property="cnno" />
+    <result column="InvDate" jdbcType="TIMESTAMP" property="invdate" />
+    <result column="Issuedate" jdbcType="TIMESTAMP" property="issuedate" />
+    <result column="CIQFlag" jdbcType="VARCHAR" property="ciqflag" />
+    <result column="CIQDate" jdbcType="TIMESTAMP" property="ciqdate" />
+    <result column="ProdFlag" jdbcType="VARCHAR" property="prodflag" />
+    <result column="DlvModDate" jdbcType="TIMESTAMP" property="dlvmoddate" />
+    <result column="DlvCust" jdbcType="TIMESTAMP" property="dlvcust" />
+    <result column="StateFlag" jdbcType="VARCHAR" property="stateflag" />
+    <result column="OptFlag" jdbcType="VARCHAR" property="optflag" />
+    <result column="SMCCode" jdbcType="VARCHAR" property="smccode" />
+    <result column="InvoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="LocationNo" jdbcType="VARCHAR" property="locationno" />
+    <result column="QtyReceive" jdbcType="INTEGER" property="qtyreceive" />
+    <result column="Operator" jdbcType="VARCHAR" property="operator" />
+    <result column="OptTime" jdbcType="TIMESTAMP" property="opttime" />
+    <result column="Expdate_GC" jdbcType="TIMESTAMP" property="expdateGc" />
+    <result column="Remark_GC" jdbcType="VARCHAR" property="remarkGc" />
+    <result column="EmpOrdProcess" jdbcType="VARCHAR" property="empordprocess" />
+    <result column="DlvModDate1" jdbcType="TIMESTAMP" property="dlvmoddate1" />
+    <result column="DlvModDate2" jdbcType="TIMESTAMP" property="dlvmoddate2" />
+    <result column="DlvModDate3" jdbcType="TIMESTAMP" property="dlvmoddate3" />
+    <result column="Reason_Remark" jdbcType="VARCHAR" property="reasonRemark" />
+    <result column="DeptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="SHIKOMINo" jdbcType="VARCHAR" property="shikomino" />
+    <result column="OrdType" jdbcType="VARCHAR" property="ordtype" />
+    <result column="Produce_Factory" jdbcType="VARCHAR" property="produceFactory" />
+    <result column="Produce_Holon" jdbcType="VARCHAR" property="produceHolon" />
+    <result column="SalesInfoNo" jdbcType="VARCHAR" property="salesinfono" />
+    <result column="GreenCode" jdbcType="VARCHAR" property="greencode" />
+    <result column="InDate_theory" jdbcType="TIMESTAMP" property="indateTheory" />
+    <result column="RcvOrd_Date" jdbcType="TIMESTAMP" property="rcvordDate" />
+    <result column="BeginProduce_date" jdbcType="TIMESTAMP" property="beginproduceDate" />
+    <result column="InDate_InFact" jdbcType="TIMESTAMP" property="indateInfact" />
+    <result column="Exp_date" jdbcType="TIMESTAMP" property="expDate" />
+    <result column="Export_Flag" jdbcType="VARCHAR" property="exportFlag" />
+    <result column="Holon_Name" jdbcType="VARCHAR" property="holonName" />
+    <result column="DlvModTime1" jdbcType="TIMESTAMP" property="dlvmodtime1" />
+    <result column="DlvModTime2" jdbcType="TIMESTAMP" property="dlvmodtime2" />
+    <result column="DlvModTime3" jdbcType="TIMESTAMP" property="dlvmodtime3" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ROrderNo, CustomerNo, UserNo, ModelNo, Quantity, DlvDate, OptCode, MidSize, OrdDate, 
+    OROrderNo, ImpDate, CnNo, InvDate, Issuedate, CIQFlag, CIQDate, ProdFlag, DlvModDate, 
+    DlvCust, StateFlag, OptFlag, SMCCode, InvoiceNo, LocationNo, QtyReceive, Operator, 
+    OptTime, Expdate_GC, Remark_GC, EmpOrdProcess, DlvModDate1, DlvModDate2, DlvModDate3, 
+    Reason_Remark, DeptNo, SHIKOMINo, OrdType, Produce_Factory, Produce_Holon, SalesInfoNo, 
+    GreenCode, InDate_theory, RcvOrd_Date, BeginProduce_date, InDate_InFact, Exp_date, 
+    Export_Flag, Holon_Name, DlvModTime1, DlvModTime2, DlvModTime3
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.PsdataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._PsData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.PsdataExample">
+    delete from dbo._PsData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Psdata">
+    insert into dbo._PsData (ROrderNo, CustomerNo, UserNo, 
+      ModelNo, Quantity, DlvDate, 
+      OptCode, MidSize, OrdDate, 
+      OROrderNo, ImpDate, CnNo, 
+      InvDate, Issuedate, CIQFlag, 
+      CIQDate, ProdFlag, DlvModDate, 
+      DlvCust, StateFlag, OptFlag, 
+      SMCCode, InvoiceNo, LocationNo, 
+      QtyReceive, Operator, OptTime, 
+      Expdate_GC, Remark_GC, EmpOrdProcess, 
+      DlvModDate1, DlvModDate2, DlvModDate3, 
+      Reason_Remark, DeptNo, SHIKOMINo, 
+      OrdType, Produce_Factory, Produce_Holon, 
+      SalesInfoNo, GreenCode, InDate_theory, 
+      RcvOrd_Date, BeginProduce_date, InDate_InFact, 
+      Exp_date, Export_Flag, Holon_Name, 
+      DlvModTime1, DlvModTime2, DlvModTime3
+      )
+    values (#{rorderno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{dlvdate,jdbcType=TIMESTAMP}, 
+      #{optcode,jdbcType=VARCHAR}, #{midsize,jdbcType=VARCHAR}, #{orddate,jdbcType=TIMESTAMP}, 
+      #{ororderno,jdbcType=VARCHAR}, #{impdate,jdbcType=TIMESTAMP}, #{cnno,jdbcType=VARCHAR}, 
+      #{invdate,jdbcType=TIMESTAMP}, #{issuedate,jdbcType=TIMESTAMP}, #{ciqflag,jdbcType=VARCHAR}, 
+      #{ciqdate,jdbcType=TIMESTAMP}, #{prodflag,jdbcType=VARCHAR}, #{dlvmoddate,jdbcType=TIMESTAMP}, 
+      #{dlvcust,jdbcType=TIMESTAMP}, #{stateflag,jdbcType=VARCHAR}, #{optflag,jdbcType=VARCHAR}, 
+      #{smccode,jdbcType=VARCHAR}, #{invoiceno,jdbcType=VARCHAR}, #{locationno,jdbcType=VARCHAR}, 
+      #{qtyreceive,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, #{opttime,jdbcType=TIMESTAMP}, 
+      #{expdateGc,jdbcType=TIMESTAMP}, #{remarkGc,jdbcType=VARCHAR}, #{empordprocess,jdbcType=VARCHAR}, 
+      #{dlvmoddate1,jdbcType=TIMESTAMP}, #{dlvmoddate2,jdbcType=TIMESTAMP}, #{dlvmoddate3,jdbcType=TIMESTAMP}, 
+      #{reasonRemark,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, #{shikomino,jdbcType=VARCHAR}, 
+      #{ordtype,jdbcType=VARCHAR}, #{produceFactory,jdbcType=VARCHAR}, #{produceHolon,jdbcType=VARCHAR}, 
+      #{salesinfono,jdbcType=VARCHAR}, #{greencode,jdbcType=VARCHAR}, #{indateTheory,jdbcType=TIMESTAMP}, 
+      #{rcvordDate,jdbcType=TIMESTAMP}, #{beginproduceDate,jdbcType=TIMESTAMP}, #{indateInfact,jdbcType=TIMESTAMP}, 
+      #{expDate,jdbcType=TIMESTAMP}, #{exportFlag,jdbcType=VARCHAR}, #{holonName,jdbcType=VARCHAR}, 
+      #{dlvmodtime1,jdbcType=TIMESTAMP}, #{dlvmodtime2,jdbcType=TIMESTAMP}, #{dlvmodtime3,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Psdata">
+    insert into dbo._PsData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        ROrderNo,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="userno != null">
+        UserNo,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="dlvdate != null">
+        DlvDate,
+      </if>
+      <if test="optcode != null">
+        OptCode,
+      </if>
+      <if test="midsize != null">
+        MidSize,
+      </if>
+      <if test="orddate != null">
+        OrdDate,
+      </if>
+      <if test="ororderno != null">
+        OROrderNo,
+      </if>
+      <if test="impdate != null">
+        ImpDate,
+      </if>
+      <if test="cnno != null">
+        CnNo,
+      </if>
+      <if test="invdate != null">
+        InvDate,
+      </if>
+      <if test="issuedate != null">
+        Issuedate,
+      </if>
+      <if test="ciqflag != null">
+        CIQFlag,
+      </if>
+      <if test="ciqdate != null">
+        CIQDate,
+      </if>
+      <if test="prodflag != null">
+        ProdFlag,
+      </if>
+      <if test="dlvmoddate != null">
+        DlvModDate,
+      </if>
+      <if test="dlvcust != null">
+        DlvCust,
+      </if>
+      <if test="stateflag != null">
+        StateFlag,
+      </if>
+      <if test="optflag != null">
+        OptFlag,
+      </if>
+      <if test="smccode != null">
+        SMCCode,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="locationno != null">
+        LocationNo,
+      </if>
+      <if test="qtyreceive != null">
+        QtyReceive,
+      </if>
+      <if test="operator != null">
+        Operator,
+      </if>
+      <if test="opttime != null">
+        OptTime,
+      </if>
+      <if test="expdateGc != null">
+        Expdate_GC,
+      </if>
+      <if test="remarkGc != null">
+        Remark_GC,
+      </if>
+      <if test="empordprocess != null">
+        EmpOrdProcess,
+      </if>
+      <if test="dlvmoddate1 != null">
+        DlvModDate1,
+      </if>
+      <if test="dlvmoddate2 != null">
+        DlvModDate2,
+      </if>
+      <if test="dlvmoddate3 != null">
+        DlvModDate3,
+      </if>
+      <if test="reasonRemark != null">
+        Reason_Remark,
+      </if>
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="shikomino != null">
+        SHIKOMINo,
+      </if>
+      <if test="ordtype != null">
+        OrdType,
+      </if>
+      <if test="produceFactory != null">
+        Produce_Factory,
+      </if>
+      <if test="produceHolon != null">
+        Produce_Holon,
+      </if>
+      <if test="salesinfono != null">
+        SalesInfoNo,
+      </if>
+      <if test="greencode != null">
+        GreenCode,
+      </if>
+      <if test="indateTheory != null">
+        InDate_theory,
+      </if>
+      <if test="rcvordDate != null">
+        RcvOrd_Date,
+      </if>
+      <if test="beginproduceDate != null">
+        BeginProduce_date,
+      </if>
+      <if test="indateInfact != null">
+        InDate_InFact,
+      </if>
+      <if test="expDate != null">
+        Exp_date,
+      </if>
+      <if test="exportFlag != null">
+        Export_Flag,
+      </if>
+      <if test="holonName != null">
+        Holon_Name,
+      </if>
+      <if test="dlvmodtime1 != null">
+        DlvModTime1,
+      </if>
+      <if test="dlvmodtime2 != null">
+        DlvModTime2,
+      </if>
+      <if test="dlvmodtime3 != null">
+        DlvModTime3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        #{rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="dlvdate != null">
+        #{dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optcode != null">
+        #{optcode,jdbcType=VARCHAR},
+      </if>
+      <if test="midsize != null">
+        #{midsize,jdbcType=VARCHAR},
+      </if>
+      <if test="orddate != null">
+        #{orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ororderno != null">
+        #{ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="impdate != null">
+        #{impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cnno != null">
+        #{cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="invdate != null">
+        #{invdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issuedate != null">
+        #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ciqflag != null">
+        #{ciqflag,jdbcType=VARCHAR},
+      </if>
+      <if test="ciqdate != null">
+        #{ciqdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodflag != null">
+        #{prodflag,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvmoddate != null">
+        #{dlvmoddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvcust != null">
+        #{dlvcust,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stateflag != null">
+        #{stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="optflag != null">
+        #{optflag,jdbcType=VARCHAR},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyreceive != null">
+        #{qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expdateGc != null">
+        #{expdateGc,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarkGc != null">
+        #{remarkGc,jdbcType=VARCHAR},
+      </if>
+      <if test="empordprocess != null">
+        #{empordprocess,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvmoddate1 != null">
+        #{dlvmoddate1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmoddate2 != null">
+        #{dlvmoddate2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmoddate3 != null">
+        #{dlvmoddate3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reasonRemark != null">
+        #{reasonRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomino != null">
+        #{shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="produceFactory != null">
+        #{produceFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="produceHolon != null">
+        #{produceHolon,jdbcType=VARCHAR},
+      </if>
+      <if test="salesinfono != null">
+        #{salesinfono,jdbcType=VARCHAR},
+      </if>
+      <if test="greencode != null">
+        #{greencode,jdbcType=VARCHAR},
+      </if>
+      <if test="indateTheory != null">
+        #{indateTheory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rcvordDate != null">
+        #{rcvordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginproduceDate != null">
+        #{beginproduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indateInfact != null">
+        #{indateInfact,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expDate != null">
+        #{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exportFlag != null">
+        #{exportFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="holonName != null">
+        #{holonName,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvmodtime1 != null">
+        #{dlvmodtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmodtime2 != null">
+        #{dlvmodtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmodtime3 != null">
+        #{dlvmodtime3,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.PsdataExample" resultType="java.lang.Long">
+    select count(*) from dbo._PsData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._PsData
+    <set>
+      <if test="record.rorderno != null">
+        ROrderNo = #{record.rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userno != null">
+        UserNo = #{record.userno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.dlvdate != null">
+        DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.optcode != null">
+        OptCode = #{record.optcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.midsize != null">
+        MidSize = #{record.midsize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orddate != null">
+        OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ororderno != null">
+        OROrderNo = #{record.ororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impdate != null">
+        ImpDate = #{record.impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cnno != null">
+        CnNo = #{record.cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invdate != null">
+        InvDate = #{record.invdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.issuedate != null">
+        Issuedate = #{record.issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ciqflag != null">
+        CIQFlag = #{record.ciqflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ciqdate != null">
+        CIQDate = #{record.ciqdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prodflag != null">
+        ProdFlag = #{record.prodflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvmoddate != null">
+        DlvModDate = #{record.dlvmoddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvcust != null">
+        DlvCust = #{record.dlvcust,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stateflag != null">
+        StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optflag != null">
+        OptFlag = #{record.optflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smccode != null">
+        SMCCode = #{record.smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locationno != null">
+        LocationNo = #{record.locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyreceive != null">
+        QtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="record.operator != null">
+        Operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opttime != null">
+        OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expdateGc != null">
+        Expdate_GC = #{record.expdateGc,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarkGc != null">
+        Remark_GC = #{record.remarkGc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empordprocess != null">
+        EmpOrdProcess = #{record.empordprocess,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvmoddate1 != null">
+        DlvModDate1 = #{record.dlvmoddate1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmoddate2 != null">
+        DlvModDate2 = #{record.dlvmoddate2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmoddate3 != null">
+        DlvModDate3 = #{record.dlvmoddate3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reasonRemark != null">
+        Reason_Remark = #{record.reasonRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shikomino != null">
+        SHIKOMINo = #{record.shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordtype != null">
+        OrdType = #{record.ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.produceFactory != null">
+        Produce_Factory = #{record.produceFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.produceHolon != null">
+        Produce_Holon = #{record.produceHolon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salesinfono != null">
+        SalesInfoNo = #{record.salesinfono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.greencode != null">
+        GreenCode = #{record.greencode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indateTheory != null">
+        InDate_theory = #{record.indateTheory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rcvordDate != null">
+        RcvOrd_Date = #{record.rcvordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.beginproduceDate != null">
+        BeginProduce_date = #{record.beginproduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.indateInfact != null">
+        InDate_InFact = #{record.indateInfact,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expDate != null">
+        Exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exportFlag != null">
+        Export_Flag = #{record.exportFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.holonName != null">
+        Holon_Name = #{record.holonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvmodtime1 != null">
+        DlvModTime1 = #{record.dlvmodtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmodtime2 != null">
+        DlvModTime2 = #{record.dlvmodtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmodtime3 != null">
+        DlvModTime3 = #{record.dlvmodtime3,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._PsData
+    set ROrderNo = #{record.rorderno,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      UserNo = #{record.userno,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      OptCode = #{record.optcode,jdbcType=VARCHAR},
+      MidSize = #{record.midsize,jdbcType=VARCHAR},
+      OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      OROrderNo = #{record.ororderno,jdbcType=VARCHAR},
+      ImpDate = #{record.impdate,jdbcType=TIMESTAMP},
+      CnNo = #{record.cnno,jdbcType=VARCHAR},
+      InvDate = #{record.invdate,jdbcType=TIMESTAMP},
+      Issuedate = #{record.issuedate,jdbcType=TIMESTAMP},
+      CIQFlag = #{record.ciqflag,jdbcType=VARCHAR},
+      CIQDate = #{record.ciqdate,jdbcType=TIMESTAMP},
+      ProdFlag = #{record.prodflag,jdbcType=VARCHAR},
+      DlvModDate = #{record.dlvmoddate,jdbcType=TIMESTAMP},
+      DlvCust = #{record.dlvcust,jdbcType=TIMESTAMP},
+      StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      OptFlag = #{record.optflag,jdbcType=VARCHAR},
+      SMCCode = #{record.smccode,jdbcType=VARCHAR},
+      InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      LocationNo = #{record.locationno,jdbcType=VARCHAR},
+      QtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      Operator = #{record.operator,jdbcType=VARCHAR},
+      OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      Expdate_GC = #{record.expdateGc,jdbcType=TIMESTAMP},
+      Remark_GC = #{record.remarkGc,jdbcType=VARCHAR},
+      EmpOrdProcess = #{record.empordprocess,jdbcType=VARCHAR},
+      DlvModDate1 = #{record.dlvmoddate1,jdbcType=TIMESTAMP},
+      DlvModDate2 = #{record.dlvmoddate2,jdbcType=TIMESTAMP},
+      DlvModDate3 = #{record.dlvmoddate3,jdbcType=TIMESTAMP},
+      Reason_Remark = #{record.reasonRemark,jdbcType=VARCHAR},
+      DeptNo = #{record.deptno,jdbcType=VARCHAR},
+      SHIKOMINo = #{record.shikomino,jdbcType=VARCHAR},
+      OrdType = #{record.ordtype,jdbcType=VARCHAR},
+      Produce_Factory = #{record.produceFactory,jdbcType=VARCHAR},
+      Produce_Holon = #{record.produceHolon,jdbcType=VARCHAR},
+      SalesInfoNo = #{record.salesinfono,jdbcType=VARCHAR},
+      GreenCode = #{record.greencode,jdbcType=VARCHAR},
+      InDate_theory = #{record.indateTheory,jdbcType=TIMESTAMP},
+      RcvOrd_Date = #{record.rcvordDate,jdbcType=TIMESTAMP},
+      BeginProduce_date = #{record.beginproduceDate,jdbcType=TIMESTAMP},
+      InDate_InFact = #{record.indateInfact,jdbcType=TIMESTAMP},
+      Exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      Export_Flag = #{record.exportFlag,jdbcType=VARCHAR},
+      Holon_Name = #{record.holonName,jdbcType=VARCHAR},
+      DlvModTime1 = #{record.dlvmodtime1,jdbcType=TIMESTAMP},
+      DlvModTime2 = #{record.dlvmodtime2,jdbcType=TIMESTAMP},
+      DlvModTime3 = #{record.dlvmodtime3,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TempMergeInvMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TempMergeInv">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="invoiceId" jdbcType="BIGINT" property="invoiceid" />
+    <result column="invoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="orderItem" jdbcType="INTEGER" property="orderitem" />
+    <result column="orderItemSplit" jdbcType="INTEGER" property="orderitemsplit" />
+    <result column="pre_qty" jdbcType="INTEGER" property="preQty" />
+    <result column="invoice_qty" jdbcType="INTEGER" property="invoiceQty" />
+    <result column="po_qty" jdbcType="INTEGER" property="poQty" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="handle_status" jdbcType="INTEGER" property="handleStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, invoiceId, invoiceNo, orderNo, orderItem, orderItemSplit, pre_qty, invoice_qty, 
+    po_qty, update_time, handle_status, remark, do_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TempMergeInvExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.temp_merge_inv
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.temp_merge_inv
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.temp_merge_inv
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TempMergeInvExample">
+    delete from dbo.temp_merge_inv
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TempMergeInv">
+    insert into dbo.temp_merge_inv (id, invoiceId, invoiceNo, 
+      orderNo, orderItem, orderItemSplit, 
+      pre_qty, invoice_qty, po_qty, 
+      update_time, handle_status, remark, 
+      do_id)
+    values (#{id,jdbcType=BIGINT}, #{invoiceid,jdbcType=BIGINT}, #{invoiceno,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=VARCHAR}, #{orderitem,jdbcType=INTEGER}, #{orderitemsplit,jdbcType=INTEGER}, 
+      #{preQty,jdbcType=INTEGER}, #{invoiceQty,jdbcType=INTEGER}, #{poQty,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{handleStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{doId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TempMergeInv">
+    insert into dbo.temp_merge_inv
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceid != null">
+        invoiceId,
+      </if>
+      <if test="invoiceno != null">
+        invoiceNo,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="orderitem != null">
+        orderItem,
+      </if>
+      <if test="orderitemsplit != null">
+        orderItemSplit,
+      </if>
+      <if test="preQty != null">
+        pre_qty,
+      </if>
+      <if test="invoiceQty != null">
+        invoice_qty,
+      </if>
+      <if test="poQty != null">
+        po_qty,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="handleStatus != null">
+        handle_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceid != null">
+        #{invoiceid,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderitem != null">
+        #{orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="orderitemsplit != null">
+        #{orderitemsplit,jdbcType=INTEGER},
+      </if>
+      <if test="preQty != null">
+        #{preQty,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceQty != null">
+        #{invoiceQty,jdbcType=INTEGER},
+      </if>
+      <if test="poQty != null">
+        #{poQty,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleStatus != null">
+        #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TempMergeInvExample" resultType="java.lang.Long">
+    select count(*) from dbo.temp_merge_inv
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.temp_merge_inv
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceid != null">
+        invoiceId = #{record.invoiceid,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceno != null">
+        invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderitem != null">
+        orderItem = #{record.orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderitemsplit != null">
+        orderItemSplit = #{record.orderitemsplit,jdbcType=INTEGER},
+      </if>
+      <if test="record.preQty != null">
+        pre_qty = #{record.preQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceQty != null">
+        invoice_qty = #{record.invoiceQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.poQty != null">
+        po_qty = #{record.poQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.handleStatus != null">
+        handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.temp_merge_inv
+    set id = #{record.id,jdbcType=BIGINT},
+      invoiceId = #{record.invoiceid,jdbcType=BIGINT},
+      invoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      orderItem = #{record.orderitem,jdbcType=INTEGER},
+      orderItemSplit = #{record.orderitemsplit,jdbcType=INTEGER},
+      pre_qty = #{record.preQty,jdbcType=INTEGER},
+      invoice_qty = #{record.invoiceQty,jdbcType=INTEGER},
+      po_qty = #{record.poQty,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      handle_status = #{record.handleStatus,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      do_id = #{record.doId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.TempMergeInv">
+    update dbo.temp_merge_inv
+    <set>
+      <if test="invoiceid != null">
+        invoiceId = #{invoiceid,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceno != null">
+        invoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderitem != null">
+        orderItem = #{orderitem,jdbcType=INTEGER},
+      </if>
+      <if test="orderitemsplit != null">
+        orderItemSplit = #{orderitemsplit,jdbcType=INTEGER},
+      </if>
+      <if test="preQty != null">
+        pre_qty = #{preQty,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceQty != null">
+        invoice_qty = #{invoiceQty,jdbcType=INTEGER},
+      </if>
+      <if test="poQty != null">
+        po_qty = #{poQty,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleStatus != null">
+        handle_status = #{handleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.TempMergeInv">
+    update dbo.temp_merge_inv
+    set invoiceId = #{invoiceid,jdbcType=BIGINT},
+      invoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      orderItem = #{orderitem,jdbcType=INTEGER},
+      orderItemSplit = #{orderitemsplit,jdbcType=INTEGER},
+      pre_qty = #{preQty,jdbcType=INTEGER},
+      invoice_qty = #{invoiceQty,jdbcType=INTEGER},
+      po_qty = #{poQty,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      handle_status = #{handleStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      do_id = #{doId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

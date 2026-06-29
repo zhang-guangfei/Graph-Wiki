@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPoDeliveryFactMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPoDeliveryFact">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="source_id" jdbcType="BIGINT" property="sourceId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="split_no" jdbcType="INTEGER" property="splitNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="transtype_code" jdbcType="VARCHAR" property="transtypeCode" />
+    <result column="delivery_time_H" jdbcType="TIMESTAMP" property="deliveryTimeH" />
+    <result column="delivery_time_W" jdbcType="TIMESTAMP" property="deliveryTimeW" />
+    <result column="delivery_time_A" jdbcType="TIMESTAMP" property="deliveryTimeA" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="NVARCHAR" property="updator" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, source_id, order_no, item_no, split_no, model_no, quantity, transtype_code, delivery_time_H, 
+    delivery_time_W, delivery_time_A, invoice_id, invoice_no, del_flag, create_time, 
+    creator, update_time, updator, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFactExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_delivery_fact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_po_delivery_fact
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_po_delivery_fact
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFactExample">
+    delete from dbo.ops_po_delivery_fact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFact">
+    insert into dbo.ops_po_delivery_fact (id, source_id, order_no, 
+      item_no, split_no, model_no, 
+      quantity, transtype_code, delivery_time_H, 
+      delivery_time_W, delivery_time_A, invoice_id, 
+      invoice_no, del_flag, create_time, 
+      creator, update_time, updator, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, 
+      #{itemNo,jdbcType=INTEGER}, #{splitNo,jdbcType=INTEGER}, #{modelNo,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{transtypeCode,jdbcType=VARCHAR}, #{deliveryTimeH,jdbcType=TIMESTAMP}, 
+      #{deliveryTimeW,jdbcType=TIMESTAMP}, #{deliveryTimeA,jdbcType=TIMESTAMP}, #{invoiceId,jdbcType=BIGINT}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFact">
+    insert into dbo.ops_po_delivery_fact
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="splitNo != null">
+        split_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="transtypeCode != null">
+        transtype_code,
+      </if>
+      <if test="deliveryTimeH != null">
+        delivery_time_H,
+      </if>
+      <if test="deliveryTimeW != null">
+        delivery_time_W,
+      </if>
+      <if test="deliveryTimeA != null">
+        delivery_time_A,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="transtypeCode != null">
+        #{transtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTimeH != null">
+        #{deliveryTimeH,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTimeW != null">
+        #{deliveryTimeW,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTimeA != null">
+        #{deliveryTimeA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFactExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_po_delivery_fact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_po_delivery_fact
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceId != null">
+        source_id = #{record.sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitNo != null">
+        split_no = #{record.splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.transtypeCode != null">
+        transtype_code = #{record.transtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryTimeH != null">
+        delivery_time_H = #{record.deliveryTimeH,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryTimeW != null">
+        delivery_time_W = #{record.deliveryTimeW,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryTimeA != null">
+        delivery_time_A = #{record.deliveryTimeA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_po_delivery_fact
+    set id = #{record.id,jdbcType=BIGINT},
+      source_id = #{record.sourceId,jdbcType=BIGINT},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      split_no = #{record.splitNo,jdbcType=INTEGER},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      transtype_code = #{record.transtypeCode,jdbcType=VARCHAR},
+      delivery_time_H = #{record.deliveryTimeH,jdbcType=TIMESTAMP},
+      delivery_time_W = #{record.deliveryTimeW,jdbcType=TIMESTAMP},
+      delivery_time_A = #{record.deliveryTimeA,jdbcType=TIMESTAMP},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=NVARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFact">
+    update dbo.ops_po_delivery_fact
+    <set>
+      <if test="sourceId != null">
+        source_id = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        split_no = #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="transtypeCode != null">
+        transtype_code = #{transtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTimeH != null">
+        delivery_time_H = #{deliveryTimeH,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTimeW != null">
+        delivery_time_W = #{deliveryTimeW,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTimeA != null">
+        delivery_time_A = #{deliveryTimeA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        updator = #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPoDeliveryFact">
+    update dbo.ops_po_delivery_fact
+    set source_id = #{sourceId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      split_no = #{splitNo,jdbcType=INTEGER},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      transtype_code = #{transtypeCode,jdbcType=VARCHAR},
+      delivery_time_H = #{deliveryTimeH,jdbcType=TIMESTAMP},
+      delivery_time_W = #{deliveryTimeW,jdbcType=TIMESTAMP},
+      delivery_time_A = #{deliveryTimeA,jdbcType=TIMESTAMP},
+      invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=NVARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

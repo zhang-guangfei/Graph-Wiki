@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsCtcUpdateMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsCtcUpdate">
+    <id column="logid" jdbcType="INTEGER" property="logid" />
+    <result column="typeid" jdbcType="VARCHAR" property="typeid" />
+    <result column="ctcid" jdbcType="INTEGER" property="ctcid" />
+    <result column="statuscode" jdbcType="CHAR" property="statuscode" />
+    <result column="inserttime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="classification" jdbcType="NVARCHAR" property="classification" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    logid, typeid, ctcid, statuscode, inserttime, updatetime, classification
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsCtcUpdateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_ctc_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_ctc_update
+    where logid = #{logid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.ops_ctc_update
+    where logid = #{logid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsCtcUpdateExample">
+    delete from dbo.ops_ctc_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsCtcUpdate">
+    insert into dbo.ops_ctc_update (logid, typeid, ctcid, 
+      statuscode, inserttime, updatetime, 
+      classification)
+    values (#{logid,jdbcType=INTEGER}, #{typeid,jdbcType=VARCHAR}, #{ctcid,jdbcType=INTEGER}, 
+      #{statuscode,jdbcType=CHAR}, #{inserttime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{classification,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsCtcUpdate">
+    insert into dbo.ops_ctc_update
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logid != null">
+        logid,
+      </if>
+      <if test="typeid != null">
+        typeid,
+      </if>
+      <if test="ctcid != null">
+        ctcid,
+      </if>
+      <if test="statuscode != null">
+        statuscode,
+      </if>
+      <if test="inserttime != null">
+        inserttime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="classification != null">
+        classification,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logid != null">
+        #{logid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcid != null">
+        #{ctcid,jdbcType=INTEGER},
+      </if>
+      <if test="statuscode != null">
+        #{statuscode,jdbcType=CHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classification != null">
+        #{classification,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsCtcUpdateExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_ctc_update
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_ctc_update
+    <set>
+      <if test="record.logid != null">
+        logid = #{record.logid,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null">
+        typeid = #{record.typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctcid != null">
+        ctcid = #{record.ctcid,jdbcType=INTEGER},
+      </if>
+      <if test="record.statuscode != null">
+        statuscode = #{record.statuscode,jdbcType=CHAR},
+      </if>
+      <if test="record.inserttime != null">
+        inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classification != null">
+        classification = #{record.classification,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_ctc_update
+    set logid = #{record.logid,jdbcType=INTEGER},
+      typeid = #{record.typeid,jdbcType=VARCHAR},
+      ctcid = #{record.ctcid,jdbcType=INTEGER},
+      statuscode = #{record.statuscode,jdbcType=CHAR},
+      inserttime = #{record.inserttime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      classification = #{record.classification,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsCtcUpdate">
+    update dbo.ops_ctc_update
+    <set>
+      <if test="typeid != null">
+        typeid = #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcid != null">
+        ctcid = #{ctcid,jdbcType=INTEGER},
+      </if>
+      <if test="statuscode != null">
+        statuscode = #{statuscode,jdbcType=CHAR},
+      </if>
+      <if test="inserttime != null">
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classification != null">
+        classification = #{classification,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where logid = #{logid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsCtcUpdate">
+    update dbo.ops_ctc_update
+    set typeid = #{typeid,jdbcType=VARCHAR},
+      ctcid = #{ctcid,jdbcType=INTEGER},
+      statuscode = #{statuscode,jdbcType=CHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      classification = #{classification,jdbcType=NVARCHAR}
+    where logid = #{logid,jdbcType=INTEGER}
+  </update>
+</mapper>

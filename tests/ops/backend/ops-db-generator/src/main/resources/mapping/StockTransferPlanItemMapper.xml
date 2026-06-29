@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.StockTransferPlanItemMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.StockTransferPlanItem">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="plan_no" jdbcType="VARCHAR" property="planNo" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="finish_qty" jdbcType="INTEGER" property="finishQty" />
+    <result column="transfer_order_no" jdbcType="VARCHAR" property="transferOrderNo" />
+    <result column="transfer_order_item" jdbcType="VARCHAR" property="transferOrderItem" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="NVARCHAR" property="updator" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, plan_no, modelno, finish_qty, transfer_order_no, transfer_order_item, delflag, 
+    create_time, creator, update_time, updator, warehouse_code
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.stock_transfer_plan_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanItemExample">
+    delete from dbo.stock_transfer_plan_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.StockTransferPlanItem">
+    insert into dbo.stock_transfer_plan_item (id, plan_no, modelno, 
+      finish_qty, transfer_order_no, transfer_order_item, 
+      delflag, create_time, creator, 
+      update_time, updator, warehouse_code
+      )
+    values (#{id,jdbcType=BIGINT}, #{planNo,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{finishQty,jdbcType=INTEGER}, #{transferOrderNo,jdbcType=VARCHAR}, #{transferOrderItem,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=NVARCHAR}, #{warehouseCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.StockTransferPlanItem">
+    insert into dbo.stock_transfer_plan_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="planNo != null">
+        plan_no,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="finishQty != null">
+        finish_qty,
+      </if>
+      <if test="transferOrderNo != null">
+        transfer_order_no,
+      </if>
+      <if test="transferOrderItem != null">
+        transfer_order_item,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="finishQty != null">
+        #{finishQty,jdbcType=INTEGER},
+      </if>
+      <if test="transferOrderNo != null">
+        #{transferOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transferOrderItem != null">
+        #{transferOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.StockTransferPlanItemExample" resultType="java.lang.Long">
+    select count(*) from dbo.stock_transfer_plan_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.stock_transfer_plan_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.planNo != null">
+        plan_no = #{record.planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.finishQty != null">
+        finish_qty = #{record.finishQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.transferOrderNo != null">
+        transfer_order_no = #{record.transferOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transferOrderItem != null">
+        transfer_order_item = #{record.transferOrderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.stock_transfer_plan_item
+    set id = #{record.id,jdbcType=BIGINT},
+      plan_no = #{record.planNo,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      finish_qty = #{record.finishQty,jdbcType=INTEGER},
+      transfer_order_no = #{record.transferOrderNo,jdbcType=VARCHAR},
+      transfer_order_item = #{record.transferOrderItem,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=NVARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

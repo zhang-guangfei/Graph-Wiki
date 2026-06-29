@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.InvViewMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.InvView">
+    <result column="营业所" jdbcType="NVARCHAR" property="营业所" />
+    <result column="接单号" jdbcType="VARCHAR" property="接单号" />
+    <result column="客户号" jdbcType="VARCHAR" property="客户号" />
+    <result column="用户号" jdbcType="VARCHAR" property="用户号" />
+    <result column="接单时间" jdbcType="TIMESTAMP" property="接单时间" />
+    <result column="客户交货期" jdbcType="TIMESTAMP" property="客户交货期" />
+    <result column="指定物流发货日" jdbcType="DATE" property="指定物流发货日" />
+    <result column="订单类型" jdbcType="SMALLINT" property="订单类型" />
+    <result column="出货方式" jdbcType="CHAR" property="出货方式" />
+    <result column="是否组装" jdbcType="CHAR" property="是否组装" />
+    <result column="特殊标识" jdbcType="INTEGER" property="特殊标识" />
+    <result column="接单型号" jdbcType="VARCHAR" property="接单型号" />
+    <result column="接单数量" jdbcType="INTEGER" property="接单数量" />
+    <result column="拆分数量总和" jdbcType="INTEGER" property="拆分数量总和" />
+    <result column="分配项号" jdbcType="INTEGER" property="分配项号" />
+    <result column="分配类型" jdbcType="VARCHAR" property="分配类型" />
+    <result column="发货仓" jdbcType="VARCHAR" property="发货仓" />
+    <result column="型号" jdbcType="VARCHAR" property="型号" />
+    <result column="拆分数量" jdbcType="INTEGER" property="拆分数量" />
+    <result column="出库区分类别" jdbcType="VARCHAR" property="出库区分类别" />
+    <result column="出库区分代码" jdbcType="VARCHAR" property="出库区分代码" />
+    <result column="出库区分分类" jdbcType="NVARCHAR" property="出库区分分类" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    营业所, 接单号, 客户号, 用户号, 接单时间, 客户交货期, 指定物流发货日, 订单类型, 出货方式, 是否组装, 特殊标识, 接单型号, 接单数量, 拆分数量总和, 
+    分配项号, 分配类型, 发货仓, 型号, 拆分数量, 出库区分类别, 出库区分代码, 出库区分分类
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.InvViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.inv_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.InvViewExample">
+    delete from dbo.inv_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.InvView">
+    insert into dbo.inv_view (营业所, 接单号, 客户号, 
+      用户号, 接单时间, 客户交货期, 
+      指定物流发货日, 订单类型, 出货方式, 是否组装, 
+      特殊标识, 接单型号, 接单数量, 拆分数量总和, 
+      分配项号, 分配类型, 发货仓, 型号, 
+      拆分数量, 出库区分类别, 出库区分代码, 
+      出库区分分类)
+    values (#{营业所,jdbcType=NVARCHAR}, #{接单号,jdbcType=VARCHAR}, #{客户号,jdbcType=VARCHAR}, 
+      #{用户号,jdbcType=VARCHAR}, #{接单时间,jdbcType=TIMESTAMP}, #{客户交货期,jdbcType=TIMESTAMP}, 
+      #{指定物流发货日,jdbcType=DATE}, #{订单类型,jdbcType=SMALLINT}, #{出货方式,jdbcType=CHAR}, #{是否组装,jdbcType=CHAR}, 
+      #{特殊标识,jdbcType=INTEGER}, #{接单型号,jdbcType=VARCHAR}, #{接单数量,jdbcType=INTEGER}, #{拆分数量总和,jdbcType=INTEGER}, 
+      #{分配项号,jdbcType=INTEGER}, #{分配类型,jdbcType=VARCHAR}, #{发货仓,jdbcType=VARCHAR}, #{型号,jdbcType=VARCHAR}, 
+      #{拆分数量,jdbcType=INTEGER}, #{出库区分类别,jdbcType=VARCHAR}, #{出库区分代码,jdbcType=VARCHAR}, 
+      #{出库区分分类,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.InvView">
+    insert into dbo.inv_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="营业所 != null">
+        营业所,
+      </if>
+      <if test="接单号 != null">
+        接单号,
+      </if>
+      <if test="客户号 != null">
+        客户号,
+      </if>
+      <if test="用户号 != null">
+        用户号,
+      </if>
+      <if test="接单时间 != null">
+        接单时间,
+      </if>
+      <if test="客户交货期 != null">
+        客户交货期,
+      </if>
+      <if test="指定物流发货日 != null">
+        指定物流发货日,
+      </if>
+      <if test="订单类型 != null">
+        订单类型,
+      </if>
+      <if test="出货方式 != null">
+        出货方式,
+      </if>
+      <if test="是否组装 != null">
+        是否组装,
+      </if>
+      <if test="特殊标识 != null">
+        特殊标识,
+      </if>
+      <if test="接单型号 != null">
+        接单型号,
+      </if>
+      <if test="接单数量 != null">
+        接单数量,
+      </if>
+      <if test="拆分数量总和 != null">
+        拆分数量总和,
+      </if>
+      <if test="分配项号 != null">
+        分配项号,
+      </if>
+      <if test="分配类型 != null">
+        分配类型,
+      </if>
+      <if test="发货仓 != null">
+        发货仓,
+      </if>
+      <if test="型号 != null">
+        型号,
+      </if>
+      <if test="拆分数量 != null">
+        拆分数量,
+      </if>
+      <if test="出库区分类别 != null">
+        出库区分类别,
+      </if>
+      <if test="出库区分代码 != null">
+        出库区分代码,
+      </if>
+      <if test="出库区分分类 != null">
+        出库区分分类,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="营业所 != null">
+        #{营业所,jdbcType=NVARCHAR},
+      </if>
+      <if test="接单号 != null">
+        #{接单号,jdbcType=VARCHAR},
+      </if>
+      <if test="客户号 != null">
+        #{客户号,jdbcType=VARCHAR},
+      </if>
+      <if test="用户号 != null">
+        #{用户号,jdbcType=VARCHAR},
+      </if>
+      <if test="接单时间 != null">
+        #{接单时间,jdbcType=TIMESTAMP},
+      </if>
+      <if test="客户交货期 != null">
+        #{客户交货期,jdbcType=TIMESTAMP},
+      </if>
+      <if test="指定物流发货日 != null">
+        #{指定物流发货日,jdbcType=DATE},
+      </if>
+      <if test="订单类型 != null">
+        #{订单类型,jdbcType=SMALLINT},
+      </if>
+      <if test="出货方式 != null">
+        #{出货方式,jdbcType=CHAR},
+      </if>
+      <if test="是否组装 != null">
+        #{是否组装,jdbcType=CHAR},
+      </if>
+      <if test="特殊标识 != null">
+        #{特殊标识,jdbcType=INTEGER},
+      </if>
+      <if test="接单型号 != null">
+        #{接单型号,jdbcType=VARCHAR},
+      </if>
+      <if test="接单数量 != null">
+        #{接单数量,jdbcType=INTEGER},
+      </if>
+      <if test="拆分数量总和 != null">
+        #{拆分数量总和,jdbcType=INTEGER},
+      </if>
+      <if test="分配项号 != null">
+        #{分配项号,jdbcType=INTEGER},
+      </if>
+      <if test="分配类型 != null">
+        #{分配类型,jdbcType=VARCHAR},
+      </if>
+      <if test="发货仓 != null">
+        #{发货仓,jdbcType=VARCHAR},
+      </if>
+      <if test="型号 != null">
+        #{型号,jdbcType=VARCHAR},
+      </if>
+      <if test="拆分数量 != null">
+        #{拆分数量,jdbcType=INTEGER},
+      </if>
+      <if test="出库区分类别 != null">
+        #{出库区分类别,jdbcType=VARCHAR},
+      </if>
+      <if test="出库区分代码 != null">
+        #{出库区分代码,jdbcType=VARCHAR},
+      </if>
+      <if test="出库区分分类 != null">
+        #{出库区分分类,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.InvViewExample" resultType="java.lang.Long">
+    select count(*) from dbo.inv_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.inv_view
+    <set>
+      <if test="record.营业所 != null">
+        营业所 = #{record.营业所,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.接单号 != null">
+        接单号 = #{record.接单号,jdbcType=VARCHAR},
+      </if>
+      <if test="record.客户号 != null">
+        客户号 = #{record.客户号,jdbcType=VARCHAR},
+      </if>
+      <if test="record.用户号 != null">
+        用户号 = #{record.用户号,jdbcType=VARCHAR},
+      </if>
+      <if test="record.接单时间 != null">
+        接单时间 = #{record.接单时间,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.客户交货期 != null">
+        客户交货期 = #{record.客户交货期,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.指定物流发货日 != null">
+        指定物流发货日 = #{record.指定物流发货日,jdbcType=DATE},
+      </if>
+      <if test="record.订单类型 != null">
+        订单类型 = #{record.订单类型,jdbcType=SMALLINT},
+      </if>
+      <if test="record.出货方式 != null">
+        出货方式 = #{record.出货方式,jdbcType=CHAR},
+      </if>
+      <if test="record.是否组装 != null">
+        是否组装 = #{record.是否组装,jdbcType=CHAR},
+      </if>
+      <if test="record.特殊标识 != null">
+        特殊标识 = #{record.特殊标识,jdbcType=INTEGER},
+      </if>
+      <if test="record.接单型号 != null">
+        接单型号 = #{record.接单型号,jdbcType=VARCHAR},
+      </if>
+      <if test="record.接单数量 != null">
+        接单数量 = #{record.接单数量,jdbcType=INTEGER},
+      </if>
+      <if test="record.拆分数量总和 != null">
+        拆分数量总和 = #{record.拆分数量总和,jdbcType=INTEGER},
+      </if>
+      <if test="record.分配项号 != null">
+        分配项号 = #{record.分配项号,jdbcType=INTEGER},
+      </if>
+      <if test="record.分配类型 != null">
+        分配类型 = #{record.分配类型,jdbcType=VARCHAR},
+      </if>
+      <if test="record.发货仓 != null">
+        发货仓 = #{record.发货仓,jdbcType=VARCHAR},
+      </if>
+      <if test="record.型号 != null">
+        型号 = #{record.型号,jdbcType=VARCHAR},
+      </if>
+      <if test="record.拆分数量 != null">
+        拆分数量 = #{record.拆分数量,jdbcType=INTEGER},
+      </if>
+      <if test="record.出库区分类别 != null">
+        出库区分类别 = #{record.出库区分类别,jdbcType=VARCHAR},
+      </if>
+      <if test="record.出库区分代码 != null">
+        出库区分代码 = #{record.出库区分代码,jdbcType=VARCHAR},
+      </if>
+      <if test="record.出库区分分类 != null">
+        出库区分分类 = #{record.出库区分分类,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.inv_view
+    set 营业所 = #{record.营业所,jdbcType=NVARCHAR},
+      接单号 = #{record.接单号,jdbcType=VARCHAR},
+      客户号 = #{record.客户号,jdbcType=VARCHAR},
+      用户号 = #{record.用户号,jdbcType=VARCHAR},
+      接单时间 = #{record.接单时间,jdbcType=TIMESTAMP},
+      客户交货期 = #{record.客户交货期,jdbcType=TIMESTAMP},
+      指定物流发货日 = #{record.指定物流发货日,jdbcType=DATE},
+      订单类型 = #{record.订单类型,jdbcType=SMALLINT},
+      出货方式 = #{record.出货方式,jdbcType=CHAR},
+      是否组装 = #{record.是否组装,jdbcType=CHAR},
+      特殊标识 = #{record.特殊标识,jdbcType=INTEGER},
+      接单型号 = #{record.接单型号,jdbcType=VARCHAR},
+      接单数量 = #{record.接单数量,jdbcType=INTEGER},
+      拆分数量总和 = #{record.拆分数量总和,jdbcType=INTEGER},
+      分配项号 = #{record.分配项号,jdbcType=INTEGER},
+      分配类型 = #{record.分配类型,jdbcType=VARCHAR},
+      发货仓 = #{record.发货仓,jdbcType=VARCHAR},
+      型号 = #{record.型号,jdbcType=VARCHAR},
+      拆分数量 = #{record.拆分数量,jdbcType=INTEGER},
+      出库区分类别 = #{record.出库区分类别,jdbcType=VARCHAR},
+      出库区分代码 = #{record.出库区分代码,jdbcType=VARCHAR},
+      出库区分分类 = #{record.出库区分分类,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

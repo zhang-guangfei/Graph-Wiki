@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.BinOrderCalcMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.BinOrderCalc">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="calc_time" jdbcType="TIMESTAMP" property="calcTime" />
+    <result column="calc_psn" jdbcType="NVARCHAR" property="calcPsn" />
+    <result column="confirm_psn" jdbcType="NVARCHAR" property="confirmPsn" />
+    <result column="gss" jdbcType="BIT" property="gss" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="calc_type" jdbcType="SMALLINT" property="calcType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="custoemr_no" jdbcType="VARCHAR" property="custoemrNo" />
+    <result column="property_id" jdbcType="BIGINT" property="propertyId" />
+    <result column="report_type" jdbcType="INTEGER" property="reportType" />
+    <result column="calc_finish_time" jdbcType="TIMESTAMP" property="calcFinishTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, status, calc_time, calc_psn, confirm_psn, gss, create_user, create_time, update_user, 
+    update_time, calc_type, warehouse_code, custoemr_no, property_id, report_type, calc_finish_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.BinOrderCalcExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.bin_order_calc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.bin_order_calc
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.bin_order_calc
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.BinOrderCalcExample">
+    delete from dbo.bin_order_calc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.BinOrderCalc">
+    insert into dbo.bin_order_calc (id, status, calc_time, 
+      calc_psn, confirm_psn, gss, 
+      create_user, create_time, update_user, 
+      update_time, calc_type, warehouse_code, 
+      custoemr_no, property_id, report_type, 
+      calc_finish_time)
+    values (#{id,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{calcTime,jdbcType=TIMESTAMP}, 
+      #{calcPsn,jdbcType=NVARCHAR}, #{confirmPsn,jdbcType=NVARCHAR}, #{gss,jdbcType=BIT}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{calcType,jdbcType=SMALLINT}, #{warehouseCode,jdbcType=VARCHAR}, 
+      #{custoemrNo,jdbcType=VARCHAR}, #{propertyId,jdbcType=BIGINT}, #{reportType,jdbcType=INTEGER}, 
+      #{calcFinishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.BinOrderCalc">
+    insert into dbo.bin_order_calc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="calcTime != null">
+        calc_time,
+      </if>
+      <if test="calcPsn != null">
+        calc_psn,
+      </if>
+      <if test="confirmPsn != null">
+        confirm_psn,
+      </if>
+      <if test="gss != null">
+        gss,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="calcType != null">
+        calc_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="custoemrNo != null">
+        custoemr_no,
+      </if>
+      <if test="propertyId != null">
+        property_id,
+      </if>
+      <if test="reportType != null">
+        report_type,
+      </if>
+      <if test="calcFinishTime != null">
+        calc_finish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="calcTime != null">
+        #{calcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcPsn != null">
+        #{calcPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="confirmPsn != null">
+        #{confirmPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="gss != null">
+        #{gss,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcType != null">
+        #{calcType,jdbcType=SMALLINT},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custoemrNo != null">
+        #{custoemrNo,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyId != null">
+        #{propertyId,jdbcType=BIGINT},
+      </if>
+      <if test="reportType != null">
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="calcFinishTime != null">
+        #{calcFinishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.BinOrderCalcExample" resultType="java.lang.Long">
+    select count(*) from dbo.bin_order_calc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.bin_order_calc
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.calcTime != null">
+        calc_time = #{record.calcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.calcPsn != null">
+        calc_psn = #{record.calcPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.confirmPsn != null">
+        confirm_psn = #{record.confirmPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.gss != null">
+        gss = #{record.gss,jdbcType=BIT},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.calcType != null">
+        calc_type = #{record.calcType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custoemrNo != null">
+        custoemr_no = #{record.custoemrNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyId != null">
+        property_id = #{record.propertyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.reportType != null">
+        report_type = #{record.reportType,jdbcType=INTEGER},
+      </if>
+      <if test="record.calcFinishTime != null">
+        calc_finish_time = #{record.calcFinishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.bin_order_calc
+    set id = #{record.id,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=INTEGER},
+      calc_time = #{record.calcTime,jdbcType=TIMESTAMP},
+      calc_psn = #{record.calcPsn,jdbcType=NVARCHAR},
+      confirm_psn = #{record.confirmPsn,jdbcType=NVARCHAR},
+      gss = #{record.gss,jdbcType=BIT},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      calc_type = #{record.calcType,jdbcType=SMALLINT},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      custoemr_no = #{record.custoemrNo,jdbcType=VARCHAR},
+      property_id = #{record.propertyId,jdbcType=BIGINT},
+      report_type = #{record.reportType,jdbcType=INTEGER},
+      calc_finish_time = #{record.calcFinishTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.BinOrderCalc">
+    update dbo.bin_order_calc
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="calcTime != null">
+        calc_time = #{calcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcPsn != null">
+        calc_psn = #{calcPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="confirmPsn != null">
+        confirm_psn = #{confirmPsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="gss != null">
+        gss = #{gss,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcType != null">
+        calc_type = #{calcType,jdbcType=SMALLINT},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custoemrNo != null">
+        custoemr_no = #{custoemrNo,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyId != null">
+        property_id = #{propertyId,jdbcType=BIGINT},
+      </if>
+      <if test="reportType != null">
+        report_type = #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="calcFinishTime != null">
+        calc_finish_time = #{calcFinishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.BinOrderCalc">
+    update dbo.bin_order_calc
+    set status = #{status,jdbcType=INTEGER},
+      calc_time = #{calcTime,jdbcType=TIMESTAMP},
+      calc_psn = #{calcPsn,jdbcType=NVARCHAR},
+      confirm_psn = #{confirmPsn,jdbcType=NVARCHAR},
+      gss = #{gss,jdbcType=BIT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      calc_type = #{calcType,jdbcType=SMALLINT},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      custoemr_no = #{custoemrNo,jdbcType=VARCHAR},
+      property_id = #{propertyId,jdbcType=BIGINT},
+      report_type = #{reportType,jdbcType=INTEGER},
+      calc_finish_time = #{calcFinishTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

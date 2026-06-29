@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.Testinv0329bMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Testinv0329b">
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="specQty" jdbcType="INTEGER" property="specqty" />
+    <result column="qtybin" jdbcType="INTEGER" property="qtybin" />
+    <result column="bincell" jdbcType="INTEGER" property="bincell" />
+    <result column="overqty" jdbcType="INTEGER" property="overqty" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    warehouse_code, modelno, qty, specQty, qtybin, bincell, overqty
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.Testinv0329bExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._TestInv0329B
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.Testinv0329bExample">
+    delete from dbo._TestInv0329B
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Testinv0329b">
+    insert into dbo._TestInv0329B (warehouse_code, modelno, qty, 
+      specQty, qtybin, bincell, 
+      overqty)
+    values (#{warehouseCode,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, #{qty,jdbcType=INTEGER}, 
+      #{specqty,jdbcType=INTEGER}, #{qtybin,jdbcType=INTEGER}, #{bincell,jdbcType=INTEGER}, 
+      #{overqty,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Testinv0329b">
+    insert into dbo._TestInv0329B
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="specqty != null">
+        specQty,
+      </if>
+      <if test="qtybin != null">
+        qtybin,
+      </if>
+      <if test="bincell != null">
+        bincell,
+      </if>
+      <if test="overqty != null">
+        overqty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="specqty != null">
+        #{specqty,jdbcType=INTEGER},
+      </if>
+      <if test="qtybin != null">
+        #{qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="bincell != null">
+        #{bincell,jdbcType=INTEGER},
+      </if>
+      <if test="overqty != null">
+        #{overqty,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.Testinv0329bExample" resultType="java.lang.Long">
+    select count(*) from dbo._TestInv0329B
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._TestInv0329B
+    <set>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.specqty != null">
+        specQty = #{record.specqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.qtybin != null">
+        qtybin = #{record.qtybin,jdbcType=INTEGER},
+      </if>
+      <if test="record.bincell != null">
+        bincell = #{record.bincell,jdbcType=INTEGER},
+      </if>
+      <if test="record.overqty != null">
+        overqty = #{record.overqty,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._TestInv0329B
+    set warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      specQty = #{record.specqty,jdbcType=INTEGER},
+      qtybin = #{record.qtybin,jdbcType=INTEGER},
+      bincell = #{record.bincell,jdbcType=INTEGER},
+      overqty = #{record.overqty,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.StockAnalysisMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.StockAnalysis">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="calcId" jdbcType="INTEGER" property="calcid" />
+    <result column="monthDate" jdbcType="DATE" property="monthdate" />
+    <result column="warehouseCode" jdbcType="VARCHAR" property="warehousecode" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="avaQty" jdbcType="INTEGER" property="avaqty" />
+    <result column="ordQty" jdbcType="INTEGER" property="ordqty" />
+    <result column="transQty" jdbcType="INTEGER" property="transqty" />
+    <result column="inTime" jdbcType="TIMESTAMP" property="intime" />
+    <result column="outTime" jdbcType="TIMESTAMP" property="outtime" />
+    <result column="propertyId" jdbcType="BIGINT" property="propertyid" />
+    <result column="inventoryTypeCode" jdbcType="VARCHAR" property="inventorytypecode" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="customerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="groupCustomerNo" jdbcType="VARCHAR" property="groupcustomerno" />
+    <result column="projectNo" jdbcType="VARCHAR" property="projectno" />
+    <result column="salesInfoNo" jdbcType="VARCHAR" property="salesinfono" />
+    <result column="deptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="freq" jdbcType="INTEGER" property="freq" />
+    <result column="mean" jdbcType="INTEGER" property="mean" />
+    <result column="eprice" jdbcType="DECIMAL" property="eprice" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="applyOutQty" jdbcType="INTEGER" property="applyoutqty" />
+    <result column="analyseTime" jdbcType="TIMESTAMP" property="analysetime" />
+    <result column="delayDate" jdbcType="DATE" property="delaydate" />
+    <result column="delayConsume" jdbcType="BIT" property="delayconsume" />
+    <result column="applyPsn" jdbcType="VARCHAR" property="applypsn" />
+    <result column="applyTime" jdbcType="TIMESTAMP" property="applytime" />
+    <result column="dlvDate" jdbcType="DATE" property="dlvdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, calcId, monthDate, warehouseCode, modelNo, avaQty, ordQty, transQty, inTime, 
+    outTime, propertyId, inventoryTypeCode, ppl, customerNo, groupCustomerNo, projectNo, 
+    salesInfoNo, deptNo, freq, mean, eprice, status, applyOutQty, analyseTime, delayDate, 
+    delayConsume, applyPsn, applyTime, dlvDate
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.StockAnalysisExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.stock_analysis
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.stock_analysis
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.stock_analysis
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.StockAnalysisExample">
+    delete from dbo.stock_analysis
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.StockAnalysis">
+    insert into dbo.stock_analysis (id, calcId, monthDate, 
+      warehouseCode, modelNo, avaQty, 
+      ordQty, transQty, inTime, 
+      outTime, propertyId, inventoryTypeCode, 
+      ppl, customerNo, groupCustomerNo, 
+      projectNo, salesInfoNo, deptNo, 
+      freq, mean, eprice, 
+      status, applyOutQty, analyseTime, 
+      delayDate, delayConsume, applyPsn, 
+      applyTime, dlvDate)
+    values (#{id,jdbcType=BIGINT}, #{calcid,jdbcType=INTEGER}, #{monthdate,jdbcType=DATE}, 
+      #{warehousecode,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, #{avaqty,jdbcType=INTEGER}, 
+      #{ordqty,jdbcType=INTEGER}, #{transqty,jdbcType=INTEGER}, #{intime,jdbcType=TIMESTAMP}, 
+      #{outtime,jdbcType=TIMESTAMP}, #{propertyid,jdbcType=BIGINT}, #{inventorytypecode,jdbcType=VARCHAR}, 
+      #{ppl,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, #{groupcustomerno,jdbcType=VARCHAR}, 
+      #{projectno,jdbcType=VARCHAR}, #{salesinfono,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, 
+      #{freq,jdbcType=INTEGER}, #{mean,jdbcType=INTEGER}, #{eprice,jdbcType=DECIMAL}, 
+      #{status,jdbcType=SMALLINT}, #{applyoutqty,jdbcType=INTEGER}, #{analysetime,jdbcType=TIMESTAMP}, 
+      #{delaydate,jdbcType=DATE}, #{delayconsume,jdbcType=BIT}, #{applypsn,jdbcType=VARCHAR}, 
+      #{applytime,jdbcType=TIMESTAMP}, #{dlvdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.StockAnalysis">
+    insert into dbo.stock_analysis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="calcid != null">
+        calcId,
+      </if>
+      <if test="monthdate != null">
+        monthDate,
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="avaqty != null">
+        avaQty,
+      </if>
+      <if test="ordqty != null">
+        ordQty,
+      </if>
+      <if test="transqty != null">
+        transQty,
+      </if>
+      <if test="intime != null">
+        inTime,
+      </if>
+      <if test="outtime != null">
+        outTime,
+      </if>
+      <if test="propertyid != null">
+        propertyId,
+      </if>
+      <if test="inventorytypecode != null">
+        inventoryTypeCode,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="customerno != null">
+        customerNo,
+      </if>
+      <if test="groupcustomerno != null">
+        groupCustomerNo,
+      </if>
+      <if test="projectno != null">
+        projectNo,
+      </if>
+      <if test="salesinfono != null">
+        salesInfoNo,
+      </if>
+      <if test="deptno != null">
+        deptNo,
+      </if>
+      <if test="freq != null">
+        freq,
+      </if>
+      <if test="mean != null">
+        mean,
+      </if>
+      <if test="eprice != null">
+        eprice,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="applyoutqty != null">
+        applyOutQty,
+      </if>
+      <if test="analysetime != null">
+        analyseTime,
+      </if>
+      <if test="delaydate != null">
+        delayDate,
+      </if>
+      <if test="delayconsume != null">
+        delayConsume,
+      </if>
+      <if test="applypsn != null">
+        applyPsn,
+      </if>
+      <if test="applytime != null">
+        applyTime,
+      </if>
+      <if test="dlvdate != null">
+        dlvDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="calcid != null">
+        #{calcid,jdbcType=INTEGER},
+      </if>
+      <if test="monthdate != null">
+        #{monthdate,jdbcType=DATE},
+      </if>
+      <if test="warehousecode != null">
+        #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="avaqty != null">
+        #{avaqty,jdbcType=INTEGER},
+      </if>
+      <if test="ordqty != null">
+        #{ordqty,jdbcType=INTEGER},
+      </if>
+      <if test="transqty != null">
+        #{transqty,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null">
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propertyid != null">
+        #{propertyid,jdbcType=BIGINT},
+      </if>
+      <if test="inventorytypecode != null">
+        #{inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupcustomerno != null">
+        #{groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="salesinfono != null">
+        #{salesinfono,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="freq != null">
+        #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="applyoutqty != null">
+        #{applyoutqty,jdbcType=INTEGER},
+      </if>
+      <if test="analysetime != null">
+        #{analysetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delaydate != null">
+        #{delaydate,jdbcType=DATE},
+      </if>
+      <if test="delayconsume != null">
+        #{delayconsume,jdbcType=BIT},
+      </if>
+      <if test="applypsn != null">
+        #{applypsn,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvdate != null">
+        #{dlvdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.StockAnalysisExample" resultType="java.lang.Long">
+    select count(*) from dbo.stock_analysis
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.stock_analysis
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.calcid != null">
+        calcId = #{record.calcid,jdbcType=INTEGER},
+      </if>
+      <if test="record.monthdate != null">
+        monthDate = #{record.monthdate,jdbcType=DATE},
+      </if>
+      <if test="record.warehousecode != null">
+        warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avaqty != null">
+        avaQty = #{record.avaqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordqty != null">
+        ordQty = #{record.ordqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.transqty != null">
+        transQty = #{record.transqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.intime != null">
+        inTime = #{record.intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outtime != null">
+        outTime = #{record.outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.propertyid != null">
+        propertyId = #{record.propertyid,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventorytypecode != null">
+        inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        customerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupcustomerno != null">
+        groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectno != null">
+        projectNo = #{record.projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salesinfono != null">
+        salesInfoNo = #{record.salesinfono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptno != null">
+        deptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freq != null">
+        freq = #{record.freq,jdbcType=INTEGER},
+      </if>
+      <if test="record.mean != null">
+        mean = #{record.mean,jdbcType=INTEGER},
+      </if>
+      <if test="record.eprice != null">
+        eprice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.applyoutqty != null">
+        applyOutQty = #{record.applyoutqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.analysetime != null">
+        analyseTime = #{record.analysetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delaydate != null">
+        delayDate = #{record.delaydate,jdbcType=DATE},
+      </if>
+      <if test="record.delayconsume != null">
+        delayConsume = #{record.delayconsume,jdbcType=BIT},
+      </if>
+      <if test="record.applypsn != null">
+        applyPsn = #{record.applypsn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applytime != null">
+        applyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvdate != null">
+        dlvDate = #{record.dlvdate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.stock_analysis
+    set id = #{record.id,jdbcType=BIGINT},
+      calcId = #{record.calcid,jdbcType=INTEGER},
+      monthDate = #{record.monthdate,jdbcType=DATE},
+      warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      avaQty = #{record.avaqty,jdbcType=INTEGER},
+      ordQty = #{record.ordqty,jdbcType=INTEGER},
+      transQty = #{record.transqty,jdbcType=INTEGER},
+      inTime = #{record.intime,jdbcType=TIMESTAMP},
+      outTime = #{record.outtime,jdbcType=TIMESTAMP},
+      propertyId = #{record.propertyid,jdbcType=BIGINT},
+      inventoryTypeCode = #{record.inventorytypecode,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      customerNo = #{record.customerno,jdbcType=VARCHAR},
+      groupCustomerNo = #{record.groupcustomerno,jdbcType=VARCHAR},
+      projectNo = #{record.projectno,jdbcType=VARCHAR},
+      salesInfoNo = #{record.salesinfono,jdbcType=VARCHAR},
+      deptNo = #{record.deptno,jdbcType=VARCHAR},
+      freq = #{record.freq,jdbcType=INTEGER},
+      mean = #{record.mean,jdbcType=INTEGER},
+      eprice = #{record.eprice,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=SMALLINT},
+      applyOutQty = #{record.applyoutqty,jdbcType=INTEGER},
+      analyseTime = #{record.analysetime,jdbcType=TIMESTAMP},
+      delayDate = #{record.delaydate,jdbcType=DATE},
+      delayConsume = #{record.delayconsume,jdbcType=BIT},
+      applyPsn = #{record.applypsn,jdbcType=VARCHAR},
+      applyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      dlvDate = #{record.dlvdate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.StockAnalysis">
+    update dbo.stock_analysis
+    <set>
+      <if test="calcid != null">
+        calcId = #{calcid,jdbcType=INTEGER},
+      </if>
+      <if test="monthdate != null">
+        monthDate = #{monthdate,jdbcType=DATE},
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        modelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="avaqty != null">
+        avaQty = #{avaqty,jdbcType=INTEGER},
+      </if>
+      <if test="ordqty != null">
+        ordQty = #{ordqty,jdbcType=INTEGER},
+      </if>
+      <if test="transqty != null">
+        transQty = #{transqty,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null">
+        inTime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        outTime = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propertyid != null">
+        propertyId = #{propertyid,jdbcType=BIGINT},
+      </if>
+      <if test="inventorytypecode != null">
+        inventoryTypeCode = #{inventorytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        ppl = #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        customerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="groupcustomerno != null">
+        groupCustomerNo = #{groupcustomerno,jdbcType=VARCHAR},
+      </if>
+      <if test="projectno != null">
+        projectNo = #{projectno,jdbcType=VARCHAR},
+      </if>
+      <if test="salesinfono != null">
+        salesInfoNo = #{salesinfono,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        deptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="freq != null">
+        freq = #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        mean = #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="eprice != null">
+        eprice = #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="applyoutqty != null">
+        applyOutQty = #{applyoutqty,jdbcType=INTEGER},
+      </if>
+      <if test="analysetime != null">
+        analyseTime = #{analysetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delaydate != null">
+        delayDate = #{delaydate,jdbcType=DATE},
+      </if>
+      <if test="delayconsume != null">
+        delayConsume = #{delayconsume,jdbcType=BIT},
+      </if>
+      <if test="applypsn != null">
+        applyPsn = #{applypsn,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        applyTime = #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvdate != null">
+        dlvDate = #{dlvdate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.StockAnalysis">
+    update dbo.stock_analysis
+    set calcId = #{calcid,jdbcType=INTEGER},
+      monthDate = #{monthdate,jdbcType=DATE},
+      warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      modelNo = #{modelno,jdbcType=VARCHAR},
+      avaQty = #{avaqty,jdbcType=INTEGER},
+      ordQty = #{ordqty,jdbcType=INTEGER},
+      transQty = #{transqty,jdbcType=INTEGER},
+      inTime = #{intime,jdbcType=TIMESTAMP},
+      outTime = #{outtime,jdbcType=TIMESTAMP},
+      propertyId = #{propertyid,jdbcType=BIGINT},
+      inventoryTypeCode = #{inventorytypecode,jdbcType=VARCHAR},
+      ppl = #{ppl,jdbcType=VARCHAR},
+      customerNo = #{customerno,jdbcType=VARCHAR},
+      groupCustomerNo = #{groupcustomerno,jdbcType=VARCHAR},
+      projectNo = #{projectno,jdbcType=VARCHAR},
+      salesInfoNo = #{salesinfono,jdbcType=VARCHAR},
+      deptNo = #{deptno,jdbcType=VARCHAR},
+      freq = #{freq,jdbcType=INTEGER},
+      mean = #{mean,jdbcType=INTEGER},
+      eprice = #{eprice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=SMALLINT},
+      applyOutQty = #{applyoutqty,jdbcType=INTEGER},
+      analyseTime = #{analysetime,jdbcType=TIMESTAMP},
+      delayDate = #{delaydate,jdbcType=DATE},
+      delayConsume = #{delayconsume,jdbcType=BIT},
+      applyPsn = #{applypsn,jdbcType=VARCHAR},
+      applyTime = #{applytime,jdbcType=TIMESTAMP},
+      dlvDate = #{dlvdate,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.AbnormalCreateDbMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.AbnormalCreateDb">
+    <id column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="pco_item" jdbcType="INTEGER" property="pcoItem" />
+    <result column="sign_warehouse_code" jdbcType="VARCHAR" property="signWarehouseCode" />
+    <result column="ro_id" jdbcType="VARCHAR" property="roId" />
+    <result column="yy_batchId" jdbcType="VARCHAR" property="yyBatchid" />
+    <result column="hand_flag" jdbcType="INTEGER" property="handFlag" />
+    <result column="hand_msg" jdbcType="VARCHAR" property="handMsg" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="INTEGER" property="orderItem" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="ass_num" jdbcType="INTEGER" property="assNum" />
+    <result column="do_source" jdbcType="VARCHAR" property="doSource" />
+    <result column="inventory_table_type" jdbcType="VARCHAR" property="inventoryTableType" />
+    <result column="opt_status" jdbcType="VARCHAR" property="optStatus" />
+    <result column="yy_orderNo" jdbcType="VARCHAR" property="yyOrderno" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="shelf_no" jdbcType="VARCHAR" property="shelfNo" />
+    <result column="shelf_model_no" jdbcType="VARCHAR" property="shelfModelNo" />
+    <result column="shelf_qty" jdbcType="INTEGER" property="shelfQty" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    do_id, pco_id, pco_item, sign_warehouse_code, ro_id, yy_batchId, hand_flag, hand_msg, 
+    create_time, order_id, order_item, num, ass_num, do_source, inventory_table_type, 
+    opt_status, yy_orderNo, remark, shelf_no, shelf_model_no, shelf_qty
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.AbnormalCreateDbExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.abnormal_create_db
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.abnormal_create_db
+    where do_id = #{doId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.abnormal_create_db
+    where do_id = #{doId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.AbnormalCreateDbExample">
+    delete from dbo.abnormal_create_db
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.AbnormalCreateDb">
+    insert into dbo.abnormal_create_db (do_id, pco_id, pco_item, 
+      sign_warehouse_code, ro_id, yy_batchId, 
+      hand_flag, hand_msg, create_time, 
+      order_id, order_item, num, 
+      ass_num, do_source, inventory_table_type, 
+      opt_status, yy_orderNo, remark, 
+      shelf_no, shelf_model_no, shelf_qty
+      )
+    values (#{doId,jdbcType=VARCHAR}, #{pcoId,jdbcType=VARCHAR}, #{pcoItem,jdbcType=INTEGER}, 
+      #{signWarehouseCode,jdbcType=VARCHAR}, #{roId,jdbcType=VARCHAR}, #{yyBatchid,jdbcType=VARCHAR}, 
+      #{handFlag,jdbcType=INTEGER}, #{handMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{assNum,jdbcType=INTEGER}, #{doSource,jdbcType=VARCHAR}, #{inventoryTableType,jdbcType=VARCHAR}, 
+      #{optStatus,jdbcType=VARCHAR}, #{yyOrderno,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{shelfNo,jdbcType=VARCHAR}, #{shelfModelNo,jdbcType=VARCHAR}, #{shelfQty,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.AbnormalCreateDb">
+    insert into dbo.abnormal_create_db
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="pcoItem != null">
+        pco_item,
+      </if>
+      <if test="signWarehouseCode != null">
+        sign_warehouse_code,
+      </if>
+      <if test="roId != null">
+        ro_id,
+      </if>
+      <if test="yyBatchid != null">
+        yy_batchId,
+      </if>
+      <if test="handFlag != null">
+        hand_flag,
+      </if>
+      <if test="handMsg != null">
+        hand_msg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="assNum != null">
+        ass_num,
+      </if>
+      <if test="doSource != null">
+        do_source,
+      </if>
+      <if test="inventoryTableType != null">
+        inventory_table_type,
+      </if>
+      <if test="optStatus != null">
+        opt_status,
+      </if>
+      <if test="yyOrderno != null">
+        yy_orderNo,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="shelfNo != null">
+        shelf_no,
+      </if>
+      <if test="shelfModelNo != null">
+        shelf_model_no,
+      </if>
+      <if test="shelfQty != null">
+        shelf_qty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="signWarehouseCode != null">
+        #{signWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roId != null">
+        #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="yyBatchid != null">
+        #{yyBatchid,jdbcType=VARCHAR},
+      </if>
+      <if test="handFlag != null">
+        #{handFlag,jdbcType=INTEGER},
+      </if>
+      <if test="handMsg != null">
+        #{handMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="assNum != null">
+        #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTableType != null">
+        #{inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="optStatus != null">
+        #{optStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="yyOrderno != null">
+        #{yyOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="shelfNo != null">
+        #{shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfModelNo != null">
+        #{shelfModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfQty != null">
+        #{shelfQty,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.AbnormalCreateDbExample" resultType="java.lang.Long">
+    select count(*) from dbo.abnormal_create_db
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.abnormal_create_db
+    <set>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoItem != null">
+        pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.signWarehouseCode != null">
+        sign_warehouse_code = #{record.signWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roId != null">
+        ro_id = #{record.roId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yyBatchid != null">
+        yy_batchId = #{record.yyBatchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handFlag != null">
+        hand_flag = #{record.handFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.handMsg != null">
+        hand_msg = #{record.handMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.assNum != null">
+        ass_num = #{record.assNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.doSource != null">
+        do_source = #{record.doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTableType != null">
+        inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optStatus != null">
+        opt_status = #{record.optStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yyOrderno != null">
+        yy_orderNo = #{record.yyOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.shelfNo != null">
+        shelf_no = #{record.shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shelfModelNo != null">
+        shelf_model_no = #{record.shelfModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shelfQty != null">
+        shelf_qty = #{record.shelfQty,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.abnormal_create_db
+    set do_id = #{record.doId,jdbcType=VARCHAR},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      sign_warehouse_code = #{record.signWarehouseCode,jdbcType=VARCHAR},
+      ro_id = #{record.roId,jdbcType=VARCHAR},
+      yy_batchId = #{record.yyBatchid,jdbcType=VARCHAR},
+      hand_flag = #{record.handFlag,jdbcType=INTEGER},
+      hand_msg = #{record.handMsg,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      ass_num = #{record.assNum,jdbcType=INTEGER},
+      do_source = #{record.doSource,jdbcType=VARCHAR},
+      inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR},
+      opt_status = #{record.optStatus,jdbcType=VARCHAR},
+      yy_orderNo = #{record.yyOrderno,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      shelf_no = #{record.shelfNo,jdbcType=VARCHAR},
+      shelf_model_no = #{record.shelfModelNo,jdbcType=VARCHAR},
+      shelf_qty = #{record.shelfQty,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.AbnormalCreateDb">
+    update dbo.abnormal_create_db
+    <set>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        pco_item = #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="signWarehouseCode != null">
+        sign_warehouse_code = #{signWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roId != null">
+        ro_id = #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="yyBatchid != null">
+        yy_batchId = #{yyBatchid,jdbcType=VARCHAR},
+      </if>
+      <if test="handFlag != null">
+        hand_flag = #{handFlag,jdbcType=INTEGER},
+      </if>
+      <if test="handMsg != null">
+        hand_msg = #{handMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="assNum != null">
+        ass_num = #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        do_source = #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTableType != null">
+        inventory_table_type = #{inventoryTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="optStatus != null">
+        opt_status = #{optStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="yyOrderno != null">
+        yy_orderNo = #{yyOrderno,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="shelfNo != null">
+        shelf_no = #{shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfModelNo != null">
+        shelf_model_no = #{shelfModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfQty != null">
+        shelf_qty = #{shelfQty,jdbcType=INTEGER},
+      </if>
+    </set>
+    where do_id = #{doId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.AbnormalCreateDb">
+    update dbo.abnormal_create_db
+    set pco_id = #{pcoId,jdbcType=VARCHAR},
+      pco_item = #{pcoItem,jdbcType=INTEGER},
+      sign_warehouse_code = #{signWarehouseCode,jdbcType=VARCHAR},
+      ro_id = #{roId,jdbcType=VARCHAR},
+      yy_batchId = #{yyBatchid,jdbcType=VARCHAR},
+      hand_flag = #{handFlag,jdbcType=INTEGER},
+      hand_msg = #{handMsg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      ass_num = #{assNum,jdbcType=INTEGER},
+      do_source = #{doSource,jdbcType=VARCHAR},
+      inventory_table_type = #{inventoryTableType,jdbcType=VARCHAR},
+      opt_status = #{optStatus,jdbcType=VARCHAR},
+      yy_orderNo = #{yyOrderno,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=NVARCHAR},
+      shelf_no = #{shelfNo,jdbcType=VARCHAR},
+      shelf_model_no = #{shelfModelNo,jdbcType=VARCHAR},
+      shelf_qty = #{shelfQty,jdbcType=INTEGER}
+    where do_id = #{doId,jdbcType=VARCHAR}
+  </update>
+</mapper>

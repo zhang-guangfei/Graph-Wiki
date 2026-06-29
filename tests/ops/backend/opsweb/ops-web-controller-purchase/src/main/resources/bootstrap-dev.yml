@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        name: ${spring.application.name}
+        server-addr: 10.116.1.15:8848
+        namespace: 5752e0eb-7804-4483-8bbb-ae3b1b2898f0
+      config:
+        server-addr: 10.116.1.15:8848
+        namespace: 5752e0eb-7804-4483-8bbb-ae3b1b2898f0
+        group: DEFAULT_GROUP
+        name: ${spring.application.name}
+        file-extension: yml
+        refresh: true
+        shared-configs:
+          - data-id: application.yml
+            refresh: true

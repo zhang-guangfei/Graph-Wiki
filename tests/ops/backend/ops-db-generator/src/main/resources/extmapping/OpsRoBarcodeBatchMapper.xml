@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.batchdao.OpsRoBarcodeBatchDao">
+
+
+    <insert id="insertRoBarcodeBatch" parameterType="List" useGeneratedKeys="false">
+        INSERT INTO ops_ro_barcode( ro_id, ro_item, InvoiceNo, warehouse_code, barCode, package_code, modelno, qty,
+        orderNo, itemNo,splitItemNo, SN, delflag, cre_time, creator,InvoiceId) values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (
+            #{item.roId,jdbcType=VARCHAR}, #{item.roItem,jdbcType=INTEGER},#{item.invoiceno,jdbcType=VARCHAR},
+            #{item.warehouseCode,jdbcType=VARCHAR},#{item.barcode,jdbcType=VARCHAR},#{item.packageCode,jdbcType=VARCHAR},
+            #{item.modelno,jdbcType=VARCHAR},#{item.qty,jdbcType=INTEGER},#{item.orderno,jdbcType=VARCHAR},
+            #{item.itemno,jdbcType=INTEGER},#{item.splititemno,jdbcType=INTEGER}, #{item.sn,jdbcType=VARCHAR},
+            #{item.delflag,jdbcType=INTEGER},#{item.creTime,jdbcType=TIMESTAMP},#{item.creator,jdbcType=NVARCHAR},
+            #{item.invoiceid,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

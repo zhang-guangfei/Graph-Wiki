@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderInventoryMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OrderInventory">
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="do_key" jdbcType="BIGINT" property="doKey" />
+    <result column="do_item_key" jdbcType="BIGINT" property="doItemKey" />
+    <result column="do_item_inv_key" jdbcType="BIGINT" property="doItemInvKey" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="do_item" jdbcType="INTEGER" property="doItem" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="inventory_table_type" jdbcType="VARCHAR" property="inventoryTableType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_id, order_item, do_key, do_item_key, do_item_inv_key, do_id, do_item, inventory_id, 
+    inventory_table_type
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderInventoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.order_inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderInventoryExample">
+    delete from dbo.order_inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OrderInventory">
+    insert into dbo.order_inventory (order_id, order_item, do_key, 
+      do_item_key, do_item_inv_key, do_id, 
+      do_item, inventory_id, inventory_table_type
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, #{doKey,jdbcType=BIGINT}, 
+      #{doItemKey,jdbcType=BIGINT}, #{doItemInvKey,jdbcType=BIGINT}, #{doId,jdbcType=VARCHAR}, 
+      #{doItem,jdbcType=INTEGER}, #{inventoryId,jdbcType=BIGINT}, #{inventoryTableType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OrderInventory">
+    insert into dbo.order_inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="doKey != null">
+        do_key,
+      </if>
+      <if test="doItemKey != null">
+        do_item_key,
+      </if>
+      <if test="doItemInvKey != null">
+        do_item_inv_key,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="doItem != null">
+        do_item,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="inventoryTableType != null">
+        inventory_table_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="doKey != null">
+        #{doKey,jdbcType=BIGINT},
+      </if>
+      <if test="doItemKey != null">
+        #{doItemKey,jdbcType=BIGINT},
+      </if>
+      <if test="doItemInvKey != null">
+        #{doItemInvKey,jdbcType=BIGINT},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="doItem != null">
+        #{doItem,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryTableType != null">
+        #{inventoryTableType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderInventoryExample" resultType="java.lang.Long">
+    select count(*) from dbo.order_inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.order_inventory
+    <set>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doKey != null">
+        do_key = #{record.doKey,jdbcType=BIGINT},
+      </if>
+      <if test="record.doItemKey != null">
+        do_item_key = #{record.doItemKey,jdbcType=BIGINT},
+      </if>
+      <if test="record.doItemInvKey != null">
+        do_item_inv_key = #{record.doItemInvKey,jdbcType=BIGINT},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doItem != null">
+        do_item = #{record.doItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventoryTableType != null">
+        inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.order_inventory
+    set order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      do_key = #{record.doKey,jdbcType=BIGINT},
+      do_item_key = #{record.doItemKey,jdbcType=BIGINT},
+      do_item_inv_key = #{record.doItemInvKey,jdbcType=BIGINT},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      do_item = #{record.doItem,jdbcType=INTEGER},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      inventory_table_type = #{record.inventoryTableType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

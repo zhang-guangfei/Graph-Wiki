@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInquiryPoHandleMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInquiryPoHandle">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_no" jdbcType="VARCHAR" property="taskNo" />
+    <result column="inquiry_apply_no" jdbcType="VARCHAR" property="inquiryApplyNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="end_user" jdbcType="VARCHAR" property="endUser" />
+    <result column="purchase_no" jdbcType="NVARCHAR" property="purchaseNo" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="inquiry_status" jdbcType="INTEGER" property="inquiryStatus" />
+    <result column="inquiry_handle_result" jdbcType="NVARCHAR" property="inquiryHandleResult" />
+    <result column="hope_export_date" jdbcType="DATE" property="hopeExportDate" />
+    <result column="dlv_moddate" jdbcType="DATE" property="dlvModdate" />
+    <result column="hope_delivery_date" jdbcType="DATE" property="hopeDeliveryDate" />
+    <result column="inquiry_reason_type" jdbcType="VARCHAR" property="inquiryReasonType" />
+    <result column="inquiry_reason" jdbcType="NVARCHAR" property="inquiryReason" />
+    <result column="inquiry_description" jdbcType="NVARCHAR" property="inquiryDescription" />
+    <result column="inquiry_remark" jdbcType="NVARCHAR" property="inquiryRemark" />
+    <result column="inquiry_type" jdbcType="CHAR" property="inquiryType" />
+    <result column="inquiry_time" jdbcType="TIMESTAMP" property="inquiryTime" />
+    <result column="inquiry_dept" jdbcType="VARCHAR" property="inquiryDept" />
+    <result column="inquiry_user" jdbcType="VARCHAR" property="inquiryUser" />
+    <result column="inquiry_user_name" jdbcType="VARCHAR" property="inquiryUserName" />
+    <result column="reply_dept" jdbcType="VARCHAR" property="replyDept" />
+    <result column="supplier_order_no" jdbcType="VARCHAR" property="supplierOrderNo" />
+    <result column="reply_no" jdbcType="VARCHAR" property="replyNo" />
+    <result column="reply_delivery_date" jdbcType="TIMESTAMP" property="replyDeliveryDate" />
+    <result column="reply_user" jdbcType="VARCHAR" property="replyUser" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    <result column="reply_delay_reason" jdbcType="NVARCHAR" property="replyDelayReason" />
+    <result column="reply_remark" jdbcType="NVARCHAR" property="replyRemark" />
+    <result column="inquiry_level" jdbcType="VARCHAR" property="inquiryLevel" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="reply_supplier_dept" jdbcType="VARCHAR" property="replySupplierDept" />
+    <result column="poNo" jdbcType="VARCHAR" property="pono" />
+    <result column="lineItem" jdbcType="INTEGER" property="lineitem" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="rorder_item" jdbcType="INTEGER" property="rorderItem" />
+    <result column="splitItemNo" jdbcType="INTEGER" property="splititemno" />
+    <result column="smcCode" jdbcType="VARCHAR" property="smccode" />
+    <result column="purchaseType" jdbcType="CHAR" property="purchasetype" />
+    <result column="inquiry_reason_param" jdbcType="VARCHAR" property="inquiryReasonParam" />
+    <result column="item_no" jdbcType="INTEGER" property="itemNo" />
+    <result column="reply_delivery_date_src" jdbcType="VARCHAR" property="replyDeliveryDateSrc" />
+    <result column="reply_result_desc" jdbcType="NVARCHAR" property="replyResultDesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, task_no, inquiry_apply_no, order_no, model_no, quantity, customer_no, end_user, 
+    purchase_no, order_status, supplier_id, inquiry_status, inquiry_handle_result, hope_export_date, 
+    dlv_moddate, hope_delivery_date, inquiry_reason_type, inquiry_reason, inquiry_description, 
+    inquiry_remark, inquiry_type, inquiry_time, inquiry_dept, inquiry_user, inquiry_user_name, 
+    reply_dept, supplier_order_no, reply_no, reply_delivery_date, reply_user, reply_time, 
+    reply_delay_reason, reply_remark, inquiry_level, create_user, create_time, update_user, 
+    update_time, reply_supplier_dept, poNo, lineItem, rorder_no, rorder_item, splitItemNo, 
+    smcCode, purchaseType, inquiry_reason_param, item_no, reply_delivery_date_src, reply_result_desc
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_po_handle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_po_handle
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inquiry_po_handle
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandleExample">
+    delete from dbo.ops_inquiry_po_handle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandle">
+    insert into dbo.ops_inquiry_po_handle (id, task_no, inquiry_apply_no, 
+      order_no, model_no, quantity, 
+      customer_no, end_user, purchase_no, 
+      order_status, supplier_id, inquiry_status, 
+      inquiry_handle_result, hope_export_date, dlv_moddate, 
+      hope_delivery_date, inquiry_reason_type, inquiry_reason, 
+      inquiry_description, inquiry_remark, inquiry_type, 
+      inquiry_time, inquiry_dept, inquiry_user, 
+      inquiry_user_name, reply_dept, supplier_order_no, 
+      reply_no, reply_delivery_date, reply_user, 
+      reply_time, reply_delay_reason, reply_remark, 
+      inquiry_level, create_user, create_time, 
+      update_user, update_time, reply_supplier_dept, 
+      poNo, lineItem, rorder_no, 
+      rorder_item, splitItemNo, smcCode, 
+      purchaseType, inquiry_reason_param, item_no, 
+      reply_delivery_date_src, reply_result_desc)
+    values (#{id,jdbcType=BIGINT}, #{taskNo,jdbcType=VARCHAR}, #{inquiryApplyNo,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{customerNo,jdbcType=VARCHAR}, #{endUser,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=NVARCHAR}, 
+      #{orderStatus,jdbcType=INTEGER}, #{supplierId,jdbcType=VARCHAR}, #{inquiryStatus,jdbcType=INTEGER}, 
+      #{inquiryHandleResult,jdbcType=NVARCHAR}, #{hopeExportDate,jdbcType=DATE}, #{dlvModdate,jdbcType=DATE}, 
+      #{hopeDeliveryDate,jdbcType=DATE}, #{inquiryReasonType,jdbcType=VARCHAR}, #{inquiryReason,jdbcType=NVARCHAR}, 
+      #{inquiryDescription,jdbcType=NVARCHAR}, #{inquiryRemark,jdbcType=NVARCHAR}, #{inquiryType,jdbcType=CHAR}, 
+      #{inquiryTime,jdbcType=TIMESTAMP}, #{inquiryDept,jdbcType=VARCHAR}, #{inquiryUser,jdbcType=VARCHAR}, 
+      #{inquiryUserName,jdbcType=VARCHAR}, #{replyDept,jdbcType=VARCHAR}, #{supplierOrderNo,jdbcType=VARCHAR}, 
+      #{replyNo,jdbcType=VARCHAR}, #{replyDeliveryDate,jdbcType=TIMESTAMP}, #{replyUser,jdbcType=VARCHAR}, 
+      #{replyTime,jdbcType=TIMESTAMP}, #{replyDelayReason,jdbcType=NVARCHAR}, #{replyRemark,jdbcType=NVARCHAR}, 
+      #{inquiryLevel,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{replySupplierDept,jdbcType=VARCHAR}, 
+      #{pono,jdbcType=VARCHAR}, #{lineitem,jdbcType=INTEGER}, #{rorderNo,jdbcType=VARCHAR}, 
+      #{rorderItem,jdbcType=INTEGER}, #{splititemno,jdbcType=INTEGER}, #{smccode,jdbcType=VARCHAR}, 
+      #{purchasetype,jdbcType=CHAR}, #{inquiryReasonParam,jdbcType=VARCHAR}, #{itemNo,jdbcType=INTEGER}, 
+      #{replyDeliveryDateSrc,jdbcType=VARCHAR}, #{replyResultDesc,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandle">
+    insert into dbo.ops_inquiry_po_handle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskNo != null">
+        task_no,
+      </if>
+      <if test="inquiryApplyNo != null">
+        inquiry_apply_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="endUser != null">
+        end_user,
+      </if>
+      <if test="purchaseNo != null">
+        purchase_no,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="inquiryStatus != null">
+        inquiry_status,
+      </if>
+      <if test="inquiryHandleResult != null">
+        inquiry_handle_result,
+      </if>
+      <if test="hopeExportDate != null">
+        hope_export_date,
+      </if>
+      <if test="dlvModdate != null">
+        dlv_moddate,
+      </if>
+      <if test="hopeDeliveryDate != null">
+        hope_delivery_date,
+      </if>
+      <if test="inquiryReasonType != null">
+        inquiry_reason_type,
+      </if>
+      <if test="inquiryReason != null">
+        inquiry_reason,
+      </if>
+      <if test="inquiryDescription != null">
+        inquiry_description,
+      </if>
+      <if test="inquiryRemark != null">
+        inquiry_remark,
+      </if>
+      <if test="inquiryType != null">
+        inquiry_type,
+      </if>
+      <if test="inquiryTime != null">
+        inquiry_time,
+      </if>
+      <if test="inquiryDept != null">
+        inquiry_dept,
+      </if>
+      <if test="inquiryUser != null">
+        inquiry_user,
+      </if>
+      <if test="inquiryUserName != null">
+        inquiry_user_name,
+      </if>
+      <if test="replyDept != null">
+        reply_dept,
+      </if>
+      <if test="supplierOrderNo != null">
+        supplier_order_no,
+      </if>
+      <if test="replyNo != null">
+        reply_no,
+      </if>
+      <if test="replyDeliveryDate != null">
+        reply_delivery_date,
+      </if>
+      <if test="replyUser != null">
+        reply_user,
+      </if>
+      <if test="replyTime != null">
+        reply_time,
+      </if>
+      <if test="replyDelayReason != null">
+        reply_delay_reason,
+      </if>
+      <if test="replyRemark != null">
+        reply_remark,
+      </if>
+      <if test="inquiryLevel != null">
+        inquiry_level,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept,
+      </if>
+      <if test="pono != null">
+        poNo,
+      </if>
+      <if test="lineitem != null">
+        lineItem,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="rorderItem != null">
+        rorder_item,
+      </if>
+      <if test="splititemno != null">
+        splitItemNo,
+      </if>
+      <if test="smccode != null">
+        smcCode,
+      </if>
+      <if test="purchasetype != null">
+        purchaseType,
+      </if>
+      <if test="inquiryReasonParam != null">
+        inquiry_reason_param,
+      </if>
+      <if test="itemNo != null">
+        item_no,
+      </if>
+      <if test="replyDeliveryDateSrc != null">
+        reply_delivery_date_src,
+      </if>
+      <if test="replyResultDesc != null">
+        reply_result_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="taskNo != null">
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryApplyNo != null">
+        #{inquiryApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="endUser != null">
+        #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null">
+        #{purchaseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryStatus != null">
+        #{inquiryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryHandleResult != null">
+        #{inquiryHandleResult,jdbcType=NVARCHAR},
+      </if>
+      <if test="hopeExportDate != null">
+        #{hopeExportDate,jdbcType=DATE},
+      </if>
+      <if test="dlvModdate != null">
+        #{dlvModdate,jdbcType=DATE},
+      </if>
+      <if test="hopeDeliveryDate != null">
+        #{hopeDeliveryDate,jdbcType=DATE},
+      </if>
+      <if test="inquiryReasonType != null">
+        #{inquiryReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryReason != null">
+        #{inquiryReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryDescription != null">
+        #{inquiryDescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryRemark != null">
+        #{inquiryRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryType != null">
+        #{inquiryType,jdbcType=CHAR},
+      </if>
+      <if test="inquiryTime != null">
+        #{inquiryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inquiryDept != null">
+        #{inquiryDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryUser != null">
+        #{inquiryUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryUserName != null">
+        #{inquiryUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDept != null">
+        #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOrderNo != null">
+        #{supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDate != null">
+        #{replyDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyUser != null">
+        #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyDelayReason != null">
+        #{replyDelayReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        #{replyRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryLevel != null">
+        #{inquiryLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replySupplierDept != null">
+        #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="lineitem != null">
+        #{lineitem,jdbcType=INTEGER},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="splititemno != null">
+        #{splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetype != null">
+        #{purchasetype,jdbcType=CHAR},
+      </if>
+      <if test="inquiryReasonParam != null">
+        #{inquiryReasonParam,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="replyDeliveryDateSrc != null">
+        #{replyDeliveryDateSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="replyResultDesc != null">
+        #{replyResultDesc,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandleExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inquiry_po_handle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inquiry_po_handle
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.taskNo != null">
+        task_no = #{record.taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inquiryApplyNo != null">
+        inquiry_apply_no = #{record.inquiryApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endUser != null">
+        end_user = #{record.endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseNo != null">
+        purchase_no = #{record.purchaseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierId != null">
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inquiryStatus != null">
+        inquiry_status = #{record.inquiryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.inquiryHandleResult != null">
+        inquiry_handle_result = #{record.inquiryHandleResult,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.hopeExportDate != null">
+        hope_export_date = #{record.hopeExportDate,jdbcType=DATE},
+      </if>
+      <if test="record.dlvModdate != null">
+        dlv_moddate = #{record.dlvModdate,jdbcType=DATE},
+      </if>
+      <if test="record.hopeDeliveryDate != null">
+        hope_delivery_date = #{record.hopeDeliveryDate,jdbcType=DATE},
+      </if>
+      <if test="record.inquiryReasonType != null">
+        inquiry_reason_type = #{record.inquiryReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inquiryReason != null">
+        inquiry_reason = #{record.inquiryReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inquiryDescription != null">
+        inquiry_description = #{record.inquiryDescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inquiryRemark != null">
+        inquiry_remark = #{record.inquiryRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inquiryType != null">
+        inquiry_type = #{record.inquiryType,jdbcType=CHAR},
+      </if>
+      <if test="record.inquiryTime != null">
+        inquiry_time = #{record.inquiryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inquiryDept != null">
+        inquiry_dept = #{record.inquiryDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inquiryUser != null">
+        inquiry_user = #{record.inquiryUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inquiryUserName != null">
+        inquiry_user_name = #{record.inquiryUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyDept != null">
+        reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierOrderNo != null">
+        supplier_order_no = #{record.supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyNo != null">
+        reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyDeliveryDate != null">
+        reply_delivery_date = #{record.replyDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replyUser != null">
+        reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyTime != null">
+        reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replyDelayReason != null">
+        reply_delay_reason = #{record.replyDelayReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.replyRemark != null">
+        reply_remark = #{record.replyRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.inquiryLevel != null">
+        inquiry_level = #{record.inquiryLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replySupplierDept != null">
+        reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pono != null">
+        poNo = #{record.pono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineitem != null">
+        lineItem = #{record.lineitem,jdbcType=INTEGER},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderItem != null">
+        rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.splititemno != null">
+        splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.smccode != null">
+        smcCode = #{record.smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasetype != null">
+        purchaseType = #{record.purchasetype,jdbcType=CHAR},
+      </if>
+      <if test="record.inquiryReasonParam != null">
+        inquiry_reason_param = #{record.inquiryReasonParam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNo != null">
+        item_no = #{record.itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyDeliveryDateSrc != null">
+        reply_delivery_date_src = #{record.replyDeliveryDateSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyResultDesc != null">
+        reply_result_desc = #{record.replyResultDesc,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inquiry_po_handle
+    set id = #{record.id,jdbcType=BIGINT},
+      task_no = #{record.taskNo,jdbcType=VARCHAR},
+      inquiry_apply_no = #{record.inquiryApplyNo,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      end_user = #{record.endUser,jdbcType=VARCHAR},
+      purchase_no = #{record.purchaseNo,jdbcType=NVARCHAR},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      inquiry_status = #{record.inquiryStatus,jdbcType=INTEGER},
+      inquiry_handle_result = #{record.inquiryHandleResult,jdbcType=NVARCHAR},
+      hope_export_date = #{record.hopeExportDate,jdbcType=DATE},
+      dlv_moddate = #{record.dlvModdate,jdbcType=DATE},
+      hope_delivery_date = #{record.hopeDeliveryDate,jdbcType=DATE},
+      inquiry_reason_type = #{record.inquiryReasonType,jdbcType=VARCHAR},
+      inquiry_reason = #{record.inquiryReason,jdbcType=NVARCHAR},
+      inquiry_description = #{record.inquiryDescription,jdbcType=NVARCHAR},
+      inquiry_remark = #{record.inquiryRemark,jdbcType=NVARCHAR},
+      inquiry_type = #{record.inquiryType,jdbcType=CHAR},
+      inquiry_time = #{record.inquiryTime,jdbcType=TIMESTAMP},
+      inquiry_dept = #{record.inquiryDept,jdbcType=VARCHAR},
+      inquiry_user = #{record.inquiryUser,jdbcType=VARCHAR},
+      inquiry_user_name = #{record.inquiryUserName,jdbcType=VARCHAR},
+      reply_dept = #{record.replyDept,jdbcType=VARCHAR},
+      supplier_order_no = #{record.supplierOrderNo,jdbcType=VARCHAR},
+      reply_no = #{record.replyNo,jdbcType=VARCHAR},
+      reply_delivery_date = #{record.replyDeliveryDate,jdbcType=TIMESTAMP},
+      reply_user = #{record.replyUser,jdbcType=VARCHAR},
+      reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      reply_delay_reason = #{record.replyDelayReason,jdbcType=NVARCHAR},
+      reply_remark = #{record.replyRemark,jdbcType=NVARCHAR},
+      inquiry_level = #{record.inquiryLevel,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      reply_supplier_dept = #{record.replySupplierDept,jdbcType=VARCHAR},
+      poNo = #{record.pono,jdbcType=VARCHAR},
+      lineItem = #{record.lineitem,jdbcType=INTEGER},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{record.rorderItem,jdbcType=INTEGER},
+      splitItemNo = #{record.splititemno,jdbcType=INTEGER},
+      smcCode = #{record.smccode,jdbcType=VARCHAR},
+      purchaseType = #{record.purchasetype,jdbcType=CHAR},
+      inquiry_reason_param = #{record.inquiryReasonParam,jdbcType=VARCHAR},
+      item_no = #{record.itemNo,jdbcType=INTEGER},
+      reply_delivery_date_src = #{record.replyDeliveryDateSrc,jdbcType=VARCHAR},
+      reply_result_desc = #{record.replyResultDesc,jdbcType=NVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandle">
+    update dbo.ops_inquiry_po_handle
+    <set>
+      <if test="taskNo != null">
+        task_no = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryApplyNo != null">
+        inquiry_apply_no = #{inquiryApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="endUser != null">
+        end_user = #{endUser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null">
+        purchase_no = #{purchaseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryStatus != null">
+        inquiry_status = #{inquiryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryHandleResult != null">
+        inquiry_handle_result = #{inquiryHandleResult,jdbcType=NVARCHAR},
+      </if>
+      <if test="hopeExportDate != null">
+        hope_export_date = #{hopeExportDate,jdbcType=DATE},
+      </if>
+      <if test="dlvModdate != null">
+        dlv_moddate = #{dlvModdate,jdbcType=DATE},
+      </if>
+      <if test="hopeDeliveryDate != null">
+        hope_delivery_date = #{hopeDeliveryDate,jdbcType=DATE},
+      </if>
+      <if test="inquiryReasonType != null">
+        inquiry_reason_type = #{inquiryReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryReason != null">
+        inquiry_reason = #{inquiryReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryDescription != null">
+        inquiry_description = #{inquiryDescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryRemark != null">
+        inquiry_remark = #{inquiryRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryType != null">
+        inquiry_type = #{inquiryType,jdbcType=CHAR},
+      </if>
+      <if test="inquiryTime != null">
+        inquiry_time = #{inquiryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inquiryDept != null">
+        inquiry_dept = #{inquiryDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryUser != null">
+        inquiry_user = #{inquiryUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryUserName != null">
+        inquiry_user_name = #{inquiryUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDept != null">
+        reply_dept = #{replyDept,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOrderNo != null">
+        supplier_order_no = #{supplierOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNo != null">
+        reply_no = #{replyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDeliveryDate != null">
+        reply_delivery_date = #{replyDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyUser != null">
+        reply_user = #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyDelayReason != null">
+        reply_delay_reason = #{replyDelayReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="replyRemark != null">
+        reply_remark = #{replyRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="inquiryLevel != null">
+        inquiry_level = #{inquiryLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replySupplierDept != null">
+        reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        poNo = #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="lineitem != null">
+        lineItem = #{lineitem,jdbcType=INTEGER},
+      </if>
+      <if test="rorderNo != null">
+        rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderItem != null">
+        rorder_item = #{rorderItem,jdbcType=INTEGER},
+      </if>
+      <if test="splititemno != null">
+        splitItemNo = #{splititemno,jdbcType=INTEGER},
+      </if>
+      <if test="smccode != null">
+        smcCode = #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetype != null">
+        purchaseType = #{purchasetype,jdbcType=CHAR},
+      </if>
+      <if test="inquiryReasonParam != null">
+        inquiry_reason_param = #{inquiryReasonParam,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null">
+        item_no = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="replyDeliveryDateSrc != null">
+        reply_delivery_date_src = #{replyDeliveryDateSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="replyResultDesc != null">
+        reply_result_desc = #{replyResultDesc,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInquiryPoHandle">
+    update dbo.ops_inquiry_po_handle
+    set task_no = #{taskNo,jdbcType=VARCHAR},
+      inquiry_apply_no = #{inquiryApplyNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      end_user = #{endUser,jdbcType=VARCHAR},
+      purchase_no = #{purchaseNo,jdbcType=NVARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      inquiry_status = #{inquiryStatus,jdbcType=INTEGER},
+      inquiry_handle_result = #{inquiryHandleResult,jdbcType=NVARCHAR},
+      hope_export_date = #{hopeExportDate,jdbcType=DATE},
+      dlv_moddate = #{dlvModdate,jdbcType=DATE},
+      hope_delivery_date = #{hopeDeliveryDate,jdbcType=DATE},
+      inquiry_reason_type = #{inquiryReasonType,jdbcType=VARCHAR},
+      inquiry_reason = #{inquiryReason,jdbcType=NVARCHAR},
+      inquiry_description = #{inquiryDescription,jdbcType=NVARCHAR},
+      inquiry_remark = #{inquiryRemark,jdbcType=NVARCHAR},
+      inquiry_type = #{inquiryType,jdbcType=CHAR},
+      inquiry_time = #{inquiryTime,jdbcType=TIMESTAMP},
+      inquiry_dept = #{inquiryDept,jdbcType=VARCHAR},
+      inquiry_user = #{inquiryUser,jdbcType=VARCHAR},
+      inquiry_user_name = #{inquiryUserName,jdbcType=VARCHAR},
+      reply_dept = #{replyDept,jdbcType=VARCHAR},
+      supplier_order_no = #{supplierOrderNo,jdbcType=VARCHAR},
+      reply_no = #{replyNo,jdbcType=VARCHAR},
+      reply_delivery_date = #{replyDeliveryDate,jdbcType=TIMESTAMP},
+      reply_user = #{replyUser,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_delay_reason = #{replyDelayReason,jdbcType=NVARCHAR},
+      reply_remark = #{replyRemark,jdbcType=NVARCHAR},
+      inquiry_level = #{inquiryLevel,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      reply_supplier_dept = #{replySupplierDept,jdbcType=VARCHAR},
+      poNo = #{pono,jdbcType=VARCHAR},
+      lineItem = #{lineitem,jdbcType=INTEGER},
+      rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      rorder_item = #{rorderItem,jdbcType=INTEGER},
+      splitItemNo = #{splititemno,jdbcType=INTEGER},
+      smcCode = #{smccode,jdbcType=VARCHAR},
+      purchaseType = #{purchasetype,jdbcType=CHAR},
+      inquiry_reason_param = #{inquiryReasonParam,jdbcType=VARCHAR},
+      item_no = #{itemNo,jdbcType=INTEGER},
+      reply_delivery_date_src = #{replyDeliveryDateSrc,jdbcType=VARCHAR},
+      reply_result_desc = #{replyResultDesc,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

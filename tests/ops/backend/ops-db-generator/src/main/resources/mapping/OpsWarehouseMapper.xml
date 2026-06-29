@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsWarehouseMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsWarehouse">
+    <id column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="warehouse_type" jdbcType="VARCHAR" property="warehouseType" />
+    <result column="warehouse_name" jdbcType="NVARCHAR" property="warehouseName" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="adress" jdbcType="NVARCHAR" property="adress" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
+    <result column="linkman" jdbcType="NVARCHAR" property="linkman"/>
+    <result column="mail" jdbcType="VARCHAR" property="mail"/>
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo"/>
+    <result column="customer_linkman" jdbcType="NVARCHAR" property="customerLinkman"/>
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone"/>
+    <result column="customer_mail" jdbcType="VARCHAR" property="customerMail"/>
+    <result column="smc_linkman" jdbcType="NVARCHAR" property="smcLinkman"/>
+    <result column="smc_phone" jdbcType="VARCHAR" property="smcPhone"/>
+    <result column="smc_mail" jdbcType="VARCHAR" property="smcMail"/>
+    <result column="link_phone" jdbcType="VARCHAR" property="linkPhone"/>
+    <result column="link_mobile" jdbcType="VARCHAR" property="linkMobile"/>
+    <result column="rcv_linkman" jdbcType="NVARCHAR" property="rcvLinkman"/>
+    <result column="rcv_link_tel" jdbcType="NVARCHAR" property="rcvLinkTel"/>
+    <result column="rcv_link_email" jdbcType="NVARCHAR" property="rcvLinkEmail"/>
+    <result column="disable_flag" jdbcType="BIT" property="disableFlag"/>
+    <result column="assembly_flag" jdbcType="BIT" property="assemblyFlag"/>
+    <result column="centralize_flag" jdbcType="BIT" property="centralizeFlag"/>
+    <result column="autodispatch_flag" jdbcType="BIT" property="autodispatchFlag"/>
+    <result column="purchase_flag" jdbcType="BIT" property="purchaseFlag"/>
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+    <result column="dept_no" jdbcType="VARCHAR" property="deptNo"/>
+    <result column="max_eamount" jdbcType="DECIMAL" property="maxEamount"/>
+    <result column="delflag" jdbcType="BIT" property="delflag"/>
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime"/>
+    <result column="creator" jdbcType="NVARCHAR" property="creator"/>
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier"/>
+    <result column="english_address" jdbcType="VARCHAR" property="englishAddress"/>
+    <result column="english_linkman" jdbcType="VARCHAR" property="englishLinkman"/>
+    <result column="returnable_flag" jdbcType="BIT" property="returnableFlag"/>
+    <result column="transfer_flag" jdbcType="BIT" property="transferFlag"/>
+    <result column="prestock_flag" jdbcType="BIT" property="prestockFlag"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    warehouse_code
+    , warehouse_type, warehouse_name, province, city, district, adress,
+    post_code, linkman, mail, customer_no, customer_linkman, customer_phone, customer_mail, 
+    smc_linkman, smc_phone, smc_mail, link_phone, link_mobile, rcv_linkman, rcv_link_tel, 
+    rcv_link_email, disable_flag, assembly_flag, centralize_flag, autodispatch_flag, 
+    purchase_flag, parent_code, dept_no, max_eamount, delflag, cre_time, creator, modify_time, 
+    modifier, english_address, english_linkman, returnable_flag, transfer_flag, prestock_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsWarehouseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_warehouse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_warehouse
+    where warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_warehouse
+    where warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsWarehouseExample">
+    delete from dbo.ops_warehouse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsWarehouse">
+    insert into dbo.ops_warehouse (warehouse_code, warehouse_type, warehouse_name,
+                                   province, city, district,
+                                   adress, post_code, linkman,
+                                   mail, customer_no, customer_linkman,
+                                   customer_phone, customer_mail, smc_linkman,
+                                   smc_phone, smc_mail, link_phone,
+                                   link_mobile, rcv_linkman, rcv_link_tel,
+                                   rcv_link_email, disable_flag, assembly_flag,
+                                   centralize_flag, autodispatch_flag, purchase_flag,
+                                   parent_code, dept_no, max_eamount,
+                                   delflag, cre_time, creator,
+                                   modify_time, modifier, english_address,
+                                   english_linkman, returnable_flag, transfer_flag,
+                                   prestock_flag)
+    values (#{warehouseCode,jdbcType=VARCHAR}, #{warehouseType,jdbcType=VARCHAR}, #{warehouseName,jdbcType=NVARCHAR},
+            #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR},
+            #{adress,jdbcType=NVARCHAR}, #{postCode,jdbcType=VARCHAR}, #{linkman,jdbcType=NVARCHAR},
+            #{mail,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{customerLinkman,jdbcType=NVARCHAR},
+            #{customerPhone,jdbcType=VARCHAR}, #{customerMail,jdbcType=VARCHAR}, #{smcLinkman,jdbcType=NVARCHAR},
+            #{smcPhone,jdbcType=VARCHAR}, #{smcMail,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR},
+            #{linkMobile,jdbcType=VARCHAR}, #{rcvLinkman,jdbcType=NVARCHAR}, #{rcvLinkTel,jdbcType=NVARCHAR},
+            #{rcvLinkEmail,jdbcType=NVARCHAR}, #{disableFlag,jdbcType=BIT}, #{assemblyFlag,jdbcType=BIT},
+            #{centralizeFlag,jdbcType=BIT}, #{autodispatchFlag,jdbcType=BIT}, #{purchaseFlag,jdbcType=BIT},
+            #{parentCode,jdbcType=VARCHAR}, #{deptNo,jdbcType=VARCHAR}, #{maxEamount,jdbcType=DECIMAL},
+            #{delflag,jdbcType=BIT}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR},
+            #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, #{englishAddress,jdbcType=VARCHAR},
+            #{englishLinkman,jdbcType=VARCHAR}, #{returnableFlag,jdbcType=BIT}, #{transferFlag,jdbcType=BIT},
+            #{prestockFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsWarehouse">
+    insert into dbo.ops_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="warehouseType != null">
+        warehouse_type,
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="adress != null">
+        adress,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      <if test="linkman != null">
+        linkman,
+      </if>
+      <if test="mail != null">
+        mail,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="customerLinkman != null">
+        customer_linkman,
+      </if>
+      <if test="customerPhone != null">
+        customer_phone,
+      </if>
+      <if test="customerMail != null">
+        customer_mail,
+      </if>
+      <if test="smcLinkman != null">
+        smc_linkman,
+      </if>
+      <if test="smcPhone != null">
+        smc_phone,
+      </if>
+      <if test="smcMail != null">
+        smc_mail,
+      </if>
+      <if test="linkPhone != null">
+        link_phone,
+      </if>
+      <if test="linkMobile != null">
+        link_mobile,
+      </if>
+      <if test="rcvLinkman != null">
+        rcv_linkman,
+      </if>
+      <if test="rcvLinkTel != null">
+        rcv_link_tel,
+      </if>
+      <if test="rcvLinkEmail != null">
+        rcv_link_email,
+      </if>
+      <if test="disableFlag != null">
+        disable_flag,
+      </if>
+      <if test="assemblyFlag != null">
+        assembly_flag,
+      </if>
+      <if test="centralizeFlag != null">
+        centralize_flag,
+      </if>
+      <if test="autodispatchFlag != null">
+        autodispatch_flag,
+      </if>
+      <if test="purchaseFlag != null">
+        purchase_flag,
+      </if>
+      <if test="parentCode != null">
+        parent_code,
+      </if>
+      <if test="deptNo != null">
+        dept_no,
+      </if>
+      <if test="maxEamount != null">
+        max_eamount,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="englishAddress != null">
+        english_address,
+      </if>
+      <if test="englishLinkman != null">
+        english_linkman,
+      </if>
+      <if test="returnableFlag != null">
+        returnable_flag,
+      </if>
+      <if test="transferFlag != null">
+        transfer_flag,
+      </if>
+      <if test="prestockFlag != null">
+        prestock_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null">
+        #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseName != null">
+        #{warehouseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null">
+        #{adress,jdbcType=NVARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLinkman != null">
+        #{customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerMail != null">
+        #{customerMail,jdbcType=VARCHAR},
+      </if>
+      <if test="smcLinkman != null">
+        #{smcLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="smcPhone != null">
+        #{smcPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smcMail != null">
+        #{smcMail,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null">
+        #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null">
+        #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rcvLinkman != null">
+        #{rcvLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="rcvLinkTel != null">
+        #{rcvLinkTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="rcvLinkEmail != null">
+        #{rcvLinkEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="disableFlag != null">
+        #{disableFlag,jdbcType=BIT},
+      </if>
+      <if test="assemblyFlag != null">
+        #{assemblyFlag,jdbcType=BIT},
+      </if>
+      <if test="centralizeFlag != null">
+        #{centralizeFlag,jdbcType=BIT},
+      </if>
+      <if test="autodispatchFlag != null">
+        #{autodispatchFlag,jdbcType=BIT},
+      </if>
+      <if test="purchaseFlag != null">
+        #{purchaseFlag,jdbcType=BIT},
+      </if>
+      <if test="parentCode != null">
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxEamount != null">
+        #{maxEamount,jdbcType=DECIMAL},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=BIT},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="englishAddress != null">
+        #{englishAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="englishLinkman != null">
+        #{englishLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="returnableFlag != null">
+        #{returnableFlag,jdbcType=BIT},
+      </if>
+      <if test="transferFlag != null">
+        #{transferFlag,jdbcType=BIT},
+      </if>
+      <if test="prestockFlag != null">
+        #{prestockFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsWarehouseExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_warehouse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_warehouse
+    <set>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseType != null">
+        warehouse_type = #{record.warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseName != null">
+        warehouse_name = #{record.warehouseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null">
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adress != null">
+        adress = #{record.adress,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.postCode != null">
+        post_code = #{record.postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkman != null">
+        linkman = #{record.linkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.mail != null">
+        mail = #{record.mail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerLinkman != null">
+        customer_linkman = #{record.customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerPhone != null">
+        customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerMail != null">
+        customer_mail = #{record.customerMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smcLinkman != null">
+        smc_linkman = #{record.smcLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.smcPhone != null">
+        smc_phone = #{record.smcPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smcMail != null">
+        smc_mail = #{record.smcMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkPhone != null">
+        link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkMobile != null">
+        link_mobile = #{record.linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rcvLinkman != null">
+        rcv_linkman = #{record.rcvLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.rcvLinkTel != null">
+        rcv_link_tel = #{record.rcvLinkTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.rcvLinkEmail != null">
+        rcv_link_email = #{record.rcvLinkEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.disableFlag != null">
+        disable_flag = #{record.disableFlag,jdbcType=BIT},
+      </if>
+      <if test="record.assemblyFlag != null">
+        assembly_flag = #{record.assemblyFlag,jdbcType=BIT},
+      </if>
+      <if test="record.centralizeFlag != null">
+        centralize_flag = #{record.centralizeFlag,jdbcType=BIT},
+      </if>
+      <if test="record.autodispatchFlag != null">
+        autodispatch_flag = #{record.autodispatchFlag,jdbcType=BIT},
+      </if>
+      <if test="record.purchaseFlag != null">
+        purchase_flag = #{record.purchaseFlag,jdbcType=BIT},
+      </if>
+      <if test="record.parentCode != null">
+        parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptNo != null">
+        dept_no = #{record.deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxEamount != null">
+        max_eamount = #{record.maxEamount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=BIT},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.englishAddress != null">
+        english_address = #{record.englishAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.englishLinkman != null">
+        english_linkman = #{record.englishLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnableFlag != null">
+        returnable_flag = #{record.returnableFlag,jdbcType=BIT},
+      </if>
+      <if test="record.transferFlag != null">
+        transfer_flag = #{record.transferFlag,jdbcType=BIT},
+      </if>
+      <if test="record.prestockFlag != null">
+        prestock_flag = #{record.prestockFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_warehouse
+    set warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      warehouse_type = #{record.warehouseType,jdbcType=VARCHAR},
+      warehouse_name = #{record.warehouseName,jdbcType=NVARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      adress = #{record.adress,jdbcType=NVARCHAR},
+    post_code = #{record.postCode,jdbcType=VARCHAR},
+    linkman = #{record.linkman,jdbcType=NVARCHAR},
+    mail = #{record.mail,jdbcType=VARCHAR},
+    customer_no = #{record.customerNo,jdbcType=VARCHAR},
+    customer_linkman = #{record.customerLinkman,jdbcType=NVARCHAR},
+    customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+    customer_mail = #{record.customerMail,jdbcType=VARCHAR},
+    smc_linkman = #{record.smcLinkman,jdbcType=NVARCHAR},
+    smc_phone = #{record.smcPhone,jdbcType=VARCHAR},
+    smc_mail = #{record.smcMail,jdbcType=VARCHAR},
+    link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+    link_mobile = #{record.linkMobile,jdbcType=VARCHAR},
+    rcv_linkman = #{record.rcvLinkman,jdbcType=NVARCHAR},
+    rcv_link_tel = #{record.rcvLinkTel,jdbcType=NVARCHAR},
+    rcv_link_email = #{record.rcvLinkEmail,jdbcType=NVARCHAR},
+    disable_flag = #{record.disableFlag,jdbcType=BIT},
+    assembly_flag = #{record.assemblyFlag,jdbcType=BIT},
+    centralize_flag = #{record.centralizeFlag,jdbcType=BIT},
+    autodispatch_flag = #{record.autodispatchFlag,jdbcType=BIT},
+    purchase_flag = #{record.purchaseFlag,jdbcType=BIT},
+    parent_code = #{record.parentCode,jdbcType=VARCHAR},
+    dept_no = #{record.deptNo,jdbcType=VARCHAR},
+    max_eamount = #{record.maxEamount,jdbcType=DECIMAL},
+    delflag = #{record.delflag,jdbcType=BIT},
+    cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+    creator = #{record.creator,jdbcType=NVARCHAR},
+    modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+    modifier = #{record.modifier,jdbcType=NVARCHAR},
+    english_address = #{record.englishAddress,jdbcType=VARCHAR},
+    english_linkman = #{record.englishLinkman,jdbcType=VARCHAR},
+    returnable_flag = #{record.returnableFlag,jdbcType=BIT},
+    transfer_flag = #{record.transferFlag,jdbcType=BIT},
+    prestock_flag = #{record.prestockFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsWarehouse">
+    update dbo.ops_warehouse
+    <set>
+      <if test="warehouseType != null">
+        warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name = #{warehouseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null">
+        adress = #{adress,jdbcType=NVARCHAR},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="mail != null">
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLinkman != null">
+        customer_linkman = #{customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerMail != null">
+        customer_mail = #{customerMail,jdbcType=VARCHAR},
+      </if>
+      <if test="smcLinkman != null">
+        smc_linkman = #{smcLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="smcPhone != null">
+        smc_phone = #{smcPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smcMail != null">
+        smc_mail = #{smcMail,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null">
+        link_phone = #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null">
+        link_mobile = #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rcvLinkman != null">
+        rcv_linkman = #{rcvLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="rcvLinkTel != null">
+        rcv_link_tel = #{rcvLinkTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="rcvLinkEmail != null">
+        rcv_link_email = #{rcvLinkEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="disableFlag != null">
+        disable_flag = #{disableFlag,jdbcType=BIT},
+      </if>
+      <if test="assemblyFlag != null">
+        assembly_flag = #{assemblyFlag,jdbcType=BIT},
+      </if>
+      <if test="centralizeFlag != null">
+        centralize_flag = #{centralizeFlag,jdbcType=BIT},
+      </if>
+      <if test="autodispatchFlag != null">
+        autodispatch_flag = #{autodispatchFlag,jdbcType=BIT},
+      </if>
+      <if test="purchaseFlag != null">
+        purchase_flag = #{purchaseFlag,jdbcType=BIT},
+      </if>
+      <if test="parentCode != null">
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptNo != null">
+        dept_no = #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxEamount != null">
+        max_eamount = #{maxEamount,jdbcType=DECIMAL},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=BIT},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="englishAddress != null">
+        english_address = #{englishAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="englishLinkman != null">
+        english_linkman = #{englishLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="returnableFlag != null">
+        returnable_flag = #{returnableFlag,jdbcType=BIT},
+      </if>
+      <if test="transferFlag != null">
+        transfer_flag = #{transferFlag,jdbcType=BIT},
+      </if>
+      <if test="prestockFlag != null">
+        prestock_flag = #{prestockFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsWarehouse">
+    update dbo.ops_warehouse
+    set warehouse_type    = #{warehouseType,jdbcType=VARCHAR},
+        warehouse_name    = #{warehouseName,jdbcType=NVARCHAR},
+        province          = #{province,jdbcType=VARCHAR},
+        city              = #{city,jdbcType=VARCHAR},
+        district          = #{district,jdbcType=VARCHAR},
+        adress            = #{adress,jdbcType=NVARCHAR},
+        post_code         = #{postCode,jdbcType=VARCHAR},
+        linkman           = #{linkman,jdbcType=NVARCHAR},
+        mail              = #{mail,jdbcType=VARCHAR},
+        customer_no       = #{customerNo,jdbcType=VARCHAR},
+        customer_linkman  = #{customerLinkman,jdbcType=NVARCHAR},
+        customer_phone    = #{customerPhone,jdbcType=VARCHAR},
+        customer_mail     = #{customerMail,jdbcType=VARCHAR},
+        smc_linkman       = #{smcLinkman,jdbcType=NVARCHAR},
+        smc_phone         = #{smcPhone,jdbcType=VARCHAR},
+        smc_mail          = #{smcMail,jdbcType=VARCHAR},
+        link_phone        = #{linkPhone,jdbcType=VARCHAR},
+        link_mobile       = #{linkMobile,jdbcType=VARCHAR},
+        rcv_linkman       = #{rcvLinkman,jdbcType=NVARCHAR},
+        rcv_link_tel      = #{rcvLinkTel,jdbcType=NVARCHAR},
+        rcv_link_email    = #{rcvLinkEmail,jdbcType=NVARCHAR},
+        disable_flag      = #{disableFlag,jdbcType=BIT},
+        assembly_flag     = #{assemblyFlag,jdbcType=BIT},
+        centralize_flag   = #{centralizeFlag,jdbcType=BIT},
+        autodispatch_flag = #{autodispatchFlag,jdbcType=BIT},
+        purchase_flag     = #{purchaseFlag,jdbcType=BIT},
+        parent_code       = #{parentCode,jdbcType=VARCHAR},
+        dept_no           = #{deptNo,jdbcType=VARCHAR},
+        max_eamount       = #{maxEamount,jdbcType=DECIMAL},
+        delflag           = #{delflag,jdbcType=BIT},
+        cre_time          = #{creTime,jdbcType=TIMESTAMP},
+        creator           = #{creator,jdbcType=NVARCHAR},
+        modify_time       = #{modifyTime,jdbcType=TIMESTAMP},
+        modifier          = #{modifier,jdbcType=NVARCHAR},
+        english_address   = #{englishAddress,jdbcType=VARCHAR},
+        english_linkman   = #{englishLinkman,jdbcType=VARCHAR},
+        returnable_flag   = #{returnableFlag,jdbcType=BIT},
+        transfer_flag     = #{transferFlag,jdbcType=BIT},
+        prestock_flag     = #{prestockFlag,jdbcType=BIT}
+    where warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

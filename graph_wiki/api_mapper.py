@@ -7,17 +7,26 @@ from typing import Optional
 
 from .models import ApiMatch, FrontendApiCall, BackendEndpoint, Domain
 
+JAVA_NON_BUSINESS_TYPES = {
+    "String", "Boolean", "Byte", "Short", "Integer", "Long", "Float", "Double",
+    "BigDecimal", "BigInteger", "Date", "LocalDate", "LocalDateTime", "Instant",
+    "Map", "HashMap", "LinkedHashMap", "List", "ArrayList", "Set", "HashSet",
+    "Collection", "Iterable", "Optional", "Object", "MultipartFile",
+}
+
 # ── 前端 API 解析 ──
 
 AXIOS_CALL_PATTERNS = [
+    # 模式 1: axios.post / request.post / http.get 等 HTTP 客户端方法调用
     re.compile(
-        r"""axios\s*\.\s*(?P<method>get|post|put|delete|patch)
-            \s*\(\s*['\"](?P<url>[^'\"]+)['\"]""",
+        r"""(?:axios|request|http|api|client)\s*\.\s*(?P<method>get|post|put|delete|patch)
+            \s*\(\s*['\"`](?P<url>[^'\"`]+)['\"`]""",
         re.VERBOSE | re.IGNORECASE,
     ),
+    # 模式 2: method: 'post', url: '/api/xxx' 配置模式
     re.compile(
         r"""method\s*:\s*['\"](?P<method>get|post|put|delete|patch)['\"]
-            .*?url\s*:\s*['\"](?P<url>[^'\"]+)['\"]""",
+            .*?url\s*:\s*['\"`](?P<url>[^'\"`]+)['\"`]""",
         re.VERBOSE | re.IGNORECASE,
     ),
 ]
@@ -61,7 +70,7 @@ def _extract_functions(source: str, file_path: Path) -> list[FrontendApiCall]:
                     function_name=name,
                     http_method=m.group("method").upper(),
                     url=m.group("url"),
-                    params=[{"name": p} for p in param_names],
+                    params=param_names,
                     source_file=str(file_path),
                     source_line=source[: match.start()].count("\n") + 1,
                 )
@@ -93,19 +102,27 @@ def trace_frontend_callers(
                 for call in api_index[module_name]:
                     if call.function_name == func:
                         call.callers.append({
-                            "page": str(vue_file.relative_to(views_dir.parent)),
+                            "page": str(vue_file.relative_to(views_dir.parent)).replace("\\", "/"),
                             "fields_used": _extract_used_fields(source, func),
                         })
     return api_calls
 
 
 def _parse_vue_imports(source: str) -> dict[str, list[str]]:
-    pattern = re.compile(
-        r"""import\s+\{([^}]+)\}\s+from\s+['\"]@/api/(?P<module>\w+)['\"]"""
-    )
+    # 支持 '@/api/module'、'../../api/module'、'@/api' 和 '../../api'
     results = {}
+    pattern = re.compile(
+        r"""import\s+\{([^}]+)\}\s+from\s+['\"](?P<path>[^'\"]+)['\"]"""
+    )
     for match in pattern.finditer(source):
-        module = match.group("module")
+        import_path = match.group("path").replace("\\", "/")
+        module = ""
+        if import_path in {"@/api", "./api", "../api", "../../api"} or import_path.endswith("/api"):
+            module = "index"
+        elif "/api/" in import_path:
+            module = import_path.rsplit("/api/", 1)[1].split("/", 1)[0]
+        if not module:
+            continue
         functions = [f.strip().split(" as ")[0].strip() for f in match.group(1).split(",")]
         results[module] = functions
     return results
@@ -150,33 +167,247 @@ def _extract_endpoints(
 ) -> list[BackendEndpoint]:
     endpoints = []
     mapping_pattern = re.compile(
-        r"""@(?P<method_type>Post|Get|Put|Delete|Patch)Mapping\s*\(\s*
-            ["\'](?P<path>[^"\']*)["\']\s*\)\s*
-            (?:@\w+(?:\([^)]*\))?\s*)*
-            public\s+(?P<return_type>\S+)\s+(?P<method_name>\w+)\s*
-            \(\s*(?:@\w+(?:\([^)]*\))?\s*)*
-            (?P<param_type>\S+)?\s*(?P<param_name>\w+)?\s*\)""",
-        re.VERBOSE,
+        r"@(?P<method_type>Post|Get|Put|Delete|Patch)Mapping\b(?:\s*\((?P<args>[^)]*)\))?"
     )
     for match in mapping_pattern.finditer(source):
-        url = (base_path + match.group("path")).rstrip("/")
-        if not url.startswith("/"):
-            url = "/" + url
+        signature = _extract_java_method_signature(source, match.end())
+        if not signature:
+            continue
+        method_name = signature["method_name"]
+        param_type = _select_request_body_param_type(signature["params"])
+        url = _join_url(base_path, _extract_mapping_path(match.group("args") or ""))
+
+        # 提取 DTO 参数字段列表（Phase 2+ 增强）
+        param_fields = _extract_dto_fields_from_source(source, param_type, file_path) if param_type else []
+
+        # 提取 Controller 方法体内的 Service 调用链
+        method_source = _extract_method_body(source, method_name)
+        service_chain = _extract_service_chain_from_body(method_source) if method_source else []
+
         endpoints.append(BackendEndpoint(
             controller_file=str(file_path.relative_to(backend_root)),
             controller_class=_extract_class_name(source),
-            method_name=match.group("method_name"),
+            method_name=method_name,
             http_method=match.group("method_type").upper(),
             url=url,
-            param_type=match.group("param_type"),
-            return_type=match.group("return_type"),
+            param_type=param_type,
+            param_fields=param_fields,
+            service_chain=service_chain,
+            return_type=signature["return_type"],
         ))
     return endpoints
+
+
+def _extract_mapping_path(args: str) -> str:
+    """解析 @GetMapping("/x")、@GetMapping(value="/x") 和 @PostMapping。"""
+    if not args:
+        return ""
+    match = re.search(r"""(?:value|path)?\s*=?\s*["']([^"']*)["']""", args)
+    return match.group(1) if match else ""
+
+
+def _join_url(base_path: str, path: str) -> str:
+    base = (base_path or "").strip("/")
+    child = (path or "").strip("/")
+    if base and child:
+        url = f"/{base}/{child}"
+    elif base:
+        url = f"/{base}"
+    elif child:
+        url = f"/{child}"
+    else:
+        url = "/"
+    return url.rstrip("/") or "/"
+
+
+def _extract_java_method_signature(source: str, start: int) -> dict | None:
+    public_idx = source.find("public", start, start + 2000)
+    if public_idx == -1:
+        return None
+    open_paren = source.find("(", public_idx, public_idx + 2000)
+    if open_paren == -1:
+        return None
+    prefix = " ".join(source[public_idx:open_paren].split())
+    match = re.match(r"public\s+(?P<return_type>.+)\s+(?P<method_name>\w+)$", prefix)
+    if not match:
+        return None
+    close_paren = _find_matching_delimiter(source, open_paren, "(", ")")
+    if close_paren == -1:
+        return None
+    params_source = source[open_paren + 1:close_paren]
+    return {
+        "method_name": match.group("method_name"),
+        "return_type": match.group("return_type").strip(),
+        "params": _parse_java_params(params_source),
+    }
+
+
+def _find_matching_delimiter(source: str, start: int, open_char: str, close_char: str) -> int:
+    depth = 0
+    for i in range(start, len(source)):
+        if source[i] == open_char:
+            depth += 1
+        elif source[i] == close_char:
+            depth -= 1
+            if depth == 0:
+                return i
+    return -1
+
+
+def _parse_java_params(params_source: str) -> list[dict]:
+    params = []
+    for raw_param in _split_top_level_commas(params_source):
+        raw_param = raw_param.strip()
+        if not raw_param:
+            continue
+        cleaned = re.sub(r"@\w+(?:\s*\([^)]*\))?\s*", "", raw_param).strip()
+        cleaned = re.sub(r"\bfinal\s+", "", cleaned)
+        parts = cleaned.split()
+        if len(parts) < 2:
+            continue
+        params.append({
+            "raw": raw_param,
+            "type": " ".join(parts[:-1]).strip(),
+            "name": parts[-1].strip(),
+        })
+    return params
+
+
+def _split_top_level_commas(text: str) -> list[str]:
+    parts = []
+    start = 0
+    angle_depth = paren_depth = 0
+    for i, char in enumerate(text):
+        if char == "<":
+            angle_depth += 1
+        elif char == ">" and angle_depth:
+            angle_depth -= 1
+        elif char == "(":
+            paren_depth += 1
+        elif char == ")" and paren_depth:
+            paren_depth -= 1
+        elif char == "," and angle_depth == 0 and paren_depth == 0:
+            parts.append(text[start:i])
+            start = i + 1
+    parts.append(text[start:])
+    return parts
+
+
+def _select_request_body_param_type(params: list[dict]) -> str:
+    for param in params:
+        if "@RequestBody" in param["raw"]:
+            return _normalize_payload_type(param["type"])
+    return ""
+
+
+def _normalize_payload_type(param_type: str) -> str:
+    cleaned = " ".join(param_type.replace("...", "").split()).strip()
+    cleaned = cleaned.rsplit(".", 1)[-1]
+    collection_match = re.search(r"(?:List|Set|Collection|Iterable)\s*<\s*([\w.]+)", cleaned)
+    if collection_match:
+        return collection_match.group(1).rsplit(".", 1)[-1]
+    return cleaned.split("<", 1)[0].split("[", 1)[0].strip()
 
 
 def _extract_class_name(source: str) -> str:
     match = re.search(r"public\s+class\s+(\w+)", source)
     return match.group(1) if match else ""
+
+
+# ── DTO 字段 + Service 链提取（Phase 2+）──
+
+def _extract_dto_fields_from_source(source: str, param_type: str, file_path: Path) -> list[dict]:
+    """从 Controller 入参类型解析 DTO 字段。"""
+    if not param_type:
+        return []
+    java_file = _find_java_class_file(param_type, file_path)
+    if not java_file:
+        return []
+    try:
+        dto_source = java_file.read_text(encoding="utf-8")
+    except (IOError, UnicodeDecodeError):
+        return []
+    return _extract_java_fields(dto_source)
+
+
+def _find_java_class_file(class_name: str, near_file: Path) -> Path | None:
+    simple_name = _normalize_payload_type(class_name)
+    if not simple_name or simple_name in JAVA_NON_BUSINESS_TYPES:
+        return None
+
+    search_roots = _java_search_roots(near_file)
+    for parent in search_roots:
+        candidate = parent / f"{simple_name}.java"
+        if candidate.exists():
+            return candidate
+        matches = list(parent.rglob(f"{simple_name}.java"))
+        if matches:
+            return matches[0]
+    return None
+
+
+def _java_search_roots(near_file: Path) -> list[Path]:
+    parts = near_file.parts
+    for i in range(len(parts) - 2):
+        if parts[i:i + 3] == ("src", "main", "java"):
+            return [Path(*parts[:i + 3])]
+    return [near_file.parent]
+
+
+def _extract_java_fields(source: str) -> list[dict]:
+    fields = []
+    pattern = re.compile(
+        r"""(?:@\w+(?:\([^)]*\))?\s*)*
+            (?:private|protected|public)\s+
+            (?P<type>[\w<>?,\s]+?)\s+
+            (?P<name>\w+)\s*;""",
+        re.VERBOSE,
+    )
+    for match in pattern.finditer(source):
+        fields.append({
+            "name": match.group("name"),
+            "type": " ".join(match.group("type").split()),
+        })
+    return fields
+
+
+def _extract_method_body(source: str, method_name: str) -> str:
+    """从 Java 源码中提取指定方法的方法体"""
+    method_match = re.search(rf"\b{re.escape(method_name)}\s*\(", source)
+    if not method_match:
+        return ""
+    public_idx = source.rfind("public", 0, method_match.start())
+    if public_idx == -1 or method_match.start() - public_idx > 500:
+        return ""
+    open_paren = source.find("(", method_match.start())
+    close_paren = _find_matching_delimiter(source, open_paren, "(", ")")
+    if close_paren == -1:
+        return ""
+    open_brace = source.find("{", close_paren, close_paren + 400)
+    if open_brace == -1:
+        return ""
+    start = open_brace + 1
+    depth = 1
+    i = start
+    while i < len(source) and depth > 0:
+        if source[i] == "{":
+            _, _ = depth + 1, i + 1
+            depth += 1
+            i = min(i + 1, len(source))
+        elif source[i] == "}":
+            depth -= 1
+        i += 1
+    return source[start:i-1] if depth == 0 else ""
+
+
+def _extract_service_chain_from_body(method_body: str) -> list[str]:
+    """从 Controller 方法体中提取 Service/Mapper 调用链"""
+    # 匹配 xxxService.yyy() 和 xxxMapper.yyy() 调用
+    pattern = re.compile(r"(\w+(?:Service|Mapper|DAO))\s*\.\s*(\w+)\s*\(")
+    chain = []
+    for match in pattern.finditer(method_body):
+        chain.append(f"{match.group(1)}.{match.group(2)}()")
+    return chain[:10]  # 最多 10 个
 
 
 # ── URL 匹配 ──
@@ -188,14 +419,39 @@ def url_match_score(fe_url: str, be_url: str) -> float:
         return 1.0
     if fe_url.rstrip("/") == be_url.rstrip("/"):
         return 0.95
-    fe_segs, be_segs = fe_url.split("/"), be_url.split("/")
+    fe_segs, be_segs = _business_url_segments(fe_url), _business_url_segments(be_url)
+    if fe_segs == be_segs:
+        return 0.95
     if len(fe_segs) == len(be_segs):
         match_count = sum(1 for f, b in zip(fe_segs, be_segs) if f == b)
-        if match_count >= len(fe_segs) - 1:
+        dynamic_pairs = sum(1 for f, b in zip(fe_segs, be_segs) if _is_dynamic_segment(f) and _is_dynamic_segment(b))
+        dynamic_literal_mismatch = any(
+            _is_dynamic_segment(f) != _is_dynamic_segment(b)
+            for f, b in zip(fe_segs, be_segs)
+            if f != b
+        )
+        if match_count + dynamic_pairs == len(fe_segs):
+            return 0.9
+        if match_count >= len(fe_segs) - 1 and not dynamic_literal_mismatch:
             return 0.8
     if fe_segs[:-1] == be_segs[:-1]:
         return 0.5
     return 0.0
+
+
+def _business_url_segments(url: str) -> list[str]:
+    segments = [seg for seg in url.strip("/").split("/") if seg]
+    if segments and segments[0] == "api":
+        return segments[1:]
+    return segments
+
+
+def _is_dynamic_segment(segment: str) -> bool:
+    return (
+        segment.startswith("{") and segment.endswith("}")
+        or segment.startswith("${") and segment.endswith("}")
+        or segment.startswith(":")
+    )
 
 
 def match_apis(
@@ -217,7 +473,7 @@ def match_apis(
                 best_score = score
                 best_match = be_ep
         if best_match and best_score >= 0.5:
-            domain = _find_endpoint_domain(best_match, domains)
+            domain = infer_frontend_api_domain(fe_api, domains) or _find_endpoint_domain(best_match, domains)
             matches.append(ApiMatch(
                 id=f"api-{_slugify(fe_api.function_name)}",
                 frontend=fe_api,
@@ -235,6 +491,23 @@ def _slugify(text: str) -> str:
 
 
 def _find_endpoint_domain(ep: BackendEndpoint, domains: list[Domain]) -> str:
+    file_token = _normalize_domain_token(ep.controller_file)
+    for d in domains:
+        domain_value = d.name or d.id
+        if not domain_value or domain_value in {"main", "api", "controller", "service"}:
+            continue
+        candidate_tokens = {
+            d.id,
+            d.name,
+            d.display_name,
+            *d.modules,
+            *d.packages,
+        }
+        for token in candidate_tokens:
+            normalized = _normalize_domain_token(token)
+            if normalized and normalized in file_token:
+                return domain_value
+
     for d in domains:
         for roles in d.anchors.values():
             for anchor in roles:
@@ -242,6 +515,64 @@ def _find_endpoint_domain(ep: BackendEndpoint, domains: list[Domain]) -> str:
                 if ep.controller_file in file or Path(ep.controller_file).name in file:
                     return d.name or d.id
     return ""
+
+
+def infer_frontend_api_domain(
+    api_call: FrontendApiCall,
+    domains: list[Domain],
+    project_root: Path | None = None,
+) -> str:
+    """根据前端 API 文件、调用页面和 URL 推断业务域。"""
+    candidates = _domain_lookup(domains)
+
+    module = Path(api_call.source_file).stem
+    if module.lower() not in {"index", "api", "request", "http", "client"}:
+        found = _match_domain_token(module, candidates)
+        if found:
+            return found
+
+    for caller in api_call.callers or []:
+        page = str(caller.get("page", "")).replace("\\", "/")
+        parts = [p for p in page.split("/") if p and p not in {"src", "views", "view", "pages"}]
+        for part in parts[:-1] or parts:
+            found = _match_domain_token(part, candidates)
+            if found:
+                return found
+
+    for segment in [s for s in api_call.url.strip("/").split("/") if s]:
+        if segment.lower() in {"api", "v1", "v2", "admin"}:
+            continue
+        found = _match_domain_token(segment, candidates)
+        if found:
+            return found
+    return ""
+
+
+def _domain_lookup(domains: list[Domain]) -> dict[str, str]:
+    lookup = {}
+    for domain in domains:
+        value = domain.name or domain.id
+        for token in {domain.id, domain.name, domain.display_name, *domain.modules, *domain.packages}:
+            if token:
+                lookup[_normalize_domain_token(token)] = value
+                lookup[_normalize_domain_token(Path(str(token)).name)] = value
+        if _normalize_domain_token(value) == "repository":
+            lookup["repo"] = value
+    return lookup
+
+
+def _match_domain_token(token: str, lookup: dict[str, str]) -> str:
+    normalized = _normalize_domain_token(token)
+    if normalized in lookup:
+        return lookup[normalized]
+    for key, value in lookup.items():
+        if key and (normalized in key or key in normalized):
+            return value
+    return ""
+
+
+def _normalize_domain_token(token: str) -> str:
+    return re.sub(r"[^a-z0-9\u4e00-\u9fff]", "", str(token).lower())
 
 
 # ── 主接口 ──
@@ -265,4 +596,15 @@ def build_api_map(
     else:
         backend_endpoints = []
 
-    return match_apis(frontend_apis, backend_endpoints, domains)
+    matches = match_apis(frontend_apis, backend_endpoints, domains)
+    if matches:
+        for match in matches:
+            if not match.domain:
+                match.domain = infer_frontend_api_domain(match.frontend, domains, backend_root)
+        return matches
+
+    for api_call in frontend_apis:
+        domain = infer_frontend_api_domain(api_call, domains, backend_root)
+        if domain:
+            setattr(api_call, "domain", domain)
+    return frontend_apis

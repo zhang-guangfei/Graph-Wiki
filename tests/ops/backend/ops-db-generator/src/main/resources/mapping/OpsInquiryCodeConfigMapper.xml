@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInquiryCodeConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInquiryCodeConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code_type" jdbcType="CHAR" property="codeType" />
+    <result column="ops_reason_code" jdbcType="VARCHAR" property="opsReasonCode" />
+    <result column="ops_reason_desc" jdbcType="NVARCHAR" property="opsReasonDesc" />
+    <result column="gz_reason_code" jdbcType="VARCHAR" property="gzReasonCode" />
+    <result column="gz_reason_desc" jdbcType="NVARCHAR" property="gzReasonDesc" />
+    <result column="as400_reason_code" jdbcType="VARCHAR" property="as400ReasonCode" />
+    <result column="as400_reason_desc" jdbcType="NVARCHAR" property="as400ReasonDesc" />
+    <result column="manu_reason_code" jdbcType="VARCHAR" property="manuReasonCode" />
+    <result column="manu_reason_desc" jdbcType="NVARCHAR" property="manuReasonDesc" />
+    <result column="purchase_reason_code" jdbcType="VARCHAR" property="purchaseReasonCode" />
+    <result column="purchase_reason_desc" jdbcType="NVARCHAR" property="purchaseReasonDesc" />
+    <result column="id_deleted" jdbcType="BIT" property="idDeleted" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, code_type, ops_reason_code, ops_reason_desc, gz_reason_code, gz_reason_desc, 
+    as400_reason_code, as400_reason_desc, manu_reason_code, manu_reason_desc, purchase_reason_code, 
+    purchase_reason_desc, id_deleted, create_user, create_time, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_code_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inquiry_code_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_inquiry_code_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfigExample">
+    delete from dbo.ops_inquiry_code_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfig">
+    insert into dbo.ops_inquiry_code_config (id, code_type, ops_reason_code, 
+      ops_reason_desc, gz_reason_code, gz_reason_desc, 
+      as400_reason_code, as400_reason_desc, manu_reason_code, 
+      manu_reason_desc, purchase_reason_code, purchase_reason_desc, 
+      id_deleted, create_user, create_time, 
+      update_user, update_time)
+    values (#{id,jdbcType=BIGINT}, #{codeType,jdbcType=CHAR}, #{opsReasonCode,jdbcType=VARCHAR}, 
+      #{opsReasonDesc,jdbcType=NVARCHAR}, #{gzReasonCode,jdbcType=VARCHAR}, #{gzReasonDesc,jdbcType=NVARCHAR}, 
+      #{as400ReasonCode,jdbcType=VARCHAR}, #{as400ReasonDesc,jdbcType=NVARCHAR}, #{manuReasonCode,jdbcType=VARCHAR}, 
+      #{manuReasonDesc,jdbcType=NVARCHAR}, #{purchaseReasonCode,jdbcType=VARCHAR}, #{purchaseReasonDesc,jdbcType=NVARCHAR}, 
+      #{idDeleted,jdbcType=BIT}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfig">
+    insert into dbo.ops_inquiry_code_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="codeType != null">
+        code_type,
+      </if>
+      <if test="opsReasonCode != null">
+        ops_reason_code,
+      </if>
+      <if test="opsReasonDesc != null">
+        ops_reason_desc,
+      </if>
+      <if test="gzReasonCode != null">
+        gz_reason_code,
+      </if>
+      <if test="gzReasonDesc != null">
+        gz_reason_desc,
+      </if>
+      <if test="as400ReasonCode != null">
+        as400_reason_code,
+      </if>
+      <if test="as400ReasonDesc != null">
+        as400_reason_desc,
+      </if>
+      <if test="manuReasonCode != null">
+        manu_reason_code,
+      </if>
+      <if test="manuReasonDesc != null">
+        manu_reason_desc,
+      </if>
+      <if test="purchaseReasonCode != null">
+        purchase_reason_code,
+      </if>
+      <if test="purchaseReasonDesc != null">
+        purchase_reason_desc,
+      </if>
+      <if test="idDeleted != null">
+        id_deleted,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="codeType != null">
+        #{codeType,jdbcType=CHAR},
+      </if>
+      <if test="opsReasonCode != null">
+        #{opsReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opsReasonDesc != null">
+        #{opsReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="gzReasonCode != null">
+        #{gzReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gzReasonDesc != null">
+        #{gzReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="as400ReasonCode != null">
+        #{as400ReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="as400ReasonDesc != null">
+        #{as400ReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="manuReasonCode != null">
+        #{manuReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manuReasonDesc != null">
+        #{manuReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseReasonCode != null">
+        #{purchaseReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseReasonDesc != null">
+        #{purchaseReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="idDeleted != null">
+        #{idDeleted,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inquiry_code_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inquiry_code_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.codeType != null">
+        code_type = #{record.codeType,jdbcType=CHAR},
+      </if>
+      <if test="record.opsReasonCode != null">
+        ops_reason_code = #{record.opsReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opsReasonDesc != null">
+        ops_reason_desc = #{record.opsReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.gzReasonCode != null">
+        gz_reason_code = #{record.gzReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gzReasonDesc != null">
+        gz_reason_desc = #{record.gzReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.as400ReasonCode != null">
+        as400_reason_code = #{record.as400ReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.as400ReasonDesc != null">
+        as400_reason_desc = #{record.as400ReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.manuReasonCode != null">
+        manu_reason_code = #{record.manuReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manuReasonDesc != null">
+        manu_reason_desc = #{record.manuReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.purchaseReasonCode != null">
+        purchase_reason_code = #{record.purchaseReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseReasonDesc != null">
+        purchase_reason_desc = #{record.purchaseReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.idDeleted != null">
+        id_deleted = #{record.idDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inquiry_code_config
+    set id = #{record.id,jdbcType=BIGINT},
+      code_type = #{record.codeType,jdbcType=CHAR},
+      ops_reason_code = #{record.opsReasonCode,jdbcType=VARCHAR},
+      ops_reason_desc = #{record.opsReasonDesc,jdbcType=NVARCHAR},
+      gz_reason_code = #{record.gzReasonCode,jdbcType=VARCHAR},
+      gz_reason_desc = #{record.gzReasonDesc,jdbcType=NVARCHAR},
+      as400_reason_code = #{record.as400ReasonCode,jdbcType=VARCHAR},
+      as400_reason_desc = #{record.as400ReasonDesc,jdbcType=NVARCHAR},
+      manu_reason_code = #{record.manuReasonCode,jdbcType=VARCHAR},
+      manu_reason_desc = #{record.manuReasonDesc,jdbcType=NVARCHAR},
+      purchase_reason_code = #{record.purchaseReasonCode,jdbcType=VARCHAR},
+      purchase_reason_desc = #{record.purchaseReasonDesc,jdbcType=NVARCHAR},
+      id_deleted = #{record.idDeleted,jdbcType=BIT},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfig">
+    update dbo.ops_inquiry_code_config
+    <set>
+      <if test="codeType != null">
+        code_type = #{codeType,jdbcType=CHAR},
+      </if>
+      <if test="opsReasonCode != null">
+        ops_reason_code = #{opsReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opsReasonDesc != null">
+        ops_reason_desc = #{opsReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="gzReasonCode != null">
+        gz_reason_code = #{gzReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gzReasonDesc != null">
+        gz_reason_desc = #{gzReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="as400ReasonCode != null">
+        as400_reason_code = #{as400ReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="as400ReasonDesc != null">
+        as400_reason_desc = #{as400ReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="manuReasonCode != null">
+        manu_reason_code = #{manuReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manuReasonDesc != null">
+        manu_reason_desc = #{manuReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseReasonCode != null">
+        purchase_reason_code = #{purchaseReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseReasonDesc != null">
+        purchase_reason_desc = #{purchaseReasonDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="idDeleted != null">
+        id_deleted = #{idDeleted,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInquiryCodeConfig">
+    update dbo.ops_inquiry_code_config
+    set code_type = #{codeType,jdbcType=CHAR},
+      ops_reason_code = #{opsReasonCode,jdbcType=VARCHAR},
+      ops_reason_desc = #{opsReasonDesc,jdbcType=NVARCHAR},
+      gz_reason_code = #{gzReasonCode,jdbcType=VARCHAR},
+      gz_reason_desc = #{gzReasonDesc,jdbcType=NVARCHAR},
+      as400_reason_code = #{as400ReasonCode,jdbcType=VARCHAR},
+      as400_reason_desc = #{as400ReasonDesc,jdbcType=NVARCHAR},
+      manu_reason_code = #{manuReasonCode,jdbcType=VARCHAR},
+      manu_reason_desc = #{manuReasonDesc,jdbcType=NVARCHAR},
+      purchase_reason_code = #{purchaseReasonCode,jdbcType=VARCHAR},
+      purchase_reason_desc = #{purchaseReasonDesc,jdbcType=NVARCHAR},
+      id_deleted = #{idDeleted,jdbcType=BIT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

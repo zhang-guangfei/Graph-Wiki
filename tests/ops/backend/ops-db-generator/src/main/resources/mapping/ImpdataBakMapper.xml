@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ImpdataBakMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ImpdataBak">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="InvoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="CaseNo" jdbcType="VARCHAR" property="caseno" />
+    <result column="OrderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="RorderNo_All" jdbcType="VARCHAR" property="rordernoAll" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="TransType" jdbcType="VARCHAR" property="transtype" />
+    <result column="ImpDate" jdbcType="TIMESTAMP" property="impdate" />
+    <result column="ProdCountry" jdbcType="VARCHAR" property="prodcountry" />
+    <result column="OptCode" jdbcType="VARCHAR" property="optcode" />
+    <result column="StateFlag" jdbcType="VARCHAR" property="stateflag" />
+    <result column="ExpDesc" jdbcType="VARCHAR" property="expdesc" />
+    <result column="BarCode" jdbcType="VARCHAR" property="barcode" />
+    <result column="OrdFlag" jdbcType="VARCHAR" property="ordflag" />
+    <result column="QtyImp" jdbcType="INTEGER" property="qtyimp" />
+    <result column="OptFlag" jdbcType="VARCHAR" property="optflag" />
+    <result column="LabelPrtFlag" jdbcType="VARCHAR" property="labelprtflag" />
+    <result column="AsseFlag" jdbcType="VARCHAR" property="asseflag" />
+    <result column="InvFlag" jdbcType="VARCHAR" property="invflag" />
+    <result column="PreNo" jdbcType="VARCHAR" property="preno" />
+    <result column="UserName" jdbcType="VARCHAR" property="username" />
+    <result column="OptTime" jdbcType="TIMESTAMP" property="opttime" />
+    <result column="SmcCode" jdbcType="VARCHAR" property="smccode" />
+    <result column="OptRecord" jdbcType="VARCHAR" property="optrecord" />
+    <result column="OrdType" jdbcType="VARCHAR" property="ordtype" />
+    <result column="unitWeight" jdbcType="DECIMAL" property="unitweight" />
+    <result column="SerialNo" jdbcType="VARCHAR" property="serialno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, InvoiceNo, CaseNo, OrderNo, RorderNo_All, CustomerNo, ModelNo, Quantity, TransType, 
+    ImpDate, ProdCountry, OptCode, StateFlag, ExpDesc, BarCode, OrdFlag, QtyImp, OptFlag, 
+    LabelPrtFlag, AsseFlag, InvFlag, PreNo, UserName, OptTime, SmcCode, OptRecord, OrdType, 
+    unitWeight, SerialNo
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ImpdataBakExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.impdata_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ImpdataBakExample">
+    delete from dbo.impdata_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ImpdataBak">
+    insert into dbo.impdata_bak (Id, InvoiceNo, CaseNo, 
+      OrderNo, RorderNo_All, CustomerNo, 
+      ModelNo, Quantity, TransType, 
+      ImpDate, ProdCountry, OptCode, 
+      StateFlag, ExpDesc, BarCode, 
+      OrdFlag, QtyImp, OptFlag, 
+      LabelPrtFlag, AsseFlag, InvFlag, 
+      PreNo, UserName, OptTime, 
+      SmcCode, OptRecord, OrdType, 
+      unitWeight, SerialNo)
+    values (#{id,jdbcType=INTEGER}, #{invoiceno,jdbcType=VARCHAR}, #{caseno,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=VARCHAR}, #{rordernoAll,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{transtype,jdbcType=VARCHAR}, 
+      #{impdate,jdbcType=TIMESTAMP}, #{prodcountry,jdbcType=VARCHAR}, #{optcode,jdbcType=VARCHAR}, 
+      #{stateflag,jdbcType=VARCHAR}, #{expdesc,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, 
+      #{ordflag,jdbcType=VARCHAR}, #{qtyimp,jdbcType=INTEGER}, #{optflag,jdbcType=VARCHAR}, 
+      #{labelprtflag,jdbcType=VARCHAR}, #{asseflag,jdbcType=VARCHAR}, #{invflag,jdbcType=VARCHAR}, 
+      #{preno,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{opttime,jdbcType=TIMESTAMP}, 
+      #{smccode,jdbcType=VARCHAR}, #{optrecord,jdbcType=VARCHAR}, #{ordtype,jdbcType=VARCHAR}, 
+      #{unitweight,jdbcType=DECIMAL}, #{serialno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ImpdataBak">
+    insert into dbo.impdata_bak
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="caseno != null">
+        CaseNo,
+      </if>
+      <if test="orderno != null">
+        OrderNo,
+      </if>
+      <if test="rordernoAll != null">
+        RorderNo_All,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="transtype != null">
+        TransType,
+      </if>
+      <if test="impdate != null">
+        ImpDate,
+      </if>
+      <if test="prodcountry != null">
+        ProdCountry,
+      </if>
+      <if test="optcode != null">
+        OptCode,
+      </if>
+      <if test="stateflag != null">
+        StateFlag,
+      </if>
+      <if test="expdesc != null">
+        ExpDesc,
+      </if>
+      <if test="barcode != null">
+        BarCode,
+      </if>
+      <if test="ordflag != null">
+        OrdFlag,
+      </if>
+      <if test="qtyimp != null">
+        QtyImp,
+      </if>
+      <if test="optflag != null">
+        OptFlag,
+      </if>
+      <if test="labelprtflag != null">
+        LabelPrtFlag,
+      </if>
+      <if test="asseflag != null">
+        AsseFlag,
+      </if>
+      <if test="invflag != null">
+        InvFlag,
+      </if>
+      <if test="preno != null">
+        PreNo,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="opttime != null">
+        OptTime,
+      </if>
+      <if test="smccode != null">
+        SmcCode,
+      </if>
+      <if test="optrecord != null">
+        OptRecord,
+      </if>
+      <if test="ordtype != null">
+        OrdType,
+      </if>
+      <if test="unitweight != null">
+        unitWeight,
+      </if>
+      <if test="serialno != null">
+        SerialNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="caseno != null">
+        #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="rordernoAll != null">
+        #{rordernoAll,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=VARCHAR},
+      </if>
+      <if test="impdate != null">
+        #{impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodcountry != null">
+        #{prodcountry,jdbcType=VARCHAR},
+      </if>
+      <if test="optcode != null">
+        #{optcode,jdbcType=VARCHAR},
+      </if>
+      <if test="stateflag != null">
+        #{stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="expdesc != null">
+        #{expdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ordflag != null">
+        #{ordflag,jdbcType=VARCHAR},
+      </if>
+      <if test="qtyimp != null">
+        #{qtyimp,jdbcType=INTEGER},
+      </if>
+      <if test="optflag != null">
+        #{optflag,jdbcType=VARCHAR},
+      </if>
+      <if test="labelprtflag != null">
+        #{labelprtflag,jdbcType=VARCHAR},
+      </if>
+      <if test="asseflag != null">
+        #{asseflag,jdbcType=VARCHAR},
+      </if>
+      <if test="invflag != null">
+        #{invflag,jdbcType=VARCHAR},
+      </if>
+      <if test="preno != null">
+        #{preno,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="opttime != null">
+        #{opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="optrecord != null">
+        #{optrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="unitweight != null">
+        #{unitweight,jdbcType=DECIMAL},
+      </if>
+      <if test="serialno != null">
+        #{serialno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ImpdataBakExample" resultType="java.lang.Long">
+    select count(*) from dbo.impdata_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.impdata_bak
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseno != null">
+        CaseNo = #{record.caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rordernoAll != null">
+        RorderNo_All = #{record.rordernoAll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.transtype != null">
+        TransType = #{record.transtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impdate != null">
+        ImpDate = #{record.impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prodcountry != null">
+        ProdCountry = #{record.prodcountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optcode != null">
+        OptCode = #{record.optcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stateflag != null">
+        StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expdesc != null">
+        ExpDesc = #{record.expdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.barcode != null">
+        BarCode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordflag != null">
+        OrdFlag = #{record.ordflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtyimp != null">
+        QtyImp = #{record.qtyimp,jdbcType=INTEGER},
+      </if>
+      <if test="record.optflag != null">
+        OptFlag = #{record.optflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelprtflag != null">
+        LabelPrtFlag = #{record.labelprtflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asseflag != null">
+        AsseFlag = #{record.asseflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invflag != null">
+        InvFlag = #{record.invflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preno != null">
+        PreNo = #{record.preno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        UserName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opttime != null">
+        OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.smccode != null">
+        SmcCode = #{record.smccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optrecord != null">
+        OptRecord = #{record.optrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordtype != null">
+        OrdType = #{record.ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitweight != null">
+        unitWeight = #{record.unitweight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serialno != null">
+        SerialNo = #{record.serialno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.impdata_bak
+    set Id = #{record.id,jdbcType=INTEGER},
+      InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      CaseNo = #{record.caseno,jdbcType=VARCHAR},
+      OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      RorderNo_All = #{record.rordernoAll,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      TransType = #{record.transtype,jdbcType=VARCHAR},
+      ImpDate = #{record.impdate,jdbcType=TIMESTAMP},
+      ProdCountry = #{record.prodcountry,jdbcType=VARCHAR},
+      OptCode = #{record.optcode,jdbcType=VARCHAR},
+      StateFlag = #{record.stateflag,jdbcType=VARCHAR},
+      ExpDesc = #{record.expdesc,jdbcType=VARCHAR},
+      BarCode = #{record.barcode,jdbcType=VARCHAR},
+      OrdFlag = #{record.ordflag,jdbcType=VARCHAR},
+      QtyImp = #{record.qtyimp,jdbcType=INTEGER},
+      OptFlag = #{record.optflag,jdbcType=VARCHAR},
+      LabelPrtFlag = #{record.labelprtflag,jdbcType=VARCHAR},
+      AsseFlag = #{record.asseflag,jdbcType=VARCHAR},
+      InvFlag = #{record.invflag,jdbcType=VARCHAR},
+      PreNo = #{record.preno,jdbcType=VARCHAR},
+      UserName = #{record.username,jdbcType=VARCHAR},
+      OptTime = #{record.opttime,jdbcType=TIMESTAMP},
+      SmcCode = #{record.smccode,jdbcType=VARCHAR},
+      OptRecord = #{record.optrecord,jdbcType=VARCHAR},
+      OrdType = #{record.ordtype,jdbcType=VARCHAR},
+      unitWeight = #{record.unitweight,jdbcType=DECIMAL},
+      SerialNo = #{record.serialno,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

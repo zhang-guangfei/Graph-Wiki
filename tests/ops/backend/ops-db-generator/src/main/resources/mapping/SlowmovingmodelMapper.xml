@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SlowmovingmodelMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Slowmovingmodel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="lastInDate" jdbcType="DATE" property="lastindate" />
+    <result column="lasOutDate" jdbcType="DATE" property="lasoutdate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="eprice" jdbcType="DECIMAL" property="eprice" />
+    <result column="lotPrice" jdbcType="DECIMAL" property="lotprice" />
+    <result column="warehouseCode" jdbcType="VARCHAR" property="warehousecode" />
+    <result column="supplier" jdbcType="VARCHAR" property="supplier" />
+    <result column="designTypeId" jdbcType="INTEGER" property="designtypeid" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="leftQty" jdbcType="INTEGER" property="leftqty" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, modelNo, quantity, lastInDate, lasOutDate, remark, createTime, createUser, updateTime, 
+    updateUser, status, eprice, lotPrice, warehouseCode, supplier, designTypeId, productName, 
+    leftQty
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SlowmovingmodelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.SlowMovingModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.SlowMovingModel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo.SlowMovingModel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SlowmovingmodelExample">
+    delete from dbo.SlowMovingModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Slowmovingmodel">
+    insert into dbo.SlowMovingModel (id, modelNo, quantity, 
+      lastInDate, lasOutDate, remark, 
+      createTime, createUser, updateTime, 
+      updateUser, status, eprice, 
+      lotPrice, warehouseCode, supplier, 
+      designTypeId, productName, leftQty
+      )
+    values (#{id,jdbcType=INTEGER}, #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{lastindate,jdbcType=DATE}, #{lasoutdate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{eprice,jdbcType=DECIMAL}, 
+      #{lotprice,jdbcType=DECIMAL}, #{warehousecode,jdbcType=VARCHAR}, #{supplier,jdbcType=VARCHAR}, 
+      #{designtypeid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{leftqty,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Slowmovingmodel">
+    insert into dbo.SlowMovingModel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="lastindate != null">
+        lastInDate,
+      </if>
+      <if test="lasoutdate != null">
+        lasOutDate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="createuser != null">
+        createUser,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="updateuser != null">
+        updateUser,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="eprice != null">
+        eprice,
+      </if>
+      <if test="lotprice != null">
+        lotPrice,
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode,
+      </if>
+      <if test="supplier != null">
+        supplier,
+      </if>
+      <if test="designtypeid != null">
+        designTypeId,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="leftqty != null">
+        leftQty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="lastindate != null">
+        #{lastindate,jdbcType=DATE},
+      </if>
+      <if test="lasoutdate != null">
+        #{lasoutdate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lotprice != null">
+        #{lotprice,jdbcType=DECIMAL},
+      </if>
+      <if test="warehousecode != null">
+        #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null">
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="designtypeid != null">
+        #{designtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="leftqty != null">
+        #{leftqty,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SlowmovingmodelExample" resultType="java.lang.Long">
+    select count(*) from dbo.SlowMovingModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.SlowMovingModel
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastindate != null">
+        lastInDate = #{record.lastindate,jdbcType=DATE},
+      </if>
+      <if test="record.lasoutdate != null">
+        lasOutDate = #{record.lasoutdate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        createUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuser != null">
+        updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.eprice != null">
+        eprice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lotprice != null">
+        lotPrice = #{record.lotprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.warehousecode != null">
+        warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplier != null">
+        supplier = #{record.supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.designtypeid != null">
+        designTypeId = #{record.designtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productname != null">
+        productName = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leftqty != null">
+        leftQty = #{record.leftqty,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.SlowMovingModel
+    set id = #{record.id,jdbcType=INTEGER},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      lastInDate = #{record.lastindate,jdbcType=DATE},
+      lasOutDate = #{record.lasoutdate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      eprice = #{record.eprice,jdbcType=DECIMAL},
+      lotPrice = #{record.lotprice,jdbcType=DECIMAL},
+      warehouseCode = #{record.warehousecode,jdbcType=VARCHAR},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      designTypeId = #{record.designtypeid,jdbcType=INTEGER},
+      productName = #{record.productname,jdbcType=VARCHAR},
+      leftQty = #{record.leftqty,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Slowmovingmodel">
+    update dbo.SlowMovingModel
+    <set>
+      <if test="modelno != null">
+        modelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="lastindate != null">
+        lastInDate = #{lastindate,jdbcType=DATE},
+      </if>
+      <if test="lasoutdate != null">
+        lasOutDate = #{lasoutdate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        updateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="eprice != null">
+        eprice = #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lotprice != null">
+        lotPrice = #{lotprice,jdbcType=DECIMAL},
+      </if>
+      <if test="warehousecode != null">
+        warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null">
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="designtypeid != null">
+        designTypeId = #{designtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="leftqty != null">
+        leftQty = #{leftqty,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Slowmovingmodel">
+    update dbo.SlowMovingModel
+    set modelNo = #{modelno,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      lastInDate = #{lastindate,jdbcType=DATE},
+      lasOutDate = #{lasoutdate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      eprice = #{eprice,jdbcType=DECIMAL},
+      lotPrice = #{lotprice,jdbcType=DECIMAL},
+      warehouseCode = #{warehousecode,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      designTypeId = #{designtypeid,jdbcType=INTEGER},
+      productName = #{productname,jdbcType=VARCHAR},
+      leftQty = #{leftqty,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

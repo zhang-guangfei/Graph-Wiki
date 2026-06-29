@@ -1,0 +1,230 @@
+server:
+  port: 8105
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: adapter-service
+  cloud:
+    stream:
+      binders:
+        adapterRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.116.2.28
+                port: 5672
+                username: admin
+                password: adminQ1w9e9r828
+                virtualhost: /
+      default-binder: adapterRabbit
+      bindings:
+        ops-to-sms-order-edit-sender:
+          binder: adapterRabbit
+          destination: ops-to-sms-order-edit-exchange
+          content-type: application/json
+        sms-to-ops-order-edit-receiver:
+          binder: adapterRabbit
+          group: sms-to-ops-order-edit-group
+          destination: sms-to-ops-order-edit-exchange
+          content-type: application/json
+          consumer:
+            maxAttempts: 1
+            concurrency: 1
+            durable-subscription: true
+        ops-to-sms-order-create-sender:
+          binder: adapterRabbit
+          destination: ops-to-sms-order-create-exchange
+          content-type: application/json
+        sms-to-ops-order-create-receiver:
+          binder: adapterRabbit
+          group: sms-to-ops-order-create-group
+          destination: sms-to-ops-order-create-exchange
+          content-type: application/json
+          consumer:
+            maxAttempts: 1
+            concurrency: 1
+            durable-subscription: true
+        sms-to-ops-order-cancel-receiver:
+          binder: adapterRabbit
+          group: sms-to-ops-order-cancel-group
+          destination: sms-to-ops-order-cancel-exchange
+          content-type: application/json
+          consumer:
+            maxAttempts: 1
+            concurrency: 1
+            durable-subscription: true
+        ops-to-sms-order-cancel-sender:
+          binder: adapterRabbit
+          destination: ops-to-sms-order-cancel-exchange
+          content-type: application/json
+        sms-to-ops-yyqb-receiver:
+          binder: adapterRabbit
+          group: sms-to-ops-yyqb-group
+          destination: sms-to-ops-yyqb-exchange
+          content-type: application/json
+          consumer:
+            maxAttempts: 3
+            concurrency: 3
+            durable-subscription: true
+        ops-to-sms-yyqb-sender:
+          binder: adapterRabbit
+          destination: ops-to-sms-yyqb-exchange
+          content-type: application/json
+      rabbit:
+        bindings:
+          sms-to-ops-order-edit-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+          sms-to-ops-order-create-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+          sms-to-ops-order-cancel-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+          sms-to-ops-yyqb-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+          sms-to-erp-receiver:
+            consumer:
+              acknowledge-mode: manual
+              autoBindDlq: true
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 40
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_ui_dev
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opslog:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_log
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        sharedb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_sharedb
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  redis:
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 500
+        max-active: 10000
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      database: 0
+      hostName: 10.116.1.15
+      port: 6379
+      password:
+      timeout: 5000
+      timeToLive: 120
+    door-redis:
+      cluster:
+        nodes: 10.116.33.151:2003,10.116.33.151:2004,10.116.0.207:2001,10.116.0.207:2002,10.116.1.252:2005,10.116.1.252:2006
+        max-redirects: 6
+      database: 0
+      hostName: 10.116.33.151
+      port: 2003
+      password: Smc@RedisQ!W@E#R$
+      timeout: 25000
+      timeToLive: 120
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+    max-size: 50MB
+    max-history: 7
+
+feign:
+  hystrix:
+    enabled: false
+  okhttp:
+    enabled: false
+  httpclient:
+    enabled: true
+    maxConnections: 20000
+    maxConnectionsPerRoute: 5000
+    connectionTimeout: 12000
+    time-to-live: 900
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: order-service, shareapp-service, product-service, common-service
+  ReadTimeout: 500000
+  ConnectTimeout: 500000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 2000       #并发执行的核心线程数，默认10。不能设置为0，初始化setter的时候会出现异常。设置服务端容器线程差不多，吞吐量较高
+      maximumSize: 3000　　 #并发执行的最大线程数，默认10。
+      maxQueueSize: 2000 　#BlockingQueue的最大队列数，当设为－1，会使用SynchronousQueue，值为正时使用LinkedBlcokingQueue。
+      queueSizeRejectionThreshold: 500 #队列截断阈值，即使maxQueueSize没有达到，达到queueSizeRejectionThreshold后，请求也会被拒绝。若maxQueueSize=-1，该字段将不起作用。
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600001
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+
+xxl:
+  job:
+    admin:
+      addresses: http://10.116.1.14:8024/ops-job-admin
+    accessToken: ops_task_accessToken
+    executor:
+      appname: adapter-service-job-executor
+      address:
+      ip:
+      port: 9101
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
+
+smccloud:
+  token:
+    interceptor:
+      enabled: true
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.14:8800/oauth/token
+      user-authorization-uri: http://10.116.1.14:8800/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.14:8800/oauth/check_token

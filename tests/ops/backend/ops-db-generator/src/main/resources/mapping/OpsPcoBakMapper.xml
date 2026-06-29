@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPcoBakMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPcoBak">
+    <id column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="pco_source" jdbcType="INTEGER" property="pcoSource" />
+    <result column="sub_order_id" jdbcType="VARCHAR" property="subOrderId" />
+    <result column="bind_order_id" jdbcType="VARCHAR" property="bindOrderId" />
+    <result column="pco_type" jdbcType="INTEGER" property="pcoType" />
+    <result column="prod_type" jdbcType="INTEGER" property="prodType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="pco_status" jdbcType="INTEGER" property="pcoStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pco_id, pco_source, sub_order_id, bind_order_id, pco_type, prod_type, warehouse_code, 
+    pco_status, remark, delflag, cre_time, creator, modify_time, modifier, model_no, 
+    qty, customer_no, weight, order_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPcoBakExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco_bak
+    where pco_id = #{pcoId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_pco_bak
+    where pco_id = #{pcoId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPcoBakExample">
+    delete from dbo.ops_pco_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPcoBak">
+    insert into dbo.ops_pco_bak (pco_id, pco_source, sub_order_id, 
+      bind_order_id, pco_type, prod_type, 
+      warehouse_code, pco_status, remark, 
+      delflag, cre_time, creator, 
+      modify_time, modifier, model_no, 
+      qty, customer_no, weight, 
+      order_id)
+    values (#{pcoId,jdbcType=VARCHAR}, #{pcoSource,jdbcType=INTEGER}, #{subOrderId,jdbcType=VARCHAR}, 
+      #{bindOrderId,jdbcType=VARCHAR}, #{pcoType,jdbcType=INTEGER}, #{prodType,jdbcType=INTEGER}, 
+      #{warehouseCode,jdbcType=VARCHAR}, #{pcoStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, #{modelNo,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=INTEGER}, #{customerNo,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, 
+      #{orderId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPcoBak">
+    insert into dbo.ops_pco_bak
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="pcoSource != null">
+        pco_source,
+      </if>
+      <if test="subOrderId != null">
+        sub_order_id,
+      </if>
+      <if test="bindOrderId != null">
+        bind_order_id,
+      </if>
+      <if test="pcoType != null">
+        pco_type,
+      </if>
+      <if test="prodType != null">
+        prod_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="pcoStatus != null">
+        pco_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoSource != null">
+        #{pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="subOrderId != null">
+        #{subOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindOrderId != null">
+        #{bindOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoType != null">
+        #{pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="prodType != null">
+        #{prodType,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoStatus != null">
+        #{pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPcoBakExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_pco_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_pco_bak
+    <set>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoSource != null">
+        pco_source = #{record.pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="record.subOrderId != null">
+        sub_order_id = #{record.subOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bindOrderId != null">
+        bind_order_id = #{record.bindOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoType != null">
+        pco_type = #{record.pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodType != null">
+        prod_type = #{record.prodType,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoStatus != null">
+        pco_status = #{record.pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_pco_bak
+    set pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      pco_source = #{record.pcoSource,jdbcType=INTEGER},
+      sub_order_id = #{record.subOrderId,jdbcType=VARCHAR},
+      bind_order_id = #{record.bindOrderId,jdbcType=VARCHAR},
+      pco_type = #{record.pcoType,jdbcType=INTEGER},
+      prod_type = #{record.prodType,jdbcType=INTEGER},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      pco_status = #{record.pcoStatus,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      order_id = #{record.orderId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPcoBak">
+    update dbo.ops_pco_bak
+    <set>
+      <if test="pcoSource != null">
+        pco_source = #{pcoSource,jdbcType=INTEGER},
+      </if>
+      <if test="subOrderId != null">
+        sub_order_id = #{subOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindOrderId != null">
+        bind_order_id = #{bindOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoType != null">
+        pco_type = #{pcoType,jdbcType=INTEGER},
+      </if>
+      <if test="prodType != null">
+        prod_type = #{prodType,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoStatus != null">
+        pco_status = #{pcoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pco_id = #{pcoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPcoBak">
+    update dbo.ops_pco_bak
+    set pco_source = #{pcoSource,jdbcType=INTEGER},
+      sub_order_id = #{subOrderId,jdbcType=VARCHAR},
+      bind_order_id = #{bindOrderId,jdbcType=VARCHAR},
+      pco_type = #{pcoType,jdbcType=INTEGER},
+      prod_type = #{prodType,jdbcType=INTEGER},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      pco_status = #{pcoStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      qty = #{qty,jdbcType=INTEGER},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      order_id = #{orderId,jdbcType=VARCHAR}
+    where pco_id = #{pcoId,jdbcType=VARCHAR}
+  </update>
+</mapper>

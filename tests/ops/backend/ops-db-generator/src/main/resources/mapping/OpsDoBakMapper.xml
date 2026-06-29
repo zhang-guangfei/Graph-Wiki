@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsDoBakMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsDoBak">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="ass_num" jdbcType="INTEGER" property="assNum" />
+    <result column="do_source" jdbcType="VARCHAR" property="doSource" />
+    <result column="do_type" jdbcType="VARCHAR" property="doType" />
+    <result column="wait_type" jdbcType="VARCHAR" property="waitType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="gather_warehouse_code" jdbcType="VARCHAR" property="gatherWarehouseCode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="do_status" jdbcType="INTEGER" property="doStatus" />
+    <result column="carried" jdbcType="VARCHAR" property="carried" />
+    <result column="express_code" jdbcType="VARCHAR" property="expressCode" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="spceial_flag" jdbcType="INTEGER" property="spceialFlag" />
+    <result column="hope_date" jdbcType="DATE" property="hopeDate" />
+    <result column="pakage_type" jdbcType="VARCHAR" property="pakageType" />
+    <result column="ext_num" jdbcType="INTEGER" property="extNum" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="postcode" jdbcType="VARCHAR" property="postcode" />
+    <result column="order_count" jdbcType="INTEGER" property="orderCount" />
+    <result column="dlv_entire" jdbcType="CHAR" property="dlvEntire" />
+    <result column="is_wms" jdbcType="INTEGER" property="isWms" />
+    <result column="wl_date" jdbcType="DATE" property="wlDate" />
+    <result column="corder_no" jdbcType="VARCHAR" property="corderNo" />
+    <result column="ext_ro_id" jdbcType="INTEGER" property="extRoId" />
+    <result column="spceial_num" jdbcType="INTEGER" property="spceialNum" />
+    <result column="do_state" jdbcType="VARCHAR" property="doState" />
+    <result column="do_state_detail" jdbcType="VARCHAR" property="doStateDetail" />
+    <result column="dlv_site" jdbcType="CHAR" property="dlvSite" />
+    <result column="dept_no" jdbcType="VARCHAR" property="deptNo" />
+    <result column="exp_dlv_type" jdbcType="INTEGER" property="expDlvType" />
+    <result column="exp_link_no" jdbcType="VARCHAR" property="expLinkNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, do_id, order_id, order_item, num, ass_num, do_source, do_type, wait_type, warehouse_code, 
+    gather_warehouse_code, customer_no, do_status, carried, express_code, province, city, 
+    district, street, address, linkman, mobile, phone, remark, version, delflag, cre_time, 
+    creator, modify_time, modifier, spceial_flag, hope_date, pakage_type, ext_num, user_no, 
+    postcode, order_count, dlv_entire, is_wms, wl_date, corder_no, ext_ro_id, spceial_num, 
+    do_state, do_state_detail, dlv_site, dept_no, exp_dlv_type, exp_link_no
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsDoBakExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_do_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_do_bak
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_do_bak
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsDoBakExample">
+    delete from dbo.ops_do_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsDoBak">
+    insert into dbo.ops_do_bak (id, do_id, order_id, 
+      order_item, num, ass_num, 
+      do_source, do_type, wait_type, 
+      warehouse_code, gather_warehouse_code, customer_no, 
+      do_status, carried, express_code, 
+      province, city, district, 
+      street, address, linkman, 
+      mobile, phone, remark, 
+      version, delflag, cre_time, 
+      creator, modify_time, modifier, 
+      spceial_flag, hope_date, pakage_type, 
+      ext_num, user_no, postcode, 
+      order_count, dlv_entire, is_wms, 
+      wl_date, corder_no, ext_ro_id, 
+      spceial_num, do_state, do_state_detail, 
+      dlv_site, dept_no, exp_dlv_type, 
+      exp_link_no)
+    values (#{id,jdbcType=BIGINT}, #{doId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{orderItem,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{assNum,jdbcType=INTEGER}, 
+      #{doSource,jdbcType=VARCHAR}, #{doType,jdbcType=VARCHAR}, #{waitType,jdbcType=VARCHAR}, 
+      #{warehouseCode,jdbcType=VARCHAR}, #{gatherWarehouseCode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{doStatus,jdbcType=INTEGER}, #{carried,jdbcType=VARCHAR}, #{expressCode,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{street,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{version,jdbcType=INTEGER}, #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=NVARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, 
+      #{spceialFlag,jdbcType=INTEGER}, #{hopeDate,jdbcType=DATE}, #{pakageType,jdbcType=VARCHAR}, 
+      #{extNum,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, 
+      #{orderCount,jdbcType=INTEGER}, #{dlvEntire,jdbcType=CHAR}, #{isWms,jdbcType=INTEGER}, 
+      #{wlDate,jdbcType=DATE}, #{corderNo,jdbcType=VARCHAR}, #{extRoId,jdbcType=INTEGER}, 
+      #{spceialNum,jdbcType=INTEGER}, #{doState,jdbcType=VARCHAR}, #{doStateDetail,jdbcType=VARCHAR}, 
+      #{dlvSite,jdbcType=CHAR}, #{deptNo,jdbcType=VARCHAR}, #{expDlvType,jdbcType=INTEGER}, 
+      #{expLinkNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsDoBak">
+    insert into dbo.ops_do_bak
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="assNum != null">
+        ass_num,
+      </if>
+      <if test="doSource != null">
+        do_source,
+      </if>
+      <if test="doType != null">
+        do_type,
+      </if>
+      <if test="waitType != null">
+        wait_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="gatherWarehouseCode != null">
+        gather_warehouse_code,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="doStatus != null">
+        do_status,
+      </if>
+      <if test="carried != null">
+        carried,
+      </if>
+      <if test="expressCode != null">
+        express_code,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="street != null">
+        street,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="linkman != null">
+        linkman,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="spceialFlag != null">
+        spceial_flag,
+      </if>
+      <if test="hopeDate != null">
+        hope_date,
+      </if>
+      <if test="pakageType != null">
+        pakage_type,
+      </if>
+      <if test="extNum != null">
+        ext_num,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="postcode != null">
+        postcode,
+      </if>
+      <if test="orderCount != null">
+        order_count,
+      </if>
+      <if test="dlvEntire != null">
+        dlv_entire,
+      </if>
+      <if test="isWms != null">
+        is_wms,
+      </if>
+      <if test="wlDate != null">
+        wl_date,
+      </if>
+      <if test="corderNo != null">
+        corder_no,
+      </if>
+      <if test="extRoId != null">
+        ext_ro_id,
+      </if>
+      <if test="spceialNum != null">
+        spceial_num,
+      </if>
+      <if test="doState != null">
+        do_state,
+      </if>
+      <if test="doStateDetail != null">
+        do_state_detail,
+      </if>
+      <if test="dlvSite != null">
+        dlv_site,
+      </if>
+      <if test="deptNo != null">
+        dept_no,
+      </if>
+      <if test="expDlvType != null">
+        exp_dlv_type,
+      </if>
+      <if test="expLinkNo != null">
+        exp_link_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="assNum != null">
+        #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null">
+        #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="waitType != null">
+        #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gatherWarehouseCode != null">
+        #{gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="doStatus != null">
+        #{doStatus,jdbcType=INTEGER},
+      </if>
+      <if test="carried != null">
+        #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="spceialFlag != null">
+        #{spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="hopeDate != null">
+        #{hopeDate,jdbcType=DATE},
+      </if>
+      <if test="pakageType != null">
+        #{pakageType,jdbcType=VARCHAR},
+      </if>
+      <if test="extNum != null">
+        #{extNum,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null">
+        #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="dlvEntire != null">
+        #{dlvEntire,jdbcType=CHAR},
+      </if>
+      <if test="isWms != null">
+        #{isWms,jdbcType=INTEGER},
+      </if>
+      <if test="wlDate != null">
+        #{wlDate,jdbcType=DATE},
+      </if>
+      <if test="corderNo != null">
+        #{corderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="extRoId != null">
+        #{extRoId,jdbcType=INTEGER},
+      </if>
+      <if test="spceialNum != null">
+        #{spceialNum,jdbcType=INTEGER},
+      </if>
+      <if test="doState != null">
+        #{doState,jdbcType=VARCHAR},
+      </if>
+      <if test="doStateDetail != null">
+        #{doStateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvSite != null">
+        #{dlvSite,jdbcType=CHAR},
+      </if>
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expDlvType != null">
+        #{expDlvType,jdbcType=INTEGER},
+      </if>
+      <if test="expLinkNo != null">
+        #{expLinkNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsDoBakExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_do_bak
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_do_bak
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.assNum != null">
+        ass_num = #{record.assNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.doSource != null">
+        do_source = #{record.doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doType != null">
+        do_type = #{record.doType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waitType != null">
+        wait_type = #{record.waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gatherWarehouseCode != null">
+        gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doStatus != null">
+        do_status = #{record.doStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.carried != null">
+        carried = #{record.carried,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressCode != null">
+        express_code = #{record.expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null">
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.street != null">
+        street = #{record.street,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkman != null">
+        linkman = #{record.linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.spceialFlag != null">
+        spceial_flag = #{record.spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.hopeDate != null">
+        hope_date = #{record.hopeDate,jdbcType=DATE},
+      </if>
+      <if test="record.pakageType != null">
+        pakage_type = #{record.pakageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extNum != null">
+        ext_num = #{record.extNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        postcode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderCount != null">
+        order_count = #{record.orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dlvEntire != null">
+        dlv_entire = #{record.dlvEntire,jdbcType=CHAR},
+      </if>
+      <if test="record.isWms != null">
+        is_wms = #{record.isWms,jdbcType=INTEGER},
+      </if>
+      <if test="record.wlDate != null">
+        wl_date = #{record.wlDate,jdbcType=DATE},
+      </if>
+      <if test="record.corderNo != null">
+        corder_no = #{record.corderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extRoId != null">
+        ext_ro_id = #{record.extRoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.spceialNum != null">
+        spceial_num = #{record.spceialNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.doState != null">
+        do_state = #{record.doState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doStateDetail != null">
+        do_state_detail = #{record.doStateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvSite != null">
+        dlv_site = #{record.dlvSite,jdbcType=CHAR},
+      </if>
+      <if test="record.deptNo != null">
+        dept_no = #{record.deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expDlvType != null">
+        exp_dlv_type = #{record.expDlvType,jdbcType=INTEGER},
+      </if>
+      <if test="record.expLinkNo != null">
+        exp_link_no = #{record.expLinkNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_do_bak
+    set id = #{record.id,jdbcType=BIGINT},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      ass_num = #{record.assNum,jdbcType=INTEGER},
+      do_source = #{record.doSource,jdbcType=VARCHAR},
+      do_type = #{record.doType,jdbcType=VARCHAR},
+      wait_type = #{record.waitType,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      gather_warehouse_code = #{record.gatherWarehouseCode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      do_status = #{record.doStatus,jdbcType=INTEGER},
+      carried = #{record.carried,jdbcType=VARCHAR},
+      express_code = #{record.expressCode,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      street = #{record.street,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      linkman = #{record.linkman,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      spceial_flag = #{record.spceialFlag,jdbcType=INTEGER},
+      hope_date = #{record.hopeDate,jdbcType=DATE},
+      pakage_type = #{record.pakageType,jdbcType=VARCHAR},
+      ext_num = #{record.extNum,jdbcType=INTEGER},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      postcode = #{record.postcode,jdbcType=VARCHAR},
+      order_count = #{record.orderCount,jdbcType=INTEGER},
+      dlv_entire = #{record.dlvEntire,jdbcType=CHAR},
+      is_wms = #{record.isWms,jdbcType=INTEGER},
+      wl_date = #{record.wlDate,jdbcType=DATE},
+      corder_no = #{record.corderNo,jdbcType=VARCHAR},
+      ext_ro_id = #{record.extRoId,jdbcType=INTEGER},
+      spceial_num = #{record.spceialNum,jdbcType=INTEGER},
+      do_state = #{record.doState,jdbcType=VARCHAR},
+      do_state_detail = #{record.doStateDetail,jdbcType=VARCHAR},
+      dlv_site = #{record.dlvSite,jdbcType=CHAR},
+      dept_no = #{record.deptNo,jdbcType=VARCHAR},
+      exp_dlv_type = #{record.expDlvType,jdbcType=INTEGER},
+      exp_link_no = #{record.expLinkNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsDoBak">
+    update dbo.ops_do_bak
+    <set>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="assNum != null">
+        ass_num = #{assNum,jdbcType=INTEGER},
+      </if>
+      <if test="doSource != null">
+        do_source = #{doSource,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null">
+        do_type = #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="waitType != null">
+        wait_type = #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gatherWarehouseCode != null">
+        gather_warehouse_code = #{gatherWarehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="doStatus != null">
+        do_status = #{doStatus,jdbcType=INTEGER},
+      </if>
+      <if test="carried != null">
+        carried = #{carried,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null">
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="spceialFlag != null">
+        spceial_flag = #{spceialFlag,jdbcType=INTEGER},
+      </if>
+      <if test="hopeDate != null">
+        hope_date = #{hopeDate,jdbcType=DATE},
+      </if>
+      <if test="pakageType != null">
+        pakage_type = #{pakageType,jdbcType=VARCHAR},
+      </if>
+      <if test="extNum != null">
+        ext_num = #{extNum,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null">
+        order_count = #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="dlvEntire != null">
+        dlv_entire = #{dlvEntire,jdbcType=CHAR},
+      </if>
+      <if test="isWms != null">
+        is_wms = #{isWms,jdbcType=INTEGER},
+      </if>
+      <if test="wlDate != null">
+        wl_date = #{wlDate,jdbcType=DATE},
+      </if>
+      <if test="corderNo != null">
+        corder_no = #{corderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="extRoId != null">
+        ext_ro_id = #{extRoId,jdbcType=INTEGER},
+      </if>
+      <if test="spceialNum != null">
+        spceial_num = #{spceialNum,jdbcType=INTEGER},
+      </if>
+      <if test="doState != null">
+        do_state = #{doState,jdbcType=VARCHAR},
+      </if>
+      <if test="doStateDetail != null">
+        do_state_detail = #{doStateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvSite != null">
+        dlv_site = #{dlvSite,jdbcType=CHAR},
+      </if>
+      <if test="deptNo != null">
+        dept_no = #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expDlvType != null">
+        exp_dlv_type = #{expDlvType,jdbcType=INTEGER},
+      </if>
+      <if test="expLinkNo != null">
+        exp_link_no = #{expLinkNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsDoBak">
+    update dbo.ops_do_bak
+    set do_id = #{doId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      ass_num = #{assNum,jdbcType=INTEGER},
+      do_source = #{doSource,jdbcType=VARCHAR},
+      do_type = #{doType,jdbcType=VARCHAR},
+      wait_type = #{waitType,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      gather_warehouse_code = #{gatherWarehouseCode,jdbcType=VARCHAR},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      do_status = #{doStatus,jdbcType=INTEGER},
+      carried = #{carried,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      spceial_flag = #{spceialFlag,jdbcType=INTEGER},
+      hope_date = #{hopeDate,jdbcType=DATE},
+      pakage_type = #{pakageType,jdbcType=VARCHAR},
+      ext_num = #{extNum,jdbcType=INTEGER},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      order_count = #{orderCount,jdbcType=INTEGER},
+      dlv_entire = #{dlvEntire,jdbcType=CHAR},
+      is_wms = #{isWms,jdbcType=INTEGER},
+      wl_date = #{wlDate,jdbcType=DATE},
+      corder_no = #{corderNo,jdbcType=VARCHAR},
+      ext_ro_id = #{extRoId,jdbcType=INTEGER},
+      spceial_num = #{spceialNum,jdbcType=INTEGER},
+      do_state = #{doState,jdbcType=VARCHAR},
+      do_state_detail = #{doStateDetail,jdbcType=VARCHAR},
+      dlv_site = #{dlvSite,jdbcType=CHAR},
+      dept_no = #{deptNo,jdbcType=VARCHAR},
+      exp_dlv_type = #{expDlvType,jdbcType=INTEGER},
+      exp_link_no = #{expLinkNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,12 @@
+server:
+  port: 8023
+spring:
+  application:
+    name: po-service
+  profiles:
+    active: prod
+
+  zipkin:
+    base-url: ${zipkinBaseUrl}
+  main:
+    allow-bean-definition-overriding: true

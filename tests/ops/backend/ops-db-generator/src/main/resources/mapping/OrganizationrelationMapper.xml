@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrganizationrelationMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Organizationrelation">
+    <id column="Id" jdbcType="VARCHAR" property="id" />
+    <result column="ParentId" jdbcType="VARCHAR" property="parentid" />
+    <result column="FormalId" jdbcType="VARCHAR" property="formalid" />
+    <result column="OrganizationType" jdbcType="INTEGER" property="organizationtype" />
+    <result column="HRUnitId" jdbcType="VARCHAR" property="hrunitid" />
+    <result column="CNUnitId" jdbcType="VARCHAR" property="cnunitid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="EmpInvoice" jdbcType="VARCHAR" property="empinvoice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, ParentId, FormalId, OrganizationType, HRUnitId, CNUnitId, UpdateTime, Remark, 
+    EmpInvoice
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrganizationrelationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.OrganizationRelation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.OrganizationRelation
+    where Id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.OrganizationRelation
+    where Id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrganizationrelationExample">
+    delete from dbo.OrganizationRelation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Organizationrelation">
+    insert into dbo.OrganizationRelation (Id, ParentId, FormalId, 
+      OrganizationType, HRUnitId, CNUnitId, 
+      UpdateTime, Remark, EmpInvoice
+      )
+    values (#{id,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{formalid,jdbcType=VARCHAR}, 
+      #{organizationtype,jdbcType=INTEGER}, #{hrunitid,jdbcType=VARCHAR}, #{cnunitid,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{empinvoice,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Organizationrelation">
+    insert into dbo.OrganizationRelation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="parentid != null">
+        ParentId,
+      </if>
+      <if test="formalid != null">
+        FormalId,
+      </if>
+      <if test="organizationtype != null">
+        OrganizationType,
+      </if>
+      <if test="hrunitid != null">
+        HRUnitId,
+      </if>
+      <if test="cnunitid != null">
+        CNUnitId,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="empinvoice != null">
+        EmpInvoice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="formalid != null">
+        #{formalid,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationtype != null">
+        #{organizationtype,jdbcType=INTEGER},
+      </if>
+      <if test="hrunitid != null">
+        #{hrunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="cnunitid != null">
+        #{cnunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="empinvoice != null">
+        #{empinvoice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrganizationrelationExample" resultType="java.lang.Long">
+    select count(*) from dbo.OrganizationRelation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.OrganizationRelation
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null">
+        ParentId = #{record.parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formalid != null">
+        FormalId = #{record.formalid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationtype != null">
+        OrganizationType = #{record.organizationtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.hrunitid != null">
+        HRUnitId = #{record.hrunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cnunitid != null">
+        CNUnitId = #{record.cnunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empinvoice != null">
+        EmpInvoice = #{record.empinvoice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.OrganizationRelation
+    set Id = #{record.id,jdbcType=VARCHAR},
+      ParentId = #{record.parentid,jdbcType=VARCHAR},
+      FormalId = #{record.formalid,jdbcType=VARCHAR},
+      OrganizationType = #{record.organizationtype,jdbcType=INTEGER},
+      HRUnitId = #{record.hrunitid,jdbcType=VARCHAR},
+      CNUnitId = #{record.cnunitid,jdbcType=VARCHAR},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      EmpInvoice = #{record.empinvoice,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Organizationrelation">
+    update dbo.OrganizationRelation
+    <set>
+      <if test="parentid != null">
+        ParentId = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="formalid != null">
+        FormalId = #{formalid,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationtype != null">
+        OrganizationType = #{organizationtype,jdbcType=INTEGER},
+      </if>
+      <if test="hrunitid != null">
+        HRUnitId = #{hrunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="cnunitid != null">
+        CNUnitId = #{cnunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="empinvoice != null">
+        EmpInvoice = #{empinvoice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Organizationrelation">
+    update dbo.OrganizationRelation
+    set ParentId = #{parentid,jdbcType=VARCHAR},
+      FormalId = #{formalid,jdbcType=VARCHAR},
+      OrganizationType = #{organizationtype,jdbcType=INTEGER},
+      HRUnitId = #{hrunitid,jdbcType=VARCHAR},
+      CNUnitId = #{cnunitid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR},
+      EmpInvoice = #{empinvoice,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

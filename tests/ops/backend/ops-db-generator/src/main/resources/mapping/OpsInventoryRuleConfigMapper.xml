@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsInventoryRuleConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsInventoryRuleConfig">
+    <id column="rule_code" jdbcType="VARCHAR" property="ruleCode" />
+    <result column="rule_desc" jdbcType="NVARCHAR" property="ruleDesc" />
+    <result column="rule_type" jdbcType="VARCHAR" property="ruleType" />
+    <result column="rule_ass_flag" jdbcType="INTEGER" property="ruleAssFlag" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="warehouse_type_code" jdbcType="VARCHAR" property="warehouseTypeCode" />
+    <result column="rule_qty_flag" jdbcType="INTEGER" property="ruleQtyFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rule_code, rule_desc, rule_type, rule_ass_flag, delflag, cre_time, creator, modify_time, 
+    modifier, warehouse_type_code, rule_qty_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_rule_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_inventory_rule_config
+    where rule_code = #{ruleCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.ops_inventory_rule_config
+    where rule_code = #{ruleCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfigExample">
+    delete from dbo.ops_inventory_rule_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfig">
+    insert into dbo.ops_inventory_rule_config (rule_code, rule_desc, rule_type, 
+      rule_ass_flag, delflag, cre_time, 
+      creator, modify_time, modifier, 
+      warehouse_type_code, rule_qty_flag)
+    values (#{ruleCode,jdbcType=VARCHAR}, #{ruleDesc,jdbcType=NVARCHAR}, #{ruleType,jdbcType=VARCHAR}, 
+      #{ruleAssFlag,jdbcType=INTEGER}, #{delflag,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=NVARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, 
+      #{warehouseTypeCode,jdbcType=VARCHAR}, #{ruleQtyFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfig">
+    insert into dbo.ops_inventory_rule_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ruleCode != null">
+        rule_code,
+      </if>
+      <if test="ruleDesc != null">
+        rule_desc,
+      </if>
+      <if test="ruleType != null">
+        rule_type,
+      </if>
+      <if test="ruleAssFlag != null">
+        rule_ass_flag,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="warehouseTypeCode != null">
+        warehouse_type_code,
+      </if>
+      <if test="ruleQtyFlag != null">
+        rule_qty_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ruleCode != null">
+        #{ruleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDesc != null">
+        #{ruleDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="ruleType != null">
+        #{ruleType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleAssFlag != null">
+        #{ruleAssFlag,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="warehouseTypeCode != null">
+        #{warehouseTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleQtyFlag != null">
+        #{ruleQtyFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfigExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_inventory_rule_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_inventory_rule_config
+    <set>
+      <if test="record.ruleCode != null">
+        rule_code = #{record.ruleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleDesc != null">
+        rule_desc = #{record.ruleDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ruleType != null">
+        rule_type = #{record.ruleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleAssFlag != null">
+        rule_ass_flag = #{record.ruleAssFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.warehouseTypeCode != null">
+        warehouse_type_code = #{record.warehouseTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleQtyFlag != null">
+        rule_qty_flag = #{record.ruleQtyFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_inventory_rule_config
+    set rule_code = #{record.ruleCode,jdbcType=VARCHAR},
+      rule_desc = #{record.ruleDesc,jdbcType=NVARCHAR},
+      rule_type = #{record.ruleType,jdbcType=VARCHAR},
+      rule_ass_flag = #{record.ruleAssFlag,jdbcType=INTEGER},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      warehouse_type_code = #{record.warehouseTypeCode,jdbcType=VARCHAR},
+      rule_qty_flag = #{record.ruleQtyFlag,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfig">
+    update dbo.ops_inventory_rule_config
+    <set>
+      <if test="ruleDesc != null">
+        rule_desc = #{ruleDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="ruleType != null">
+        rule_type = #{ruleType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleAssFlag != null">
+        rule_ass_flag = #{ruleAssFlag,jdbcType=INTEGER},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="warehouseTypeCode != null">
+        warehouse_type_code = #{warehouseTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleQtyFlag != null">
+        rule_qty_flag = #{ruleQtyFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rule_code = #{ruleCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsInventoryRuleConfig">
+    update dbo.ops_inventory_rule_config
+    set rule_desc = #{ruleDesc,jdbcType=NVARCHAR},
+      rule_type = #{ruleType,jdbcType=VARCHAR},
+      rule_ass_flag = #{ruleAssFlag,jdbcType=INTEGER},
+      delflag = #{delflag,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      warehouse_type_code = #{warehouseTypeCode,jdbcType=VARCHAR},
+      rule_qty_flag = #{ruleQtyFlag,jdbcType=INTEGER}
+    where rule_code = #{ruleCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductBomMapper">
+    <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductBom">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="bomId" jdbcType="BIGINT" property="bomid" />
+        <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+        <result column="Priority_Complete" jdbcType="BIT" property="priorityComplete" />
+        <result column="Priority_level" jdbcType="INTEGER" property="priorityLevel" />
+        <result column="is_wms" jdbcType="INTEGER" property="isWms" />
+        <result column="IsValid" jdbcType="BIT" property="isvalid" />
+        <result column="create_user" jdbcType="VARCHAR" property="createuser" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="update_user" jdbcType="VARCHAR" property="updateuser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updatetime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, bomId, ModelNo, Priority_Complete, Priority_level, is_wms, IsValid, create_user,
+    create_time, update_user, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductBomExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from dbo.product_bom
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from dbo.product_bom
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dbo.product_bom
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductBomExample">
+        delete from dbo.product_bom
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.sales.ops.db.entity.ProductBom">
+        insert into dbo.product_bom (id, bomId, ModelNo,
+                                     Priority_Complete, Priority_level, is_wms,
+                                     IsValid, create_user, create_time,
+                                     update_user, update_time)
+        values (#{id,jdbcType=BIGINT}, #{bomid,jdbcType=BIGINT}, #{modelno,jdbcType=VARCHAR},
+                #{priorityComplete,jdbcType=BIT}, #{priorityLevel,jdbcType=INTEGER}, #{isWms,jdbcType=INTEGER},
+                #{isvalid,jdbcType=BIT}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+                #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductBom">
+        insert into dbo.product_bom
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="bomid != null">
+                bomId,
+            </if>
+            <if test="modelno != null">
+                ModelNo,
+            </if>
+            <if test="priorityComplete != null">
+                Priority_Complete,
+            </if>
+            <if test="priorityLevel != null">
+                Priority_level,
+            </if>
+            <if test="isWms != null">
+                is_wms,
+            </if>
+            <if test="isvalid != null">
+                IsValid,
+            </if>
+            <if test="createuser != null">
+                create_user,
+            </if>
+            <if test="createtime != null">
+                create_time,
+            </if>
+            <if test="updateuser != null">
+                update_user,
+            </if>
+            <if test="updatetime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="bomid != null">
+                #{bomid,jdbcType=BIGINT},
+            </if>
+            <if test="modelno != null">
+                #{modelno,jdbcType=VARCHAR},
+            </if>
+            <if test="priorityComplete != null">
+                #{priorityComplete,jdbcType=BIT},
+            </if>
+            <if test="priorityLevel != null">
+                #{priorityLevel,jdbcType=INTEGER},
+            </if>
+            <if test="isWms != null">
+                #{isWms,jdbcType=INTEGER},
+            </if>
+            <if test="isvalid != null">
+                #{isvalid,jdbcType=BIT},
+            </if>
+            <if test="createuser != null">
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductBomExample" resultType="java.lang.Long">
+        select count(*) from dbo.product_bom
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update dbo.product_bom
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.bomid != null">
+                bomId = #{record.bomid,jdbcType=BIGINT},
+            </if>
+            <if test="record.modelno != null">
+                ModelNo = #{record.modelno,jdbcType=VARCHAR},
+            </if>
+            <if test="record.priorityComplete != null">
+                Priority_Complete = #{record.priorityComplete,jdbcType=BIT},
+            </if>
+            <if test="record.priorityLevel != null">
+                Priority_level = #{record.priorityLevel,jdbcType=INTEGER},
+            </if>
+            <if test="record.isWms != null">
+                is_wms = #{record.isWms,jdbcType=INTEGER},
+            </if>
+            <if test="record.isvalid != null">
+                IsValid = #{record.isvalid,jdbcType=BIT},
+            </if>
+            <if test="record.createuser != null">
+                create_user = #{record.createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createtime != null">
+                create_time = #{record.createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateuser != null">
+                update_user = #{record.updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updatetime != null">
+                update_time = #{record.updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update dbo.product_bom
+        set id = #{record.id,jdbcType=BIGINT},
+        bomId = #{record.bomid,jdbcType=BIGINT},
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+        Priority_Complete = #{record.priorityComplete,jdbcType=BIT},
+        Priority_level = #{record.priorityLevel,jdbcType=INTEGER},
+        is_wms = #{record.isWms,jdbcType=INTEGER},
+        IsValid = #{record.isvalid,jdbcType=BIT},
+        create_user = #{record.createuser,jdbcType=VARCHAR},
+        create_time = #{record.createtime,jdbcType=TIMESTAMP},
+        update_user = #{record.updateuser,jdbcType=VARCHAR},
+        update_time = #{record.updatetime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductBom">
+        update dbo.product_bom
+        <set>
+            <if test="bomid != null">
+                bomId = #{bomid,jdbcType=BIGINT},
+            </if>
+            <if test="modelno != null">
+                ModelNo = #{modelno,jdbcType=VARCHAR},
+            </if>
+            <if test="priorityComplete != null">
+                Priority_Complete = #{priorityComplete,jdbcType=BIT},
+            </if>
+            <if test="priorityLevel != null">
+                Priority_level = #{priorityLevel,jdbcType=INTEGER},
+            </if>
+            <if test="isWms != null">
+                is_wms = #{isWms,jdbcType=INTEGER},
+            </if>
+            <if test="isvalid != null">
+                IsValid = #{isvalid,jdbcType=BIT},
+            </if>
+            <if test="createuser != null">
+                create_user = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                create_time = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                update_user = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                update_time = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductBom">
+        update dbo.product_bom
+        set bomId = #{bomid,jdbcType=BIGINT},
+            ModelNo = #{modelno,jdbcType=VARCHAR},
+            Priority_Complete = #{priorityComplete,jdbcType=BIT},
+            Priority_level = #{priorityLevel,jdbcType=INTEGER},
+            is_wms = #{isWms,jdbcType=INTEGER},
+            IsValid = #{isvalid,jdbcType=BIT},
+            create_user = #{createuser,jdbcType=VARCHAR},
+            create_time = #{createtime,jdbcType=TIMESTAMP},
+            update_user = #{updateuser,jdbcType=VARCHAR},
+            update_time = #{updatetime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,94 @@
+server:
+  port: 8104
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: report-service
+  devtools:
+    remote:
+      restart:
+        enabled: false
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  autoconfigure:
+    # 排除 原生Druid的快速配置类 启用动态数据源配置
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 200
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_new
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        reportdb:
+          url: jdbc:sqlserver://10.116.32.9:1433;DatabaseName=ops_report
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  redis:
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 500
+        max-active: 10000
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      database: 0
+      hostName: 10.116.1.15
+      port: 6379
+      password:
+      timeout: 5000
+      timeToLive: 120
+    door-redis:
+      database: 0
+      hostName: 10.116.33.151
+      port: 2003
+      password: Smc@RedisQ!W@E#R$
+      timeout: 25000
+      timeToLive: 120
+
+  # 邮箱配置
+  mail:
+    host: 10.116.192.3 # mail.smcgz.com.cn 内网IP
+    port: 25
+    username: webservice
+    password: 'smcgz#123'
+    default-encoding: UTF-8
+    protocol: smtp
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: /ops/logs/${spring.application.name}
+
+smccloud:
+  token:
+    interceptor:
+      enabled: false
+  oauth2:
+    client:
+      clientId: 07b6532b36094573b7d4562st235xdjk
+      clientSecret: 8dc7179a449148f897a21094885039c8
+      access-token-uri: http://10.116.1.15:9000/manage/oauth/token
+      user-authorization-uri: http://10.116.1.15:9000/manage/oauth/authorize
+    resource:
+      token-info-uri: http://10.116.1.15:9000/manage/oauth/check_token

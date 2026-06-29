@@ -48,6 +48,7 @@ class BusinessPoint:
     display_name: str = ""
     entry_method: str = ""
     entry_file: str = ""
+    point_type: str = "core_action"
     call_chain: list[str] = field(default_factory=list)
     cross_domain_calls: dict[str, list[str]] = field(default_factory=dict)
     internal_calls: list[str] = field(default_factory=list)
@@ -58,14 +59,18 @@ class BusinessPoint:
 class Domain:
     """业务域"""
     id: str
-    name: str = ""
+    name: str = ""                               # LLM 标注的英文 ID（如 "purchase"），用于文件目录名
+    display_name: str = ""                       # LLM 标注的中文显示名（如 "采购管理"），用于 UI 展示
+    description: str = ""                        # LLM 标注的业务域一句话描述
+    core_flows: list[str] = field(default_factory=list)    # 核心业务流程列表
+    key_terms: list[dict] = field(default_factory=list)    # 关键术语表 [{term, definition}]
     packages: list[str] = field(default_factory=list)
     modules: list[str] = field(default_factory=list)
     frontend_views: list[str] = field(default_factory=list)
     anchors: dict[str, list[dict]] = field(default_factory=dict)
     business_points: list[BusinessPoint] = field(default_factory=list)
     total_files: int = 0
-    dependencies: dict[str, int] = field(default_factory=dict)
+    dependencies: list[dict] = field(default_factory=list)  # [{domain, name, import_count, strength}]
 
     def anchors_flat(self) -> list[dict]:
         result = []
@@ -83,7 +88,7 @@ class FrontendApiCall:
     function_name: str
     http_method: str
     url: str
-    params: list[dict] = field(default_factory=list)
+    params: list[str] = field(default_factory=list)
     source_file: str = ""
     source_line: int = 0
     callers: list[dict] = field(default_factory=list)

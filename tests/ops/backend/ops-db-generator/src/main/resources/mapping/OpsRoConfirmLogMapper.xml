@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsRoConfirmLogMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsRoConfirmLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="ro_id" jdbcType="VARCHAR" property="roId" />
+    <result column="receive_type" jdbcType="VARCHAR" property="receiveType" />
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="INTEGER" property="orderItem" />
+    <result column="split_item_no" jdbcType="INTEGER" property="splitItemNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, invoice_no, ro_id, receive_type, do_id, pco_id, order_id, order_item, split_item_no, 
+    status, cre_time, creator, batch_no, invoice_id
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsRoConfirmLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_ro_confirm_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_ro_confirm_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_ro_confirm_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsRoConfirmLogExample">
+    delete from dbo.ops_ro_confirm_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsRoConfirmLog">
+    insert into dbo.ops_ro_confirm_log (id, invoice_no, ro_id, 
+      receive_type, do_id, pco_id, 
+      order_id, order_item, split_item_no, 
+      status, cre_time, creator, 
+      batch_no, invoice_id)
+    values (#{id,jdbcType=BIGINT}, #{invoiceNo,jdbcType=VARCHAR}, #{roId,jdbcType=VARCHAR}, 
+      #{receiveType,jdbcType=VARCHAR}, #{doId,jdbcType=VARCHAR}, #{pcoId,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=INTEGER}, #{splitItemNo,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=NVARCHAR}, 
+      #{batchNo,jdbcType=VARCHAR}, #{invoiceId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsRoConfirmLog">
+    insert into dbo.ops_ro_confirm_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="roId != null">
+        ro_id,
+      </if>
+      <if test="receiveType != null">
+        receive_type,
+      </if>
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="splitItemNo != null">
+        split_item_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="roId != null">
+        #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveType != null">
+        #{receiveType,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="splitItemNo != null">
+        #{splitItemNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsRoConfirmLogExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_ro_confirm_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_ro_confirm_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roId != null">
+        ro_id = #{record.roId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveType != null">
+        receive_type = #{record.receiveType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitItemNo != null">
+        split_item_no = #{record.splitItemNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_ro_confirm_log
+    set id = #{record.id,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      ro_id = #{record.roId,jdbcType=VARCHAR},
+      receive_type = #{record.receiveType,jdbcType=VARCHAR},
+      do_id = #{record.doId,jdbcType=VARCHAR},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=INTEGER},
+      split_item_no = #{record.splitItemNo,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsRoConfirmLog">
+    update dbo.ops_ro_confirm_log
+    <set>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="roId != null">
+        ro_id = #{roId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveType != null">
+        receive_type = #{receiveType,jdbcType=VARCHAR},
+      </if>
+      <if test="doId != null">
+        do_id = #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="splitItemNo != null">
+        split_item_no = #{splitItemNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsRoConfirmLog">
+    update dbo.ops_ro_confirm_log
+    set invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      ro_id = #{roId,jdbcType=VARCHAR},
+      receive_type = #{receiveType,jdbcType=VARCHAR},
+      do_id = #{doId,jdbcType=VARCHAR},
+      pco_id = #{pcoId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=INTEGER},
+      split_item_no = #{splitItemNo,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      invoice_id = #{invoiceId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

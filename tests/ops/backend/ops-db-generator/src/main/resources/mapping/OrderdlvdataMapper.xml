@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderdlvdataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Orderdlvdata">
+    <id column="OrderNo" jdbcType="VARCHAR" property="orderno" />
+    <id column="ItemNo" jdbcType="INTEGER" property="itemno" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="CstmName" jdbcType="NVARCHAR" property="cstmname" />
+    <result column="DlvAddress" jdbcType="NVARCHAR" property="dlvaddress" />
+    <result column="ContactPsn" jdbcType="NVARCHAR" property="contactpsn" />
+    <result column="TelNo" jdbcType="VARCHAR" property="telno" />
+    <result column="PostCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="IDCard" jdbcType="NVARCHAR" property="idcard" />
+    <result column="DlvFlag" jdbcType="CHAR" property="dlvflag" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="CreateUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="Province" jdbcType="NVARCHAR" property="province" />
+    <result column="City" jdbcType="NVARCHAR" property="city" />
+    <result column="District" jdbcType="NVARCHAR" property="district" />
+    <result column="CarrierId" jdbcType="VARCHAR" property="carrierid" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    OrderNo, ItemNo, id, CustomerNo, CstmName, DlvAddress, ContactPsn, TelNo, PostCode, 
+    IDCard, DlvFlag, CreateTime, UpdateTime, CreateUser, UpdateUser, Province, City, 
+    District, CarrierId, email
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderdlvdataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.OrderDlvData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderdlvdataKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.OrderDlvData
+    where OrderNo = #{orderno,jdbcType=VARCHAR}
+      and ItemNo = #{itemno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.OrderdlvdataKey">
+    delete from dbo.OrderDlvData
+    where OrderNo = #{orderno,jdbcType=VARCHAR}
+      and ItemNo = #{itemno,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderdlvdataExample">
+    delete from dbo.OrderDlvData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Orderdlvdata">
+    insert into dbo.OrderDlvData (OrderNo, ItemNo, id, 
+      CustomerNo, CstmName, DlvAddress, 
+      ContactPsn, TelNo, PostCode, 
+      IDCard, DlvFlag, CreateTime, 
+      UpdateTime, CreateUser, UpdateUser, 
+      Province, City, District, 
+      CarrierId, email)
+    values (#{orderno,jdbcType=VARCHAR}, #{itemno,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, 
+      #{customerno,jdbcType=VARCHAR}, #{cstmname,jdbcType=NVARCHAR}, #{dlvaddress,jdbcType=NVARCHAR}, 
+      #{contactpsn,jdbcType=NVARCHAR}, #{telno,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=NVARCHAR}, #{dlvflag,jdbcType=CHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{province,jdbcType=NVARCHAR}, #{city,jdbcType=NVARCHAR}, #{district,jdbcType=NVARCHAR}, 
+      #{carrierid,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Orderdlvdata">
+    insert into dbo.OrderDlvData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        OrderNo,
+      </if>
+      <if test="itemno != null">
+        ItemNo,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="cstmname != null">
+        CstmName,
+      </if>
+      <if test="dlvaddress != null">
+        DlvAddress,
+      </if>
+      <if test="contactpsn != null">
+        ContactPsn,
+      </if>
+      <if test="telno != null">
+        TelNo,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="idcard != null">
+        IDCard,
+      </if>
+      <if test="dlvflag != null">
+        DlvFlag,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="createuser != null">
+        CreateUser,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="province != null">
+        Province,
+      </if>
+      <if test="city != null">
+        City,
+      </if>
+      <if test="district != null">
+        District,
+      </if>
+      <if test="carrierid != null">
+        CarrierId,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=INTEGER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="cstmname != null">
+        #{cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvaddress != null">
+        #{dlvaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="telno != null">
+        #{telno,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvflag != null">
+        #{dlvflag,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=NVARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=NVARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=NVARCHAR},
+      </if>
+      <if test="carrierid != null">
+        #{carrierid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderdlvdataExample" resultType="java.lang.Long">
+    select count(*) from dbo.OrderDlvData
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.OrderDlvData
+    <set>
+      <if test="record.orderno != null">
+        OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        ItemNo = #{record.itemno,jdbcType=INTEGER},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cstmname != null">
+        CstmName = #{record.cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.dlvaddress != null">
+        DlvAddress = #{record.dlvaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.contactpsn != null">
+        ContactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.telno != null">
+        TelNo = #{record.telno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null">
+        IDCard = #{record.idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.dlvflag != null">
+        DlvFlag = #{record.dlvflag,jdbcType=CHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateuser != null">
+        UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        Province = #{record.province,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.city != null">
+        City = #{record.city,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.district != null">
+        District = #{record.district,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.carrierid != null">
+        CarrierId = #{record.carrierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.OrderDlvData
+    set OrderNo = #{record.orderno,jdbcType=VARCHAR},
+      ItemNo = #{record.itemno,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=BIGINT},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      CstmName = #{record.cstmname,jdbcType=NVARCHAR},
+      DlvAddress = #{record.dlvaddress,jdbcType=NVARCHAR},
+      ContactPsn = #{record.contactpsn,jdbcType=NVARCHAR},
+      TelNo = #{record.telno,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      IDCard = #{record.idcard,jdbcType=NVARCHAR},
+      DlvFlag = #{record.dlvflag,jdbcType=CHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      UpdateUser = #{record.updateuser,jdbcType=VARCHAR},
+      Province = #{record.province,jdbcType=NVARCHAR},
+      City = #{record.city,jdbcType=NVARCHAR},
+      District = #{record.district,jdbcType=NVARCHAR},
+      CarrierId = #{record.carrierid,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Orderdlvdata">
+    update dbo.OrderDlvData
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerno != null">
+        CustomerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="cstmname != null">
+        CstmName = #{cstmname,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvaddress != null">
+        DlvAddress = #{dlvaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        ContactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="telno != null">
+        TelNo = #{telno,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        IDCard = #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvflag != null">
+        DlvFlag = #{dlvflag,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CreateUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        Province = #{province,jdbcType=NVARCHAR},
+      </if>
+      <if test="city != null">
+        City = #{city,jdbcType=NVARCHAR},
+      </if>
+      <if test="district != null">
+        District = #{district,jdbcType=NVARCHAR},
+      </if>
+      <if test="carrierid != null">
+        CarrierId = #{carrierid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OrderNo = #{orderno,jdbcType=VARCHAR}
+      and ItemNo = #{itemno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Orderdlvdata">
+    update dbo.OrderDlvData
+    set id = #{id,jdbcType=BIGINT},
+      CustomerNo = #{customerno,jdbcType=VARCHAR},
+      CstmName = #{cstmname,jdbcType=NVARCHAR},
+      DlvAddress = #{dlvaddress,jdbcType=NVARCHAR},
+      ContactPsn = #{contactpsn,jdbcType=NVARCHAR},
+      TelNo = #{telno,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      IDCard = #{idcard,jdbcType=NVARCHAR},
+      DlvFlag = #{dlvflag,jdbcType=CHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      Province = #{province,jdbcType=NVARCHAR},
+      City = #{city,jdbcType=NVARCHAR},
+      District = #{district,jdbcType=NVARCHAR},
+      CarrierId = #{carrierid,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR}
+    where OrderNo = #{orderno,jdbcType=VARCHAR}
+      and ItemNo = #{itemno,jdbcType=INTEGER}
+  </update>
+</mapper>

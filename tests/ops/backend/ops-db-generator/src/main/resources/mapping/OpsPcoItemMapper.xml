@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsPcoItemMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsPcoItem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pco_id" jdbcType="VARCHAR" property="pcoId" />
+    <result column="pco_item" jdbcType="INTEGER" property="pcoItem" />
+    <result column="sub_modelno" jdbcType="VARCHAR" property="subModelno" />
+    <result column="sub_qty" jdbcType="INTEGER" property="subQty" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="wait_type" jdbcType="VARCHAR" property="waitType" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="is_cross" jdbcType="BIT" property="isCross" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="creator" jdbcType="NVARCHAR" property="creator" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modifier" jdbcType="NVARCHAR" property="modifier" />
+    <result column="relocation" jdbcType="VARCHAR" property="relocation" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pco_id, pco_item, sub_modelno, sub_qty, remark, version, weight, wait_type, delflag, 
+    is_cross, cre_time, creator, modify_time, modifier, relocation
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsPcoItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_pco_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_pco_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsPcoItemExample">
+    delete from dbo.ops_pco_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsPcoItem">
+    insert into dbo.ops_pco_item (id, pco_id, pco_item, 
+      sub_modelno, sub_qty, remark, 
+      version, weight, wait_type, 
+      delflag, is_cross, cre_time, 
+      creator, modify_time, modifier, 
+      relocation)
+    values (#{id,jdbcType=BIGINT}, #{pcoId,jdbcType=VARCHAR}, #{pcoItem,jdbcType=INTEGER}, 
+      #{subModelno,jdbcType=VARCHAR}, #{subQty,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{version,jdbcType=BIGINT}, #{weight,jdbcType=DECIMAL}, #{waitType,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=INTEGER}, #{isCross,jdbcType=BIT}, #{creTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=NVARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=NVARCHAR}, 
+      #{relocation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsPcoItem">
+    insert into dbo.ops_pco_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pcoId != null">
+        pco_id,
+      </if>
+      <if test="pcoItem != null">
+        pco_item,
+      </if>
+      <if test="subModelno != null">
+        sub_modelno,
+      </if>
+      <if test="subQty != null">
+        sub_qty,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="waitType != null">
+        wait_type,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="isCross != null">
+        is_cross,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="relocation != null">
+        relocation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pcoId != null">
+        #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="subModelno != null">
+        #{subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="subQty != null">
+        #{subQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="waitType != null">
+        #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="isCross != null">
+        #{isCross,jdbcType=BIT},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="relocation != null">
+        #{relocation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsPcoItemExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_pco_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_pco_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.pcoId != null">
+        pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcoItem != null">
+        pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.subModelno != null">
+        sub_modelno = #{record.subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subQty != null">
+        sub_qty = #{record.subQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waitType != null">
+        wait_type = #{record.waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.isCross != null">
+        is_cross = #{record.isCross,jdbcType=BIT},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.relocation != null">
+        relocation = #{record.relocation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_pco_item
+    set id = #{record.id,jdbcType=BIGINT},
+      pco_id = #{record.pcoId,jdbcType=VARCHAR},
+      pco_item = #{record.pcoItem,jdbcType=INTEGER},
+      sub_modelno = #{record.subModelno,jdbcType=VARCHAR},
+      sub_qty = #{record.subQty,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=BIGINT},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      wait_type = #{record.waitType,jdbcType=VARCHAR},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      is_cross = #{record.isCross,jdbcType=BIT},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=NVARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=NVARCHAR},
+      relocation = #{record.relocation,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsPcoItem">
+    update dbo.ops_pco_item
+    <set>
+      <if test="pcoId != null">
+        pco_id = #{pcoId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcoItem != null">
+        pco_item = #{pcoItem,jdbcType=INTEGER},
+      </if>
+      <if test="subModelno != null">
+        sub_modelno = #{subModelno,jdbcType=VARCHAR},
+      </if>
+      <if test="subQty != null">
+        sub_qty = #{subQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="waitType != null">
+        wait_type = #{waitType,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="isCross != null">
+        is_cross = #{isCross,jdbcType=BIT},
+      </if>
+      <if test="creTime != null">
+        cre_time = #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=NVARCHAR},
+      </if>
+      <if test="relocation != null">
+        relocation = #{relocation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsPcoItem">
+    update dbo.ops_pco_item
+    set pco_id = #{pcoId,jdbcType=VARCHAR},
+      pco_item = #{pcoItem,jdbcType=INTEGER},
+      sub_modelno = #{subModelno,jdbcType=VARCHAR},
+      sub_qty = #{subQty,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      version = #{version,jdbcType=BIGINT},
+      weight = #{weight,jdbcType=DECIMAL},
+      wait_type = #{waitType,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=INTEGER},
+      is_cross = #{isCross,jdbcType=BIT},
+      cre_time = #{creTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=NVARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=NVARCHAR},
+      relocation = #{relocation,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

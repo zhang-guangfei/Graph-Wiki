@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.RcvorderAllocateMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.RcvorderAllocate">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="from_type" jdbcType="INTEGER" property="fromType" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="order_fno" jdbcType="VARCHAR" property="orderFno" />
+    <result column="rorder_no" jdbcType="VARCHAR" property="rorderNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="exp_qty" jdbcType="INTEGER" property="expQty" />
+    <result column="ready_qty" jdbcType="INTEGER" property="readyQty" />
+    <result column="ship_time" jdbcType="TIMESTAMP" property="shipTime" />
+    <result column="delivery_no" jdbcType="VARCHAR" property="deliveryNo" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="inventory_no" jdbcType="VARCHAR" property="inventoryNo" />
+    <result column="stock_code" jdbcType="VARCHAR" property="stockCode" />
+    <result column="stock_type" jdbcType="VARCHAR" property="stockType" />
+    <result column="transaction_no" jdbcType="VARCHAR" property="transactionNo" />
+    <result column="transaction_type" jdbcType="INTEGER" property="transactionType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, from_type, order_id, order_fno, rorder_no, status, delete_status, model_no, quantity, 
+    exp_qty, ready_qty, ship_time, delivery_no, inventory_id, inventory_no, stock_code, 
+    stock_type, transaction_no, transaction_type, create_time, create_user, update_time, 
+    update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.RcvorderAllocateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.rcvorder_allocate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.rcvorder_allocate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.rcvorder_allocate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.RcvorderAllocateExample">
+    delete from dbo.rcvorder_allocate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.RcvorderAllocate">
+    insert into dbo.rcvorder_allocate (id, from_type, order_id, 
+      order_fno, rorder_no, status, 
+      delete_status, model_no, quantity, 
+      exp_qty, ready_qty, ship_time, 
+      delivery_no, inventory_id, inventory_no, 
+      stock_code, stock_type, transaction_no, 
+      transaction_type, create_time, create_user, 
+      update_time, update_user)
+    values (#{id,jdbcType=BIGINT}, #{fromType,jdbcType=INTEGER}, #{orderId,jdbcType=BIGINT}, 
+      #{orderFno,jdbcType=VARCHAR}, #{rorderNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{expQty,jdbcType=INTEGER}, #{readyQty,jdbcType=INTEGER}, #{shipTime,jdbcType=TIMESTAMP}, 
+      #{deliveryNo,jdbcType=VARCHAR}, #{inventoryId,jdbcType=BIGINT}, #{inventoryNo,jdbcType=VARCHAR}, 
+      #{stockCode,jdbcType=VARCHAR}, #{stockType,jdbcType=VARCHAR}, #{transactionNo,jdbcType=VARCHAR}, 
+      #{transactionType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.RcvorderAllocate">
+    insert into dbo.rcvorder_allocate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fromType != null">
+        from_type,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderFno != null">
+        order_fno,
+      </if>
+      <if test="rorderNo != null">
+        rorder_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="deleteStatus != null">
+        delete_status,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="expQty != null">
+        exp_qty,
+      </if>
+      <if test="readyQty != null">
+        ready_qty,
+      </if>
+      <if test="shipTime != null">
+        ship_time,
+      </if>
+      <if test="deliveryNo != null">
+        delivery_no,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="inventoryNo != null">
+        inventory_no,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="stockType != null">
+        stock_type,
+      </if>
+      <if test="transactionNo != null">
+        transaction_no,
+      </if>
+      <if test="transactionType != null">
+        transaction_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fromType != null">
+        #{fromType,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderFno != null">
+        #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="expQty != null">
+        #{expQty,jdbcType=INTEGER},
+      </if>
+      <if test="readyQty != null">
+        #{readyQty,jdbcType=INTEGER},
+      </if>
+      <if test="shipTime != null">
+        #{shipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryNo != null">
+        #{deliveryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryNo != null">
+        #{inventoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockType != null">
+        #{stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null">
+        #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionType != null">
+        #{transactionType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.RcvorderAllocateExample" resultType="java.lang.Long">
+    select count(*) from dbo.rcvorder_allocate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.rcvorder_allocate
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fromType != null">
+        from_type = #{record.fromType,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderFno != null">
+        order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rorderNo != null">
+        rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteStatus != null">
+        delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.expQty != null">
+        exp_qty = #{record.expQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.readyQty != null">
+        ready_qty = #{record.readyQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.shipTime != null">
+        ship_time = #{record.shipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryNo != null">
+        delivery_no = #{record.deliveryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inventoryNo != null">
+        inventory_no = #{record.inventoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockType != null">
+        stock_type = #{record.stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionNo != null">
+        transaction_no = #{record.transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionType != null">
+        transaction_type = #{record.transactionType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.rcvorder_allocate
+    set id = #{record.id,jdbcType=BIGINT},
+      from_type = #{record.fromType,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      rorder_no = #{record.rorderNo,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      exp_qty = #{record.expQty,jdbcType=INTEGER},
+      ready_qty = #{record.readyQty,jdbcType=INTEGER},
+      ship_time = #{record.shipTime,jdbcType=TIMESTAMP},
+      delivery_no = #{record.deliveryNo,jdbcType=VARCHAR},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      inventory_no = #{record.inventoryNo,jdbcType=VARCHAR},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      stock_type = #{record.stockType,jdbcType=VARCHAR},
+      transaction_no = #{record.transactionNo,jdbcType=VARCHAR},
+      transaction_type = #{record.transactionType,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.RcvorderAllocate">
+    update dbo.rcvorder_allocate
+    <set>
+      <if test="fromType != null">
+        from_type = #{fromType,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderFno != null">
+        order_fno = #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="rorderNo != null">
+        rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null">
+        delete_status = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="expQty != null">
+        exp_qty = #{expQty,jdbcType=INTEGER},
+      </if>
+      <if test="readyQty != null">
+        ready_qty = #{readyQty,jdbcType=INTEGER},
+      </if>
+      <if test="shipTime != null">
+        ship_time = #{shipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryNo != null">
+        delivery_no = #{deliveryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="inventoryNo != null">
+        inventory_no = #{inventoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockType != null">
+        stock_type = #{stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null">
+        transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionType != null">
+        transaction_type = #{transactionType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.RcvorderAllocate">
+    update dbo.rcvorder_allocate
+    set from_type = #{fromType,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=BIGINT},
+      order_fno = #{orderFno,jdbcType=VARCHAR},
+      rorder_no = #{rorderNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      exp_qty = #{expQty,jdbcType=INTEGER},
+      ready_qty = #{readyQty,jdbcType=INTEGER},
+      ship_time = #{shipTime,jdbcType=TIMESTAMP},
+      delivery_no = #{deliveryNo,jdbcType=VARCHAR},
+      inventory_id = #{inventoryId,jdbcType=BIGINT},
+      inventory_no = #{inventoryNo,jdbcType=VARCHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      stock_type = #{stockType,jdbcType=VARCHAR},
+      transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      transaction_type = #{transactionType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

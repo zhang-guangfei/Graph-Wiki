@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderdataBjMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OrderdataBj">
+    <result column="OrdrNo" jdbcType="CHAR" property="ordrno" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="PresPrice" jdbcType="DECIMAL" property="presprice" />
+    <result column="StdPrice" jdbcType="DECIMAL" property="stdprice" />
+    <result column="TransType" jdbcType="CHAR" property="transtype" />
+    <result column="OrdDate" jdbcType="TIMESTAMP" property="orddate" />
+    <result column="DlvDate" jdbcType="TIMESTAMP" property="dlvdate" />
+    <result column="CustomerNo" jdbcType="CHAR" property="customerno" />
+    <result column="UserNo" jdbcType="CHAR" property="userno" />
+    <result column="VndCode" jdbcType="CHAR" property="vndcode" />
+    <result column="OptState" jdbcType="CHAR" property="optstate" />
+    <result column="SpecMark" jdbcType="CHAR" property="specmark" />
+    <result column="LocationNo" jdbcType="CHAR" property="locationno" />
+    <result column="DeptNo" jdbcType="CHAR" property="deptno" />
+    <result column="DeliveryNo" jdbcType="CHAR" property="deliveryno" />
+    <result column="StateFlag" jdbcType="CHAR" property="stateflag" />
+    <result column="QtyReceive" jdbcType="INTEGER" property="qtyreceive" />
+    <result column="FinishDate" jdbcType="TIMESTAMP" property="finishdate" />
+    <result column="DisCount" jdbcType="NUMERIC" property="discount" />
+    <result column="ErrCode" jdbcType="CHAR" property="errcode" />
+    <result column="SpFlag" jdbcType="CHAR" property="spflag" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="VIPCode" jdbcType="CHAR" property="vipcode" />
+    <result column="OrdDateFlag" jdbcType="CHAR" property="orddateflag" />
+    <result column="PreQtyOrd" jdbcType="INTEGER" property="preqtyord" />
+    <result column="AnswerNo" jdbcType="CHAR" property="answerno" />
+    <result column="SmcCode" jdbcType="CHAR" property="smccode" />
+    <result column="OrdFlag" jdbcType="VARCHAR" property="ordflag" />
+    <result column="SWeight" jdbcType="NUMERIC" property="sweight" />
+    <result column="DlvDate_JP" jdbcType="TIMESTAMP" property="dlvdateJp" />
+    <result column="Expdate_GC" jdbcType="TIMESTAMP" property="expdateGc" />
+    <result column="DlvModDate" jdbcType="TIMESTAMP" property="dlvmoddate" />
+    <result column="Remark_GC" jdbcType="VARCHAR" property="remarkGc" />
+    <result column="RedPrice" jdbcType="DECIMAL" property="redprice" />
+    <result column="MultPrice_Flag" jdbcType="CHAR" property="multpriceFlag" />
+    <result column="EmpOrdprocess" jdbcType="NCHAR" property="empordprocess" />
+    <result column="QtyImput" jdbcType="INTEGER" property="qtyimput" />
+    <result column="DlvModDate1" jdbcType="TIMESTAMP" property="dlvmoddate1" />
+    <result column="DlvModDate2" jdbcType="TIMESTAMP" property="dlvmoddate2" />
+    <result column="Reason_Remark" jdbcType="NVARCHAR" property="reasonRemark" />
+    <result column="Produce_DeptNo" jdbcType="VARCHAR" property="produceDeptno" />
+    <result column="InvoiceNo" jdbcType="NCHAR" property="invoiceno" />
+    <result column="Impdate" jdbcType="DATE" property="impdate" />
+    <result column="TransType_Mod" jdbcType="CHAR" property="transtypeMod" />
+    <result column="DlvAnswerNo1" jdbcType="NVARCHAR" property="dlvanswerno1" />
+    <result column="DlvAnswerNo2" jdbcType="NVARCHAR" property="dlvanswerno2" />
+    <result column="Qty_Produced" jdbcType="INTEGER" property="qtyProduced" />
+    <result column="CnNo" jdbcType="VARCHAR" property="cnno" />
+    <result column="ShiKomiNo" jdbcType="VARCHAR" property="shikomino" />
+    <result column="DlvModDate3" jdbcType="TIMESTAMP" property="dlvmoddate3" />
+    <result column="OrdType" jdbcType="CHAR" property="ordtype" />
+    <result column="OrdAdmit_Flag" jdbcType="CHAR" property="ordadmitFlag" />
+    <result column="DeliveryFlag" jdbcType="CHAR" property="deliveryflag" />
+    <result column="QtyOnHand" jdbcType="INTEGER" property="qtyonhand" />
+    <result column="Produce_Factory" jdbcType="NVARCHAR" property="produceFactory" />
+    <result column="Produce_Holon" jdbcType="NVARCHAR" property="produceHolon" />
+    <result column="Errdescription" jdbcType="NVARCHAR" property="errdescription" />
+    <result column="SalesInfoNo" jdbcType="NVARCHAR" property="salesinfono" />
+    <result column="HSCode" jdbcType="NVARCHAR" property="hscode" />
+    <result column="GreenCode" jdbcType="CHAR" property="greencode" />
+    <result column="OrderNO_GSS" jdbcType="NVARCHAR" property="ordernoGss" />
+    <result column="OrderNO_Item_GSS" jdbcType="NVARCHAR" property="ordernoItemGss" />
+    <result column="InDate_theory" jdbcType="TIMESTAMP" property="indateTheory" />
+    <result column="RcvOrd_Date" jdbcType="TIMESTAMP" property="rcvordDate" />
+    <result column="InDate_InFact" jdbcType="TIMESTAMP" property="indateInfact" />
+    <result column="Exp_date" jdbcType="TIMESTAMP" property="expDate" />
+    <result column="Export_Flag" jdbcType="NVARCHAR" property="exportFlag" />
+    <result column="Holon_Name" jdbcType="NVARCHAR" property="holonName" />
+    <result column="BeginProduce_date" jdbcType="TIMESTAMP" property="beginproduceDate" />
+    <result column="DlvModTime1" jdbcType="TIMESTAMP" property="dlvmodtime1" />
+    <result column="DlvModTime2" jdbcType="TIMESTAMP" property="dlvmodtime2" />
+    <result column="DlvModTime3" jdbcType="TIMESTAMP" property="dlvmodtime3" />
+    <result column="TradeCompanyId" jdbcType="VARCHAR" property="tradecompanyid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    OrdrNo, ModelNo, Quantity, PresPrice, StdPrice, TransType, OrdDate, DlvDate, CustomerNo, 
+    UserNo, VndCode, OptState, SpecMark, LocationNo, DeptNo, DeliveryNo, StateFlag, QtyReceive, 
+    FinishDate, DisCount, ErrCode, SpFlag, Remark, VIPCode, OrdDateFlag, PreQtyOrd, AnswerNo, 
+    SmcCode, OrdFlag, SWeight, DlvDate_JP, Expdate_GC, DlvModDate, Remark_GC, RedPrice, 
+    MultPrice_Flag, EmpOrdprocess, QtyImput, DlvModDate1, DlvModDate2, Reason_Remark, 
+    Produce_DeptNo, InvoiceNo, Impdate, TransType_Mod, DlvAnswerNo1, DlvAnswerNo2, Qty_Produced, 
+    CnNo, ShiKomiNo, DlvModDate3, OrdType, OrdAdmit_Flag, DeliveryFlag, QtyOnHand, Produce_Factory, 
+    Produce_Holon, Errdescription, SalesInfoNo, HSCode, GreenCode, OrderNO_GSS, OrderNO_Item_GSS, 
+    InDate_theory, RcvOrd_Date, InDate_InFact, Exp_date, Export_Flag, Holon_Name, BeginProduce_date, 
+    DlvModTime1, DlvModTime2, DlvModTime3, TradeCompanyId
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderdataBjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._orderdata_bj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderdataBjExample">
+    delete from dbo._orderdata_bj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OrderdataBj">
+    insert into dbo._orderdata_bj (OrdrNo, ModelNo, Quantity, 
+      PresPrice, StdPrice, TransType, 
+      OrdDate, DlvDate, CustomerNo, 
+      UserNo, VndCode, OptState, SpecMark, 
+      LocationNo, DeptNo, DeliveryNo, 
+      StateFlag, QtyReceive, FinishDate, 
+      DisCount, ErrCode, SpFlag, 
+      Remark, VIPCode, OrdDateFlag, 
+      PreQtyOrd, AnswerNo, SmcCode, 
+      OrdFlag, SWeight, DlvDate_JP, 
+      Expdate_GC, DlvModDate, Remark_GC, 
+      RedPrice, MultPrice_Flag, EmpOrdprocess, 
+      QtyImput, DlvModDate1, DlvModDate2, 
+      Reason_Remark, Produce_DeptNo, InvoiceNo, 
+      Impdate, TransType_Mod, DlvAnswerNo1, 
+      DlvAnswerNo2, Qty_Produced, CnNo, 
+      ShiKomiNo, DlvModDate3, OrdType, 
+      OrdAdmit_Flag, DeliveryFlag, QtyOnHand, 
+      Produce_Factory, Produce_Holon, Errdescription, 
+      SalesInfoNo, HSCode, GreenCode, 
+      OrderNO_GSS, OrderNO_Item_GSS, InDate_theory, 
+      RcvOrd_Date, InDate_InFact, Exp_date, 
+      Export_Flag, Holon_Name, BeginProduce_date, 
+      DlvModTime1, DlvModTime2, DlvModTime3, 
+      TradeCompanyId)
+    values (#{ordrno,jdbcType=CHAR}, #{modelno,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{presprice,jdbcType=DECIMAL}, #{stdprice,jdbcType=DECIMAL}, #{transtype,jdbcType=CHAR}, 
+      #{orddate,jdbcType=TIMESTAMP}, #{dlvdate,jdbcType=TIMESTAMP}, #{customerno,jdbcType=CHAR}, 
+      #{userno,jdbcType=CHAR}, #{vndcode,jdbcType=CHAR}, #{optstate,jdbcType=CHAR}, #{specmark,jdbcType=CHAR}, 
+      #{locationno,jdbcType=CHAR}, #{deptno,jdbcType=CHAR}, #{deliveryno,jdbcType=CHAR}, 
+      #{stateflag,jdbcType=CHAR}, #{qtyreceive,jdbcType=INTEGER}, #{finishdate,jdbcType=TIMESTAMP}, 
+      #{discount,jdbcType=NUMERIC}, #{errcode,jdbcType=CHAR}, #{spflag,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{vipcode,jdbcType=CHAR}, #{orddateflag,jdbcType=CHAR}, 
+      #{preqtyord,jdbcType=INTEGER}, #{answerno,jdbcType=CHAR}, #{smccode,jdbcType=CHAR}, 
+      #{ordflag,jdbcType=VARCHAR}, #{sweight,jdbcType=NUMERIC}, #{dlvdateJp,jdbcType=TIMESTAMP}, 
+      #{expdateGc,jdbcType=TIMESTAMP}, #{dlvmoddate,jdbcType=TIMESTAMP}, #{remarkGc,jdbcType=VARCHAR}, 
+      #{redprice,jdbcType=DECIMAL}, #{multpriceFlag,jdbcType=CHAR}, #{empordprocess,jdbcType=NCHAR}, 
+      #{qtyimput,jdbcType=INTEGER}, #{dlvmoddate1,jdbcType=TIMESTAMP}, #{dlvmoddate2,jdbcType=TIMESTAMP}, 
+      #{reasonRemark,jdbcType=NVARCHAR}, #{produceDeptno,jdbcType=VARCHAR}, #{invoiceno,jdbcType=NCHAR}, 
+      #{impdate,jdbcType=DATE}, #{transtypeMod,jdbcType=CHAR}, #{dlvanswerno1,jdbcType=NVARCHAR}, 
+      #{dlvanswerno2,jdbcType=NVARCHAR}, #{qtyProduced,jdbcType=INTEGER}, #{cnno,jdbcType=VARCHAR}, 
+      #{shikomino,jdbcType=VARCHAR}, #{dlvmoddate3,jdbcType=TIMESTAMP}, #{ordtype,jdbcType=CHAR}, 
+      #{ordadmitFlag,jdbcType=CHAR}, #{deliveryflag,jdbcType=CHAR}, #{qtyonhand,jdbcType=INTEGER}, 
+      #{produceFactory,jdbcType=NVARCHAR}, #{produceHolon,jdbcType=NVARCHAR}, #{errdescription,jdbcType=NVARCHAR}, 
+      #{salesinfono,jdbcType=NVARCHAR}, #{hscode,jdbcType=NVARCHAR}, #{greencode,jdbcType=CHAR}, 
+      #{ordernoGss,jdbcType=NVARCHAR}, #{ordernoItemGss,jdbcType=NVARCHAR}, #{indateTheory,jdbcType=TIMESTAMP}, 
+      #{rcvordDate,jdbcType=TIMESTAMP}, #{indateInfact,jdbcType=TIMESTAMP}, #{expDate,jdbcType=TIMESTAMP}, 
+      #{exportFlag,jdbcType=NVARCHAR}, #{holonName,jdbcType=NVARCHAR}, #{beginproduceDate,jdbcType=TIMESTAMP}, 
+      #{dlvmodtime1,jdbcType=TIMESTAMP}, #{dlvmodtime2,jdbcType=TIMESTAMP}, #{dlvmodtime3,jdbcType=TIMESTAMP}, 
+      #{tradecompanyid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OrderdataBj">
+    insert into dbo._orderdata_bj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ordrno != null">
+        OrdrNo,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="presprice != null">
+        PresPrice,
+      </if>
+      <if test="stdprice != null">
+        StdPrice,
+      </if>
+      <if test="transtype != null">
+        TransType,
+      </if>
+      <if test="orddate != null">
+        OrdDate,
+      </if>
+      <if test="dlvdate != null">
+        DlvDate,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="userno != null">
+        UserNo,
+      </if>
+      <if test="vndcode != null">
+        VndCode,
+      </if>
+      <if test="optstate != null">
+        OptState,
+      </if>
+      <if test="specmark != null">
+        SpecMark,
+      </if>
+      <if test="locationno != null">
+        LocationNo,
+      </if>
+      <if test="deptno != null">
+        DeptNo,
+      </if>
+      <if test="deliveryno != null">
+        DeliveryNo,
+      </if>
+      <if test="stateflag != null">
+        StateFlag,
+      </if>
+      <if test="qtyreceive != null">
+        QtyReceive,
+      </if>
+      <if test="finishdate != null">
+        FinishDate,
+      </if>
+      <if test="discount != null">
+        DisCount,
+      </if>
+      <if test="errcode != null">
+        ErrCode,
+      </if>
+      <if test="spflag != null">
+        SpFlag,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="vipcode != null">
+        VIPCode,
+      </if>
+      <if test="orddateflag != null">
+        OrdDateFlag,
+      </if>
+      <if test="preqtyord != null">
+        PreQtyOrd,
+      </if>
+      <if test="answerno != null">
+        AnswerNo,
+      </if>
+      <if test="smccode != null">
+        SmcCode,
+      </if>
+      <if test="ordflag != null">
+        OrdFlag,
+      </if>
+      <if test="sweight != null">
+        SWeight,
+      </if>
+      <if test="dlvdateJp != null">
+        DlvDate_JP,
+      </if>
+      <if test="expdateGc != null">
+        Expdate_GC,
+      </if>
+      <if test="dlvmoddate != null">
+        DlvModDate,
+      </if>
+      <if test="remarkGc != null">
+        Remark_GC,
+      </if>
+      <if test="redprice != null">
+        RedPrice,
+      </if>
+      <if test="multpriceFlag != null">
+        MultPrice_Flag,
+      </if>
+      <if test="empordprocess != null">
+        EmpOrdprocess,
+      </if>
+      <if test="qtyimput != null">
+        QtyImput,
+      </if>
+      <if test="dlvmoddate1 != null">
+        DlvModDate1,
+      </if>
+      <if test="dlvmoddate2 != null">
+        DlvModDate2,
+      </if>
+      <if test="reasonRemark != null">
+        Reason_Remark,
+      </if>
+      <if test="produceDeptno != null">
+        Produce_DeptNo,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="impdate != null">
+        Impdate,
+      </if>
+      <if test="transtypeMod != null">
+        TransType_Mod,
+      </if>
+      <if test="dlvanswerno1 != null">
+        DlvAnswerNo1,
+      </if>
+      <if test="dlvanswerno2 != null">
+        DlvAnswerNo2,
+      </if>
+      <if test="qtyProduced != null">
+        Qty_Produced,
+      </if>
+      <if test="cnno != null">
+        CnNo,
+      </if>
+      <if test="shikomino != null">
+        ShiKomiNo,
+      </if>
+      <if test="dlvmoddate3 != null">
+        DlvModDate3,
+      </if>
+      <if test="ordtype != null">
+        OrdType,
+      </if>
+      <if test="ordadmitFlag != null">
+        OrdAdmit_Flag,
+      </if>
+      <if test="deliveryflag != null">
+        DeliveryFlag,
+      </if>
+      <if test="qtyonhand != null">
+        QtyOnHand,
+      </if>
+      <if test="produceFactory != null">
+        Produce_Factory,
+      </if>
+      <if test="produceHolon != null">
+        Produce_Holon,
+      </if>
+      <if test="errdescription != null">
+        Errdescription,
+      </if>
+      <if test="salesinfono != null">
+        SalesInfoNo,
+      </if>
+      <if test="hscode != null">
+        HSCode,
+      </if>
+      <if test="greencode != null">
+        GreenCode,
+      </if>
+      <if test="ordernoGss != null">
+        OrderNO_GSS,
+      </if>
+      <if test="ordernoItemGss != null">
+        OrderNO_Item_GSS,
+      </if>
+      <if test="indateTheory != null">
+        InDate_theory,
+      </if>
+      <if test="rcvordDate != null">
+        RcvOrd_Date,
+      </if>
+      <if test="indateInfact != null">
+        InDate_InFact,
+      </if>
+      <if test="expDate != null">
+        Exp_date,
+      </if>
+      <if test="exportFlag != null">
+        Export_Flag,
+      </if>
+      <if test="holonName != null">
+        Holon_Name,
+      </if>
+      <if test="beginproduceDate != null">
+        BeginProduce_date,
+      </if>
+      <if test="dlvmodtime1 != null">
+        DlvModTime1,
+      </if>
+      <if test="dlvmodtime2 != null">
+        DlvModTime2,
+      </if>
+      <if test="dlvmodtime3 != null">
+        DlvModTime3,
+      </if>
+      <if test="tradecompanyid != null">
+        TradeCompanyId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ordrno != null">
+        #{ordrno,jdbcType=CHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="presprice != null">
+        #{presprice,jdbcType=DECIMAL},
+      </if>
+      <if test="stdprice != null">
+        #{stdprice,jdbcType=DECIMAL},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="orddate != null">
+        #{orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvdate != null">
+        #{dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=CHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=CHAR},
+      </if>
+      <if test="vndcode != null">
+        #{vndcode,jdbcType=CHAR},
+      </if>
+      <if test="optstate != null">
+        #{optstate,jdbcType=CHAR},
+      </if>
+      <if test="specmark != null">
+        #{specmark,jdbcType=CHAR},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=CHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=CHAR},
+      </if>
+      <if test="deliveryno != null">
+        #{deliveryno,jdbcType=CHAR},
+      </if>
+      <if test="stateflag != null">
+        #{stateflag,jdbcType=CHAR},
+      </if>
+      <if test="qtyreceive != null">
+        #{qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="finishdate != null">
+        #{finishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=NUMERIC},
+      </if>
+      <if test="errcode != null">
+        #{errcode,jdbcType=CHAR},
+      </if>
+      <if test="spflag != null">
+        #{spflag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="vipcode != null">
+        #{vipcode,jdbcType=CHAR},
+      </if>
+      <if test="orddateflag != null">
+        #{orddateflag,jdbcType=CHAR},
+      </if>
+      <if test="preqtyord != null">
+        #{preqtyord,jdbcType=INTEGER},
+      </if>
+      <if test="answerno != null">
+        #{answerno,jdbcType=CHAR},
+      </if>
+      <if test="smccode != null">
+        #{smccode,jdbcType=CHAR},
+      </if>
+      <if test="ordflag != null">
+        #{ordflag,jdbcType=VARCHAR},
+      </if>
+      <if test="sweight != null">
+        #{sweight,jdbcType=NUMERIC},
+      </if>
+      <if test="dlvdateJp != null">
+        #{dlvdateJp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expdateGc != null">
+        #{expdateGc,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmoddate != null">
+        #{dlvmoddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarkGc != null">
+        #{remarkGc,jdbcType=VARCHAR},
+      </if>
+      <if test="redprice != null">
+        #{redprice,jdbcType=DECIMAL},
+      </if>
+      <if test="multpriceFlag != null">
+        #{multpriceFlag,jdbcType=CHAR},
+      </if>
+      <if test="empordprocess != null">
+        #{empordprocess,jdbcType=NCHAR},
+      </if>
+      <if test="qtyimput != null">
+        #{qtyimput,jdbcType=INTEGER},
+      </if>
+      <if test="dlvmoddate1 != null">
+        #{dlvmoddate1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmoddate2 != null">
+        #{dlvmoddate2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reasonRemark != null">
+        #{reasonRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="produceDeptno != null">
+        #{produceDeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=NCHAR},
+      </if>
+      <if test="impdate != null">
+        #{impdate,jdbcType=DATE},
+      </if>
+      <if test="transtypeMod != null">
+        #{transtypeMod,jdbcType=CHAR},
+      </if>
+      <if test="dlvanswerno1 != null">
+        #{dlvanswerno1,jdbcType=NVARCHAR},
+      </if>
+      <if test="dlvanswerno2 != null">
+        #{dlvanswerno2,jdbcType=NVARCHAR},
+      </if>
+      <if test="qtyProduced != null">
+        #{qtyProduced,jdbcType=INTEGER},
+      </if>
+      <if test="cnno != null">
+        #{cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="shikomino != null">
+        #{shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvmoddate3 != null">
+        #{dlvmoddate3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=CHAR},
+      </if>
+      <if test="ordadmitFlag != null">
+        #{ordadmitFlag,jdbcType=CHAR},
+      </if>
+      <if test="deliveryflag != null">
+        #{deliveryflag,jdbcType=CHAR},
+      </if>
+      <if test="qtyonhand != null">
+        #{qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="produceFactory != null">
+        #{produceFactory,jdbcType=NVARCHAR},
+      </if>
+      <if test="produceHolon != null">
+        #{produceHolon,jdbcType=NVARCHAR},
+      </if>
+      <if test="errdescription != null">
+        #{errdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="salesinfono != null">
+        #{salesinfono,jdbcType=NVARCHAR},
+      </if>
+      <if test="hscode != null">
+        #{hscode,jdbcType=NVARCHAR},
+      </if>
+      <if test="greencode != null">
+        #{greencode,jdbcType=CHAR},
+      </if>
+      <if test="ordernoGss != null">
+        #{ordernoGss,jdbcType=NVARCHAR},
+      </if>
+      <if test="ordernoItemGss != null">
+        #{ordernoItemGss,jdbcType=NVARCHAR},
+      </if>
+      <if test="indateTheory != null">
+        #{indateTheory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rcvordDate != null">
+        #{rcvordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indateInfact != null">
+        #{indateInfact,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expDate != null">
+        #{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exportFlag != null">
+        #{exportFlag,jdbcType=NVARCHAR},
+      </if>
+      <if test="holonName != null">
+        #{holonName,jdbcType=NVARCHAR},
+      </if>
+      <if test="beginproduceDate != null">
+        #{beginproduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmodtime1 != null">
+        #{dlvmodtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmodtime2 != null">
+        #{dlvmodtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvmodtime3 != null">
+        #{dlvmodtime3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradecompanyid != null">
+        #{tradecompanyid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderdataBjExample" resultType="java.lang.Long">
+    select count(*) from dbo._orderdata_bj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._orderdata_bj
+    <set>
+      <if test="record.ordrno != null">
+        OrdrNo = #{record.ordrno,jdbcType=CHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.presprice != null">
+        PresPrice = #{record.presprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stdprice != null">
+        StdPrice = #{record.stdprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transtype != null">
+        TransType = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.orddate != null">
+        OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvdate != null">
+        DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=CHAR},
+      </if>
+      <if test="record.userno != null">
+        UserNo = #{record.userno,jdbcType=CHAR},
+      </if>
+      <if test="record.vndcode != null">
+        VndCode = #{record.vndcode,jdbcType=CHAR},
+      </if>
+      <if test="record.optstate != null">
+        OptState = #{record.optstate,jdbcType=CHAR},
+      </if>
+      <if test="record.specmark != null">
+        SpecMark = #{record.specmark,jdbcType=CHAR},
+      </if>
+      <if test="record.locationno != null">
+        LocationNo = #{record.locationno,jdbcType=CHAR},
+      </if>
+      <if test="record.deptno != null">
+        DeptNo = #{record.deptno,jdbcType=CHAR},
+      </if>
+      <if test="record.deliveryno != null">
+        DeliveryNo = #{record.deliveryno,jdbcType=CHAR},
+      </if>
+      <if test="record.stateflag != null">
+        StateFlag = #{record.stateflag,jdbcType=CHAR},
+      </if>
+      <if test="record.qtyreceive != null">
+        QtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishdate != null">
+        FinishDate = #{record.finishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.discount != null">
+        DisCount = #{record.discount,jdbcType=NUMERIC},
+      </if>
+      <if test="record.errcode != null">
+        ErrCode = #{record.errcode,jdbcType=CHAR},
+      </if>
+      <if test="record.spflag != null">
+        SpFlag = #{record.spflag,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipcode != null">
+        VIPCode = #{record.vipcode,jdbcType=CHAR},
+      </if>
+      <if test="record.orddateflag != null">
+        OrdDateFlag = #{record.orddateflag,jdbcType=CHAR},
+      </if>
+      <if test="record.preqtyord != null">
+        PreQtyOrd = #{record.preqtyord,jdbcType=INTEGER},
+      </if>
+      <if test="record.answerno != null">
+        AnswerNo = #{record.answerno,jdbcType=CHAR},
+      </if>
+      <if test="record.smccode != null">
+        SmcCode = #{record.smccode,jdbcType=CHAR},
+      </if>
+      <if test="record.ordflag != null">
+        OrdFlag = #{record.ordflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sweight != null">
+        SWeight = #{record.sweight,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dlvdateJp != null">
+        DlvDate_JP = #{record.dlvdateJp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expdateGc != null">
+        Expdate_GC = #{record.expdateGc,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmoddate != null">
+        DlvModDate = #{record.dlvmoddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarkGc != null">
+        Remark_GC = #{record.remarkGc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.redprice != null">
+        RedPrice = #{record.redprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.multpriceFlag != null">
+        MultPrice_Flag = #{record.multpriceFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.empordprocess != null">
+        EmpOrdprocess = #{record.empordprocess,jdbcType=NCHAR},
+      </if>
+      <if test="record.qtyimput != null">
+        QtyImput = #{record.qtyimput,jdbcType=INTEGER},
+      </if>
+      <if test="record.dlvmoddate1 != null">
+        DlvModDate1 = #{record.dlvmoddate1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmoddate2 != null">
+        DlvModDate2 = #{record.dlvmoddate2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reasonRemark != null">
+        Reason_Remark = #{record.reasonRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.produceDeptno != null">
+        Produce_DeptNo = #{record.produceDeptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=NCHAR},
+      </if>
+      <if test="record.impdate != null">
+        Impdate = #{record.impdate,jdbcType=DATE},
+      </if>
+      <if test="record.transtypeMod != null">
+        TransType_Mod = #{record.transtypeMod,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvanswerno1 != null">
+        DlvAnswerNo1 = #{record.dlvanswerno1,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.dlvanswerno2 != null">
+        DlvAnswerNo2 = #{record.dlvanswerno2,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.qtyProduced != null">
+        Qty_Produced = #{record.qtyProduced,jdbcType=INTEGER},
+      </if>
+      <if test="record.cnno != null">
+        CnNo = #{record.cnno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shikomino != null">
+        ShiKomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvmoddate3 != null">
+        DlvModDate3 = #{record.dlvmoddate3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ordtype != null">
+        OrdType = #{record.ordtype,jdbcType=CHAR},
+      </if>
+      <if test="record.ordadmitFlag != null">
+        OrdAdmit_Flag = #{record.ordadmitFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.deliveryflag != null">
+        DeliveryFlag = #{record.deliveryflag,jdbcType=CHAR},
+      </if>
+      <if test="record.qtyonhand != null">
+        QtyOnHand = #{record.qtyonhand,jdbcType=INTEGER},
+      </if>
+      <if test="record.produceFactory != null">
+        Produce_Factory = #{record.produceFactory,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.produceHolon != null">
+        Produce_Holon = #{record.produceHolon,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.errdescription != null">
+        Errdescription = #{record.errdescription,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.salesinfono != null">
+        SalesInfoNo = #{record.salesinfono,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.hscode != null">
+        HSCode = #{record.hscode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.greencode != null">
+        GreenCode = #{record.greencode,jdbcType=CHAR},
+      </if>
+      <if test="record.ordernoGss != null">
+        OrderNO_GSS = #{record.ordernoGss,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ordernoItemGss != null">
+        OrderNO_Item_GSS = #{record.ordernoItemGss,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.indateTheory != null">
+        InDate_theory = #{record.indateTheory,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rcvordDate != null">
+        RcvOrd_Date = #{record.rcvordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.indateInfact != null">
+        InDate_InFact = #{record.indateInfact,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expDate != null">
+        Exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exportFlag != null">
+        Export_Flag = #{record.exportFlag,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.holonName != null">
+        Holon_Name = #{record.holonName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.beginproduceDate != null">
+        BeginProduce_date = #{record.beginproduceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmodtime1 != null">
+        DlvModTime1 = #{record.dlvmodtime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmodtime2 != null">
+        DlvModTime2 = #{record.dlvmodtime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvmodtime3 != null">
+        DlvModTime3 = #{record.dlvmodtime3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tradecompanyid != null">
+        TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._orderdata_bj
+    set OrdrNo = #{record.ordrno,jdbcType=CHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      PresPrice = #{record.presprice,jdbcType=DECIMAL},
+      StdPrice = #{record.stdprice,jdbcType=DECIMAL},
+      TransType = #{record.transtype,jdbcType=CHAR},
+      OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      DlvDate = #{record.dlvdate,jdbcType=TIMESTAMP},
+      CustomerNo = #{record.customerno,jdbcType=CHAR},
+      UserNo = #{record.userno,jdbcType=CHAR},
+      VndCode = #{record.vndcode,jdbcType=CHAR},
+      OptState = #{record.optstate,jdbcType=CHAR},
+      SpecMark = #{record.specmark,jdbcType=CHAR},
+      LocationNo = #{record.locationno,jdbcType=CHAR},
+      DeptNo = #{record.deptno,jdbcType=CHAR},
+      DeliveryNo = #{record.deliveryno,jdbcType=CHAR},
+      StateFlag = #{record.stateflag,jdbcType=CHAR},
+      QtyReceive = #{record.qtyreceive,jdbcType=INTEGER},
+      FinishDate = #{record.finishdate,jdbcType=TIMESTAMP},
+      DisCount = #{record.discount,jdbcType=NUMERIC},
+      ErrCode = #{record.errcode,jdbcType=CHAR},
+      SpFlag = #{record.spflag,jdbcType=CHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      VIPCode = #{record.vipcode,jdbcType=CHAR},
+      OrdDateFlag = #{record.orddateflag,jdbcType=CHAR},
+      PreQtyOrd = #{record.preqtyord,jdbcType=INTEGER},
+      AnswerNo = #{record.answerno,jdbcType=CHAR},
+      SmcCode = #{record.smccode,jdbcType=CHAR},
+      OrdFlag = #{record.ordflag,jdbcType=VARCHAR},
+      SWeight = #{record.sweight,jdbcType=NUMERIC},
+      DlvDate_JP = #{record.dlvdateJp,jdbcType=TIMESTAMP},
+      Expdate_GC = #{record.expdateGc,jdbcType=TIMESTAMP},
+      DlvModDate = #{record.dlvmoddate,jdbcType=TIMESTAMP},
+      Remark_GC = #{record.remarkGc,jdbcType=VARCHAR},
+      RedPrice = #{record.redprice,jdbcType=DECIMAL},
+      MultPrice_Flag = #{record.multpriceFlag,jdbcType=CHAR},
+      EmpOrdprocess = #{record.empordprocess,jdbcType=NCHAR},
+      QtyImput = #{record.qtyimput,jdbcType=INTEGER},
+      DlvModDate1 = #{record.dlvmoddate1,jdbcType=TIMESTAMP},
+      DlvModDate2 = #{record.dlvmoddate2,jdbcType=TIMESTAMP},
+      Reason_Remark = #{record.reasonRemark,jdbcType=NVARCHAR},
+      Produce_DeptNo = #{record.produceDeptno,jdbcType=VARCHAR},
+      InvoiceNo = #{record.invoiceno,jdbcType=NCHAR},
+      Impdate = #{record.impdate,jdbcType=DATE},
+      TransType_Mod = #{record.transtypeMod,jdbcType=CHAR},
+      DlvAnswerNo1 = #{record.dlvanswerno1,jdbcType=NVARCHAR},
+      DlvAnswerNo2 = #{record.dlvanswerno2,jdbcType=NVARCHAR},
+      Qty_Produced = #{record.qtyProduced,jdbcType=INTEGER},
+      CnNo = #{record.cnno,jdbcType=VARCHAR},
+      ShiKomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      DlvModDate3 = #{record.dlvmoddate3,jdbcType=TIMESTAMP},
+      OrdType = #{record.ordtype,jdbcType=CHAR},
+      OrdAdmit_Flag = #{record.ordadmitFlag,jdbcType=CHAR},
+      DeliveryFlag = #{record.deliveryflag,jdbcType=CHAR},
+      QtyOnHand = #{record.qtyonhand,jdbcType=INTEGER},
+      Produce_Factory = #{record.produceFactory,jdbcType=NVARCHAR},
+      Produce_Holon = #{record.produceHolon,jdbcType=NVARCHAR},
+      Errdescription = #{record.errdescription,jdbcType=NVARCHAR},
+      SalesInfoNo = #{record.salesinfono,jdbcType=NVARCHAR},
+      HSCode = #{record.hscode,jdbcType=NVARCHAR},
+      GreenCode = #{record.greencode,jdbcType=CHAR},
+      OrderNO_GSS = #{record.ordernoGss,jdbcType=NVARCHAR},
+      OrderNO_Item_GSS = #{record.ordernoItemGss,jdbcType=NVARCHAR},
+      InDate_theory = #{record.indateTheory,jdbcType=TIMESTAMP},
+      RcvOrd_Date = #{record.rcvordDate,jdbcType=TIMESTAMP},
+      InDate_InFact = #{record.indateInfact,jdbcType=TIMESTAMP},
+      Exp_date = #{record.expDate,jdbcType=TIMESTAMP},
+      Export_Flag = #{record.exportFlag,jdbcType=NVARCHAR},
+      Holon_Name = #{record.holonName,jdbcType=NVARCHAR},
+      BeginProduce_date = #{record.beginproduceDate,jdbcType=TIMESTAMP},
+      DlvModTime1 = #{record.dlvmodtime1,jdbcType=TIMESTAMP},
+      DlvModTime2 = #{record.dlvmodtime2,jdbcType=TIMESTAMP},
+      DlvModTime3 = #{record.dlvmodtime3,jdbcType=TIMESTAMP},
+      TradeCompanyId = #{record.tradecompanyid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

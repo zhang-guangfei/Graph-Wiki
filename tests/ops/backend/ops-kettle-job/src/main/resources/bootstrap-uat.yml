@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      username: serverIdentity
+      password: security123456
+      discovery:
+        server-addr: 10.116.2.182:8848
+        namespace: prod
+      config:
+        server-addr: 10.116.2.182:8848
+        namespace: prod
+        group: DEFAULT_GROUP
+        name: ${spring.application.name}
+        file-extension: yml
+        refresh: true
+
+

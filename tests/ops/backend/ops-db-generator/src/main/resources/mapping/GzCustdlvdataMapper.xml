@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.GzCustdlvdataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.GzCustdlvdata">
+    <result column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="AddCode" jdbcType="VARCHAR" property="addcode" />
+    <result column="SAddress" jdbcType="NVARCHAR" property="saddress" />
+    <result column="CstmName" jdbcType="VARCHAR" property="cstmname" />
+    <result column="DlvAddress" jdbcType="VARCHAR" property="dlvaddress" />
+    <result column="ContactPsn" jdbcType="VARCHAR" property="contactpsn" />
+    <result column="TeleNo" jdbcType="VARCHAR" property="teleno" />
+    <result column="PostCode" jdbcType="CHAR" property="postcode" />
+    <result column="TransFee" jdbcType="CHAR" property="transfee" />
+    <result column="Dlvtype" jdbcType="CHAR" property="dlvtype" />
+    <result column="Upddate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="CreateDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="StateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="OptUser" jdbcType="VARCHAR" property="optuser" />
+    <result column="ModifyExpressReason" jdbcType="VARCHAR" property="modifyexpressreason" />
+    <result column="AddressType" jdbcType="VARCHAR" property="addresstype" />
+    <result column="CreateUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="IsDefault" jdbcType="BIT" property="isdefault" />
+    <result column="IsCommonUse" jdbcType="BIT" property="iscommonuse" />
+    <result column="IsConfirm" jdbcType="BIT" property="isconfirm" />
+    <result column="Province" jdbcType="NVARCHAR" property="province" />
+    <result column="City" jdbcType="NVARCHAR" property="city" />
+    <result column="Area" jdbcType="NVARCHAR" property="area" />
+    <result column="Status" jdbcType="SMALLINT" property="status" />
+    <result column="HashCode" jdbcType="VARCHAR" property="hashcode" />
+    <result column="IntenNO" jdbcType="VARCHAR" property="intenno" />
+    <result column="ExpDlvType" jdbcType="INTEGER" property="expdlvtype" />
+    <result column="NoDlvType" jdbcType="INTEGER" property="nodlvtype" />
+    <result column="HeavyUpstair" jdbcType="BIT" property="heavyupstair" />
+    <result column="ValiDate" jdbcType="TIMESTAMP" property="validate" />
+    <result column="Etimes" jdbcType="SMALLINT" property="etimes" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, CustomerNo, SID, AddCode, SAddress, CstmName, DlvAddress, ContactPsn, TeleNo, 
+    PostCode, TransFee, Dlvtype, Upddate, CreateDate, StateCode, OptUser, ModifyExpressReason, 
+    AddressType, CreateUser, IsDefault, IsCommonUse, IsConfirm, Province, City, Area, 
+    Status, HashCode, IntenNO, ExpDlvType, NoDlvType, HeavyUpstair, ValiDate, Etimes
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.GzCustdlvdataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._GZ_custdlvdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.GzCustdlvdataExample">
+    delete from dbo._GZ_custdlvdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.GzCustdlvdata">
+    insert into dbo._GZ_custdlvdata (ID, CustomerNo, SID, 
+      AddCode, SAddress, CstmName, 
+      DlvAddress, ContactPsn, TeleNo, 
+      PostCode, TransFee, Dlvtype, 
+      Upddate, CreateDate, StateCode, 
+      OptUser, ModifyExpressReason, AddressType, 
+      CreateUser, IsDefault, IsCommonUse, 
+      IsConfirm, Province, City, 
+      Area, Status, HashCode, 
+      IntenNO, ExpDlvType, NoDlvType, 
+      HeavyUpstair, ValiDate, Etimes
+      )
+    values (#{id,jdbcType=INTEGER}, #{customerno,jdbcType=VARCHAR}, #{sid,jdbcType=VARCHAR}, 
+      #{addcode,jdbcType=VARCHAR}, #{saddress,jdbcType=NVARCHAR}, #{cstmname,jdbcType=VARCHAR}, 
+      #{dlvaddress,jdbcType=VARCHAR}, #{contactpsn,jdbcType=VARCHAR}, #{teleno,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=CHAR}, #{transfee,jdbcType=CHAR}, #{dlvtype,jdbcType=CHAR}, 
+      #{upddate,jdbcType=TIMESTAMP}, #{createdate,jdbcType=TIMESTAMP}, #{statecode,jdbcType=VARCHAR}, 
+      #{optuser,jdbcType=VARCHAR}, #{modifyexpressreason,jdbcType=VARCHAR}, #{addresstype,jdbcType=VARCHAR}, 
+      #{createuser,jdbcType=VARCHAR}, #{isdefault,jdbcType=BIT}, #{iscommonuse,jdbcType=BIT}, 
+      #{isconfirm,jdbcType=BIT}, #{province,jdbcType=NVARCHAR}, #{city,jdbcType=NVARCHAR}, 
+      #{area,jdbcType=NVARCHAR}, #{status,jdbcType=SMALLINT}, #{hashcode,jdbcType=VARCHAR}, 
+      #{intenno,jdbcType=VARCHAR}, #{expdlvtype,jdbcType=INTEGER}, #{nodlvtype,jdbcType=INTEGER}, 
+      #{heavyupstair,jdbcType=BIT}, #{validate,jdbcType=TIMESTAMP}, #{etimes,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.GzCustdlvdata">
+    insert into dbo._GZ_custdlvdata
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="addcode != null">
+        AddCode,
+      </if>
+      <if test="saddress != null">
+        SAddress,
+      </if>
+      <if test="cstmname != null">
+        CstmName,
+      </if>
+      <if test="dlvaddress != null">
+        DlvAddress,
+      </if>
+      <if test="contactpsn != null">
+        ContactPsn,
+      </if>
+      <if test="teleno != null">
+        TeleNo,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="transfee != null">
+        TransFee,
+      </if>
+      <if test="dlvtype != null">
+        Dlvtype,
+      </if>
+      <if test="upddate != null">
+        Upddate,
+      </if>
+      <if test="createdate != null">
+        CreateDate,
+      </if>
+      <if test="statecode != null">
+        StateCode,
+      </if>
+      <if test="optuser != null">
+        OptUser,
+      </if>
+      <if test="modifyexpressreason != null">
+        ModifyExpressReason,
+      </if>
+      <if test="addresstype != null">
+        AddressType,
+      </if>
+      <if test="createuser != null">
+        CreateUser,
+      </if>
+      <if test="isdefault != null">
+        IsDefault,
+      </if>
+      <if test="iscommonuse != null">
+        IsCommonUse,
+      </if>
+      <if test="isconfirm != null">
+        IsConfirm,
+      </if>
+      <if test="province != null">
+        Province,
+      </if>
+      <if test="city != null">
+        City,
+      </if>
+      <if test="area != null">
+        Area,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="hashcode != null">
+        HashCode,
+      </if>
+      <if test="intenno != null">
+        IntenNO,
+      </if>
+      <if test="expdlvtype != null">
+        ExpDlvType,
+      </if>
+      <if test="nodlvtype != null">
+        NoDlvType,
+      </if>
+      <if test="heavyupstair != null">
+        HeavyUpstair,
+      </if>
+      <if test="validate != null">
+        ValiDate,
+      </if>
+      <if test="etimes != null">
+        Etimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="addcode != null">
+        #{addcode,jdbcType=VARCHAR},
+      </if>
+      <if test="saddress != null">
+        #{saddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="cstmname != null">
+        #{cstmname,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvaddress != null">
+        #{dlvaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactpsn != null">
+        #{contactpsn,jdbcType=VARCHAR},
+      </if>
+      <if test="teleno != null">
+        #{teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="transfee != null">
+        #{transfee,jdbcType=CHAR},
+      </if>
+      <if test="dlvtype != null">
+        #{dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="optuser != null">
+        #{optuser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyexpressreason != null">
+        #{modifyexpressreason,jdbcType=VARCHAR},
+      </if>
+      <if test="addresstype != null">
+        #{addresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null">
+        #{isdefault,jdbcType=BIT},
+      </if>
+      <if test="iscommonuse != null">
+        #{iscommonuse,jdbcType=BIT},
+      </if>
+      <if test="isconfirm != null">
+        #{isconfirm,jdbcType=BIT},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=NVARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=NVARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="hashcode != null">
+        #{hashcode,jdbcType=VARCHAR},
+      </if>
+      <if test="intenno != null">
+        #{intenno,jdbcType=VARCHAR},
+      </if>
+      <if test="expdlvtype != null">
+        #{expdlvtype,jdbcType=INTEGER},
+      </if>
+      <if test="nodlvtype != null">
+        #{nodlvtype,jdbcType=INTEGER},
+      </if>
+      <if test="heavyupstair != null">
+        #{heavyupstair,jdbcType=BIT},
+      </if>
+      <if test="validate != null">
+        #{validate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="etimes != null">
+        #{etimes,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.GzCustdlvdataExample" resultType="java.lang.Long">
+    select count(*) from dbo._GZ_custdlvdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._GZ_custdlvdata
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addcode != null">
+        AddCode = #{record.addcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saddress != null">
+        SAddress = #{record.saddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cstmname != null">
+        CstmName = #{record.cstmname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvaddress != null">
+        DlvAddress = #{record.dlvaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactpsn != null">
+        ContactPsn = #{record.contactpsn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teleno != null">
+        TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=CHAR},
+      </if>
+      <if test="record.transfee != null">
+        TransFee = #{record.transfee,jdbcType=CHAR},
+      </if>
+      <if test="record.dlvtype != null">
+        Dlvtype = #{record.dlvtype,jdbcType=CHAR},
+      </if>
+      <if test="record.upddate != null">
+        Upddate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdate != null">
+        CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statecode != null">
+        StateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optuser != null">
+        OptUser = #{record.optuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyexpressreason != null">
+        ModifyExpressReason = #{record.modifyexpressreason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addresstype != null">
+        AddressType = #{record.addresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createuser != null">
+        CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdefault != null">
+        IsDefault = #{record.isdefault,jdbcType=BIT},
+      </if>
+      <if test="record.iscommonuse != null">
+        IsCommonUse = #{record.iscommonuse,jdbcType=BIT},
+      </if>
+      <if test="record.isconfirm != null">
+        IsConfirm = #{record.isconfirm,jdbcType=BIT},
+      </if>
+      <if test="record.province != null">
+        Province = #{record.province,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.city != null">
+        City = #{record.city,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.area != null">
+        Area = #{record.area,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.hashcode != null">
+        HashCode = #{record.hashcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intenno != null">
+        IntenNO = #{record.intenno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expdlvtype != null">
+        ExpDlvType = #{record.expdlvtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.nodlvtype != null">
+        NoDlvType = #{record.nodlvtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.heavyupstair != null">
+        HeavyUpstair = #{record.heavyupstair,jdbcType=BIT},
+      </if>
+      <if test="record.validate != null">
+        ValiDate = #{record.validate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.etimes != null">
+        Etimes = #{record.etimes,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._GZ_custdlvdata
+    set ID = #{record.id,jdbcType=INTEGER},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      SID = #{record.sid,jdbcType=VARCHAR},
+      AddCode = #{record.addcode,jdbcType=VARCHAR},
+      SAddress = #{record.saddress,jdbcType=NVARCHAR},
+      CstmName = #{record.cstmname,jdbcType=VARCHAR},
+      DlvAddress = #{record.dlvaddress,jdbcType=VARCHAR},
+      ContactPsn = #{record.contactpsn,jdbcType=VARCHAR},
+      TeleNo = #{record.teleno,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=CHAR},
+      TransFee = #{record.transfee,jdbcType=CHAR},
+      Dlvtype = #{record.dlvtype,jdbcType=CHAR},
+      Upddate = #{record.upddate,jdbcType=TIMESTAMP},
+      CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      StateCode = #{record.statecode,jdbcType=VARCHAR},
+      OptUser = #{record.optuser,jdbcType=VARCHAR},
+      ModifyExpressReason = #{record.modifyexpressreason,jdbcType=VARCHAR},
+      AddressType = #{record.addresstype,jdbcType=VARCHAR},
+      CreateUser = #{record.createuser,jdbcType=VARCHAR},
+      IsDefault = #{record.isdefault,jdbcType=BIT},
+      IsCommonUse = #{record.iscommonuse,jdbcType=BIT},
+      IsConfirm = #{record.isconfirm,jdbcType=BIT},
+      Province = #{record.province,jdbcType=NVARCHAR},
+      City = #{record.city,jdbcType=NVARCHAR},
+      Area = #{record.area,jdbcType=NVARCHAR},
+      Status = #{record.status,jdbcType=SMALLINT},
+      HashCode = #{record.hashcode,jdbcType=VARCHAR},
+      IntenNO = #{record.intenno,jdbcType=VARCHAR},
+      ExpDlvType = #{record.expdlvtype,jdbcType=INTEGER},
+      NoDlvType = #{record.nodlvtype,jdbcType=INTEGER},
+      HeavyUpstair = #{record.heavyupstair,jdbcType=BIT},
+      ValiDate = #{record.validate,jdbcType=TIMESTAMP},
+      Etimes = #{record.etimes,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

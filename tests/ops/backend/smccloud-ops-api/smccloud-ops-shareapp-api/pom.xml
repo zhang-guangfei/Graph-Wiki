@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.smc.smccloud.ops.api</groupId>
+        <artifactId>smccloud-ops-api</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>smccloud-ops-shareapp-api</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.apiggs</groupId>
+            <artifactId>apiggs-maven-plugin</artifactId>
+            <version>1.6</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-order-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud</groupId>
+            <artifactId>ops-dto</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!--
+                production
+                输出的目录名称；一般和项目名称保持一致；默认是apiggs
+                out
+                输出的路径；这里设置放置在target/docs目录下
+                工作路径
+                源码路径，…/order/src/main/java；主要方便于多个模块配置
+                version
+                版本号
+                description
+                描述信息，这里可以添加项目特殊的附加信息；比如访问地址，特殊的公共参数；传参方式等等
+
+                输出文档: mvn -DskipTests=true com.github.apiggs:apiggs-maven-plugin:1.6:apiggs
+            -->
+            <plugin>
+                <groupId>com.github.apiggs</groupId>
+                <artifactId>apiggs-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>apiggs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; options in there &ndash;&gt;-->
+                    <!--<id>index</id>-->
+                    <!--<title>样品订单管理功能API文档</title>-->
+                    <!--<production>smccloud-ops-shareapp-api</production>-->
+                    <!--<out>target/docs</out>-->
+                    <!--<dependency>../smccloud-ops-api/smccloud-ops-shareapp-api/src/main/java/com/smc/smccloud/service</dependency>-->
+                    <!--<version>1.0.0</version>-->
+                    <!--<description>-->
+                        <!--=========-->
+                    <!--</description>-->
+                <!--</configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+</project>

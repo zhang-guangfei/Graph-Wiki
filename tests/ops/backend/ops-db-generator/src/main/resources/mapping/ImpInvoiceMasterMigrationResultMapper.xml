@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ImpInvoiceMasterMigrationResultMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResult">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="InvoiceNo" jdbcType="VARCHAR" property="invoiceno" />
+    <result column="SupplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="Result" jdbcType="BIT" property="result" />
+    <result column="Msg" jdbcType="NVARCHAR" property="msg" />
+    <result column="Updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, InvoiceNo, SupplierId, Result, Msg, Updatetime
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._imp_invoice_master_migration_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo._imp_invoice_master_migration_result
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dbo._imp_invoice_master_migration_result
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResultExample">
+    delete from dbo._imp_invoice_master_migration_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResult">
+    insert into dbo._imp_invoice_master_migration_result (id, InvoiceNo, SupplierId, 
+      Result, Msg, Updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{invoiceno,jdbcType=VARCHAR}, #{supplierid,jdbcType=VARCHAR}, 
+      #{result,jdbcType=BIT}, #{msg,jdbcType=NVARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResult">
+    insert into dbo._imp_invoice_master_migration_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceno != null">
+        InvoiceNo,
+      </if>
+      <if test="supplierid != null">
+        SupplierId,
+      </if>
+      <if test="result != null">
+        Result,
+      </if>
+      <if test="msg != null">
+        Msg,
+      </if>
+      <if test="updatetime != null">
+        Updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=BIT},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResultExample" resultType="java.lang.Long">
+    select count(*) from dbo._imp_invoice_master_migration_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._imp_invoice_master_migration_result
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceno != null">
+        InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierid != null">
+        SupplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null">
+        Result = #{record.result,jdbcType=BIT},
+      </if>
+      <if test="record.msg != null">
+        Msg = #{record.msg,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        Updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._imp_invoice_master_migration_result
+    set id = #{record.id,jdbcType=INTEGER},
+      InvoiceNo = #{record.invoiceno,jdbcType=VARCHAR},
+      SupplierId = #{record.supplierid,jdbcType=VARCHAR},
+      Result = #{record.result,jdbcType=BIT},
+      Msg = #{record.msg,jdbcType=NVARCHAR},
+      Updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResult">
+    update dbo._imp_invoice_master_migration_result
+    <set>
+      <if test="invoiceno != null">
+        InvoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null">
+        SupplierId = #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        Result = #{result,jdbcType=BIT},
+      </if>
+      <if test="msg != null">
+        Msg = #{msg,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatetime != null">
+        Updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ImpInvoiceMasterMigrationResult">
+    update dbo._imp_invoice_master_migration_result
+    set InvoiceNo = #{invoiceno,jdbcType=VARCHAR},
+      SupplierId = #{supplierid,jdbcType=VARCHAR},
+      Result = #{result,jdbcType=BIT},
+      Msg = #{msg,jdbcType=NVARCHAR},
+      Updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

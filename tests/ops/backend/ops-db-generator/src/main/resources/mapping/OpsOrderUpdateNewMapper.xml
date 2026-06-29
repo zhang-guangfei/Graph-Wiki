@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OpsOrderUpdateNewMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OpsOrderUpdateNew">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="master" jdbcType="BIT" property="master" />
+    <result column="dlv_entire" jdbcType="VARCHAR" property="dlvEntire" />
+    <result column="dlv_type" jdbcType="VARCHAR" property="dlvType" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="wms_dlv_data" jdbcType="TIMESTAMP" property="wmsDlvData" />
+    <result column="dlv_special" jdbcType="BIT" property="dlvSpecial" />
+    <result column="dlv_self" jdbcType="BIT" property="dlvSelf" />
+    <result column="dlv_split" jdbcType="BIT" property="dlvSplit" />
+    <result column="dlv_address" jdbcType="VARCHAR" property="dlvAddress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderid, order_item, params, result, master, dlv_entire, dlv_type, dlv_date, 
+    wms_dlv_data, dlv_special, dlv_self, dlv_split, dlv_address
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_update_new
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.ops_order_update_new
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.ops_order_update_new
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNewExample">
+    delete from dbo.ops_order_update_new
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNew">
+    insert into dbo.ops_order_update_new (id, orderid, order_item, 
+      params, result, master, 
+      dlv_entire, dlv_type, dlv_date, 
+      wms_dlv_data, dlv_special, dlv_self, 
+      dlv_split, dlv_address)
+    values (#{id,jdbcType=BIGINT}, #{orderid,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{master,jdbcType=BIT}, 
+      #{dlvEntire,jdbcType=VARCHAR}, #{dlvType,jdbcType=VARCHAR}, #{dlvDate,jdbcType=TIMESTAMP}, 
+      #{wmsDlvData,jdbcType=TIMESTAMP}, #{dlvSpecial,jdbcType=BIT}, #{dlvSelf,jdbcType=BIT}, 
+      #{dlvSplit,jdbcType=BIT}, #{dlvAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNew">
+    insert into dbo.ops_order_update_new
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="master != null">
+        master,
+      </if>
+      <if test="dlvEntire != null">
+        dlv_entire,
+      </if>
+      <if test="dlvType != null">
+        dlv_type,
+      </if>
+      <if test="dlvDate != null">
+        dlv_date,
+      </if>
+      <if test="wmsDlvData != null">
+        wms_dlv_data,
+      </if>
+      <if test="dlvSpecial != null">
+        dlv_special,
+      </if>
+      <if test="dlvSelf != null">
+        dlv_self,
+      </if>
+      <if test="dlvSplit != null">
+        dlv_split,
+      </if>
+      <if test="dlvAddress != null">
+        dlv_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="master != null">
+        #{master,jdbcType=BIT},
+      </if>
+      <if test="dlvEntire != null">
+        #{dlvEntire,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvType != null">
+        #{dlvType,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvDate != null">
+        #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wmsDlvData != null">
+        #{wmsDlvData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvSpecial != null">
+        #{dlvSpecial,jdbcType=BIT},
+      </if>
+      <if test="dlvSelf != null">
+        #{dlvSelf,jdbcType=BIT},
+      </if>
+      <if test="dlvSplit != null">
+        #{dlvSplit,jdbcType=BIT},
+      </if>
+      <if test="dlvAddress != null">
+        #{dlvAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNewExample" resultType="java.lang.Long">
+    select count(*) from dbo.ops_order_update_new
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.ops_order_update_new
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderid != null">
+        orderid = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null">
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.master != null">
+        master = #{record.master,jdbcType=BIT},
+      </if>
+      <if test="record.dlvEntire != null">
+        dlv_entire = #{record.dlvEntire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvType != null">
+        dlv_type = #{record.dlvType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvDate != null">
+        dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.wmsDlvData != null">
+        wms_dlv_data = #{record.wmsDlvData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dlvSpecial != null">
+        dlv_special = #{record.dlvSpecial,jdbcType=BIT},
+      </if>
+      <if test="record.dlvSelf != null">
+        dlv_self = #{record.dlvSelf,jdbcType=BIT},
+      </if>
+      <if test="record.dlvSplit != null">
+        dlv_split = #{record.dlvSplit,jdbcType=BIT},
+      </if>
+      <if test="record.dlvAddress != null">
+        dlv_address = #{record.dlvAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.ops_order_update_new
+    set id = #{record.id,jdbcType=BIGINT},
+      orderid = #{record.orderid,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      params = #{record.params,jdbcType=VARCHAR},
+      result = #{record.result,jdbcType=VARCHAR},
+      master = #{record.master,jdbcType=BIT},
+      dlv_entire = #{record.dlvEntire,jdbcType=VARCHAR},
+      dlv_type = #{record.dlvType,jdbcType=VARCHAR},
+      dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      wms_dlv_data = #{record.wmsDlvData,jdbcType=TIMESTAMP},
+      dlv_special = #{record.dlvSpecial,jdbcType=BIT},
+      dlv_self = #{record.dlvSelf,jdbcType=BIT},
+      dlv_split = #{record.dlvSplit,jdbcType=BIT},
+      dlv_address = #{record.dlvAddress,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNew">
+    update dbo.ops_order_update_new
+    <set>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        order_item = #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="master != null">
+        master = #{master,jdbcType=BIT},
+      </if>
+      <if test="dlvEntire != null">
+        dlv_entire = #{dlvEntire,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvType != null">
+        dlv_type = #{dlvType,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvDate != null">
+        dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wmsDlvData != null">
+        wms_dlv_data = #{wmsDlvData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dlvSpecial != null">
+        dlv_special = #{dlvSpecial,jdbcType=BIT},
+      </if>
+      <if test="dlvSelf != null">
+        dlv_self = #{dlvSelf,jdbcType=BIT},
+      </if>
+      <if test="dlvSplit != null">
+        dlv_split = #{dlvSplit,jdbcType=BIT},
+      </if>
+      <if test="dlvAddress != null">
+        dlv_address = #{dlvAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.OpsOrderUpdateNew">
+    update dbo.ops_order_update_new
+    set orderid = #{orderid,jdbcType=VARCHAR},
+      order_item = #{orderItem,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      master = #{master,jdbcType=BIT},
+      dlv_entire = #{dlvEntire,jdbcType=VARCHAR},
+      dlv_type = #{dlvType,jdbcType=VARCHAR},
+      dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      wms_dlv_data = #{wmsDlvData,jdbcType=TIMESTAMP},
+      dlv_special = #{dlvSpecial,jdbcType=BIT},
+      dlv_self = #{dlvSelf,jdbcType=BIT},
+      dlv_split = #{dlvSplit,jdbcType=BIT},
+      dlv_address = #{dlvAddress,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

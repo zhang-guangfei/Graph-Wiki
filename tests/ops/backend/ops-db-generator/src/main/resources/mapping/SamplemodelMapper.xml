@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.SamplemodelMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Samplemodel">
+    <id column="SampleModelNo" jdbcType="VARCHAR" property="samplemodelno" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="DeptJp" jdbcType="CHAR" property="deptjp" />
+    <result column="UpdDate" jdbcType="TIMESTAMP" property="upddate" />
+    <result column="ModelSeir" jdbcType="VARCHAR" property="modelseir" />
+    <result column="ModelType" jdbcType="VARCHAR" property="modeltype" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SampleModelNo, ModelNo, DeptJp, UpdDate, ModelSeir, ModelType
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.SamplemodelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.SampleModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.SampleModel
+    where SampleModelNo = #{samplemodelno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dbo.SampleModel
+    where SampleModelNo = #{samplemodelno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.SamplemodelExample">
+    delete from dbo.SampleModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Samplemodel">
+    insert into dbo.SampleModel (SampleModelNo, ModelNo, DeptJp, 
+      UpdDate, ModelSeir, ModelType
+      )
+    values (#{samplemodelno,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, #{deptjp,jdbcType=CHAR}, 
+      #{upddate,jdbcType=TIMESTAMP}, #{modelseir,jdbcType=VARCHAR}, #{modeltype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Samplemodel">
+    insert into dbo.SampleModel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="samplemodelno != null">
+        SampleModelNo,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="deptjp != null">
+        DeptJp,
+      </if>
+      <if test="upddate != null">
+        UpdDate,
+      </if>
+      <if test="modelseir != null">
+        ModelSeir,
+      </if>
+      <if test="modeltype != null">
+        ModelType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="samplemodelno != null">
+        #{samplemodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptjp != null">
+        #{deptjp,jdbcType=CHAR},
+      </if>
+      <if test="upddate != null">
+        #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelseir != null">
+        #{modelseir,jdbcType=VARCHAR},
+      </if>
+      <if test="modeltype != null">
+        #{modeltype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.SamplemodelExample" resultType="java.lang.Long">
+    select count(*) from dbo.SampleModel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.SampleModel
+    <set>
+      <if test="record.samplemodelno != null">
+        SampleModelNo = #{record.samplemodelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptjp != null">
+        DeptJp = #{record.deptjp,jdbcType=CHAR},
+      </if>
+      <if test="record.upddate != null">
+        UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modelseir != null">
+        ModelSeir = #{record.modelseir,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modeltype != null">
+        ModelType = #{record.modeltype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.SampleModel
+    set SampleModelNo = #{record.samplemodelno,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      DeptJp = #{record.deptjp,jdbcType=CHAR},
+      UpdDate = #{record.upddate,jdbcType=TIMESTAMP},
+      ModelSeir = #{record.modelseir,jdbcType=VARCHAR},
+      ModelType = #{record.modeltype,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Samplemodel">
+    update dbo.SampleModel
+    <set>
+      <if test="modelno != null">
+        ModelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptjp != null">
+        DeptJp = #{deptjp,jdbcType=CHAR},
+      </if>
+      <if test="upddate != null">
+        UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelseir != null">
+        ModelSeir = #{modelseir,jdbcType=VARCHAR},
+      </if>
+      <if test="modeltype != null">
+        ModelType = #{modeltype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SampleModelNo = #{samplemodelno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Samplemodel">
+    update dbo.SampleModel
+    set ModelNo = #{modelno,jdbcType=VARCHAR},
+      DeptJp = #{deptjp,jdbcType=CHAR},
+      UpdDate = #{upddate,jdbcType=TIMESTAMP},
+      ModelSeir = #{modelseir,jdbcType=VARCHAR},
+      ModelType = #{modeltype,jdbcType=VARCHAR}
+    where SampleModelNo = #{samplemodelno,jdbcType=VARCHAR}
+  </update>
+</mapper>

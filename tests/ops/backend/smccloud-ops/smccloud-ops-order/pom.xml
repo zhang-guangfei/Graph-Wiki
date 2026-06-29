@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.smc.smccloud.ops</groupId>
+        <artifactId>smccloud-ops</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>smccloud-ops-order</artifactId>
+    <name>smccloud-ops-order</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <dependencies>
+
+        <!--模块引入-->
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-product-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-order-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.api</groupId>
+            <artifactId>smccloud-common-api</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.smc.smccloud.ops.api</groupId>-->
+            <!--<artifactId>smccloud-ops-base-api</artifactId>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-adapter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-cpfr-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops.api</groupId>
+            <artifactId>smccloud-ops-shareapp-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud</groupId>
+            <artifactId>ops-feign-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud.ops</groupId>
+            <artifactId>smccloud-ops-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smc.smccloud</groupId>
+            <artifactId>ops-common-log</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!--        <dependency>-->
+<!--            <groupId>com.smc.smccloud</groupId>-->
+<!--            <artifactId>ops-common-service</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+            <version>${forest.version}</version>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <finalName>smccloud-ops-order</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- 过滤不需要编译的资源文件 防止文件编译后损坏 -->
+                    <encoding>UTF-8</encoding>
+                    <useDefaultDelimiters>true</useDefaultDelimiters>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.jks</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.jks</include>
+                    <include>**/*.xlsx</include>
+                    <include>**/*.csv</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>

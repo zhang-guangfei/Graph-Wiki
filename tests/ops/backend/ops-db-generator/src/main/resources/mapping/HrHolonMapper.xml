@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.HrHolonMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.HrHolon">
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="COMPANYCODE" jdbcType="VARCHAR" property="companycode" />
+    <result column="Benbu" jdbcType="VARCHAR" property="benbu" />
+    <result column="dept_erjibu" jdbcType="VARCHAR" property="deptErjibu" />
+    <result column="dept_erjibuCode" jdbcType="VARCHAR" property="deptErjibucode" />
+    <result column="FNUMBER" jdbcType="VARCHAR" property="fnumber" />
+    <result column="Daqu" jdbcType="VARCHAR" property="daqu" />
+    <result column="FDEPTNAME" jdbcType="VARCHAR" property="fdeptname" />
+    <result column="FLONGNUMBER" jdbcType="VARCHAR" property="flongnumber" />
+    <result column="FFULLNAME" jdbcType="VARCHAR" property="ffullname" />
+    <result column="PARENTFNUMBER" jdbcType="VARCHAR" property="parentfnumber" />
+    <result column="PARENTFNAME" jdbcType="VARCHAR" property="parentfname" />
+    <result column="DEPTCODE" jdbcType="VARCHAR" property="deptcode" />
+    <result column="UNITLEVEL" jdbcType="BIGINT" property="unitlevel" />
+    <result column="UNITLEVELNAME" jdbcType="VARCHAR" property="unitlevelname" />
+    <result column="PSNSMCID" jdbcType="VARCHAR" property="psnsmcid" />
+    <result column="PSNNAME" jdbcType="VARCHAR" property="psnname" />
+    <result column="FUZERENPOSITION" jdbcType="VARCHAR" property="fuzerenposition" />
+    <result column="POSITIONNAME" jdbcType="VARCHAR" property="positionname" />
+    <result column="ISSALEHOLON" jdbcType="VARCHAR" property="issaleholon" />
+    <result column="SALEDEPTFNUMBER" jdbcType="VARCHAR" property="saledeptfnumber" />
+    <result column="SALEDEPTFNAME" jdbcType="VARCHAR" property="saledeptfname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    COMPANY, COMPANYCODE, Benbu, dept_erjibu, dept_erjibuCode, FNUMBER, Daqu, FDEPTNAME, 
+    FLONGNUMBER, FFULLNAME, PARENTFNUMBER, PARENTFNAME, DEPTCODE, UNITLEVEL, UNITLEVELNAME, 
+    PSNSMCID, PSNNAME, FUZERENPOSITION, POSITIONNAME, ISSALEHOLON, SALEDEPTFNUMBER, SALEDEPTFNAME
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.HrHolonExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.hr_holon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.HrHolonExample">
+    delete from dbo.hr_holon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.HrHolon">
+    insert into dbo.hr_holon (COMPANY, COMPANYCODE, Benbu, 
+      dept_erjibu, dept_erjibuCode, FNUMBER, 
+      Daqu, FDEPTNAME, FLONGNUMBER, 
+      FFULLNAME, PARENTFNUMBER, PARENTFNAME, 
+      DEPTCODE, UNITLEVEL, UNITLEVELNAME, 
+      PSNSMCID, PSNNAME, FUZERENPOSITION, 
+      POSITIONNAME, ISSALEHOLON, SALEDEPTFNUMBER, 
+      SALEDEPTFNAME)
+    values (#{company,jdbcType=VARCHAR}, #{companycode,jdbcType=VARCHAR}, #{benbu,jdbcType=VARCHAR}, 
+      #{deptErjibu,jdbcType=VARCHAR}, #{deptErjibucode,jdbcType=VARCHAR}, #{fnumber,jdbcType=VARCHAR}, 
+      #{daqu,jdbcType=VARCHAR}, #{fdeptname,jdbcType=VARCHAR}, #{flongnumber,jdbcType=VARCHAR}, 
+      #{ffullname,jdbcType=VARCHAR}, #{parentfnumber,jdbcType=VARCHAR}, #{parentfname,jdbcType=VARCHAR}, 
+      #{deptcode,jdbcType=VARCHAR}, #{unitlevel,jdbcType=BIGINT}, #{unitlevelname,jdbcType=VARCHAR}, 
+      #{psnsmcid,jdbcType=VARCHAR}, #{psnname,jdbcType=VARCHAR}, #{fuzerenposition,jdbcType=VARCHAR}, 
+      #{positionname,jdbcType=VARCHAR}, #{issaleholon,jdbcType=VARCHAR}, #{saledeptfnumber,jdbcType=VARCHAR}, 
+      #{saledeptfname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.HrHolon">
+    insert into dbo.hr_holon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="companycode != null">
+        COMPANYCODE,
+      </if>
+      <if test="benbu != null">
+        Benbu,
+      </if>
+      <if test="deptErjibu != null">
+        dept_erjibu,
+      </if>
+      <if test="deptErjibucode != null">
+        dept_erjibuCode,
+      </if>
+      <if test="fnumber != null">
+        FNUMBER,
+      </if>
+      <if test="daqu != null">
+        Daqu,
+      </if>
+      <if test="fdeptname != null">
+        FDEPTNAME,
+      </if>
+      <if test="flongnumber != null">
+        FLONGNUMBER,
+      </if>
+      <if test="ffullname != null">
+        FFULLNAME,
+      </if>
+      <if test="parentfnumber != null">
+        PARENTFNUMBER,
+      </if>
+      <if test="parentfname != null">
+        PARENTFNAME,
+      </if>
+      <if test="deptcode != null">
+        DEPTCODE,
+      </if>
+      <if test="unitlevel != null">
+        UNITLEVEL,
+      </if>
+      <if test="unitlevelname != null">
+        UNITLEVELNAME,
+      </if>
+      <if test="psnsmcid != null">
+        PSNSMCID,
+      </if>
+      <if test="psnname != null">
+        PSNNAME,
+      </if>
+      <if test="fuzerenposition != null">
+        FUZERENPOSITION,
+      </if>
+      <if test="positionname != null">
+        POSITIONNAME,
+      </if>
+      <if test="issaleholon != null">
+        ISSALEHOLON,
+      </if>
+      <if test="saledeptfnumber != null">
+        SALEDEPTFNUMBER,
+      </if>
+      <if test="saledeptfname != null">
+        SALEDEPTFNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null">
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="benbu != null">
+        #{benbu,jdbcType=VARCHAR},
+      </if>
+      <if test="deptErjibu != null">
+        #{deptErjibu,jdbcType=VARCHAR},
+      </if>
+      <if test="deptErjibucode != null">
+        #{deptErjibucode,jdbcType=VARCHAR},
+      </if>
+      <if test="fnumber != null">
+        #{fnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="daqu != null">
+        #{daqu,jdbcType=VARCHAR},
+      </if>
+      <if test="fdeptname != null">
+        #{fdeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="flongnumber != null">
+        #{flongnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="ffullname != null">
+        #{ffullname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentfnumber != null">
+        #{parentfnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="parentfname != null">
+        #{parentfname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptcode != null">
+        #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitlevel != null">
+        #{unitlevel,jdbcType=BIGINT},
+      </if>
+      <if test="unitlevelname != null">
+        #{unitlevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="psnsmcid != null">
+        #{psnsmcid,jdbcType=VARCHAR},
+      </if>
+      <if test="psnname != null">
+        #{psnname,jdbcType=VARCHAR},
+      </if>
+      <if test="fuzerenposition != null">
+        #{fuzerenposition,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null">
+        #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="issaleholon != null">
+        #{issaleholon,jdbcType=VARCHAR},
+      </if>
+      <if test="saledeptfnumber != null">
+        #{saledeptfnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="saledeptfname != null">
+        #{saledeptfname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.HrHolonExample" resultType="java.lang.Long">
+    select count(*) from dbo.hr_holon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.hr_holon
+    <set>
+      <if test="record.company != null">
+        COMPANY = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycode != null">
+        COMPANYCODE = #{record.companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.benbu != null">
+        Benbu = #{record.benbu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptErjibu != null">
+        dept_erjibu = #{record.deptErjibu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptErjibucode != null">
+        dept_erjibuCode = #{record.deptErjibucode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fnumber != null">
+        FNUMBER = #{record.fnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daqu != null">
+        Daqu = #{record.daqu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdeptname != null">
+        FDEPTNAME = #{record.fdeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flongnumber != null">
+        FLONGNUMBER = #{record.flongnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ffullname != null">
+        FFULLNAME = #{record.ffullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentfnumber != null">
+        PARENTFNUMBER = #{record.parentfnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentfname != null">
+        PARENTFNAME = #{record.parentfname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptcode != null">
+        DEPTCODE = #{record.deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitlevel != null">
+        UNITLEVEL = #{record.unitlevel,jdbcType=BIGINT},
+      </if>
+      <if test="record.unitlevelname != null">
+        UNITLEVELNAME = #{record.unitlevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.psnsmcid != null">
+        PSNSMCID = #{record.psnsmcid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.psnname != null">
+        PSNNAME = #{record.psnname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fuzerenposition != null">
+        FUZERENPOSITION = #{record.fuzerenposition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionname != null">
+        POSITIONNAME = #{record.positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issaleholon != null">
+        ISSALEHOLON = #{record.issaleholon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saledeptfnumber != null">
+        SALEDEPTFNUMBER = #{record.saledeptfnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saledeptfname != null">
+        SALEDEPTFNAME = #{record.saledeptfname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.hr_holon
+    set COMPANY = #{record.company,jdbcType=VARCHAR},
+      COMPANYCODE = #{record.companycode,jdbcType=VARCHAR},
+      Benbu = #{record.benbu,jdbcType=VARCHAR},
+      dept_erjibu = #{record.deptErjibu,jdbcType=VARCHAR},
+      dept_erjibuCode = #{record.deptErjibucode,jdbcType=VARCHAR},
+      FNUMBER = #{record.fnumber,jdbcType=VARCHAR},
+      Daqu = #{record.daqu,jdbcType=VARCHAR},
+      FDEPTNAME = #{record.fdeptname,jdbcType=VARCHAR},
+      FLONGNUMBER = #{record.flongnumber,jdbcType=VARCHAR},
+      FFULLNAME = #{record.ffullname,jdbcType=VARCHAR},
+      PARENTFNUMBER = #{record.parentfnumber,jdbcType=VARCHAR},
+      PARENTFNAME = #{record.parentfname,jdbcType=VARCHAR},
+      DEPTCODE = #{record.deptcode,jdbcType=VARCHAR},
+      UNITLEVEL = #{record.unitlevel,jdbcType=BIGINT},
+      UNITLEVELNAME = #{record.unitlevelname,jdbcType=VARCHAR},
+      PSNSMCID = #{record.psnsmcid,jdbcType=VARCHAR},
+      PSNNAME = #{record.psnname,jdbcType=VARCHAR},
+      FUZERENPOSITION = #{record.fuzerenposition,jdbcType=VARCHAR},
+      POSITIONNAME = #{record.positionname,jdbcType=VARCHAR},
+      ISSALEHOLON = #{record.issaleholon,jdbcType=VARCHAR},
+      SALEDEPTFNUMBER = #{record.saledeptfnumber,jdbcType=VARCHAR},
+      SALEDEPTFNAME = #{record.saledeptfname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

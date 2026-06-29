@@ -1,0 +1,751 @@
+<template>
+  <div class="home-container">
+    <div class="card-top" style="margin-bottom:20px;clear:both">
+      <el-card shadow="hover" style="width:49.5%;height:42vh;float:left;clear:both;">
+        <div slot="header">
+          <a @click="quotationPrice">
+            <svg-icon icon-class="quotationManagement" style="height:18px; width:18px;"/>
+            <span class="title">当日报价</span>
+          </a>
+        </div>
+        <div id="quotationPrice" style="">
+          <el-scrollbar style="height: 100%;">
+            <vxe-pager
+              :current-page="quotationPriceTablePage.currentPage"
+              :page-size="quotationPriceTablePage.pageSize"
+              :total="quotationPriceTablePage.totalResult"
+              :layouts="['JumpNumber']"
+              border
+              auto-hidden
+              size="mini"
+              @page-change="quotationPriceHandlePageChange"/>
+            <vxe-grid
+              ref="quotationPriceTable"
+              :data="quotationPriceList"
+              :loading="quotationPriceLoading"
+              :columns="quotationPriceTableColumn"
+              :sort-config="{trigger: 'cell', defaultSort: {field: 'amountTotal', order: 'desc'}, orders: ['desc', 'asc']}"
+              :scroll-y="{enabled: false}"
+              :header-row-style="rowClass"
+              align="center"
+              empty-text="暂无数据"
+              height="220vh"
+              highlight-current-row
+              highlight-hover-row
+              show-overflow
+              border="inner"
+              size="mini"
+              @sort-change="quotationPriceSortChange">
+              <template v-slot:quotationPriceNo="{ row }">
+                <a style="color: #0076BD" @click="quotationPriceDetail(row)">{{ row.quotationPriceNo }}</a>
+              </template>
+              <template v-slot:customer="{ row }">
+                {{ '【' + row.customerNo + '】' + row.customerName }}
+              </template>
+              <template v-slot:amountTotal="{ row }">
+                {{ row.amountTotal | thousandFilter }}
+              </template>
+              <template v-slot:erateTotal="{ row }">
+                {{ row.erateTotal | percentFilter }}
+              </template>
+            </vxe-grid>
+            <br><br><br>
+            <a @click="goQuotationPriceList">
+              <svg-icon icon-class="whole" style="height:20px; width:20px; margin-bottom: 0px; padding:0px"/>
+              <span style="font-size: 15px;font-weight:bold">当日报价总计: 总金额(含税):</span>
+              <span style="margin-left:50px;color:#0076BD;font-size: 15px;font-weight:bold">{{ totalQuotationAmount | thousandFilter }}&nbsp;&nbsp;元</span>
+              <span style="margin-left:100px;font-size: 15px;font-weight:bold">份数:</span>
+              <span style="margin-left:50px;color:#0076BD;font-size: 15px;font-weight:bold">{{ quotationNumber }}&nbsp;&nbsp;份</span>
+            </a>
+        </el-scrollbar></div>
+      </el-card>
+      <el-card shadow="hover" style="width:25%;height:42vh;float:right">
+        <div slot="header">
+          <svg-icon icon-class="baifenbi" style="height:18px; width:18px;"/>
+          <span class="title">当月销售达成情况</span>
+        </div>
+        <div id="salePlan" style="">
+          <el-scrollbar style="height: 100%;">
+            <span style="font-size: 15px;font-weight:bold">当月目标销售额:</span>
+            <span style="margin-left:50px;color:#0076BD;font-size: 15px;font-weight:bold">{{ salePlan }}  万元</span>
+            <br><br>
+            <span style="font-size: 15px;font-weight:bold">当月实际销售额:</span>
+            <span style="margin-left:50px;color:#0076BD;font-size: 15px;font-weight:bold">{{ saleFact }}  万元</span>
+            <div id="myChart2" style="width: 100%; height: 25vh"/>
+          </el-scrollbar>
+        </div>
+      </el-card>
+      <el-card shadow="hover" style="width:24.5%;height:42vh;float:right">
+        <div slot="header">
+          <svg-icon icon-class="repaymentPlan" style="height:18px; width:18px;"/>
+          <span class="title">当前欠款情况</span>
+        </div>
+        <div id="amount" style="">
+          <el-scrollbar style="height: 100%;">
+            <span style="font-size: 15px;font-weight:bold">逾期欠款客户&nbsp;数:</span>
+            <span style="margin-left:60px;color:#0076BD;font-size: 15px;font-weight:bold">{{ customerAmount }}  个</span>
+            <br><br>
+            <a @click="goRepaymentPlan">
+              <span style="font-size: 15px;font-weight:bold">最长逾期欠款天数:</span>
+              <span style="margin-left:50px;color:#0076BD;font-size: 15px;font-weight:bold">{{ owedDays }}  天</span>
+            </a>
+            <div id="myChart" style="width: 100%; height: 25vh"/>
+          </el-scrollbar>
+        </div>
+      </el-card>
+    </div>
+    <div class="card-bottom" style="margin-top:20px">
+      <el-card shadow="hover" style="width:49.5%;height:42vh;float:left;margin-top:18px">
+        <div slot="header">
+          <a @click="goContractList">
+            <svg-icon icon-class="contractOrder" style="height:16px; width:16px;"/>
+            <span class="title">合同订单</span>
+          </a>
+        </div>
+        <div id="contract" style="">
+          <el-scrollbar style="height: 100%;">
+            <vxe-pager
+              :current-page="contractTablePage.currentPage"
+              :page-size="contractTablePage.pageSize"
+              :total="contractTablePage.totalResult"
+              :layouts="['JumpNumber']"
+              border
+              size="mini"
+              auto-hidden
+              @page-change="contractHandlePageChange"/>
+            <vxe-grid
+              ref="contractTable"
+              :data="contractList"
+              :loading="contractLoading"
+              :columns="contractTableColumn"
+              :sort-config="{trigger: 'cell', defaultSort: {field: 'createTime', order: 'desc'}, orders: ['desc', 'asc']}"
+              :scroll-y="{enabled: false}"
+              :header-row-style="rowClass"
+              align="center"
+              empty-text="暂无数据"
+              height="220vh"
+              highlight-current-row
+              highlight-hover-row
+              border="inner"
+              show-overflow
+              size="mini"
+              @sort-change="contractSortChange">
+              <template v-slot:contractOrderNo="{ row }">
+                <a style="color: #0076BD" @click="contractDetail(row)">{{ row.orderNo }}</a>
+              </template>
+              <template v-slot:customer="{ row }">
+                {{ '【' + row.customerNo + '】' + row.customerName }}
+              </template>
+              <template v-slot:totalAmountWithTax="{ row }">
+                {{ row.totalAmountWithTax | thousandFilter }}
+              </template>
+              <template v-slot:wholeErate="{ row }">
+                {{ row.wholeErate | percentFilter }}
+              </template>
+              <template v-slot:status="{ row }">
+                <el-tag :type="row.type" size="mini" hit>{{ row.status }}</el-tag>
+              </template>
+            </vxe-grid>
+            <br><br><br>
+            <a @click="goContractList">
+              <svg-icon icon-class="whole" style="height:20px; width:20px; margin-bottom: 0px; padding:0px"/>
+              <span style="font-size: 15px;font-weight:bold">当日订单总计: 总金额(含税):</span>
+              <span style="margin-left:30px;color:#0076BD;font-size: 15px;font-weight:bold">{{ totalAmountWithTax | thousandFilter }}&nbsp;&nbsp;元</span>
+              <span style="margin-left:60px;font-size: 15px;font-weight:bold">份数:</span>
+              <span style="margin-left:30px;color:#0076BD;font-size: 15px;font-weight:bold">{{ orderCount }}&nbsp;&nbsp;份</span>
+              <span style="margin-left:60px;font-size: 15px;font-weight:bold">涉及客户数:</span>
+              <span style="margin-left:30px;color:#0076BD;font-size: 15px;font-weight:bold">{{ customerCount }}&nbsp;&nbsp;个</span>
+            </a>
+          </el-scrollbar>
+        </div>
+      </el-card>
+      <el-card shadow="hover" style="width:49.5%;height:42vh;float:right;margin-top:18px">
+        <div slot="header">
+          <a @click="specialPrice">
+            <svg-icon icon-class="costManagement" style="height:16px; width:16px;"/>
+            <span class="title">特价</span>
+          </a>
+        </div>
+        <div id="specialPrice" style="">
+          <el-scrollbar style="height: 100%;">
+            <vxe-pager
+              :current-page="specialPriceTablePage.currentPage"
+              :page-size="specialPriceTablePage.pageSize"
+              :total="specialPriceTablePage.totalResult"
+              :layouts="['JumpNumber']"
+              border
+              auto-hidden
+              size="mini"
+              @page-change="specialPriceHandlePageChange"/>
+            <vxe-grid
+              ref="specialPriceTable"
+              :data="specialPriceList"
+              :loading="specialPriceLoading"
+              :columns="specialPriceTableColumn"
+              :sort-config="{trigger: 'cell', defaultSort: {field: 'createTime', order: 'desc'}, orders: ['desc', 'asc']}"
+              :header-row-style="rowClass"
+              highlight-current-row
+              highlight-hover-row
+              show-overflow
+              align="center"
+              size="mini"
+              border="inner"
+              empty-text="暂无数据"
+              height="252vh"
+              @sort-change="specialPriceSortChange">
+              <template v-slot:specialPriceNo="{ row }">
+                <a style="color: #0076BD" @click="specialPriceDetail(row)">{{ row.specialPriceNo }}</a>
+              </template>
+              <template v-slot:customer="{ row }">
+                {{ '【' + row.customerNo + '】' + row.customerName }}
+              </template>
+              <template v-slot:status="{ row }">
+                <el-tag :type="row.type" size="mini" hit>{{ row.status }}</el-tag>
+              </template>
+            </vxe-grid>
+          </el-scrollbar>
+        </div>
+      </el-card>
+    </div>
+  </div>
+</template>
+
+<script>
+
+import { mapGetters } from 'vuex'
+import { findSpecialPriceList } from '@/api/saleManageSystem/specialPrice'
+import { findQuotationPriceList, findQuotationPriceData } from '@/api/saleManageSystem/quotationPrice'
+import { findTodoOrder, findOrderStaticsByToday } from '@/api/saleManageSystem/contractOrder'
+// import { getTotalOverTimeAmt } from '@/api/saleManageSystem/adapter'
+import { getSalesPlan } from '@/api/saleManageSystem/salesPlan'
+
+import XEUtils from 'xe-utils'
+
+export default {
+  name: 'Dashboard',
+  components: {
+    // 'MyDaily': myDaily
+  },
+  data() {
+    return {
+      srcLogo: require('@/assets/img/homePage.jpg'),
+      salePlan: 0,
+      saleFact: 0,
+      saleRate: 0,
+      // 逾期欠款客户数
+      customerAmount: 0,
+      // 逾期欠款数
+      overTimeAmt: 0,
+      // 最长逾期欠款天数
+      owedDays: 0,
+      // 逾期欠款额
+      intermAmt: 0,
+      // 报价相关
+      quotationNumber: 0,
+      totalQuotationAmount: 0,
+      quotationPriceCondition: {},
+      quotationPriceTableColumn: [
+        { field: 'quotationPriceNo', title: '报价单号', width: 100, slots: { default: 'quotationPriceNo' }},
+        { field: 'customer', title: '客户', minWidth: 140, slots: { default: 'customer' }},
+        { field: 'amountTotal', title: '报价总金额(含税,元)', width: 150, slots: { default: 'amountTotal' }},
+        { field: 'erateTotal', title: '整体E率', slots: { default: 'erateTotal' }, sortable: true }
+      ],
+      quotationPriceList: [],
+      quotationPriceLoading: false,
+      quotationPriceTablePage: {
+        currentPage: 1,
+        totalResult: 1,
+        pageSize: 4,
+        pageSizes: [10, 15, 20, 50]
+      },
+      // 合同订单相关
+      orderCount: 0,
+      customerCount: 0,
+      totalAmountWithTax: 0,
+      contractCondition: {},
+      contractTableColumn: [
+        { title: '合同单号', width: 105, slots: { default: 'contractOrderNo' }},
+        { title: '客户', minWidth: 120, slots: { default: 'customer' }},
+        { field: 'totalAmountWithTax', title: '订单总金额(含税,元)', width: 140, slots: { default: 'totalAmountWithTax' }},
+        { field: 'wholeErate', title: '整体E率', width: 90, slots: { default: 'wholeErate' }, sortable: true },
+        { field: 'createTime', title: '制单日期', width: 100, sortable: true },
+        { field: 'status', title: '状态', slots: { default: 'status' }, sortable: true }
+      ],
+      contractList: [],
+      contractLoading: false,
+      contractTablePage: {
+        currentPage: 1,
+        totalResult: 1,
+        pageSize: 4,
+        pageSizes: [10, 15, 20, 50]
+      },
+      // 特价相关
+      specialPriceCondition: {},
+      specialPriceTableColumn: [
+        { title: '特价申请号', width: 110, slots: { default: 'specialPriceNo' }},
+        { title: '客户', minWidth: 150, slots: { default: 'customer' }},
+        { field: 'createTime', title: '申请日期', width: 120, sortable: true },
+        { field: 'status', title: '状态', width: 100, slots: { default: 'status' }, sortable: true }
+      ],
+      specialPriceList: [],
+      specialPriceLoading: false,
+      specialPriceTablePage: {
+        currentPage: 1,
+        totalResult: 1,
+        pageSize: 6,
+        pageSizes: [10, 15, 20, 50]
+      },
+      option: {
+        tooltip: {
+          confine: true,
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+          y: '92%',
+          x: 'center',
+          orient: 'vertical'
+        },
+        color: ['#93CDDD', '#FAC090'],
+        series: [
+          {
+            name: '当月销售达成',
+            type: 'pie',
+            center: ['52%', '48%'], // 饼图的圆心坐标
+            radius: ['45%', '70%'],
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            label: { //  饼图图形上的文本标签
+              normal: { // normal 是图形在默认状态下的样式
+                show: true,
+                position: 'center',
+                color: '#0076BD',
+                fontSize: 20,
+                fontWeight: 'bold',
+                formatter: '达成率\n{d}%' // {b}:数据名； {c}：数据值； {d}：百分比，可以自定义显示内容，
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            data: [
+              {
+                value: 0,
+                name: '实际销售',
+                label: {
+                  normal: {
+                    show: true
+                  }
+                }
+              },
+              {
+                value: 0,
+                name: '销售目标剩余',
+                label: {
+                  normal: {
+                    show: false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      option2: {
+        tooltip: {
+          confine: true,
+          trigger: 'item',
+          formatter: '{b}: {c}万元({d}%)'
+        },
+        legend: {
+          y: '92%',
+          x: 'center',
+          orient: 'vertical'
+        },
+        color: ['#A9D18E', '#8FAADC'],
+        series: [
+          {
+            name: '当前欠款情况',
+            type: 'pie',
+            selectedMode: 'single',
+            center: ['52%', '48%'], // 饼图的圆心坐标
+            radius: ['0%', '70%'],
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            label: { //  饼图图形上的文本标签
+              normal: { // normal 是图形在默认状态下的样式
+                alignTo: 'edge',
+                formatter: '{b}\n{c} 万元, {d}%',
+                minMargin: 5,
+                edgeDistance: 10,
+                lineHeight: 15,
+                rich: {
+                  per: {
+                    color: '#000',
+                    backgroundColor: '#F5F5F5',
+                    padding: [3, 4],
+                    borderRadius: 4
+                  }
+                }
+              }
+            },
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            labelLine: {
+              length: 15,
+              length2: 0,
+              maxSurfaceAngle: 80
+            },
+            data: [
+              {
+                value: 0,
+                name: '期内欠款额',
+                label: {
+                  normal: {
+                    show: true
+                  }
+                }
+              },
+              {
+                value: 0,
+                name: '逾期欠款额',
+                label: {
+                  normal: {
+                    show: true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'name',
+      'position',
+      'info'
+    ])
+  },
+  created() {
+    this.getSalesPlan()
+    // 合同订单
+    this.getContractList()
+    // 特价
+    this.getSpecialPriceList()
+    // 报价
+    this.getQuotationPriceList()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.getSalesPlan()
+      // 逾期欠款
+      this.getTotalOverTimeAmt()
+      if (screen.height < 1080) {
+        var css = '.el-scrollbar__wrap{overflow-y: auto;overflow-x: hidden;}'
+        this.loadStyleString(css)
+        var quotationPrice = document.getElementById('quotationPrice')
+        quotationPrice.style = 'height: 220px;'
+        var contract = document.getElementById('contract')
+        contract.style = 'height: 220px;'
+        var specialPrice = document.getElementById('specialPrice')
+        specialPrice.style = 'height: 220px;'
+        var salePlan = document.getElementById('salePlan')
+        salePlan.style = 'height: 220px;'
+        var amount = document.getElementById('amount')
+        amount.style = 'height: 220px;'
+      }
+    })
+  },
+  methods: {
+    loadStyleString(cssText) {
+      var style = document.createElement('style')
+      style.type = 'text/css'
+      // firefox、safari、chrome和Opera
+      style.appendChild(document.createTextNode(cssText))
+      document.getElementsByTagName('head')[0].appendChild(style)
+    },
+    formatFact(val) {
+      return XEUtils.commafy(XEUtils.toNumber(val / 10000).toFixed(2))
+    },
+    rowClass() {
+      return 'background:#FFFFFF'
+    },
+    getSalesPlan() {
+      // 操作人
+      getSalesPlan(this.$store.getters.info.userId).then(data => {
+        this.saleFact = this.formatFact(data.content.saleFact)
+        this.salePlan = this.formatFact(data.content.salePlan)
+        this.option.series[0].data[0].value = this.saleFact
+        this.option.series[0].data[1].value = this.salePlan - this.saleFact
+        if (data.content.salePlan === 0) {
+          this.option.series[0].label.normal.formatter = '达成率\n?%'
+          this.option.series[0].data[0].value = 0
+          this.option.series[0].data[1].value = 1
+          this.option.series[0].label.normal.color = '#ccc'
+          this.option.tooltip.formatter = '无销售计划数据<br>无法计算达成率'
+        }
+        const tmp2 = document.getElementById('myChart2')
+        const myChart2 = this.$echarts.init(tmp2)
+        myChart2.setOption(this.option)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getTotalOverTimeAmt() {
+      // 操作人
+      getTotalOverTimeAmt(this.$store.getters.info.userId).then(data => {
+        this.customerAmount = data.content.customerAmount
+        this.overTimeAmt = data.content.overTimeAmt
+        this.owedDays = data.content.owedDays
+        const t1 = this.formatFact(data.content.overTimeAmt)
+        const t2 = this.formatFact(data.content.intermAmt)
+        this.option2.series[0].data[0].value = t2
+        this.option2.series[0].data[1].value = t1
+        const tmp = document.getElementById('myChart')
+        const myChart = this.$echarts.init(tmp)
+        myChart.setOption(this.option2)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 页码改变事件
+    contractHandlePageChange({ currentPage, pageSize }) {
+      this.contractTablePage.currentPage = currentPage
+      this.contractTablePage.pageSize = pageSize
+      this.getContractList()
+    },
+    goContractList() {
+      this.$router.push({
+        path: '/order/index',
+        query: { queryDate: 'today' }
+      })
+    },
+    goRepaymentPlan() {
+      this.$router.push({
+        path: '/saleManageSystem/repaymentPlan/customerArrears/index'
+      })
+    },
+    contractDetail(row) {
+      this.$router.push({
+        path: '/order/orderDetail',
+        query: { orderNo: row.orderNo }
+      })
+    },
+    contractSortChange({ column, property, order }) {
+      if (order === null) {
+        return
+      }
+      this.contractCondition.property = property
+      this.contractCondition.order = order
+      this.getContractList()
+    },
+    getContractList() {
+      this.contractLoading = true
+      const page = {}
+      page.pageNumber = this.contractTablePage.currentPage
+      page.pageSize = this.contractTablePage.pageSize
+      this.contractCondition.pageNumber = this.contractTablePage.currentPage
+      this.contractCondition.pageSize = this.contractTablePage.pageSize
+      // 操作人
+      this.contractCondition.assignee = this.$store.getters.info.userId
+      const params = this.contractCondition
+      findTodoOrder(params, page).then(data => {
+        this.contractList = data.content.list
+        this.contractList.map(v => {
+          if (v.status === '待发送') {
+            v.type = 'primary'
+          } else if (v.status === '待确认') {
+            v.type = 'warning'
+          }
+        })
+        this.contractTablePage.totalResult = data.content.total
+        this.contractLoading = false
+      }).catch(error => {
+        this.smcErrorMsg('合同订单查询失败')
+        console.log(error)
+        this.contractLoading = false
+      })
+      findOrderStaticsByToday(this.$store.getters.info.userId).then(data => {
+        if (data.success) {
+          this.orderCount = data.content.orderCount
+          this.customerCount = data.content.customerCount
+          this.totalAmountWithTax = data.content.totalAmountWithTax
+        }
+      }).catch(error => {
+        this.smcErrorMsg('合同订单查询失败')
+        console.log(error)
+        this.quotationPriceLoading = false
+      })
+    },
+    goQuotationPriceList() {
+      this.$router.push({
+        path: '/quotationManage/qutation',
+        query: { flag: '1' }
+      })
+    },
+    // 详情
+    quotationPriceDetail(row) {
+      this.$router.push({
+        path: '/quotationManage/quotation-detail',
+        query: { businessKey: row.quotationPriceNo, id: row.id }
+      })
+    },
+    // 特价
+    specialPrice() {
+      this.$router.push({
+        path: '/saleManageSystem/specialPrice/apply/index'
+      })
+    },
+    quotationPriceSortChange({ column, property, order }) {
+      if (order === null) {
+        return
+      }
+      this.quotationPriceCondition.property = property
+      this.quotationPriceCondition.order = order
+      this.getQuotationPriceList()
+    },
+    specialPriceSortChange({ column, property, order }) {
+      if (order === null) {
+        return
+      }
+      this.specialPriceCondition.property = property
+      this.specialPriceCondition.order = order
+      this.getSpecialPriceList()
+    },
+    getSpecialPriceList() {
+      this.specialPriceLoading = true
+      this.specialPriceCondition.pageNumber = this.specialPriceTablePage.currentPage
+      this.specialPriceCondition.pageSize = this.specialPriceTablePage.pageSize
+      // 操作人
+      this.specialPriceCondition.operator = this.$store.getters.info.userId
+      const params = this.specialPriceCondition
+      findSpecialPriceList(params).then(data => {
+        this.specialPriceList = data.content.list
+        this.specialPriceList.map(v => {
+          if (v.status === '待审批') {
+            v.type = ''
+          } else if (v.status === '已驳回') {
+            v.type = 'warning'
+          } else if (v.status === '已否决') {
+            v.type = 'danger'
+          } else if (v.status === '已通过') {
+            v.type = 'success'
+          }
+        })
+        this.specialPriceTablePage.totalResult = data.content.total
+        this.specialPriceLoading = false
+      }).catch(error => {
+        console.log(error)
+        this.smcErrorMsg('特价查询失败')
+        this.specialPriceLoading = false
+      })
+    },
+    // 页码改变事件
+    specialPriceHandlePageChange({ currentPage, pageSize }) {
+      this.specialPriceTablePage.currentPage = currentPage
+      this.specialPriceTablePage.pageSize = pageSize
+      this.getSpecialPriceList()
+    },
+    // 详情
+    specialPriceDetail(row) {
+      this.$router.push({
+        path: '/specialPrice/apply/detail',
+        query: { businessKey: row.specialPriceNo }
+      })
+    },
+    // 页码改变事件
+    quotationPriceHandlePageChange({ currentPage, pageSize }) {
+      this.quotationPriceTablePage.currentPage = currentPage
+      this.quotationPriceTablePage.pageSize = pageSize
+      this.getQuotationPriceList()
+    },
+    getQuotationPriceList() {
+      this.quotationPriceLoading = true
+      this.quotationPriceCondition.pageNumber = this.quotationPriceTablePage.currentPage
+      this.quotationPriceCondition.pageSize = this.quotationPriceTablePage.pageSize
+      // 操作人
+      this.quotationPriceCondition.operator = this.$store.getters.info.userId
+      const params = this.quotationPriceCondition
+      findQuotationPriceList(params).then(data => {
+        this.quotationPriceList = data.content.list
+        this.quotationPriceTablePage.totalResult = data.content.total
+        this.quotationPriceLoading = false
+      }).catch(error => {
+        this.smcErrorMsg(error)
+        this.quotationPriceLoading = false
+      })
+      findQuotationPriceData(params).then(data => {
+        this.quotationNumber = data.content.quotationNumber
+        this.totalQuotationAmount = data.content.totalQuotationAmount
+      }).catch(error => {
+        console.log(error)
+        this.smcErrorMsg('报价查询失败')
+        this.quotationPriceLoading = false
+      })
+    },
+    // 当日报价
+    quotationPrice() {
+      this.$router.push({
+        path: '/quotationManage/qutation'
+      })
+    },
+    orderQuery() {
+      this.$router.push({
+        path: '/orders/index'
+      })
+    },
+    productConsult() {
+      this.$router.push({
+        path: '/product/consult'
+      })
+    },
+    quotationApproval() {
+      this.$router.push({
+        path: '/quotation/approval/index'
+      })
+    },
+    specialPriceApproval() {
+      this.$router.push({
+        path: '/specialPrice/approval/index'
+      })
+    },
+    roleAllocation() {
+      this.$router.push({
+        path: '/role/roleList'
+      })
+    },
+    resourceManagement() {
+      this.$router.push({
+        path: '/resource/index'
+      })
+    },
+    formatErate({ cellValue }) {
+      return XEUtils.toNumber(cellValue * 100).toFixed(1) + '%'
+    },
+    authorityManagement() {
+      this.$router.push({
+        path: '/authority/index'
+      })
+    }
+  }
+}
+</script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+.dashboard {
+  &-container {
+    margin: 30px;
+  }
+  &-text {
+    font-size: 30px;
+    line-height: 46px;
+  }
+}
+</style>

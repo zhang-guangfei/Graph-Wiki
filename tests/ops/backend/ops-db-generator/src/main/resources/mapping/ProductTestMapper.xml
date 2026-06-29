@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ProductTestMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ProductTest">
+    <id column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <id column="MinQuantity" jdbcType="INTEGER" property="minquantity" />
+    <result column="FobPrice" jdbcType="DECIMAL" property="fobprice" />
+    <result column="EPrice" jdbcType="DECIMAL" property="eprice" />
+    <result column="EPriceJp" jdbcType="DECIMAL" property="epricejp" />
+    <result column="EpricePra" jdbcType="DECIMAL" property="epricepra" />
+    <result column="LowestPrice" jdbcType="DECIMAL" property="lowestprice" />
+    <result column="ImportFobPrice" jdbcType="DECIMAL" property="importfobprice" />
+    <result column="ExportFobPrice" jdbcType="DECIMAL" property="exportfobprice" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="ImportFobPriceOriginal" jdbcType="DECIMAL" property="importfobpriceoriginal" />
+    <result column="ImportCurrencyId" jdbcType="VARCHAR" property="importcurrencyid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ModelNo, MinQuantity, FobPrice, EPrice, EPriceJp, EpricePra, LowestPrice,
+    ImportFobPrice, ExportFobPrice, is_deleted, UpdateTime, ImportFobPriceOriginal, ImportCurrencyId
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ProductTestExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.product_test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductTestKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.product_test
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and MinQuantity = #{minquantity,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductTestKey">
+    delete from dbo.product_test
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and MinQuantity = #{minquantity,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ProductTestExample">
+    delete from dbo.product_test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ProductTest">
+    insert into dbo.product_test (ModelNo, MinQuantity, FobPrice, 
+      EPrice, EPriceJp, EpricePra, 
+      LowestPrice, ImportFobPrice,
+      ExportFobPrice, is_deleted, UpdateTime, 
+      ImportFobPriceOriginal, ImportCurrencyId
+      )
+    values (#{modelno,jdbcType=VARCHAR}, #{minquantity,jdbcType=INTEGER}, #{fobprice,jdbcType=DECIMAL}, 
+      #{eprice,jdbcType=DECIMAL}, #{epricejp,jdbcType=DECIMAL}, #{epricepra,jdbcType=DECIMAL}, 
+      #{lowestprice,jdbcType=DECIMAL}, #{importfobprice,jdbcType=DECIMAL},
+      #{exportfobprice,jdbcType=DECIMAL}, #{isDeleted,jdbcType=BIT}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{importfobpriceoriginal,jdbcType=DECIMAL}, #{importcurrencyid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ProductTest">
+    insert into dbo.product_test
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="minquantity != null">
+        MinQuantity,
+      </if>
+      <if test="fobprice != null">
+        FobPrice,
+      </if>
+      <if test="eprice != null">
+        EPrice,
+      </if>
+      <if test="epricejp != null">
+        EPriceJp,
+      </if>
+      <if test="epricepra != null">
+        EpricePra,
+      </if>
+      <if test="lowestprice != null">
+        LowestPrice,
+      </if>
+      <if test="importfobprice != null">
+        ImportFobPrice,
+      </if>
+      <if test="exportfobprice != null">
+        ExportFobPrice,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="importfobpriceoriginal != null">
+        ImportFobPriceOriginal,
+      </if>
+      <if test="importcurrencyid != null">
+        ImportCurrencyId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="minquantity != null">
+        #{minquantity,jdbcType=INTEGER},
+      </if>
+      <if test="fobprice != null">
+        #{fobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="epricejp != null">
+        #{epricejp,jdbcType=DECIMAL},
+      </if>
+      <if test="epricepra != null">
+        #{epricepra,jdbcType=DECIMAL},
+      </if>
+      <if test="lowestprice != null">
+        #{lowestprice,jdbcType=DECIMAL},
+      </if>
+      <if test="importfobprice != null">
+        #{importfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="exportfobprice != null">
+        #{exportfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importfobpriceoriginal != null">
+        #{importfobpriceoriginal,jdbcType=DECIMAL},
+      </if>
+      <if test="importcurrencyid != null">
+        #{importcurrencyid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ProductTestExample" resultType="java.lang.Long">
+    select count(*) from dbo.product_test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.product_test
+    <set>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minquantity != null">
+        MinQuantity = #{record.minquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.fobprice != null">
+        FobPrice = #{record.fobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eprice != null">
+        EPrice = #{record.eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.epricejp != null">
+        EPriceJp = #{record.epricejp,jdbcType=DECIMAL},
+      </if>
+      <if test="record.epricepra != null">
+        EpricePra = #{record.epricepra,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lowestprice != null">
+        LowestPrice = #{record.lowestprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.importfobprice != null">
+        ImportFobPrice = #{record.importfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.exportfobprice != null">
+        ExportFobPrice = #{record.exportfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.updatetime != null">
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.importfobpriceoriginal != null">
+        ImportFobPriceOriginal = #{record.importfobpriceoriginal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.importcurrencyid != null">
+        ImportCurrencyId = #{record.importcurrencyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.product_test
+    set ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      MinQuantity = #{record.minquantity,jdbcType=INTEGER},
+      FobPrice = #{record.fobprice,jdbcType=DECIMAL},
+      EPrice = #{record.eprice,jdbcType=DECIMAL},
+      EPriceJp = #{record.epricejp,jdbcType=DECIMAL},
+      EpricePra = #{record.epricepra,jdbcType=DECIMAL},
+      LowestPrice = #{record.lowestprice,jdbcType=DECIMAL},
+      ImportFobPrice = #{record.importfobprice,jdbcType=DECIMAL},
+      ExportFobPrice = #{record.exportfobprice,jdbcType=DECIMAL},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      ImportFobPriceOriginal = #{record.importfobpriceoriginal,jdbcType=DECIMAL},
+      ImportCurrencyId = #{record.importcurrencyid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ProductTest">
+    update dbo.product_test
+    <set>
+      <if test="fobprice != null">
+        FobPrice = #{fobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="eprice != null">
+        EPrice = #{eprice,jdbcType=DECIMAL},
+      </if>
+      <if test="epricejp != null">
+        EPriceJp = #{epricejp,jdbcType=DECIMAL},
+      </if>
+      <if test="epricepra != null">
+        EpricePra = #{epricepra,jdbcType=DECIMAL},
+      </if>
+      <if test="lowestprice != null">
+        LowestPrice = #{lowestprice,jdbcType=DECIMAL},
+      </if>
+      <if test="importfobprice != null">
+        ImportFobPrice = #{importfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="exportfobprice != null">
+        ExportFobPrice = #{exportfobprice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importfobpriceoriginal != null">
+        ImportFobPriceOriginal = #{importfobpriceoriginal,jdbcType=DECIMAL},
+      </if>
+      <if test="importcurrencyid != null">
+        ImportCurrencyId = #{importcurrencyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and MinQuantity = #{minquantity,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ProductTest">
+    update dbo.product_test
+    set FobPrice = #{fobprice,jdbcType=DECIMAL},
+      EPrice = #{eprice,jdbcType=DECIMAL},
+      EPriceJp = #{epricejp,jdbcType=DECIMAL},
+      EpricePra = #{epricepra,jdbcType=DECIMAL},
+      LowestPrice = #{lowestprice,jdbcType=DECIMAL},
+      ImportFobPrice = #{importfobprice,jdbcType=DECIMAL},
+      ExportFobPrice = #{exportfobprice,jdbcType=DECIMAL},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      ImportFobPriceOriginal = #{importfobpriceoriginal,jdbcType=DECIMAL},
+      ImportCurrencyId = #{importcurrencyid,jdbcType=VARCHAR}
+    where ModelNo = #{modelno,jdbcType=VARCHAR}
+      and MinQuantity = #{minquantity,jdbcType=INTEGER}
+  </update>
+</mapper>

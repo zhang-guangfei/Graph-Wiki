@@ -1,0 +1,110 @@
+server:
+  port: 9071
+jasypt:
+  encryptor:
+    password: salesops
+spring:
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #设置总上传的数据大小，最大请求文件的大小
+      max-file-size: 30MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+    # loadbalancer:
+    #   ribbon:
+    #     enabled: false
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 40
+        max-wait: 90000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: delivery
+      datasource:
+        delivery:
+          url: jdbc:sqlserver://10.196.34.13:1433;databaseName=ops_delivery
+          username: App_OPS_Migrate
+          password: ueSri7z28lmZmExE
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        ops_core_custom_readonly:
+          url: jdbc:sqlserver://10.116.2.38:1433;DatabaseName=ops_core
+          username: App_OPS_Migrate
+          password: ueSri7z28lmZmExE
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  # 邮箱配置
+  mail:
+    host: smtp-legacy.partner.outlook.cn
+    username: salessql@smc.com.cn
+    password: D0p3v0i1
+    port: 587
+    defalut-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+
+feign:
+  hystrix:
+    enabled: false
+  okhttp:
+    enabled: false
+  httpclient:
+    enabled: true
+    maxConnections: 20000
+    maxConnectionsPerRoute: 5000
+    connectionTimeout: 12000
+    time-to-live: 900
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: gps-job-service
+  ReadTimeout: 500000
+  ConnectTimeout: 500000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 2000       #并发执行的核心线程数，默认10。不能设置为0，初始化setter的时候会出现异常。设置服务端容器线程差不多，吞吐量较高
+      maximumSize: 3000　　 #并发执行的最大线程数，默认10。
+      maxQueueSize: 2000 　#BlockingQueue的最大队列数，当设为－1，会使用SynchronousQueue，值为正时使用LinkedBlcokingQueue。
+      queueSizeRejectionThreshold: 500 #队列截断阈值，即使maxQueueSize没有达到，达到queueSizeRejectionThreshold后，请求也会被拒绝。若maxQueueSize=-1，该字段将不起作用。
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600001
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+
+logging:
+  level:  # 日志级别
+    #    org.springframework.boot: DEBUG
+    #    feign.hystrix: DEBUG
+    #    com.zaxxer.hikari: DEBUG
+    org.activiti.engine.impl.persistence.entity: trace
+    com.ops.delivery: DEBUG
+    com.github.pagehelper: DEBUG
+    java.sql.Statement: DEBUG
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+kettle:
+  transPathPrefix: /ops/files/kettle
+
+

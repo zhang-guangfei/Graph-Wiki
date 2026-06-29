@@ -1,0 +1,153 @@
+jasypt:
+  encryptor:
+    password: salesops
+spring:
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #设置总上传的数据大小，最大请求文件的大小
+      max-file-size: 30MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+    # loadbalancer:
+    #   ribbon:
+    #     enabled: false
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 20
+        max-active: 40
+        max-wait: 90000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+      primary: opsdb
+      datasource:
+        opsdb:
+          url: jdbc:sqlserver://10.116.2.85:1433;DatabaseName=ops_core
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opsdelivery:
+          url: jdbc:sqlserver://10.116.2.85:1433;DatabaseName=ops_delivery
+          username: opstest
+          password: 123456
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        sharedb:
+          url: jdbc:sqlserver://10.116.2.85:1433;DatabaseName=ops_sharedb
+          username: opstest
+          password: ENC(JRnzkDlIu5fUTxup3KwxUAiGtb/uZDoRMyBBt3GmuO3awcYpZU+hsVtBVdGfpuCo)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opscmm:
+          url: jdbc:sqlserver://10.116.2.85:1433;DatabaseName=ops_ui
+          username: opstest
+          password: ENC(JRnzkDlIu5fUTxup3KwxUAiGtb/uZDoRMyBBt3GmuO3awcYpZU+hsVtBVdGfpuCo)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        opslog:
+          url: jdbc:sqlserver://10.116.2.85:1433;DatabaseName=ops_log
+          username: App_Sales_OPS
+          password: ENC(6L+XhJWPMD7l6iq7asJsfF2ORIdxLncuHbEI8jhmhAhlT1wUVCm9Ab9UAIJUUyLLLNtYdnVhGF04q11ZJAi9/Q==)
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        cmdb:
+          url: jdbc:sqlserver://10.116.2.23:1433;DatabaseName=Manufacture
+          username: u_connect
+          password: d0p3v0i1
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        # 制造中间库，写入及更新权限链接
+        cmdmldb:
+          url: jdbc:sqlserver://10.116.2.23:1433;DatabaseName=Manufacture
+          username: u_connect
+          password: d0p3v0i1
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        # 生产库用于取中间表测试，测试完毕后注释掉
+        gzdb:
+          url: jdbc:sqlserver://10.116.192.18:1433;DatabaseName=DBGZ;sslProtocol=TLSv1.2;Application Name=deliveryService
+          username: cn_ops
+          password: C681FA630CDB41369FCDA1C745F4E5D3
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jpdb:
+          url: jdbc:sqlserver://10.116.0.68:1433;DatabaseName=PRODUCT_JP
+          username: app_ops_as400
+          password: J5$bm*D7zpZr
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  redis:
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 500
+        max-active: 10000
+        maxWaitMillis: 60000
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    ops-redis:
+      cluster:
+        nodes: 10.116.0.105:7000,10.116.0.105:7001,10.116.0.105:7002,10.116.0.105:7003,10.116.0.105:7004,10.116.0.105:7005
+        max-redirects: 6
+      database: 0
+      password: "123456"
+      timeout: 25000
+      timeToLive: 120
+    door-redis:
+      database: 0
+      hostName: 10.116.33.151
+      port: 2003
+      password: Smc@RedisQ!W@E#R$
+      timeout: 25000
+      timeToLive: 120
+  # 邮箱配置
+  mail:
+    host: smtp-legacy.partner.outlook.cn
+    username: salessql@smc.com.cn
+    password: D0p3v0i1
+    port: 587
+    defalut-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+
+logging:
+  level:  # 日志级别
+    #    org.springframework.boot: DEBUG
+    #    feign.hystrix: DEBUG
+    #    com.zaxxer.hikari: DEBUG
+    org.activiti.engine.impl.persistence.entity: trace
+    com.ops.delivery: DEBUG
+    com.github.pagehelper: DEBUG
+    java.sql.Statement: DEBUG
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+file:
+  base: /ops/files/
+sales-file-upload-path:
+  url: /ops/sms/files
+ops-file-upload-path:
+  url: /ops/files
+tms:
+  url: http://172.17.30.225:18088/api
+emailparse:
+  host: 10.116.192.3
+  port: 110
+  username: invoice
+  password: IT#190117
+  filesavepath: /ops/files/emailfilesave
+email:
+  max-receive-day: 20
+buService:
+  token-address: http://10.116.1.236:10300/auth/buoath/token
+  interface-address: http://10.116.1.236:10100
+  username: sales
+  password: YmYyYTEwZjkxN2Q3NDQ1YTg0NDg0NDZiMzgzYjM3NGU=
+ftp:
+  server: 192.168.168.201
+  user: JP-CN
+  password: WZBbkgwY

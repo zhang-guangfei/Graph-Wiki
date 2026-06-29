@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ShikomiInspectionMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.ShikomiInspection">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ShikomiId" jdbcType="BIGINT" property="shikomiid" />
+    <result column="ShikomiNo" jdbcType="VARCHAR" property="shikomino" />
+    <result column="modelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="inspectType" jdbcType="SMALLINT" property="inspecttype" />
+    <result column="QtyWarning" jdbcType="INTEGER" property="qtywarning" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="WarnQtyOptCode" jdbcType="SMALLINT" property="warnqtyoptcode" />
+    <result column="DemandQtyOptCode" jdbcType="SMALLINT" property="demandqtyoptcode" />
+    <result column="AnswerText" jdbcType="NVARCHAR" property="answertext" />
+    <result column="CancelQtyOptCode" jdbcType="SMALLINT" property="cancelqtyoptcode" />
+    <result column="OpenToWorld" jdbcType="SMALLINT" property="opentoworld" />
+    <result column="DelayToCancel" jdbcType="SMALLINT" property="delaytocancel" />
+    <result column="ApplyNo" jdbcType="VARCHAR" property="applyno" />
+    <result column="ApplyType" jdbcType="SMALLINT" property="applytype" />
+    <result column="ApplyQty" jdbcType="INTEGER" property="applyqty" />
+    <result column="Reason" jdbcType="NVARCHAR" property="reason" />
+    <result column="ApplyDate" jdbcType="TIMESTAMP" property="applydate" />
+    <result column="ApplicantNo" jdbcType="VARCHAR" property="applicantno" />
+    <result column="RemainQty" jdbcType="INTEGER" property="remainqty" />
+    <result column="CancelQty" jdbcType="INTEGER" property="cancelqty" />
+    <result column="CustomerQty" jdbcType="INTEGER" property="customerqty" />
+    <result column="RetentionDurationDate" jdbcType="TIMESTAMP" property="retentiondurationdate" />
+    <result column="ExpirationHandle" jdbcType="VARCHAR" property="expirationhandle" />
+    <result column="RepairQty" jdbcType="INTEGER" property="repairqty" />
+    <result column="inspectStatus" jdbcType="SMALLINT" property="inspectstatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, ShikomiId, ShikomiNo, modelNo, inspectType, QtyWarning, createTime, createUser, 
+    WarnQtyOptCode, DemandQtyOptCode, AnswerText, CancelQtyOptCode, OpenToWorld, DelayToCancel, 
+    ApplyNo, ApplyType, ApplyQty, Reason, ApplyDate, ApplicantNo, RemainQty, CancelQty, 
+    CustomerQty, RetentionDurationDate, ExpirationHandle, RepairQty, inspectStatus
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ShikomiInspectionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.shikomi_inspection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.shikomi_inspection
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.shikomi_inspection
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ShikomiInspectionExample">
+    delete from dbo.shikomi_inspection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.ShikomiInspection">
+    insert into dbo.shikomi_inspection (id, ShikomiId, ShikomiNo, 
+      modelNo, inspectType, QtyWarning, 
+      createTime, createUser, WarnQtyOptCode, 
+      DemandQtyOptCode, AnswerText, CancelQtyOptCode, 
+      OpenToWorld, DelayToCancel, ApplyNo, 
+      ApplyType, ApplyQty, Reason, 
+      ApplyDate, ApplicantNo, RemainQty, 
+      CancelQty, CustomerQty, RetentionDurationDate, 
+      ExpirationHandle, RepairQty, inspectStatus
+      )
+    values (#{id,jdbcType=BIGINT}, #{shikomiid,jdbcType=BIGINT}, #{shikomino,jdbcType=VARCHAR}, 
+      #{modelno,jdbcType=VARCHAR}, #{inspecttype,jdbcType=SMALLINT}, #{qtywarning,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{warnqtyoptcode,jdbcType=SMALLINT}, 
+      #{demandqtyoptcode,jdbcType=SMALLINT}, #{answertext,jdbcType=NVARCHAR}, #{cancelqtyoptcode,jdbcType=SMALLINT}, 
+      #{opentoworld,jdbcType=SMALLINT}, #{delaytocancel,jdbcType=SMALLINT}, #{applyno,jdbcType=VARCHAR}, 
+      #{applytype,jdbcType=SMALLINT}, #{applyqty,jdbcType=INTEGER}, #{reason,jdbcType=NVARCHAR}, 
+      #{applydate,jdbcType=TIMESTAMP}, #{applicantno,jdbcType=VARCHAR}, #{remainqty,jdbcType=INTEGER}, 
+      #{cancelqty,jdbcType=INTEGER}, #{customerqty,jdbcType=INTEGER}, #{retentiondurationdate,jdbcType=TIMESTAMP}, 
+      #{expirationhandle,jdbcType=VARCHAR}, #{repairqty,jdbcType=INTEGER}, #{inspectstatus,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.ShikomiInspection">
+    insert into dbo.shikomi_inspection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shikomiid != null">
+        ShikomiId,
+      </if>
+      <if test="shikomino != null">
+        ShikomiNo,
+      </if>
+      <if test="modelno != null">
+        modelNo,
+      </if>
+      <if test="inspecttype != null">
+        inspectType,
+      </if>
+      <if test="qtywarning != null">
+        QtyWarning,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="createuser != null">
+        createUser,
+      </if>
+      <if test="warnqtyoptcode != null">
+        WarnQtyOptCode,
+      </if>
+      <if test="demandqtyoptcode != null">
+        DemandQtyOptCode,
+      </if>
+      <if test="answertext != null">
+        AnswerText,
+      </if>
+      <if test="cancelqtyoptcode != null">
+        CancelQtyOptCode,
+      </if>
+      <if test="opentoworld != null">
+        OpenToWorld,
+      </if>
+      <if test="delaytocancel != null">
+        DelayToCancel,
+      </if>
+      <if test="applyno != null">
+        ApplyNo,
+      </if>
+      <if test="applytype != null">
+        ApplyType,
+      </if>
+      <if test="applyqty != null">
+        ApplyQty,
+      </if>
+      <if test="reason != null">
+        Reason,
+      </if>
+      <if test="applydate != null">
+        ApplyDate,
+      </if>
+      <if test="applicantno != null">
+        ApplicantNo,
+      </if>
+      <if test="remainqty != null">
+        RemainQty,
+      </if>
+      <if test="cancelqty != null">
+        CancelQty,
+      </if>
+      <if test="customerqty != null">
+        CustomerQty,
+      </if>
+      <if test="retentiondurationdate != null">
+        RetentionDurationDate,
+      </if>
+      <if test="expirationhandle != null">
+        ExpirationHandle,
+      </if>
+      <if test="repairqty != null">
+        RepairQty,
+      </if>
+      <if test="inspectstatus != null">
+        inspectStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shikomiid != null">
+        #{shikomiid,jdbcType=BIGINT},
+      </if>
+      <if test="shikomino != null">
+        #{shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspecttype != null">
+        #{inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="qtywarning != null">
+        #{qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="warnqtyoptcode != null">
+        #{warnqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="demandqtyoptcode != null">
+        #{demandqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="answertext != null">
+        #{answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="cancelqtyoptcode != null">
+        #{cancelqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="opentoworld != null">
+        #{opentoworld,jdbcType=SMALLINT},
+      </if>
+      <if test="delaytocancel != null">
+        #{delaytocancel,jdbcType=SMALLINT},
+      </if>
+      <if test="applyno != null">
+        #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="applytype != null">
+        #{applytype,jdbcType=SMALLINT},
+      </if>
+      <if test="applyqty != null">
+        #{applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="applydate != null">
+        #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicantno != null">
+        #{applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="remainqty != null">
+        #{remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="cancelqty != null">
+        #{cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="customerqty != null">
+        #{customerqty,jdbcType=INTEGER},
+      </if>
+      <if test="retentiondurationdate != null">
+        #{retentiondurationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationhandle != null">
+        #{expirationhandle,jdbcType=VARCHAR},
+      </if>
+      <if test="repairqty != null">
+        #{repairqty,jdbcType=INTEGER},
+      </if>
+      <if test="inspectstatus != null">
+        #{inspectstatus,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ShikomiInspectionExample" resultType="java.lang.Long">
+    select count(*) from dbo.shikomi_inspection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.shikomi_inspection
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.shikomiid != null">
+        ShikomiId = #{record.shikomiid,jdbcType=BIGINT},
+      </if>
+      <if test="record.shikomino != null">
+        ShikomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        modelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspecttype != null">
+        inspectType = #{record.inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.qtywarning != null">
+        QtyWarning = #{record.qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null">
+        createUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warnqtyoptcode != null">
+        WarnQtyOptCode = #{record.warnqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.demandqtyoptcode != null">
+        DemandQtyOptCode = #{record.demandqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.answertext != null">
+        AnswerText = #{record.answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cancelqtyoptcode != null">
+        CancelQtyOptCode = #{record.cancelqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.opentoworld != null">
+        OpenToWorld = #{record.opentoworld,jdbcType=SMALLINT},
+      </if>
+      <if test="record.delaytocancel != null">
+        DelayToCancel = #{record.delaytocancel,jdbcType=SMALLINT},
+      </if>
+      <if test="record.applyno != null">
+        ApplyNo = #{record.applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applytype != null">
+        ApplyType = #{record.applytype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.applyqty != null">
+        ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.reason != null">
+        Reason = #{record.reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.applydate != null">
+        ApplyDate = #{record.applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applicantno != null">
+        ApplicantNo = #{record.applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remainqty != null">
+        RemainQty = #{record.remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.cancelqty != null">
+        CancelQty = #{record.cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerqty != null">
+        CustomerQty = #{record.customerqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.retentiondurationdate != null">
+        RetentionDurationDate = #{record.retentiondurationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationhandle != null">
+        ExpirationHandle = #{record.expirationhandle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairqty != null">
+        RepairQty = #{record.repairqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectstatus != null">
+        inspectStatus = #{record.inspectstatus,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.shikomi_inspection
+    set id = #{record.id,jdbcType=BIGINT},
+      ShikomiId = #{record.shikomiid,jdbcType=BIGINT},
+      ShikomiNo = #{record.shikomino,jdbcType=VARCHAR},
+      modelNo = #{record.modelno,jdbcType=VARCHAR},
+      inspectType = #{record.inspecttype,jdbcType=SMALLINT},
+      QtyWarning = #{record.qtywarning,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      WarnQtyOptCode = #{record.warnqtyoptcode,jdbcType=SMALLINT},
+      DemandQtyOptCode = #{record.demandqtyoptcode,jdbcType=SMALLINT},
+      AnswerText = #{record.answertext,jdbcType=NVARCHAR},
+      CancelQtyOptCode = #{record.cancelqtyoptcode,jdbcType=SMALLINT},
+      OpenToWorld = #{record.opentoworld,jdbcType=SMALLINT},
+      DelayToCancel = #{record.delaytocancel,jdbcType=SMALLINT},
+      ApplyNo = #{record.applyno,jdbcType=VARCHAR},
+      ApplyType = #{record.applytype,jdbcType=SMALLINT},
+      ApplyQty = #{record.applyqty,jdbcType=INTEGER},
+      Reason = #{record.reason,jdbcType=NVARCHAR},
+      ApplyDate = #{record.applydate,jdbcType=TIMESTAMP},
+      ApplicantNo = #{record.applicantno,jdbcType=VARCHAR},
+      RemainQty = #{record.remainqty,jdbcType=INTEGER},
+      CancelQty = #{record.cancelqty,jdbcType=INTEGER},
+      CustomerQty = #{record.customerqty,jdbcType=INTEGER},
+      RetentionDurationDate = #{record.retentiondurationdate,jdbcType=TIMESTAMP},
+      ExpirationHandle = #{record.expirationhandle,jdbcType=VARCHAR},
+      RepairQty = #{record.repairqty,jdbcType=INTEGER},
+      inspectStatus = #{record.inspectstatus,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.ShikomiInspection">
+    update dbo.shikomi_inspection
+    <set>
+      <if test="shikomiid != null">
+        ShikomiId = #{shikomiid,jdbcType=BIGINT},
+      </if>
+      <if test="shikomino != null">
+        ShikomiNo = #{shikomino,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        modelNo = #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspecttype != null">
+        inspectType = #{inspecttype,jdbcType=SMALLINT},
+      </if>
+      <if test="qtywarning != null">
+        QtyWarning = #{qtywarning,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="warnqtyoptcode != null">
+        WarnQtyOptCode = #{warnqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="demandqtyoptcode != null">
+        DemandQtyOptCode = #{demandqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="answertext != null">
+        AnswerText = #{answertext,jdbcType=NVARCHAR},
+      </if>
+      <if test="cancelqtyoptcode != null">
+        CancelQtyOptCode = #{cancelqtyoptcode,jdbcType=SMALLINT},
+      </if>
+      <if test="opentoworld != null">
+        OpenToWorld = #{opentoworld,jdbcType=SMALLINT},
+      </if>
+      <if test="delaytocancel != null">
+        DelayToCancel = #{delaytocancel,jdbcType=SMALLINT},
+      </if>
+      <if test="applyno != null">
+        ApplyNo = #{applyno,jdbcType=VARCHAR},
+      </if>
+      <if test="applytype != null">
+        ApplyType = #{applytype,jdbcType=SMALLINT},
+      </if>
+      <if test="applyqty != null">
+        ApplyQty = #{applyqty,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        Reason = #{reason,jdbcType=NVARCHAR},
+      </if>
+      <if test="applydate != null">
+        ApplyDate = #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicantno != null">
+        ApplicantNo = #{applicantno,jdbcType=VARCHAR},
+      </if>
+      <if test="remainqty != null">
+        RemainQty = #{remainqty,jdbcType=INTEGER},
+      </if>
+      <if test="cancelqty != null">
+        CancelQty = #{cancelqty,jdbcType=INTEGER},
+      </if>
+      <if test="customerqty != null">
+        CustomerQty = #{customerqty,jdbcType=INTEGER},
+      </if>
+      <if test="retentiondurationdate != null">
+        RetentionDurationDate = #{retentiondurationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationhandle != null">
+        ExpirationHandle = #{expirationhandle,jdbcType=VARCHAR},
+      </if>
+      <if test="repairqty != null">
+        RepairQty = #{repairqty,jdbcType=INTEGER},
+      </if>
+      <if test="inspectstatus != null">
+        inspectStatus = #{inspectstatus,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.ShikomiInspection">
+    update dbo.shikomi_inspection
+    set ShikomiId = #{shikomiid,jdbcType=BIGINT},
+      ShikomiNo = #{shikomino,jdbcType=VARCHAR},
+      modelNo = #{modelno,jdbcType=VARCHAR},
+      inspectType = #{inspecttype,jdbcType=SMALLINT},
+      QtyWarning = #{qtywarning,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      WarnQtyOptCode = #{warnqtyoptcode,jdbcType=SMALLINT},
+      DemandQtyOptCode = #{demandqtyoptcode,jdbcType=SMALLINT},
+      AnswerText = #{answertext,jdbcType=NVARCHAR},
+      CancelQtyOptCode = #{cancelqtyoptcode,jdbcType=SMALLINT},
+      OpenToWorld = #{opentoworld,jdbcType=SMALLINT},
+      DelayToCancel = #{delaytocancel,jdbcType=SMALLINT},
+      ApplyNo = #{applyno,jdbcType=VARCHAR},
+      ApplyType = #{applytype,jdbcType=SMALLINT},
+      ApplyQty = #{applyqty,jdbcType=INTEGER},
+      Reason = #{reason,jdbcType=NVARCHAR},
+      ApplyDate = #{applydate,jdbcType=TIMESTAMP},
+      ApplicantNo = #{applicantno,jdbcType=VARCHAR},
+      RemainQty = #{remainqty,jdbcType=INTEGER},
+      CancelQty = #{cancelqty,jdbcType=INTEGER},
+      CustomerQty = #{customerqty,jdbcType=INTEGER},
+      RetentionDurationDate = #{retentiondurationdate,jdbcType=TIMESTAMP},
+      ExpirationHandle = #{expirationhandle,jdbcType=VARCHAR},
+      RepairQty = #{repairqty,jdbcType=INTEGER},
+      inspectStatus = #{inspectstatus,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

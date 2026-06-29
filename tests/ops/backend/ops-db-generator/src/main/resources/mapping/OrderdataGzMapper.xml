@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.OrderdataGzMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.OrderdataGz">
+    <result column="rorderno" jdbcType="VARCHAR" property="rorderno" />
+    <result column="orderno" jdbcType="VARCHAR" property="orderno" />
+    <result column="itemno" jdbcType="VARCHAR" property="itemno" />
+    <result column="stateCode" jdbcType="VARCHAR" property="statecode" />
+    <result column="CustomerNo" jdbcType="VARCHAR" property="customerno" />
+    <result column="UserNo" jdbcType="VARCHAR" property="userno" />
+    <result column="deptNo" jdbcType="VARCHAR" property="deptno" />
+    <result column="ordType" jdbcType="VARCHAR" property="ordtype" />
+    <result column="ModelNo" jdbcType="VARCHAR" property="modelno" />
+    <result column="Quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="specMark" jdbcType="VARCHAR" property="specmark" />
+    <result column="hopeDeliveryDate" jdbcType="TIMESTAMP" property="hopedeliverydate" />
+    <result column="requestTime" jdbcType="TIMESTAMP" property="requesttime" />
+    <result column="requestWarehouseId" jdbcType="VARCHAR" property="requestwarehouseid" />
+    <result column="purchaseType" jdbcType="VARCHAR" property="purchasetype" />
+    <result column="OrdDate" jdbcType="TIMESTAMP" property="orddate" />
+    <result column="supplierId" jdbcType="VARCHAR" property="supplierid" />
+    <result column="purchaseWarehouseId" jdbcType="VARCHAR" property="purchasewarehouseid" />
+    <result column="TransType" jdbcType="CHAR" property="transtype" />
+    <result column="inventoryPropertyId" jdbcType="INTEGER" property="inventorypropertyid" />
+    <result column="cre_time" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="corderNO" jdbcType="VARCHAR" property="corderno" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="qa_status" jdbcType="INTEGER" property="qaStatus" />
+    <result column="prepare_quantity" jdbcType="NUMERIC" property="prepareQuantity" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="Code" jdbcType="VARCHAR" property="code" />
+    <result column="ExArrivalDate" jdbcType="TIMESTAMP" property="exarrivaldate" />
+    <result column="delflag" jdbcType="INTEGER" property="delflag" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="invoiceno" jdbcType="VARCHAR" property="invoiceno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rorderno, orderno, itemno, stateCode, CustomerNo, UserNo, deptNo, ordType, ModelNo, 
+    Quantity, specMark, hopeDeliveryDate, requestTime, requestWarehouseId, purchaseType, 
+    OrdDate, supplierId, purchaseWarehouseId, TransType, inventoryPropertyId, cre_time, 
+    corderNO, remark, warehouse_code, inventory_status, qty, qa_status, prepare_quantity, 
+    version, Code, ExArrivalDate, delflag, creator, invoiceno
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.OrderdataGzExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo._orderdata_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.OrderdataGzExample">
+    delete from dbo._orderdata_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.OrderdataGz">
+    insert into dbo._orderdata_gz (rorderno, orderno, itemno, 
+      stateCode, CustomerNo, UserNo, 
+      deptNo, ordType, ModelNo, 
+      Quantity, specMark, hopeDeliveryDate, 
+      requestTime, requestWarehouseId, purchaseType, 
+      OrdDate, supplierId, purchaseWarehouseId, 
+      TransType, inventoryPropertyId, cre_time, 
+      corderNO, remark, warehouse_code, 
+      inventory_status, qty, qa_status, 
+      prepare_quantity, version, Code, 
+      ExArrivalDate, delflag, creator, 
+      invoiceno)
+    values (#{rorderno,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{itemno,jdbcType=VARCHAR}, 
+      #{statecode,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}, 
+      #{deptno,jdbcType=VARCHAR}, #{ordtype,jdbcType=VARCHAR}, #{modelno,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{specmark,jdbcType=VARCHAR}, #{hopedeliverydate,jdbcType=TIMESTAMP}, 
+      #{requesttime,jdbcType=TIMESTAMP}, #{requestwarehouseid,jdbcType=VARCHAR}, #{purchasetype,jdbcType=VARCHAR}, 
+      #{orddate,jdbcType=TIMESTAMP}, #{supplierid,jdbcType=VARCHAR}, #{purchasewarehouseid,jdbcType=VARCHAR}, 
+      #{transtype,jdbcType=CHAR}, #{inventorypropertyid,jdbcType=INTEGER}, #{creTime,jdbcType=TIMESTAMP}, 
+      #{corderno,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, 
+      #{inventoryStatus,jdbcType=VARCHAR}, #{qty,jdbcType=INTEGER}, #{qaStatus,jdbcType=INTEGER}, 
+      #{prepareQuantity,jdbcType=NUMERIC}, #{version,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{exarrivaldate,jdbcType=TIMESTAMP}, #{delflag,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}, 
+      #{invoiceno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.OrderdataGz">
+    insert into dbo._orderdata_gz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        rorderno,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="itemno != null">
+        itemno,
+      </if>
+      <if test="statecode != null">
+        stateCode,
+      </if>
+      <if test="customerno != null">
+        CustomerNo,
+      </if>
+      <if test="userno != null">
+        UserNo,
+      </if>
+      <if test="deptno != null">
+        deptNo,
+      </if>
+      <if test="ordtype != null">
+        ordType,
+      </if>
+      <if test="modelno != null">
+        ModelNo,
+      </if>
+      <if test="quantity != null">
+        Quantity,
+      </if>
+      <if test="specmark != null">
+        specMark,
+      </if>
+      <if test="hopedeliverydate != null">
+        hopeDeliveryDate,
+      </if>
+      <if test="requesttime != null">
+        requestTime,
+      </if>
+      <if test="requestwarehouseid != null">
+        requestWarehouseId,
+      </if>
+      <if test="purchasetype != null">
+        purchaseType,
+      </if>
+      <if test="orddate != null">
+        OrdDate,
+      </if>
+      <if test="supplierid != null">
+        supplierId,
+      </if>
+      <if test="purchasewarehouseid != null">
+        purchaseWarehouseId,
+      </if>
+      <if test="transtype != null">
+        TransType,
+      </if>
+      <if test="inventorypropertyid != null">
+        inventoryPropertyId,
+      </if>
+      <if test="creTime != null">
+        cre_time,
+      </if>
+      <if test="corderno != null">
+        corderNO,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="qaStatus != null">
+        qa_status,
+      </if>
+      <if test="prepareQuantity != null">
+        prepare_quantity,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="code != null">
+        Code,
+      </if>
+      <if test="exarrivaldate != null">
+        ExArrivalDate,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="invoiceno != null">
+        invoiceno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rorderno != null">
+        #{rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=VARCHAR},
+      </if>
+      <if test="statecode != null">
+        #{statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerno != null">
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null">
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="ordtype != null">
+        #{ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="specmark != null">
+        #{specmark,jdbcType=VARCHAR},
+      </if>
+      <if test="hopedeliverydate != null">
+        #{hopedeliverydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requesttime != null">
+        #{requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestwarehouseid != null">
+        #{requestwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetype != null">
+        #{purchasetype,jdbcType=VARCHAR},
+      </if>
+      <if test="orddate != null">
+        #{orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasewarehouseid != null">
+        #{purchasewarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=CHAR},
+      </if>
+      <if test="inventorypropertyid != null">
+        #{inventorypropertyid,jdbcType=INTEGER},
+      </if>
+      <if test="creTime != null">
+        #{creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="corderno != null">
+        #{corderno,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="qaStatus != null">
+        #{qaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="prepareQuantity != null">
+        #{prepareQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="exarrivaldate != null">
+        #{exarrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceno != null">
+        #{invoiceno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.OrderdataGzExample" resultType="java.lang.Long">
+    select count(*) from dbo._orderdata_gz
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo._orderdata_gz
+    <set>
+      <if test="record.rorderno != null">
+        rorderno = #{record.rorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        orderno = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemno != null">
+        itemno = #{record.itemno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statecode != null">
+        stateCode = #{record.statecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerno != null">
+        CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userno != null">
+        UserNo = #{record.userno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptno != null">
+        deptNo = #{record.deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordtype != null">
+        ordType = #{record.ordtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelno != null">
+        ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        Quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.specmark != null">
+        specMark = #{record.specmark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hopedeliverydate != null">
+        hopeDeliveryDate = #{record.hopedeliverydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.requesttime != null">
+        requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.requestwarehouseid != null">
+        requestWarehouseId = #{record.requestwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasetype != null">
+        purchaseType = #{record.purchasetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orddate != null">
+        OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.supplierid != null">
+        supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasewarehouseid != null">
+        purchaseWarehouseId = #{record.purchasewarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transtype != null">
+        TransType = #{record.transtype,jdbcType=CHAR},
+      </if>
+      <if test="record.inventorypropertyid != null">
+        inventoryPropertyId = #{record.inventorypropertyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.creTime != null">
+        cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.corderno != null">
+        corderNO = #{record.corderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        qty = #{record.qty,jdbcType=INTEGER},
+      </if>
+      <if test="record.qaStatus != null">
+        qa_status = #{record.qaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.prepareQuantity != null">
+        prepare_quantity = #{record.prepareQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        Code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exarrivaldate != null">
+        ExArrivalDate = #{record.exarrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delflag != null">
+        delflag = #{record.delflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceno != null">
+        invoiceno = #{record.invoiceno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo._orderdata_gz
+    set rorderno = #{record.rorderno,jdbcType=VARCHAR},
+      orderno = #{record.orderno,jdbcType=VARCHAR},
+      itemno = #{record.itemno,jdbcType=VARCHAR},
+      stateCode = #{record.statecode,jdbcType=VARCHAR},
+      CustomerNo = #{record.customerno,jdbcType=VARCHAR},
+      UserNo = #{record.userno,jdbcType=VARCHAR},
+      deptNo = #{record.deptno,jdbcType=VARCHAR},
+      ordType = #{record.ordtype,jdbcType=VARCHAR},
+      ModelNo = #{record.modelno,jdbcType=VARCHAR},
+      Quantity = #{record.quantity,jdbcType=INTEGER},
+      specMark = #{record.specmark,jdbcType=VARCHAR},
+      hopeDeliveryDate = #{record.hopedeliverydate,jdbcType=TIMESTAMP},
+      requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      requestWarehouseId = #{record.requestwarehouseid,jdbcType=VARCHAR},
+      purchaseType = #{record.purchasetype,jdbcType=VARCHAR},
+      OrdDate = #{record.orddate,jdbcType=TIMESTAMP},
+      supplierId = #{record.supplierid,jdbcType=VARCHAR},
+      purchaseWarehouseId = #{record.purchasewarehouseid,jdbcType=VARCHAR},
+      TransType = #{record.transtype,jdbcType=CHAR},
+      inventoryPropertyId = #{record.inventorypropertyid,jdbcType=INTEGER},
+      cre_time = #{record.creTime,jdbcType=TIMESTAMP},
+      corderNO = #{record.corderno,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      qty = #{record.qty,jdbcType=INTEGER},
+      qa_status = #{record.qaStatus,jdbcType=INTEGER},
+      prepare_quantity = #{record.prepareQuantity,jdbcType=NUMERIC},
+      version = #{record.version,jdbcType=INTEGER},
+      Code = #{record.code,jdbcType=VARCHAR},
+      ExArrivalDate = #{record.exarrivaldate,jdbcType=TIMESTAMP},
+      delflag = #{record.delflag,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      invoiceno = #{record.invoiceno,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

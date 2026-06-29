@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.VOrderInventoryResultMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.VOrderInventoryResult">
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="VARCHAR" property="orderItem" />
+    <result column="order_qty" jdbcType="INTEGER" property="orderQty" />
+    <result column="modelno" jdbcType="VARCHAR" property="modelno" />
+    <result column="inventory_type_code" jdbcType="VARCHAR" property="inventoryTypeCode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="sales_info_no" jdbcType="VARCHAR" property="salesInfoNo" />
+    <result column="ppl" jdbcType="VARCHAR" property="ppl" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="group_customer_no" jdbcType="VARCHAR" property="groupCustomerNo" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="inventory_status" jdbcType="VARCHAR" property="inventoryStatus" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="prepare_quantity" jdbcType="INTEGER" property="prepareQuantity" />
+    <result column="分配数量" jdbcType="INTEGER" property="分配数量" />
+    <result column="请购数量" jdbcType="INTEGER" property="请购数量" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_id, order_item, order_qty, modelno, inventory_type_code, customer_no, sales_info_no, 
+    ppl, project_code, group_customer_no, warehouse_code, inventory_status, quantity, 
+    prepare_quantity, 分配数量, 请购数量
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.VOrderInventoryResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.v_order_inventory_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.VOrderInventoryResultExample">
+    delete from dbo.v_order_inventory_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.VOrderInventoryResult">
+    insert into dbo.v_order_inventory_result (order_id, order_item, order_qty, 
+      modelno, inventory_type_code, customer_no, 
+      sales_info_no, ppl, project_code, 
+      group_customer_no, warehouse_code, inventory_status, 
+      quantity, prepare_quantity, 分配数量, 
+      请购数量)
+    values (#{orderId,jdbcType=VARCHAR}, #{orderItem,jdbcType=VARCHAR}, #{orderQty,jdbcType=INTEGER}, 
+      #{modelno,jdbcType=VARCHAR}, #{inventoryTypeCode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{salesInfoNo,jdbcType=VARCHAR}, #{ppl,jdbcType=VARCHAR}, #{projectCode,jdbcType=VARCHAR}, 
+      #{groupCustomerNo,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, #{inventoryStatus,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{prepareQuantity,jdbcType=INTEGER}, #{分配数量,jdbcType=INTEGER}, 
+      #{请购数量,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.VOrderInventoryResult">
+    insert into dbo.v_order_inventory_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="orderQty != null">
+        order_qty,
+      </if>
+      <if test="modelno != null">
+        modelno,
+      </if>
+      <if test="inventoryTypeCode != null">
+        inventory_type_code,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="salesInfoNo != null">
+        sales_info_no,
+      </if>
+      <if test="ppl != null">
+        ppl,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="groupCustomerNo != null">
+        group_customer_no,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="inventoryStatus != null">
+        inventory_status,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="prepareQuantity != null">
+        prepare_quantity,
+      </if>
+      <if test="分配数量 != null">
+        分配数量,
+      </if>
+      <if test="请购数量 != null">
+        请购数量,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="orderQty != null">
+        #{orderQty,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null">
+        #{modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTypeCode != null">
+        #{inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesInfoNo != null">
+        #{salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ppl != null">
+        #{ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCustomerNo != null">
+        #{groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryStatus != null">
+        #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="prepareQuantity != null">
+        #{prepareQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="分配数量 != null">
+        #{分配数量,jdbcType=INTEGER},
+      </if>
+      <if test="请购数量 != null">
+        #{请购数量,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.VOrderInventoryResultExample" resultType="java.lang.Long">
+    select count(*) from dbo.v_order_inventory_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.v_order_inventory_result
+    <set>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderQty != null">
+        order_qty = #{record.orderQty,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelno != null">
+        modelno = #{record.modelno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTypeCode != null">
+        inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salesInfoNo != null">
+        sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppl != null">
+        ppl = #{record.ppl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCustomerNo != null">
+        group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryStatus != null">
+        inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.prepareQuantity != null">
+        prepare_quantity = #{record.prepareQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.分配数量 != null">
+        分配数量 = #{record.分配数量,jdbcType=INTEGER},
+      </if>
+      <if test="record.请购数量 != null">
+        请购数量 = #{record.请购数量,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.v_order_inventory_result
+    set order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=VARCHAR},
+      order_qty = #{record.orderQty,jdbcType=INTEGER},
+      modelno = #{record.modelno,jdbcType=VARCHAR},
+      inventory_type_code = #{record.inventoryTypeCode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      sales_info_no = #{record.salesInfoNo,jdbcType=VARCHAR},
+      ppl = #{record.ppl,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      group_customer_no = #{record.groupCustomerNo,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      inventory_status = #{record.inventoryStatus,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      prepare_quantity = #{record.prepareQuantity,jdbcType=INTEGER},
+      分配数量 = #{record.分配数量,jdbcType=INTEGER},
+      请购数量 = #{record.请购数量,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

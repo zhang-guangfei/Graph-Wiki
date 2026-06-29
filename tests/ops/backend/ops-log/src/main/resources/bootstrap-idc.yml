@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      username: serverIdentity
+      password: security123456
+      discovery:
+        server-addr: http://10.196.34.18:8848
+        namespace: b1e94e47-c379-4597-867d-787e52acf61d
+      config:
+        server-addr: http://10.196.34.18:8848
+        namespace: b1e94e47-c379-4597-867d-787e52acf61d
+        file-extension: yml
+

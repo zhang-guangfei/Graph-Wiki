@@ -1,0 +1,45 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: svn-platform
+  datasource:
+    url: jdbc:h2:file:./data/svn-platform;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# SVN Configuration
+svn:
+  executable: svn
+  timeout: 60000
+  timeout.long: 300000
+  encoding: UTF-8
+
+# Async Task Configuration
+task:
+  pool:
+    core-size: 2
+    max-size: 5
+    queue-capacity: 50
+    keep-alive: 60
+
+logging:
+  level:
+    com.svnplatform: DEBUG
+  file:
+    name: ./logs/svn-platform.log
+  charset:
+    file: UTF-8

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.TempExpressinfoMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.TempExpressinfo">
+    <result column="do_id" jdbcType="VARCHAR" property="doId" />
+    <result column="order_fno" jdbcType="VARCHAR" property="orderFno" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_item" jdbcType="INTEGER" property="orderItem" />
+    <result column="split_no" jdbcType="INTEGER" property="splitNo" />
+    <result column="ship_date" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    do_id, order_fno, order_id, order_item, split_no, ship_date, express_no, express_company
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.TempExpressinfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.temp_expressInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.TempExpressinfoExample">
+    delete from dbo.temp_expressInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.TempExpressinfo">
+    insert into dbo.temp_expressInfo (do_id, order_fno, order_id, 
+      order_item, split_no, ship_date, 
+      express_no, express_company)
+    values (#{doId,jdbcType=VARCHAR}, #{orderFno,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{orderItem,jdbcType=INTEGER}, #{splitNo,jdbcType=INTEGER}, #{shipDate,jdbcType=TIMESTAMP}, 
+      #{expressNo,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.TempExpressinfo">
+    insert into dbo.temp_expressInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="doId != null">
+        do_id,
+      </if>
+      <if test="orderFno != null">
+        order_fno,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderItem != null">
+        order_item,
+      </if>
+      <if test="splitNo != null">
+        split_no,
+      </if>
+      <if test="shipDate != null">
+        ship_date,
+      </if>
+      <if test="expressNo != null">
+        express_no,
+      </if>
+      <if test="expressCompany != null">
+        express_company,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="doId != null">
+        #{doId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFno != null">
+        #{orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItem != null">
+        #{orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="splitNo != null">
+        #{splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="shipDate != null">
+        #{shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressNo != null">
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null">
+        #{expressCompany,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.TempExpressinfoExample" resultType="java.lang.Long">
+    select count(*) from dbo.temp_expressInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.temp_expressInfo
+    <set>
+      <if test="record.doId != null">
+        do_id = #{record.doId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderFno != null">
+        order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItem != null">
+        order_item = #{record.orderItem,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitNo != null">
+        split_no = #{record.splitNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.shipDate != null">
+        ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expressNo != null">
+        express_no = #{record.expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressCompany != null">
+        express_company = #{record.expressCompany,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.temp_expressInfo
+    set do_id = #{record.doId,jdbcType=VARCHAR},
+      order_fno = #{record.orderFno,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_item = #{record.orderItem,jdbcType=INTEGER},
+      split_no = #{record.splitNo,jdbcType=INTEGER},
+      ship_date = #{record.shipDate,jdbcType=TIMESTAMP},
+      express_no = #{record.expressNo,jdbcType=VARCHAR},
+      express_company = #{record.expressCompany,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -59,7 +59,9 @@ def extract_entity_db_mapping(entity_dir: Path, backend_root: Path) -> dict:
 
         fields = []
         field_pattern = re.compile(
-            r"""(@\w+(?:\([^)]*\))?\s*)*private\s+(\S+)\s+(\w+)\s*;"""
+            r"""((?:@\w+(?:\([^)]*\))?\s*)*)
+                (?:private|protected|public)\s+(\S+)\s+(\w+)\s*;""",
+            re.VERBOSE,
         )
         for match in field_pattern.finditer(source):
             annotation_block = match.group(1) or ""
@@ -83,14 +85,20 @@ def extract_dto_fields(dto_dir: Path, backend_root: Path) -> dict[str, list[dict
     for java_file in dto_dir.rglob("*.java"):
         if "/src/test/" in str(java_file):
             continue
-        if not ("dto" in java_file.name.lower() or "vo" in java_file.name.lower()):
+        normalized_parts = {part.lower() for part in java_file.parts}
+        if not (
+            "dto" in java_file.name.lower()
+            or "vo" in java_file.name.lower()
+            or "dto" in normalized_parts
+            or "vo" in normalized_parts
+        ):
             continue
         try:
             source = java_file.read_text(encoding="utf-8")
         except (IOError, UnicodeDecodeError):
             continue
         class_name = _extract_class_name(source)
-        for match in re.finditer(r"private\s+(\S+)\s+(\w+)\s*;", source):
+        for match in re.finditer(r"(?:private|protected|public)\s+(\S+)\s+(\w+)\s*;", source):
             dto_map[class_name].append({"name": match.group(2), "type": match.group(1)})
     return dict(dto_map)
 
@@ -148,6 +156,14 @@ def match_dto_to_entity(dto_map: dict, entity_map: dict) -> list[dict]:
     return results
 
 
+def confidence_level(score: float) -> str:
+    if score >= 0.9:
+        return "high"
+    if score >= 0.75:
+        return "medium"
+    return "low"
+
+
 def build_field_map(
     api_matches: list[ApiMatch],
     entity_dir: Path,
@@ -161,24 +177,39 @@ def build_field_map(
     # 构建 domain → table → fields 聚合
     domain_tables: dict[str, dict] = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
 
-    for match in api_matches:
-        domain = match.domain or "unknown"
-        dto_class = match.backend.param_type or ""
-        for fm in field_matches:
-            if fm["dto_class"] == dto_class:
-                entry = {
-                    "api_url": match.frontend.url,
-                    "api_function": match.frontend.function_name,
-                    "dto_field": fm["dto_field"],
-                    "entity_class": fm["entity_class"],
-                    "entity_field": fm["entity_field"],
-                    "db_column": fm["db_column"],
-                    "db_table": fm["db_table"],
-                    "callers": [
-                        c.get("page", "") for c in match.frontend.callers
-                    ],
-                    "confidence": fm["confidence"],
-                }
-                domain_tables[domain][fm["db_table"]][fm["db_column"]].append(entry)
+    # 无 api_matches 或全部为非 ApiMatch 类型时，返回空字典
+    if not api_matches:
+        return {}
+
+    # 检查首个元素类型：兼容 ApiMatch 和 FrontendApiCall
+    sample = api_matches[0]
+    if hasattr(sample, "frontend") and hasattr(sample, "backend"):
+        # ApiMatch 类型
+        for match in api_matches:
+            domain = getattr(match, "domain", "") or "unknown"
+            dto_class = getattr(match.backend, "param_type", "") or ""
+            for fm in field_matches:
+                if fm["dto_class"] == dto_class:
+                    entry = {
+                        "api_url": match.frontend.url,
+                        "api_function": match.frontend.function_name,
+                        "dto_class": fm["dto_class"],
+                        "dto_field": fm["dto_field"],
+                        "entity_class": fm["entity_class"],
+                        "entity_field": fm["entity_field"],
+                        "db_column": fm["db_column"],
+                        "db_table": fm["db_table"],
+                        "callers": [
+                            c.get("page", "") for c in match.frontend.callers
+                        ],
+                        "confidence": fm["confidence"],
+                        "confidence_level": confidence_level(fm["confidence"]),
+                        "is_reliable": fm["confidence"] >= 0.9,
+                        "match_type": fm.get("match_type", ""),
+                    }
+                    domain_tables[domain][fm["db_table"]][fm["db_column"]].append(entry)
+    else:
+        # FrontendApiCall 类型：无后端信息，跳过
+        pass
 
     return dict(domain_tables)

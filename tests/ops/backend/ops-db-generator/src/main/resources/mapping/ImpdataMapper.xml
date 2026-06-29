@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sales.ops.db.dao.ImpdataMapper">
+  <resultMap id="BaseResultMap" type="com.sales.ops.db.entity.Impdata">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="model_no" jdbcType="VARCHAR" property="modelNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="inventory_id" jdbcType="BIGINT" property="inventoryId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="prod_country" jdbcType="VARCHAR" property="prodCountry" />
+    <result column="imp_date" jdbcType="TIMESTAMP" property="impDate" />
+    <result column="opt_code" jdbcType="CHAR" property="optCode" />
+    <result column="order_type" jdbcType="SMALLINT" property="orderType" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="case_no" jdbcType="VARCHAR" property="caseNo" />
+    <result column="imp_type" jdbcType="SMALLINT" property="impType" />
+    <result column="remark" jdbcType="NVARCHAR" property="remark" />
+    <result column="rohs" jdbcType="CHAR" property="rohs" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="oversea_invoice_no" jdbcType="VARCHAR" property="overseaInvoiceNo" />
+    <result column="poNo" jdbcType="VARCHAR" property="pono" />
+    <result column="poItemNo" jdbcType="INTEGER" property="poitemno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, invoice_id, invoice_no, order_no, model_no, quantity, barcode, customer_no, inventory_id, 
+    supplier_code, prod_country, imp_date, opt_code, order_type, warehouse_code, case_no, 
+    imp_type, remark, rohs, create_time, update_time, create_user, update_user, oversea_invoice_no, 
+    poNo, poItemNo
+  </sql>
+  <select id="selectByExample" parameterType="com.sales.ops.db.entity.ImpdataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dbo.impdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dbo.impdata
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dbo.impdata
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sales.ops.db.entity.ImpdataExample">
+    delete from dbo.impdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sales.ops.db.entity.Impdata">
+    insert into dbo.impdata (id, invoice_id, invoice_no, 
+      order_no, model_no, quantity, 
+      barcode, customer_no, inventory_id, 
+      supplier_code, prod_country, imp_date, 
+      opt_code, order_type, warehouse_code, 
+      case_no, imp_type, remark, 
+      rohs, create_time, update_time, 
+      create_user, update_user, oversea_invoice_no, 
+      poNo, poItemNo)
+    values (#{id,jdbcType=BIGINT}, #{invoiceId,jdbcType=BIGINT}, #{invoiceNo,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{barcode,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{inventoryId,jdbcType=BIGINT}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{prodCountry,jdbcType=VARCHAR}, #{impDate,jdbcType=TIMESTAMP}, 
+      #{optCode,jdbcType=CHAR}, #{orderType,jdbcType=SMALLINT}, #{warehouseCode,jdbcType=VARCHAR}, 
+      #{caseNo,jdbcType=VARCHAR}, #{impType,jdbcType=SMALLINT}, #{remark,jdbcType=NVARCHAR}, 
+      #{rohs,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{overseaInvoiceNo,jdbcType=VARCHAR}, 
+      #{pono,jdbcType=VARCHAR}, #{poitemno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sales.ops.db.entity.Impdata">
+    insert into dbo.impdata
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="modelNo != null">
+        model_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="inventoryId != null">
+        inventory_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="prodCountry != null">
+        prod_country,
+      </if>
+      <if test="impDate != null">
+        imp_date,
+      </if>
+      <if test="optCode != null">
+        opt_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="caseNo != null">
+        case_no,
+      </if>
+      <if test="impType != null">
+        imp_type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="rohs != null">
+        rohs,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="overseaInvoiceNo != null">
+        oversea_invoice_no,
+      </if>
+      <if test="pono != null">
+        poNo,
+      </if>
+      <if test="poitemno != null">
+        poItemNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodCountry != null">
+        #{prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="impDate != null">
+        #{impDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optCode != null">
+        #{optCode,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="impType != null">
+        #{impType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="rohs != null">
+        #{rohs,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="overseaInvoiceNo != null">
+        #{overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="poitemno != null">
+        #{poitemno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sales.ops.db.entity.ImpdataExample" resultType="java.lang.Long">
+    select count(*) from dbo.impdata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dbo.impdata
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceId != null">
+        invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelNo != null">
+        model_no = #{record.modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryId != null">
+        inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.supplierCode != null">
+        supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodCountry != null">
+        prod_country = #{record.prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impDate != null">
+        imp_date = #{record.impDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.optCode != null">
+        opt_code = #{record.optCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseNo != null">
+        case_no = #{record.caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impType != null">
+        imp_type = #{record.impType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.rohs != null">
+        rohs = #{record.rohs,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.overseaInvoiceNo != null">
+        oversea_invoice_no = #{record.overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pono != null">
+        poNo = #{record.pono,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poitemno != null">
+        poItemNo = #{record.poitemno,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dbo.impdata
+    set id = #{record.id,jdbcType=BIGINT},
+      invoice_id = #{record.invoiceId,jdbcType=BIGINT},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      model_no = #{record.modelNo,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      customer_no = #{record.customerNo,jdbcType=VARCHAR},
+      inventory_id = #{record.inventoryId,jdbcType=BIGINT},
+      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
+      prod_country = #{record.prodCountry,jdbcType=VARCHAR},
+      imp_date = #{record.impDate,jdbcType=TIMESTAMP},
+      opt_code = #{record.optCode,jdbcType=CHAR},
+      order_type = #{record.orderType,jdbcType=SMALLINT},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      case_no = #{record.caseNo,jdbcType=VARCHAR},
+      imp_type = #{record.impType,jdbcType=SMALLINT},
+      remark = #{record.remark,jdbcType=NVARCHAR},
+      rohs = #{record.rohs,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      oversea_invoice_no = #{record.overseaInvoiceNo,jdbcType=VARCHAR},
+      poNo = #{record.pono,jdbcType=VARCHAR},
+      poItemNo = #{record.poitemno,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sales.ops.db.entity.Impdata">
+    update dbo.impdata
+    <set>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null">
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryId != null">
+        inventory_id = #{inventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodCountry != null">
+        prod_country = #{prodCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="impDate != null">
+        imp_date = #{impDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optCode != null">
+        opt_code = #{optCode,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=SMALLINT},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="impType != null">
+        imp_type = #{impType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="rohs != null">
+        rohs = #{rohs,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="overseaInvoiceNo != null">
+        oversea_invoice_no = #{overseaInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pono != null">
+        poNo = #{pono,jdbcType=VARCHAR},
+      </if>
+      <if test="poitemno != null">
+        poItemNo = #{poitemno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sales.ops.db.entity.Impdata">
+    update dbo.impdata
+    set invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      inventory_id = #{inventoryId,jdbcType=BIGINT},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      prod_country = #{prodCountry,jdbcType=VARCHAR},
+      imp_date = #{impDate,jdbcType=TIMESTAMP},
+      opt_code = #{optCode,jdbcType=CHAR},
+      order_type = #{orderType,jdbcType=SMALLINT},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      case_no = #{caseNo,jdbcType=VARCHAR},
+      imp_type = #{impType,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=NVARCHAR},
+      rohs = #{rohs,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      oversea_invoice_no = #{overseaInvoiceNo,jdbcType=VARCHAR},
+      poNo = #{pono,jdbcType=VARCHAR},
+      poItemNo = #{poitemno,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
