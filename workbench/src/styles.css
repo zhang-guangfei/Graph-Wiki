@@ -708,3 +708,40 @@ code,
   display: block;
   margin: 0 0 8px;
 }
+
+.field-rule-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.muted-text {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.evidence-panel {
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  padding: 0 12px 12px;
+}
+
+.evidence-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.evidence-card small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
