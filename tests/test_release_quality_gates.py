@@ -15,6 +15,7 @@ from graph_wiki.product_data import ProductDataService
 
 _FORBIDDEN_TRACKED_PATH_PREFIXES = (
     "tests/svn-platform/node_modules/",
+    "tests/svn-platform/dist/",
     "workbench/node_modules/",
     "workbench/dist/",
     "output/",
