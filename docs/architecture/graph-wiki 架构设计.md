@@ -4,6 +4,8 @@
 > 日期：2026-06-11  
 > 状态：设计阶段  
 > **本文档是 Graph-Wiki 项目的唯一设计真相源（Single Source of Truth）。所有后续的设计决策、实现原理、模块接口均以此文档为准。**
+>
+> **v1 产品重启修订（2026-06-29）**：业务域深度阅读体验以 `domain-read-model.json` 为唯一 v1 产品输入，详细架构见 [`domain-read-model-v1-architecture.md`](./domain-read-model-v1-architecture.md)。当本文旧章节仍将 `rules.md` / `spec.md` 视为人工占位主入口时，以 v1 修订文档为准。
 
 ---
 

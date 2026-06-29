@@ -153,7 +153,7 @@ Step 5: 项目总结 + 准备下一轮迭代
 
 ## 实现须知
 
-1. **开始任何实现前，必须先仔细阅读 `docs/architecture/graph-wiki-design.md`**，以此为目标
+1. **开始任何实现前，必须先仔细阅读 `docs/architecture/graph-wiki 架构设计.md`**，以此为目标
 2. architecture 文档的遗留问题（审核报告 S1-S4）后续必须完善
 3. design/ 中的模块设计文档是代码的直接依据，先完成设计再写代码
 4. 代码质量是硬性要求

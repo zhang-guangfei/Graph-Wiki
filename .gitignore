@@ -14,6 +14,7 @@ wiki/
 .vscode/
 .pytest_cache/
 *.egg-info/
+.venv/
 target/
 **/target/
 output/
@@ -38,3 +39,6 @@ workbench/public/workbench-data.json
 /domain_graph.html
 /svn.md
 /test_graph.json
+
+/domain-read-model.json
+/workbench-data.json

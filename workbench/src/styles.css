@@ -585,3 +585,126 @@ code,
     animation-duration: 0.01ms !important;
   }
 }
+
+.deep-reading-panel {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.reading-title,
+.flow-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.flow-card,
+.field-rule-panel {
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.flow-card {
+  padding: 16px;
+}
+
+.flow-card h4 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.flow-card p {
+  margin: 0;
+}
+
+.flow-steps {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flow-steps li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.step-order {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+}
+
+.rule-stack,
+.evidence-strip,
+.field-chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rule-card {
+  flex: 1 1 260px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+}
+
+.rule-card span,
+.rule-card strong {
+  display: block;
+}
+
+.rule-card span {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.evidence-chip,
+.field-chain span {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.evidence-chip.good {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.evidence-chip.warn {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.field-rule-row {
+  margin: 0 12px 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.field-rule-row strong,
+.field-rule-row p {
+  display: block;
+  margin: 0 0 8px;
+}

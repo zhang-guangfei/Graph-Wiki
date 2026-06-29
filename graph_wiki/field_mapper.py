@@ -98,8 +98,9 @@ def extract_dto_fields(dto_dir: Path, backend_root: Path) -> dict[str, list[dict
         except (IOError, UnicodeDecodeError):
             continue
         class_name = _extract_class_name(source)
+        dto_file = str(java_file.relative_to(backend_root))
         for match in re.finditer(r"(?:private|protected|public)\s+(\S+)\s+(\w+)\s*;", source):
-            dto_map[class_name].append({"name": match.group(2), "type": match.group(1)})
+            dto_map[class_name].append({"name": match.group(2), "type": match.group(1), "file": dto_file})
     return dict(dto_map)
 
 
@@ -148,6 +149,8 @@ def match_dto_to_entity(dto_map: dict, entity_map: dict) -> list[dict]:
                             "entity_field": ef["java_field"],
                             "db_column": ef["db_column"],
                             "db_table": entity_map[entity_class]["table"],
+                            "dto_file": dto_field.get("file", ""),
+                            "entity_file": entity_map[entity_class].get("file", ""),
                             "confidence": score,
                             "match_type": mtype,
                         }
@@ -199,6 +202,8 @@ def build_field_map(
                         "entity_field": fm["entity_field"],
                         "db_column": fm["db_column"],
                         "db_table": fm["db_table"],
+                        "dto_file": fm.get("dto_file", ""),
+                        "entity_file": fm.get("entity_file", ""),
                         "callers": [
                             c.get("page", "") for c in match.frontend.callers
                         ],

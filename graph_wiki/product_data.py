@@ -22,6 +22,8 @@ class ProductDataService:
 
         project = build.get("project", {})
         quality = build.get("quality", {})
+        product_quality = build.get("productQuality", {})
+        build_status = build.get("build", {}).get("status") or quality.get("status", "unknown")
         scale = build.get("scale", {})
 
         return {
@@ -30,7 +32,9 @@ class ProductDataService:
             "generatedAt": manifest.get("meta", {}).get("last_full_build"),
             "sourceRoot": project.get("root", ""),
             "quality": {
-                "build": quality.get("status", "unknown"),
+                "build": build_status,
+                "deepReading": product_quality.get("deepReadingStatus", "unknown"),
+                "coreEvidence": product_quality.get("coreDomainEvidenceStatus", "unknown"),
                 "performance": quality.get("performance_status", "unknown"),
                 "phase3": _nested_status(quality, ["phase3", "acceptance", "status"]),
                 "phase4": _nested_status(quality, ["phase4", "acceptance", "status"]),
@@ -55,10 +59,11 @@ class ProductDataService:
     def export_workbench_data(self) -> dict[str, Any]:
         """Return the static data bundle consumed by the Vue workbench."""
         domains = self.list_domains()
+        has_read_model = bool(self._domain_read_model())
         return {
             "schema": {
-                "version": "graph-wiki-workbench-v0",
-                "source": "ProductDataService",
+                "version": "graph-wiki-workbench-v1" if has_read_model else "graph-wiki-workbench-v0",
+                "source": "domain-read-model.json" if has_read_model else "ProductDataService",
             },
             "overview": self.load_project_overview(),
             "domains": domains,
@@ -73,6 +78,26 @@ class ProductDataService:
         }
 
     def list_domains(self) -> list[dict[str, Any]]:
+        read_model = self._domain_read_model()
+        if read_model:
+            evidence_index = read_model.get("evidenceIndex", {})
+            result = []
+            for domain in read_model.get("domains", []):
+                evidence_refs = domain.get("evidenceRefs", [])
+                result.append({
+                    "domainKey": domain.get("domainKey", "unknown"),
+                    "displayName": domain.get("displayName", domain.get("domainKey", "unknown")),
+                    "summary": domain.get("summary", ""),
+                    "anchorCount": len([ref for ref in evidence_refs if str(ref).startswith("source:")]),
+                    "businessPointCount": len(domain.get("flows", [])),
+                    "apiCount": len(_api_refs_for_domain(domain)),
+                    "fieldFlowCount": len(domain.get("fieldRules", [])),
+                    "dependencyCount": 0,
+                    "quality": domain.get("quality", {}).get("deepReadingStatus", "unknown"),
+                    "evidence": _evidence_objects_from_refs(evidence_index, evidence_refs),
+                })
+            return result
+
         domains = self._domains()
         apis = self._apis()
         field_counts = self._field_counts_by_domain()
@@ -95,6 +120,17 @@ class ProductDataService:
         return result
 
     def get_domain_detail(self, domain_key: str) -> dict[str, Any]:
+        read_model = self._domain_read_model()
+        if read_model:
+            domain = next((item for item in read_model.get("domains", []) if item.get("domainKey") == domain_key), None)
+            if not domain:
+                return {
+                    "domainKey": domain_key,
+                    "health": {"status": "empty", "warnings": ["Domain not found"]},
+                    "emptyState": _empty("Domain not found.", "Run graph-wiki build again or check the domain key."),
+                }
+            return _domain_detail_from_read_model(domain, read_model)
+
         domain = self._find_domain(domain_key)
         if not domain:
             return {
@@ -184,6 +220,32 @@ class ProductDataService:
         return result
 
     def list_fields(self, domain_key: str | None = None) -> list[dict[str, Any]]:
+        read_model = self._domain_read_model()
+        if read_model:
+            result = []
+            evidence_index = read_model.get("evidenceIndex", {})
+            for domain in read_model.get("domains", []):
+                if domain_key and domain.get("domainKey") != domain_key:
+                    continue
+                for rule in domain.get("fieldRules", []):
+                    table, _, column = str(rule.get("fieldId", "")).partition(".")
+                    api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
+                    method, url = _method_url_from_api_ref(api_ref)
+                    result.append({
+                        "fieldId": rule.get("fieldId", ""),
+                        "domainKey": domain.get("domainKey", ""),
+                        "table": table,
+                        "column": column,
+                        "api": {"method": method, "url": url, "functionName": ""},
+                        "dto": {"className": "", "field": ""},
+                        "entity": {"className": "", "field": ""},
+                        "frontendCallers": [],
+                        "confidence": rule.get("confidence", 0),
+                        "confidenceLabel": _confidence_label(rule.get("confidence")),
+                        "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
+                    })
+            return result
+
         field_map = self._read_json("field-map.json", {})
         result = []
         for domain, tables in field_map.items():
@@ -301,6 +363,10 @@ class ProductDataService:
                 results.append(_search_result("field", field["fieldId"], field["fieldId"], field["api"]["url"], field["domainKey"]))
         return results
 
+    def _domain_read_model(self) -> dict[str, Any]:
+        data = self._read_json("domain-read-model.json", {})
+        return data if isinstance(data, dict) and data.get("schema", {}).get("version") == "domain-read-model-v1" else {}
+
     def _domains(self) -> list[dict[str, Any]]:
         data = self._read_json("domains.json", [])
         return data if isinstance(data, list) else []
@@ -332,6 +398,169 @@ class ProductDataService:
         if not path.exists():
             return default
         return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str, Any]) -> dict[str, Any]:
+    evidence_index = read_model.get("evidenceIndex", {})
+    domain_key = domain.get("domainKey", "unknown")
+    flows = domain.get("flows", [])
+    rules = domain.get("rules", [])
+    field_rules = domain.get("fieldRules", [])
+    status = domain.get("quality", {}).get("deepReadingStatus", "unknown")
+    flow_points = [_flow_to_business_point(domain_key, flow, evidence_index) for flow in flows]
+    return {
+        "domainKey": domain_key,
+        "displayName": domain.get("displayName", domain_key),
+        "businessMeaning": domain.get("summary", ""),
+        "health": {
+            "status": status,
+            "warnings": domain.get("quality", {}).get("warnings", []),
+        },
+        "entryFiles": _entry_files_from_evidence(evidence_index, domain.get("evidenceRefs", [])),
+        "businessPoints": {
+            "coreActions": flow_points,
+            "interactions": [],
+            "helpers": [],
+        },
+        "flows": flows,
+        "apis": _apis_from_read_model(domain, evidence_index),
+        "fieldFlows": {
+            "status": "ready" if field_rules else "empty",
+            "items": _field_flow_items_from_read_model(domain, evidence_index),
+            "emptyState": None if field_rules else _empty(
+                "No field rules were generated for this domain.",
+                "Check DTO/entity/database annotations or field mapping rules.",
+            ),
+        },
+        "fieldRules": field_rules,
+        "dependencies": [],
+        "rules": {
+            "status": "ready" if rules else "empty",
+            "wikiPage": f"wiki/{domain_key}/rules.md",
+            "items": rules,
+        },
+        "spec": {"status": "derived", "wikiPage": f"wiki/{domain_key}/spec.md"},
+        "deepReadingPath": {
+            "order": ["flows", "rules", "evidence"],
+            "flowCount": len(flows),
+            "ruleCount": len(rules),
+            "evidenceCount": len(domain.get("evidenceRefs", [])),
+        },
+        "evidence": _evidence_objects_from_refs(evidence_index, domain.get("evidenceRefs", [])),
+    }
+
+
+def _flow_to_business_point(domain_key: str, flow: dict[str, Any], evidence_index: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "pointId": flow.get("flowId", f"{domain_key}:flow"),
+        "domainKey": domain_key,
+        "codeName": flow.get("flowId", ""),
+        "businessTitle": flow.get("title", ""),
+        "pointType": "core_action",
+        "businessMeaning": flow.get("summary", ""),
+        "entryFile": _first_source_path(evidence_index, flow.get("evidenceRefs", [])),
+        "relatedApis": [ref for ref in flow.get("evidenceRefs", []) if str(ref).startswith("api:")],
+        "relatedFields": [ref.removeprefix("field:") for ref in flow.get("evidenceRefs", []) if str(ref).startswith("field:")],
+        "implementationFiles": [item.get("sourcePath", "") for item in _evidence_objects_from_refs(evidence_index, flow.get("evidenceRefs", [])) if item.get("type") == "source"],
+        "testSuggestions": ["按流程步骤回归 flow → rules → evidence 阅读路径"],
+        "evidence": _evidence_objects_from_refs(evidence_index, flow.get("evidenceRefs", [])),
+    }
+
+
+def _entry_files_from_evidence(evidence_index: dict[str, Any], refs: list[str]) -> list[dict[str, str]]:
+    result = []
+    for evidence in _evidence_objects_from_refs(evidence_index, refs):
+        if evidence.get("type") != "source":
+            continue
+        path = evidence.get("sourcePath") or evidence.get("path") or ""
+        result.append({"role": "source", "name": Path(path).name, "path": path})
+    return result
+
+
+def _apis_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[dict[str, Any]]:
+    api_refs = _api_refs_for_domain(domain)
+    result = []
+    for ref in api_refs:
+        method, url = _method_url_from_api_ref(ref)
+        evidence = evidence_index.get(ref, {})
+        result.append({
+            "apiId": ref,
+            "method": method,
+            "url": url,
+            "domainKey": domain.get("domainKey", ""),
+            "businessUse": evidence.get("label", f"{method} {url}"),
+            "frontendCallers": [],
+            "frontendCallerStatus": "derived_from_domain_read_model",
+            "backend": {"controller": "", "controllerPath": "", "method": "", "serviceCall": ""},
+            "dto": "",
+            "confidence": evidence.get("confidence", 0),
+            "evidence": _evidence_objects_from_refs(evidence_index, [ref]),
+        })
+    return result
+
+
+def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[dict[str, Any]]:
+    result = []
+    for rule in domain.get("fieldRules", []):
+        field_id = rule.get("fieldId", "")
+        table, _, column = field_id.partition(".")
+        api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
+        method, url = _method_url_from_api_ref(api_ref)
+        result.append({
+            "fieldId": field_id,
+            "domainKey": domain.get("domainKey", ""),
+            "table": table,
+            "column": column,
+            "api": {"method": method, "url": url, "functionName": ""},
+            "dto": {"className": "", "field": ""},
+            "entity": {"className": "", "field": ""},
+            "frontendCallers": [],
+            "confidence": rule.get("confidence", 0),
+            "confidenceLabel": _confidence_label(rule.get("confidence")),
+            "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
+        })
+    return result
+
+
+def _evidence_objects_from_refs(evidence_index: dict[str, Any], refs: list[str]) -> list[dict[str, Any]]:
+    result = []
+    for ref in refs or []:
+        evidence = dict(evidence_index.get(ref, {})) if isinstance(evidence_index.get(ref, {}), dict) else {}
+        evidence.setdefault("id", ref)
+        evidence.setdefault("type", ref.split(":", 1)[0] if ":" in str(ref) else "unknown")
+        evidence.setdefault("label", ref)
+        evidence.setdefault("path", "")
+        evidence.setdefault("section", "")
+        evidence.setdefault("confidence", None)
+        evidence.setdefault("confidenceLabel", _confidence_label(evidence.get("confidence")))
+        result.append(evidence)
+    return result
+
+
+def _api_refs_for_domain(domain: dict[str, Any]) -> list[str]:
+    refs = []
+    for container in [domain, *domain.get("flows", []), *domain.get("rules", []), *domain.get("fieldRules", [])]:
+        for ref in container.get("evidenceRefs", []) if isinstance(container, dict) else []:
+            if str(ref).startswith("api:") and ref not in refs:
+                refs.append(ref)
+    return refs
+
+
+def _method_url_from_api_ref(ref: str) -> tuple[str, str]:
+    if not ref or not str(ref).startswith("api:"):
+        return "", ""
+    try:
+        _, method, url = str(ref).split(":", 2)
+        return method, url
+    except ValueError:
+        return "", ""
+
+
+def _first_source_path(evidence_index: dict[str, Any], refs: list[str]) -> str:
+    for evidence in _evidence_objects_from_refs(evidence_index, refs):
+        if evidence.get("type") == "source":
+            return evidence.get("sourcePath") or evidence.get("path") or ""
+    return ""
 
 
 def _project_name(root: str) -> str:

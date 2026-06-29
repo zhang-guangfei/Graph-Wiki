@@ -9,6 +9,7 @@ Graph-Wiki 是一个从源代码自动构建业务知识库的工具。
 - 面向人类程序员：用业务域、业务点、API、字段影响来理解系统。
 - 兼容 Agent：输出稳定 JSON 产物，便于 Agent 做 scope reduction 和影响分析。
 - 轻量产品化：生成的 `workbench-data.json` 可以被浏览器 Workbench 直接读取。
+- 业务域深度阅读：v1 以 `domain-read-model.json` 组织“流程 → 规则 → 证据”的产品阅读路径。
 
 ## 构建产物
 
@@ -21,8 +22,9 @@ Graph-Wiki 是一个从源代码自动构建业务知识库的工具。
 - `ontology.json`：代码/业务本体
 - `impact-analysis.json`：影响分析结果
 - `dream-cycle-report.json`：知识库维护报告，存在时生成
+- `domain-read-model.json`：业务域深度阅读模型，Workbench v1 的核心产品输入
 - `workbench-data.json`：Workbench 前端数据包
-- `build-report.json`：质量、规模、耗时和验收报告
+- `build-report.json`：质量、规模、耗时和验收报告；其中 `build.status` 与 `productQuality.deepReadingStatus` 分离
 - `domain_graph.html`：业务域级关系图
 
 生成产物默认不提交到 git。建议始终使用 `--output-dir`，例如写入 `output/xxx`。
@@ -108,6 +110,9 @@ pyproject.toml     Python 包配置
 ## 关键文档
 
 - `docs/architecture/graph-wiki 架构设计.md`：项目架构真相源。
+- `docs/architecture/domain-read-model-v1-architecture.md`：v1 业务域深度阅读详细架构。
+- `docs/design/domain-read-model-contract.md`：`domain-read-model.json` 数据契约。
+- `docs/design/domain-read-model-acceptance-matrix.md`：v1 验收矩阵和企业全栈夹具说明。
 - `docs/design/模块总体设计.md`：核心模块接口与职责。
 - `docs/reference/2026-06-23 企业知识库四层模型对 Graph-Wiki 架构启发.md`：项目从 RAG、LLM Wiki、知识图谱、本体和长期记忆系统中获得的架构启发。
 - `AGENTS.md`：项目协作规则和目录治理约定。

@@ -96,6 +96,28 @@ function riskTone(risk: string) {
   if (risk === "medium") return "warn";
   return "good";
 }
+
+function rulesForStep(domain: DomainDetail, ruleRefs: string[]) {
+  const rules = domain.rules.items ?? [];
+  return rules.filter((rule) => ruleRefs.includes(rule.ruleId));
+}
+
+function evidenceForRef(domain: DomainDetail, ref: string) {
+  return domain.evidence.find((item) => item.id === ref) ?? {
+    id: ref,
+    type: ref.split(":")[0] ?? "unknown",
+    label: ref,
+    path: "",
+    confidenceLabel: "unknown",
+  };
+}
+
+function evidenceTone(domain: DomainDetail, ref: string) {
+  const evidence = evidenceForRef(domain, ref);
+  if (evidence.status === "ready" || evidence.confidenceLabel === "high") return "good";
+  if (evidence.status === "partial" || evidence.confidenceLabel === "medium") return "warn";
+  return "quiet";
+}
 </script>
 
 <template>
@@ -233,6 +255,68 @@ function riskTone(risk: string) {
                 <span class="status" :class="statusTone(activeDomain.spec.status)">spec {{ statusLabel(activeDomain.spec.status) }}</span>
               </div>
             </header>
+
+            <section class="deep-reading-panel" aria-label="flow rules evidence reading path">
+              <div class="reading-title">
+                <div>
+                  <p class="eyebrow">核心阅读路径</p>
+                  <h3>流程 → 规则 → 证据</h3>
+                </div>
+                <span class="status" :class="statusTone(activeDomain.health.status)">
+                  {{ activeDomain.deepReadingPath?.flowCount ?? activeDomain.flows.length }} 流程 /
+                  {{ activeDomain.deepReadingPath?.ruleCount ?? activeDomain.rules.items?.length ?? 0 }} 规则 /
+                  {{ activeDomain.deepReadingPath?.evidenceCount ?? activeDomain.evidence.length }} 证据
+                </span>
+              </div>
+
+              <article v-for="flow in activeDomain.flows" :key="flow.flowId" class="flow-card">
+                <header>
+                  <span class="status" :class="statusTone(flow.status)">{{ statusLabel(flow.status) }}</span>
+                  <div>
+                    <h4>{{ flow.title }}</h4>
+                    <p>{{ flow.summary }}</p>
+                  </div>
+                </header>
+                <ol class="flow-steps">
+                  <li v-for="step in flow.steps" :key="step.stepId">
+                    <span class="step-order">{{ step.order }}</span>
+                    <div>
+                      <p>{{ step.text }}</p>
+                      <div v-if="rulesForStep(activeDomain, step.ruleRefs).length" class="rule-stack">
+                        <article v-for="rule in rulesForStep(activeDomain, step.ruleRefs)" :key="rule.ruleId" class="rule-card">
+                          <span>{{ rule.ruleType ?? "business" }}</span>
+                          <strong>{{ rule.statement }}</strong>
+                        </article>
+                      </div>
+                      <div class="evidence-strip">
+                        <span
+                          v-for="ref in step.evidenceRefs"
+                          :key="ref"
+                          class="evidence-chip"
+                          :class="evidenceTone(activeDomain, ref)"
+                          :title="evidenceForRef(activeDomain, ref).path || evidenceForRef(activeDomain, ref).sourcePath"
+                        >
+                          {{ evidenceForRef(activeDomain, ref).label }}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ol>
+              </article>
+
+              <details v-if="activeDomain.fieldRules.length" open class="field-rule-panel">
+                <summary>字段规则 {{ activeDomain.fieldRules.length }}</summary>
+                <article v-for="fieldRule in activeDomain.fieldRules" :key="fieldRule.fieldRuleId" class="field-rule-row">
+                  <strong>{{ fieldRule.fieldId }}</strong>
+                  <p>{{ fieldRule.statement }}</p>
+                  <div class="field-chain">
+                    <span v-for="item in fieldRule.chain" :key="fieldRule.fieldRuleId + item.layer + item.ref">
+                      {{ item.layer }}
+                    </span>
+                  </div>
+                </article>
+              </details>
+            </section>
 
             <div class="split">
               <section>

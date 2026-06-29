@@ -84,7 +84,6 @@ def test_svn_full_pipeline():
         print(f"    {f.relative_to(output_dir)}")
     print(f"  PASSED")
 
-    return True
 
 
 if __name__ == "__main__":

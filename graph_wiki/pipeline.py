@@ -31,6 +31,7 @@ from .ontology import build_code_ontology, collect_wiki_evidence, evaluate_phase
 from .impact import build_impact_analysis, evaluate_phase4_acceptance, write_impact_wiki
 from .dream import build_dream_cycle_report, render_changelog
 from .product_data import ProductDataService
+from .domain_read_model import build_domain_read_model, product_quality_for_report
 from .visualize import export_domain_html
 
 try:
@@ -105,6 +106,7 @@ def _cmd_build(args):
     ontology = {}
     impact_analysis = {}
     dream_report = {}
+    domain_read_model = {}
     manifest = {}
     current_step = "start"
 
@@ -281,6 +283,22 @@ def _cmd_build(args):
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  dream-cycle-report.json: {dream_report['quality']['status']}")
 
+        current_step = "domain_read_model"
+        started = time.perf_counter()
+        print(f"[v1] Domain Read Model...")
+        domain_read_model = build_domain_read_model(
+            project_id=output_base.name,
+            project_name=name,
+            source_root=root,
+            domains=domains,
+            api_matches=api_matches,
+            field_map=field_map,
+            ontology=ontology,
+        )
+        _write_json(output_base / "domain-read-model.json", domain_read_model)
+        timings[current_step] = round(time.perf_counter() - started, 4)
+        print(f"  domain-read-model.json: {domain_read_model['quality']['deepReadingStatus']}")
+
         timings["total_seconds"] = round(time.perf_counter() - total_started, 4)
         report = _write_build_report(
             output_base / "build-report.json",
@@ -294,6 +312,7 @@ def _cmd_build(args):
             ontology,
             impact_analysis,
             dream_report,
+            domain_read_model=domain_read_model,
             timings=timings,
         )
         _write_json(output_base / "workbench-data.json", ProductDataService(output_base).export_workbench_data())
@@ -387,6 +406,7 @@ def _write_build_report(
     ontology,
     impact_analysis,
     dream_report,
+    domain_read_model: dict | None = None,
     timings: dict | None = None,
 ) -> dict:
     quality = evaluate_wiki_quality(domains, api_matches, field_map)
@@ -395,6 +415,11 @@ def _write_build_report(
     _attach_phase4_quality(quality, impact_analysis)
     _attach_phase5_quality(quality, dream_report)
     report = {
+        "build": {
+            "status": "passed",
+            "artifactStatus": quality.get("quality", {}).get("status", "unknown"),
+        },
+        "productQuality": product_quality_for_report(domain_read_model),
         "project": {
             "root": str(root),
             "total_files": corpus.get("total_files", 0),
@@ -439,6 +464,11 @@ def _write_failure_report(
     quality["quality"]["performance_status"] = "failed"
     quality["quality"].setdefault("errors", []).append(f"{step} 失败")
     report = {
+        "build": {
+            "status": "failed",
+            "failedStep": step,
+        },
+        "productQuality": product_quality_for_report(None),
         "project": {
             "root": str(root),
             "total_files": corpus.get("total_files", 0),

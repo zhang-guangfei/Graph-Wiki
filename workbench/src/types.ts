@@ -1,12 +1,56 @@
 export type Status = "passed" | "warning" | "failed" | "ready" | "partial" | "empty" | "unknown" | string;
 
 export interface EvidenceRef {
+  id?: string;
   type: string;
   label: string;
   path: string;
+  sourcePath?: string;
   section?: string;
   confidence?: number | null;
   confidenceLabel?: string;
+  status?: Status;
+}
+
+export interface FlowStep {
+  stepId: string;
+  order: number;
+  text: string;
+  evidenceRefs: string[];
+  ruleRefs: string[];
+  status: Status;
+  confidence: number;
+}
+
+export interface DomainFlow {
+  flowId: string;
+  title: string;
+  summary: string;
+  steps: FlowStep[];
+  evidenceRefs: string[];
+  status: Status;
+  confidence: number;
+}
+
+export interface DomainRule {
+  ruleId: string;
+  statement: string;
+  ruleType?: string;
+  flowRefs: string[];
+  evidenceRefs: string[];
+  status: Status;
+  confidence: number;
+}
+
+export interface FieldRule {
+  fieldRuleId: string;
+  fieldId: string;
+  statement: string;
+  chain: Array<{ layer: string; ref: string }>;
+  evidenceRefs: string[];
+  status: Status;
+  confidence: number;
+  partialReason?: string;
 }
 
 export interface DomainListItem {
@@ -46,6 +90,7 @@ export interface DomainDetail {
     interactions: BusinessPoint[];
     helpers: BusinessPoint[];
   };
+  flows: DomainFlow[];
   apis: ApiIndexItem[];
   fieldFlows: {
     status: Status;
@@ -53,8 +98,10 @@ export interface DomainDetail {
     emptyState?: { reason: string; recommendedAction: string } | null;
   };
   dependencies: Array<Record<string, unknown>>;
-  rules: { status: Status; wikiPage: string };
+  rules: { status: Status; wikiPage: string; items?: DomainRule[] };
+  fieldRules: FieldRule[];
   spec: { status: Status; wikiPage: string };
+  deepReadingPath?: { order: string[]; flowCount: number; ruleCount: number; evidenceCount: number };
   evidence: EvidenceRef[];
 }
 

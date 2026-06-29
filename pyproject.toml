@@ -25,6 +25,10 @@ graph-wiki = "graph_wiki.pipeline:main"
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+include = ["graph_wiki*"]
+exclude = ["workbench*", "tests*", "docs*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
