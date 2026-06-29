@@ -376,20 +376,7 @@ def _build_field_rules(
             "fieldId": f"{table}.{column}",
             "statement": _field_rule_statement(entry, table, column),
             "chain": chain,
-            "api": {
-                "method": api.get("method", ""),
-                "url": api.get("url", api_url),
-                "functionName": api.get("function") or entry.get("api_function", ""),
-            },
-            "dto": {
-                "className": entry.get("dto_class", ""),
-                "field": entry.get("dto_field", ""),
-            },
-            "entity": {
-                "className": entry.get("entity_class", ""),
-                "field": entry.get("entity_field", ""),
-            },
-            "frontendCallers": [str(caller) for caller in callers],
+            "mapping": _field_rule_mapping(entry, api, api_evidence_ref, callers),
             "evidenceRefs": _unique(evidence_refs),
             "status": status,
             "confidence": round(confidence, 4),
@@ -397,6 +384,33 @@ def _build_field_rules(
         })
     return rules
 
+
+
+def _field_rule_mapping(entry: dict[str, Any], api: dict[str, Any], api_evidence_ref: str, callers: list[Any]) -> dict[str, Any]:
+    """Preserve field-chain metadata for Workbench without requiring raw field-map.json."""
+    return {
+        "api": {
+            "ref": api_evidence_ref,
+            "method": api.get("method", ""),
+            "url": api.get("url", ""),
+            "functionName": entry.get("api_function") or api.get("function", ""),
+        },
+        "dto": {
+            "className": entry.get("dto_class", ""),
+            "field": entry.get("dto_field", ""),
+            "file": entry.get("dto_file", ""),
+        },
+        "entity": {
+            "className": entry.get("entity_class", ""),
+            "field": entry.get("entity_field", ""),
+            "file": entry.get("entity_file", ""),
+        },
+        "frontendCallers": [
+            caller.get("page", "") if isinstance(caller, dict) else str(caller)
+            for caller in callers
+            if caller
+        ],
+    }
 
 def _check_refs(
     errors: list[str],

@@ -231,7 +231,20 @@ class ProductDataService:
                     table, _, column = str(rule.get("fieldId", "")).partition(".")
                     api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
                     method, url = _method_url_from_api_ref(api_ref)
-                    result.append(_field_flow_item_from_rule(domain, rule, evidence_index, method, url, table, column))
+                    mapping = _field_rule_mapping_from_read_model(rule, method, url)
+                    result.append({
+                        "fieldId": rule.get("fieldId", ""),
+                        "domainKey": domain.get("domainKey", ""),
+                        "table": table,
+                        "column": column,
+                        "api": mapping["api"],
+                        "dto": mapping["dto"],
+                        "entity": mapping["entity"],
+                        "frontendCallers": mapping["frontendCallers"],
+                        "confidence": rule.get("confidence", 0),
+                        "confidenceLabel": _confidence_label(rule.get("confidence")),
+                        "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
+                    })
             return result
 
         field_map = self._read_json("field-map.json", {})
@@ -494,34 +507,33 @@ def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: di
         table, _, column = field_id.partition(".")
         api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
         method, url = _method_url_from_api_ref(api_ref)
-        result.append(_field_flow_item_from_rule(domain, rule, evidence_index, method, url, table, column))
+        mapping = _field_rule_mapping_from_read_model(rule, method, url)
+        result.append({
+            "fieldId": field_id,
+            "domainKey": domain.get("domainKey", ""),
+            "table": table,
+            "column": column,
+            "api": mapping["api"],
+            "dto": mapping["dto"],
+            "entity": mapping["entity"],
+            "frontendCallers": mapping["frontendCallers"],
+            "confidence": rule.get("confidence", 0),
+            "confidenceLabel": _confidence_label(rule.get("confidence")),
+            "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
+        })
     return result
 
 
 
-def _field_flow_item_from_rule(
-    domain: dict[str, Any],
-    rule: dict[str, Any],
-    evidence_index: dict[str, Any],
-    method: str,
-    url: str,
-    table: str,
-    column: str,
-) -> dict[str, Any]:
-    api = dict(rule.get("api") or {})
-    dto = dict(rule.get("dto") or {})
-    entity = dict(rule.get("entity") or {})
-    evidence = _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", []))
-    inferred_frontend_callers = [
-        item.get("sourcePath") or item.get("path") or ""
-        for item in evidence
-        if item.get("type") == "source" and _looks_like_frontend_path(item.get("sourcePath") or item.get("path") or "")
-    ]
+def _field_rule_mapping_from_read_model(rule: dict[str, Any], method: str, url: str) -> dict[str, Any]:
+    mapping = rule.get("mapping") if isinstance(rule.get("mapping"), dict) else {}
+    api = mapping.get("api") if isinstance(mapping.get("api"), dict) else {}
+    dto = mapping.get("dto") if isinstance(mapping.get("dto"), dict) else {}
+    entity = mapping.get("entity") if isinstance(mapping.get("entity"), dict) else {}
+    callers = mapping.get("frontendCallers", [])
+    if not isinstance(callers, list):
+        callers = []
     return {
-        "fieldId": rule.get("fieldId", ""),
-        "domainKey": domain.get("domainKey", ""),
-        "table": table,
-        "column": column,
         "api": {
             "method": api.get("method") or method,
             "url": api.get("url") or url,
@@ -530,32 +542,15 @@ def _field_flow_item_from_rule(
         "dto": {
             "className": dto.get("className", ""),
             "field": dto.get("field", ""),
+            "file": dto.get("file", ""),
         },
         "entity": {
             "className": entity.get("className", ""),
             "field": entity.get("field", ""),
+            "file": entity.get("file", ""),
         },
-        "frontendCallers": _unique_strings([*(rule.get("frontendCallers") or []), *inferred_frontend_callers]),
-        "confidence": rule.get("confidence", 0),
-        "confidenceLabel": _confidence_label(rule.get("confidence")),
-        "evidence": evidence,
+        "frontendCallers": [str(caller) for caller in callers if caller],
     }
-
-
-def _looks_like_frontend_path(path: str) -> bool:
-    normalized = str(path).replace("\\", "/").lower()
-    return any(token in normalized for token in ("/frontend/", "frontend/", "/src/views/", "/src/pages/", ".vue", ".tsx", ".jsx"))
-
-
-def _unique_strings(values: list[Any]) -> list[str]:
-    result: list[str] = []
-    seen = set()
-    for value in values:
-        text = str(value or "")
-        if text and text not in seen:
-            seen.add(text)
-            result.append(text)
-    return result
 
 def _evidence_objects_from_refs(evidence_index: dict[str, Any], refs: list[str]) -> list[dict[str, Any]]:
     result = []
