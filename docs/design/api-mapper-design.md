@@ -102,6 +102,7 @@ def build_api_map(
     backend_src_dir: Path,
     domains: list[Domain],
     backend_root: Path,
+    project_root: Path | None = None,
 ) -> list[ApiMatch]:
     """
     三步流程：
@@ -109,6 +110,7 @@ def build_api_map(
     2. trace_frontend_callers() — 追踪 Vue 页面调用者
     3. parse_backend_controllers() — 解析后端 Controller
     4. match_apis() — URL 路径匹配 + 域归属分配
+    5. infer_frontend_api_domain() — 后端不可用或未匹配时的前端优先归域
     """
 ```
 
@@ -121,6 +123,7 @@ def build_api_map(
 | `backend_src_dir` | `Path` | 后端 Controller 源码目录（递归扫描 `*Controller.java`） |
 | `domains` | `list[Domain]` | cluster 模块产出的域列表，用于端点→域归属匹配 |
 | `backend_root` | `Path` | 后端项目根目录，用于将 Controller 文件路径转为相对路径 |
+| `project_root` | `Path | None` | 项目根目录，用于前端 API 文件、views 路径、URL 业务段归域；None 时回退为 `frontend_api_dir.parent.parent` |
 
 **返回值**：`list[ApiMatch]` — 前后端 API 匹配结果列表。匹配失败的 API 不会出现在列表中（信息记录在内部用于降级报告）。
 
@@ -152,6 +155,11 @@ def match_apis(frontend: list[FrontendApiCall], backend: list[BackendEndpoint], 
     # Step 4: URL 匹配 + 域归属
     # 输入: 前端 API + 后端端点 + 域定义
     # 输出: list[ApiMatch] 匹配列表
+
+def infer_frontend_api_domain(api_call: FrontendApiCall, domains: list[Domain], project_root: Path) -> str
+    # Step 5: 前端优先归域
+    # 输入: 单个前端 API + 域定义 + 项目根
+    # 输出: domain id/name/display_name 或 ""（未分类）
 ```
 
 ### 2.3 辅助函数
@@ -702,13 +710,21 @@ def match_apis(
 
 ---
 
-## 6. 端点→域归属算法
+## 6. API → 域归属算法
 
 ### 6.1 算法原理
 
-匹配后的端点需要归属到某个业务域，以便在按域拆分的 API 文档中展示。归属逻辑基于 `cluster.py` 产出的 `Domain.anchors` 中记录的 `source_file` 信息。
+匹配后的 API 需要归属到某个业务域，以便在按域拆分的 API 文档中展示。v1.0 不能只依赖后端 Controller，因为纯前端项目、前后端分离项目、后端未纳入扫描时都无法通过 Controller 归域。
 
-**核心逻辑**：如果端点的 `controller_file` 路径包含某个域的锚点文件路径，则该端点属于此域。
+**归域优先级**：
+
+1. 已匹配后端 Controller → 后端 Controller 所属域
+2. 前端 API 文件路径 → `src/api/{module}.js` 对应域
+3. 前端调用页面路径 → `src/views/{domain}/...` 对应域
+4. URL 第一业务段 → `/svn/...`、`/repo/...` 等
+5. 仍无法判断 → `""`，由 export 显示为 `未分类`
+
+**核心逻辑**：能从更强语义来源归域时，绝不直接落入未分类。纯前端项目也必须能通过 API 模块、调用页面和 URL 业务段得到可用归属。
 
 ### 6.2 实现
 
@@ -740,24 +756,92 @@ def _find_endpoint_domain(ep: BackendEndpoint, domains: list[Domain]) -> str:
                 if ep.controller_file in file or Path(ep.controller_file).name in file:
                     return d.name or d.id
     return ""  # 未匹配到任何域
+
+
+def infer_frontend_api_domain(
+    api_call: FrontendApiCall,
+    domains: list[Domain],
+    project_root: Path,
+) -> str:
+    """
+    后端 Controller 不存在或未匹配时，根据前端线索推断 API 归属域。
+
+    匹配顺序:
+      1. API 文件模块名: src/api/svn.js → svn
+      2. 调用页面首级目录: src/views/svn/status.vue → svn
+      3. URL 首个业务段: /svn/{repoId}/status → svn
+      4. 与 domains 的 id/name/display_name 做大小写归一化匹配
+    """
+    candidates: list[str] = []
+
+    api_path = Path(api_call.source_file)
+    if api_path.stem not in ("index", "request", "http", "client"):
+        candidates.append(api_path.stem)
+
+    for caller in api_call.callers:
+        page = caller.get("page", "")
+        parts = page.replace("\\", "/").split("/")
+        if "views" in parts:
+            idx = parts.index("views")
+            if idx + 1 < len(parts):
+                candidates.append(parts[idx + 1])
+
+    url_parts = api_call.url.strip("/").split("/")
+    if url_parts:
+        first = url_parts[0]
+        if first not in ("api", "v1", "v2", "admin"):
+            candidates.append(first)
+        elif len(url_parts) > 1:
+            candidates.append(url_parts[1])
+
+    normalized_domains = {
+        (d.id or "").lower(): d.id,
+        (d.name or "").lower(): d.name or d.id,
+        (d.display_name or "").lower(): d.display_name or d.id,
+    }
+
+    for c in candidates:
+        key = c.lower().replace("_", "-")
+        if key in normalized_domains:
+            return normalized_domains[key]
+        for domain_key, domain_value in normalized_domains.items():
+            if key and (key in domain_key or domain_key in key):
+                return domain_value
+
+    return ""
 ```
 
 ### 6.3 匹配示例
 
-| 端点 controller_file | 域锚点 source_file | 归属结果 |
-|---------------------|-------------------|---------|
-| `bin/controller/BinOrderController.java` | `bin/controller/BinController.java` | **bin-data**（路径包含匹配） |
-| `purchase/controller/PoController.java` | `purchase/controller/PoController.java` | **purchase**（完全相同） |
-| `common/GlobalExceptionHandler.java` | `common/handler/GlobalHandler.java` | **common**（文件名匹配） |
-| `config/SwaggerConfig.java` | —（config 不是锚点角色） | **""**（未归属） |
+| 场景 | 输入 | 归属结果 |
+|------|------|---------|
+| 后端 Controller 命中 | `bin/controller/BinOrderController.java` 匹配 `bin-data` 域锚点 | **bin-data** |
+| 前端 API 文件命中 | `src/api/svn.js`，domain id 为 `svn` | **svn** |
+| 前端调用页面命中 | caller page 为 `views/svn/status.vue` | **svn** |
+| URL 业务段命中 | `GET /repo/list`，domain id 为 `repo` | **repo** |
+| 技术 URL 跳过 | `/api/v1/svn/status` | 跳过 `api/v1` 后归属 **svn** |
+| 无任何线索 | `common/request.js` 调 `/health` | **""**（未归属） |
 
 **边界条件**：
 
 | 条件 | 行为 |
 |------|------|
-| Controller 不属于任何域（工具类 Controller） | domain 字段为空字符串 |
-| 一个域有多个匹配 | 取第一个匹配的域名（非空优先 `d.name`，回退 `d.id`） |
-| 两个域的锚点路径都匹配 | 取第一个遍历到的域（Python 3.7+ dict 有序） |
+| Controller 不属于任何域 | 继续执行前端优先归域 |
+| 纯前端项目无后端端点 | 直接执行前端优先归域 |
+| 一个域有多个匹配 | 取第一个强信号；优先级为 Controller > API 文件 > views > URL |
+| 两个域都匹配 | 取更长的归一化域键，避免 `po` 抢占 `purchase-order` |
+| 仍无法判断 | domain 字段为空字符串，export 显示为 `未分类` |
+
+### 6.4 质量阈值
+
+API 归域结果必须写入 `build-report.json`：
+
+| 指标 | v1.0 验收线 |
+|------|:--:|
+| 小型前端项目 API 未分类比例 | < 30% |
+| 中型前后端项目 API 未分类比例 | < 20% |
+
+如果 `api_uncategorized_ratio` 超过阈值，pipeline 应将质量状态标记为 `failed` 或 `warning`，而不是只报告“API 解析成功”。
 
 ---
 
@@ -920,6 +1004,7 @@ return match_apis(frontend_apis, backend_endpoints, domains)
 | `parse_backend_controllers()` | ✅ 完整设计 | ✅ 已实现 | — | |
 | `url_match_score()` | ✅ 完整设计 | ✅ 已实现 | — | |
 | `match_apis()` | ✅ 完整设计 | ✅ 已实现 | — | |
+| `infer_frontend_api_domain()` | ✅ 完整设计 | ❌ 未实现 | 🔴 P0 | 解决纯前端项目 API 全部未分类 |
 | `extract_dto_fields()` | 📝 设计预留 | ❌ 未实现 | 🟡 Phase 4+ | 需要 DTO 类源码解析 |
 | `extract_service_chain()` | 📝 设计预留 | ❌ 未实现 | 🟡 Phase 4+ | 需要 Java AST 方法体解析 |
 | `unmatched_frontend_apis` 输出 | 📝 设计预留 | ❌ 未实现 | 🟢 低 | 未匹配 API 记录到报告 |

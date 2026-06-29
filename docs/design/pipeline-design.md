@@ -14,7 +14,7 @@
 | 功能 | 实现状态 | 说明 |
 |------|:--------:|------|
 | `main() CLI 入口` | ✅ 已实现 | argparse 注册 build / update / query / path / explain |
-| `cmd_build 九步流水线` | ✅ 已实现 | detect → extract → build → cluster → api_map → field_map → label → export → visualize |
+| `cmd_build 十步流水线` | ⚠️ 需调整 | detect → extract → filter_extraction → build_light_graph → cluster → api_map → field_map → label → export → visualize，并写出 build-report |
 | `cmd_update 增量更新骨架` | ⚠️ 已实现（简化） | 调用 `graphify.detect_incremental`，但未持久化 manifest.json |
 | `_find_dir 模糊匹配` | ✅ 已实现 | 精确匹配 → rglob 递归搜索 |
 | `_run_graphify 委托策略` | ✅ 已实现 | subprocess 调用 graphify CLI |
@@ -44,15 +44,17 @@ graph-wiki build <path>
          ▼
   ┌─ pipeline.py ────────────────────────────────────────────┐
   │                                                           │
-  │  [1/9] detect_corpus()   ──→ corpus (文件清单)              │
-  │  [2/9] extract_ast()     ──→ extraction (AST 数据)         │
-  │  [3/9] build_graph()     ──→ G (NetworkX 图)              │
-  │  [4/9] business_cluster()──→ domains (list[Domain])       │
-  │  [5/9] build_api_map()   ──→ api_matches (list[ApiMatch]) │
-  │  [6/9] build_field_map() ──→ field_map (dict)             │
-  │  [7/9] label_domains()   ──→ domains (enriched)           │
-  │  [8/9] export_wiki()     ──→ wiki/ 目录                    │
-  │  [9/9] export_domain_html()──→ domain_graph.html           │
+  │  [1/10] detect_corpus()   ──→ corpus (文件清单)              │
+  │  [2/10] extract_ast()     ──→ extraction (AST 数据)         │
+  │  [3/10] filter_extraction_for_wiki() → filtered AST       │
+  │  [4/10] build_light_graph() ──→ G (graph-lite)             │
+  │  [5/10] business_cluster()──→ domains (list[Domain])       │
+  │  [6/10] build_api_map()   ──→ api_matches (list[ApiMatch]) │
+  │  [7/10] build_field_map() ──→ field_map (dict)             │
+  │  [8/10] label_domains()   ──→ domains (enriched)           │
+  │  [9/10] export_wiki()     ──→ wiki/ 目录                    │
+  │  [10/10] export_domain_html()──→ domain_graph.html         │
+  │  [report] build-report.json                                │
   │                                                           │
   └───────────────────────────────────────────────────────────┘
 ```
@@ -86,44 +88,44 @@ graph-wiki build <path>
 
 $ graph-wiki build .
 
-[1/9] 文件检测...
+[1/10] 文件检测...
   语料库: 142 代码文件, 25,180 词, 3 种类型
   ✓ 完成 (0.3s)
 
-[2/9] AST 提取 (142 文件)...
+[2/10] AST 提取 (142 文件)...
   4,218 节点, 18,362 边
   ✓ 完成 (4.2s)
 
-[3/9] 图构建...
+[3/10] 图构建...
   4,218 节点, 18,362 边, 34 种关系类型
   ✓ 完成 (1.1s)
 
-[4/9] 业务域聚类...
+[5/10] 业务域聚类...
   过滤噪音: 4,218 → 612 业务节点
   提取锚点: 612 → 218 个锚点
   识别出 8 个业务域
   ✓ 完成 (0.8s)
 
-[5/9] API 映射...
+[6/10] API 映射...
   匹配 23 个接口 (前端 API 文件: 12, 后端 Controller: 18)
   ✓ 完成 (0.3s)
 
-[6/9] 字段映射...
+[7/10] 字段映射...
   映射 67 个字段 (Entity: 15 类, DTO: 22 类)
   ✓ 完成 (0.5s)
 
-[7/9] LLM 标注 (8 域, 5 路并行)...
+[8/10] LLM 标注 (8 域, 5 路并行)...
   域 1/8: bin-data ✓
   域 2/8: purchase ✓
   ...
   全部 8 个域标注完成
   ✓ 完成 (18.3s)  |  成本估算: $0.03 (Claude Haiku)
 
-[8/9] 导出 Wiki...
+[9/10] 导出 Wiki...
   wiki/index.md, wiki/api-index.md, wiki/bin-data/* (6 文件)
   ✓ 完成 (0.2s)
 
-[9/9] 域级可视化...
+[10/10] 域级可视化...
   domain_graph.html (8 节点, 12 边)
   ✓ 完成 (0.1s)
 
@@ -301,7 +303,7 @@ def main():
 
 ---
 
-## 3. cmd_build 九步流水线详细设计
+## 3. cmd_build 十步流水线详细设计
 
 ### 3.1 总体流程
 
@@ -310,23 +312,27 @@ cmd_build(args)
     │
     ├── 0. 加载配置: graph-wiki.yaml (可选) → 合并 CLI 参数
     │
-    ├── [1/9] detect_corpus(root)     ───→ corpus
+    ├── [1/10] detect_corpus(root)                  ───→ corpus
     │
-    ├── [2/9] extract_ast(code_files) ───→ extraction
+    ├── [2/10] extract_ast(code_files)              ───→ extraction
     │
-    ├── [3/9] build_graph(extraction) ───→ G (nx.Graph)
+    ├── [3/10] filter_extraction_for_wiki(...)      ───→ filtered_extraction
     │
-    ├── [4/9] business_cluster(G, ...)───→ domains
+    ├── [4/10] build_light_graph(filtered)          ───→ G (graph-lite)
     │
-    ├── [5/9] build_api_map(...)      ───→ api_matches
+    ├── [5/10] business_cluster(G, ...)             ───→ domains
     │
-    ├── [6/9] build_field_map(...)    ───→ field_map
+    ├── [6/10] build_api_map(...)                   ───→ api_matches
     │
-    ├── [7/9] label_domains(...)      ───→ domains (enriched)
+    ├── [7/10] build_field_map(...)                 ───→ field_map
     │
-    ├── [8/9] export_wiki(...)        ───→ wiki/ 目录
+    ├── [8/10] label_domains(...)                   ───→ domains (enriched)
     │
-    └── [9/9] export_domain_html(...) ───→ domain_graph.html
+    ├── [9/10] export_wiki(...)                     ───→ wiki/ 目录
+    │
+    ├── [10/10] export_domain_html(...)             ───→ domain_graph.html
+    │
+    └── [report] evaluate_wiki_quality + write_report → build-report.json
 ```
 
 ### 3.2 步骤详解
@@ -390,11 +396,11 @@ field_mapper:
 | 输出 | `corpus` — 文件检测结果字典 |
 | 关键字段 | `corpus["total_files"]`, `corpus["total_words"]`, `corpus["files"]["code"]` |
 | 输出文件 | 无（全量检测结果在内存中传递） |
-| 进度输出 | `[1/9] 文件检测: /path/to/project` + 文件统计 |
+| 进度输出 | `[1/10] 文件检测: /path/to/project` + 文件统计 |
 
 ```python
 def _step_detect(root: Path, verbose: int) -> dict:
-    print(f"[1/9] 文件检测: {root}")
+    print(f"[1/10] 文件检测: {root}")
     corpus = detect_corpus(root)
     code_count = len(corpus.get("files", {}).get("code", []))
     total = corpus.get("total_files", 0)
@@ -417,11 +423,11 @@ def _step_detect(root: Path, verbose: int) -> dict:
 | 输出 | `extraction` — AST 解析结果字典 |
 | 关键字段 | `extraction["nodes"]`, `extraction["edges"]` |
 | 输出文件 | 无 |
-| 进度输出 | `[2/9] AST 提取 (142 文件)...` + 节点/边统计 |
+| 进度输出 | `[2/10] AST 提取 (142 文件)...` + 节点/边统计 |
 
 ```python
 def _step_extract(code_files: list[Path], verbose: int) -> dict:
-    print(f"[2/9] AST 提取 ({len(code_files)} 文件)...")
+    print(f"[2/10] AST 提取 ({len(code_files)} 文件)...")
     extraction = extract_ast(code_files)
     nodes = len(extraction.get("nodes", []))
     edges = len(extraction.get("edges", []))
@@ -437,20 +443,43 @@ def _step_extract(code_files: list[Path], verbose: int) -> dict:
     return extraction
 ```
 
-#### 步骤 3: build_graph — 图构建
+#### 步骤 3: filter_extraction_for_wiki — build 前预过滤
 
 | 项目 | 内容 |
 |------|------|
-| 调用函数 | `reuse.build_graph(extraction: dict) -> nx.Graph` |
+| 调用函数 | `reuse.filter_extraction_for_wiki(extraction: dict, root: Path) -> dict` |
 | 输入 | `extraction` — AST 提取结果 |
-| 输出 | `G` — NetworkX 无向图 |
-| 输出文件 | `graph.json`（自动由 graphify.build 保存） |
-| 进度输出 | `[3/9] 图构建...` + 节点/边统计 |
+| 输出 | `filtered_extraction` — 仅保留 Graph-Wiki 需要的节点和边 |
+| 输出文件 | 可选调试文件（默认不写） |
+| 进度输出 | `[3/10] build 前预过滤...` + 原始/过滤后节点边统计 |
 
 ```python
-def _step_build(extraction: dict, verbose: int) -> nx.Graph:
-    print(f"[3/9] 图构建...")
-    G = build_graph(extraction)
+def _step_filter_extraction(extraction: dict, root: Path) -> dict:
+    print("[3/10] build 前预过滤...")
+    filtered = filter_extraction_for_wiki(extraction, root)
+    meta = filtered.get("meta", {})
+    print(
+        f"  nodes: {meta.get('original_nodes', '?')} → {meta.get('filtered_nodes', '?')}, "
+        f"edges: {meta.get('original_edges', '?')} → {meta.get('filtered_edges', '?')}"
+    )
+    return filtered
+```
+
+#### 步骤 4: build_light_graph — 轻量图构建
+
+| 项目 | 内容 |
+|------|------|
+| 调用函数 | `reuse.build_light_graph(filtered_extraction: dict) -> nx.Graph` |
+| 输入 | `filtered_extraction` — 预过滤 AST |
+| 输出 | `G` — 轻量 NetworkX 无向图 |
+| 输出文件 | `graph-lite.json` |
+| 可选输出 | `graph.json`（仅在显式启用完整图后端时写出） |
+| 进度输出 | `[4/10] 轻量图构建...` + 节点/边统计 |
+
+```python
+def _step_build_light_graph(filtered_extraction: dict, output_dir: Path, verbose: int) -> nx.Graph:
+    print(f"[4/10] 轻量图构建...")
+    G = build_light_graph(filtered_extraction)
     print(f"  {G.number_of_nodes()} 节点, {G.number_of_edges()} 边")
 
     if verbose >= 1:
@@ -460,22 +489,23 @@ def _step_build(extraction: dict, verbose: int) -> nx.Graph:
         for r, c in rels.most_common():
             print(f"    {r}: {c}")
 
+    save_graph_artifacts(light_graph=G, output_dir=output_dir)
     return G
 ```
 
-#### 步骤 4: business_cluster — 业务域聚类
+#### 步骤 5: business_cluster — 业务域聚类
 
 | 项目 | 内容 |
 |------|------|
 | 调用函数 | `cluster.business_cluster(G, root, language, merge_threshold, min_domain_size)` |
-| 输入 | `G`（nx.Graph），`root`（Path），`language`（Language 枚举） |
+| 输入 | `G`（graph-lite nx.Graph），`root`（Path），`language`（Language 枚举） |
 | 输出 | `domains: list[Domain]` |
-| 输出文件 | 无（域数据在内存中传递） |
-| 进度输出 | `[4/9] 业务域聚类...` + 域统计 |
+| 输出文件 | `domains.json` |
+| 进度输出 | `[5/10] 业务域聚类...` + 域统计 |
 
 ```python
 def _step_cluster(G: nx.Graph, root: Path, language: Language, verbose: int) -> list[Domain]:
-    print(f"[4/9] 业务域聚类...")
+    print(f"[5/10] 业务域聚类...")
     try:
         domains = business_cluster(G, root, language=language)
     except ValueError as e:
@@ -505,11 +535,11 @@ def _step_cluster(G: nx.Graph, root: Path, language: Language, verbose: int) -> 
 | 输入 | 前/后端目录、域列表 |
 | 输出 | `api_matches: list[ApiMatch]` |
 | 输出文件 | 无（匹配结果在内存中传递） |
-| 进度输出 | `[5/9] API 映射...` + 匹配统计 |
+| 进度输出 | `[6/10] API 映射...` + 匹配统计 |
 
 ```python
 def _step_api_map(root: Path, domains: list[Domain], verbose: int) -> list[ApiMatch]:
-    print(f"[5/9] API 映射...")
+    print(f"[6/10] API 映射...")
 
     # 查找前后端目录
     frontend_api = _find_dir(root, "src/api")
@@ -547,11 +577,11 @@ def _step_api_map(root: Path, domains: list[Domain], verbose: int) -> list[ApiMa
 | 输入 | API 匹配结果、Entity/DTO 目录 |
 | 输出 | `field_map: dict` |
 | 输出文件 | 无（结果在内存中传递） |
-| 进度输出 | `[6/9] 字段映射...` + 字段统计 |
+| 进度输出 | `[7/10] 字段映射...` + 字段统计 |
 
 ```python
 def _step_field_map(root: Path, api_matches: list[ApiMatch], verbose: int) -> dict:
-    print(f"[6/9] 字段映射...")
+    print(f"[7/10] 字段映射...")
 
     # 查找 Entity 和 DTO 目录
     entity_dirs = list(root.rglob("entity")) + list(root.rglob("domain"))
@@ -591,7 +621,7 @@ def _step_field_map(root: Path, api_matches: list[ApiMatch], verbose: int) -> di
 | 输入 | 域列表、图数据、项目根、标注配置 |
 | 输出 | `domains`（已标注：name/display_name/description/core_flows 已填充） |
 | 输出文件 | `wiki/{domain}/summary.md` |
-| 进度输出 | `[7/9] LLM 标注 (8 域, 5 路并行)...` |
+| 进度输出 | `[8/10] LLM 标注 (8 域, 5 路并行)...` |
 
 ```python
 def _step_label(
@@ -601,10 +631,10 @@ def _step_label(
     args,
 ) -> list[Domain]:
     if args.no_llm:
-        print(f"[7/9] LLM 标注... 跳过（--no-llm）")
+        print(f"[8/10] LLM 标注... 跳过（--no-llm）")
         return domains
 
-    print(f"[7/9] LLM 标注 ({len(domains)} 域, {args.parallel} 路并行)...")
+    print(f"[8/10] LLM 标注 ({len(domains)} 域, {args.parallel} 路并行)...")
 
     # 构建配置
     backend_map = {
@@ -648,7 +678,7 @@ def _step_label(
 - 所有域标注失败 → `label_domains` 返回所有未标注域，打印警告
 - `--no-llm` → 完全跳过此步
 
-#### 步骤 8: export_wiki — Wiki 导出
+#### 步骤 9: export_wiki — Wiki 导出
 
 | 项目 | 内容 |
 |------|------|
@@ -656,11 +686,11 @@ def _step_label(
 | 输入 | 域列表、API 匹配、字段映射、输出目录 |
 | 输出 | `wiki/` 目录（含 index.md, api-index.md, 各域子目录） |
 | 输出文件 | `wiki/index.md`, `wiki/api-index.md`, `wiki/{domain}/summary.md`, `wiki/{domain}/code-map.md`, `wiki/{domain}/api-docs.md`, `wiki/{domain}/dependencies.md`, `wiki/{domain}/data-flow.md`, `wiki/{domain}/rules.md`, `wiki/{domain}/spec.md` |
-| 进度输出 | `[8/9] 导出 Wiki...` + 文件列表 |
+| 进度输出 | `[9/10] 导出 Wiki...` + 文件列表 |
 
 ```python
 def _step_export(domains, api_matches, field_map, output_dir, verbose):
-    print(f"[8/9] 导出 Wiki...")
+    print(f"[9/10] 导出 Wiki...")
     output_dir = Path(output_dir)
     try:
         export_wiki(domains, api_matches, field_map, output_dir)
@@ -684,7 +714,7 @@ def _step_export(domains, api_matches, field_map, output_dir, verbose):
 - 部分文件写入失败（单个域）→ 当前实现中 `_write_code_map` 等子函数各自 try/except
 - 目录已存在 → `mkdir(parents=True, exist_ok=True)` 安全覆盖
 
-#### 步骤 9: export_domain_html — 域级可视化
+#### 步骤 10: export_domain_html — 域级可视化
 
 | 项目 | 内容 |
 |------|------|
@@ -692,11 +722,11 @@ def _step_export(domains, api_matches, field_map, output_dir, verbose):
 | 输入 | 域列表 |
 | 输出 | `domain_graph.html` |
 | 输出文件 | `domain_graph.html` |
-| 进度输出 | `[9/9] 域级可视化...` + 节点/边统计 |
+| 进度输出 | `[10/10] 域级可视化...` + 节点/边统计 |
 
 ```python
 def _step_visualize(domains, verbose):
-    print(f"[9/9] 域级可视化...")
+    print(f"[10/10] 域级可视化...")
     output_path = Path("domain_graph.html")
     try:
         export_domain_html(domains, output_path)
@@ -712,6 +742,58 @@ def _step_visualize(domains, verbose):
 - 依赖数据异常 → `export_domain_html` 内部 try/except，不抛出异常
 - D3 CDN 加载失败（HTML 内有 `https://d3js.org/d3.v7.min.js`）→ 浏览器打开时加载，不影响 pipeline
 - 全部失败 → 打印警告，pipeline 正常完成
+
+#### report: build-report.json — 质量报告
+
+| 项目 | 内容 |
+|------|------|
+| 调用函数 | `evaluate_wiki_quality(domains, api_matches, field_map)` + pipeline 汇总 |
+| 输入 | corpus、graph 规模、domains、api_matches、field_map、输出文件列表 |
+| 输出 | `build-report.json` |
+| 用途 | CI/集成测试/Agent 判断 Wiki 是否适合交付 |
+
+```python
+def _write_build_report(
+    root: Path,
+    corpus: dict,
+    light_graph: nx.Graph,
+    domains: list[Domain],
+    api_matches: list[ApiMatch],
+    field_map: dict,
+    output_dir: Path,
+    full_graph_written: bool,
+) -> dict:
+    quality = evaluate_wiki_quality(domains, api_matches, field_map)
+    report = {
+        "project": str(root),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "input": {
+            "files": corpus.get("total_files", 0),
+            "code_files": len(corpus.get("files", {}).get("code", [])),
+        },
+        "graph": {
+            "light_nodes": light_graph.number_of_nodes(),
+            "light_edges": light_graph.number_of_edges(),
+            "full_graph_written": full_graph_written,
+        },
+        "domains": quality["domains"],
+        "api": quality["api"],
+        "quality": quality["quality"],
+    }
+    (output_dir / "build-report.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return report
+```
+
+质量状态不会阻止 Markdown 生成，但会决定本次 build 是否可交付：
+
+| 状态 | pipeline 行为 |
+|------|---------------|
+| `passed` | 打印完成 |
+| `warning` | 打印 warning 和问题列表 |
+| `failed` | 打印 failed 和问题列表；CI 可据此失败 |
 
 ### 3.3 `_cmd_build()` 完整实现
 
@@ -746,10 +828,13 @@ def _cmd_build(args):
     # ── Step 2: AST 提取 ──
     extraction = _step_extract(code_files, args.verbose)
 
-    # ── Step 3: 图构建 ──
-    G = _step_build(extraction, args.verbose)
+    # ── Step 3: build 前预过滤 ──
+    filtered_extraction = _step_filter_extraction(extraction, root)
 
-    # ── Step 4: 业务域聚类 ──
+    # ── Step 4: 轻量图构建 ──
+    G = _step_build_light_graph(filtered_extraction, args.output_dir, args.verbose)
+
+    # ── Step 5: 业务域聚类 ──
     if args.language != "auto":
         try:
             lang = Language(args.language)
@@ -760,20 +845,32 @@ def _cmd_build(args):
         lang = Language.AUTO
     domains = _step_cluster(G, root, lang, args.verbose)
 
-    # ── Step 5: API 映射 ──
+    # ── Step 6: API 映射 ──
     api_matches = _step_api_map(root, domains, args.verbose)
 
-    # ── Step 6: 字段映射 ──
+    # ── Step 7: 字段映射 ──
     field_map = _step_field_map(root, api_matches, args.verbose)
 
-    # ── Step 7: LLM 标注 ──
+    # ── Step 8: LLM 标注 ──
     domains = _step_label(domains, extraction, root, args)
 
-    # ── Step 8: Wiki 导出 ──
+    # ── Step 9: Wiki 导出 ──
     output_dir = _step_export(domains, api_matches, field_map, args.output_dir, args.verbose)
 
-    # ── Step 9: 域级可视化 ──
+    # ── Step 10: 域级可视化 ──
     _step_visualize(domains, args.verbose)
+
+    # ── Report: 质量报告 ──
+    report = _write_build_report(
+        root=root,
+        corpus=corpus,
+        light_graph=G,
+        domains=domains,
+        api_matches=api_matches,
+        field_map=field_map,
+        output_dir=Path(args.output_dir),
+        full_graph_written=False,
+    )
 
     elapsed = time.time() - start
     print()
@@ -1295,24 +1392,24 @@ class ExportError(PipelineError):
 
 | 步骤 | 模块 | 失败场景 | 降级行为 | 对后续影响 |
 |:----:|------|---------|---------|-----------|
-| [1/9] | `detect` | 路径不存在、无权限 | **终止构建**，报告错误 | 无后续步骤可执行 |
-| [1/9] | `detect` | 未找到代码文件 | **终止构建**，报告错误 | 无 AST 数据可提取 |
-| [2/9] | `extract` | tree-sitter 解析异常 | **终止构建**，报告错误 | 无 AST 数据 |
-| [2/9] | `extract` | 单文件解析失败 | 跳过该文件，继续解析 | 该文件不会出现在图和分析结果中 |
-| [3/9] | `build` | graphify 内部错误 | **终止构建**，报告错误 | 无图数据，无法聚类 |
-| [4/9] | `cluster` | 无业务节点（`NoBusinessNodesError`） | **终止构建**，报告错误 | 无域数据，后续步骤无法执行 |
-| [4/9] | `cluster` | 锚点太少（`TooFewAnchorsError`） | **终止构建**，报告错误 | 项目可能太小或全是工具类 |
-| [5/9] | `api_mapper` | 前/后端目录不存在 | 静默跳过，返回空列表 | api-docs.md 留空，不影响域 Wiki |
-| [5/9] | `api_mapper` | 单文件解析失败 | 跳过该文件，继续解析 | 该文件对应的 API 不会出现在结果中 |
-| [6/9] | `field_mapper` | Entity/DTO 目录不存在 | 静默跳过，返回空字典 | data-flow.md 留空 |
-| [6/9] | `field_mapper` | 单 Entity/DTO 文件解析失败 | 跳过该文件 | 该类的字段映射缺失 |
-| [7/9] | `label` | API Key 缺失 | 打印警告，所有域保持未标注 | summary.md 使用域 ID 作为名称 |
-| [7/9] | `label` | 单域标注失败 | 该域保持未标注，不影响其他域 | 部分域无 LLM 描述 |
-| [7/9] | `label` | 所有域标注失败 | 打印警告，返回未标注域 | Wiki 无业务描述 |
-| [8/9] | `export` | 磁盘满/无权限 | **终止构建**，报告 `ExportError` | Wiki 文件未写入 |
-| [8/9] | `export` | 单文件写入失败 | 跳过该文件（当前实现不保证） | 单个域缺少部分文件 |
-| [9/9] | `visualize` | 模板渲染错误 | 打印警告，跳过 | 无 domain_graph.html |
-| [9/9] | `visualize` | D3 URL 不可达 | 不影响生成（D3 在浏览器中加载） | HTML 已生成但无交互效果 |
+| [1/10] | `detect` | 路径不存在、无权限 | **终止构建**，报告错误 | 无后续步骤可执行 |
+| [1/10] | `detect` | 未找到代码文件 | **终止构建**，报告错误 | 无 AST 数据可提取 |
+| [2/10] | `extract` | tree-sitter 解析异常 | **终止构建**，报告错误 | 无 AST 数据 |
+| [2/10] | `extract` | 单文件解析失败 | 跳过该文件，继续解析 | 该文件不会出现在图和分析结果中 |
+| [3/10] | `filter/build_light_graph` | 预过滤或轻量图构建错误 | **终止构建**，报告错误 | 无图数据，无法聚类 |
+| [5/10] | `cluster` | 无业务节点（`NoBusinessNodesError`） | **终止构建**，报告错误 | 无域数据，后续步骤无法执行 |
+| [5/10] | `cluster` | 锚点太少（`TooFewAnchorsError`） | **终止构建**，报告错误 | 项目可能太小或全是工具类 |
+| [6/10] | `api_mapper` | 前/后端目录不存在 | 静默跳过，返回空列表 | api-docs.md 留空，不影响域 Wiki |
+| [6/10] | `api_mapper` | 单文件解析失败 | 跳过该文件，继续解析 | 该文件对应的 API 不会出现在结果中 |
+| [7/10] | `field_mapper` | Entity/DTO 目录不存在 | 静默跳过，返回空字典 | data-flow.md 留空 |
+| [7/10] | `field_mapper` | 单 Entity/DTO 文件解析失败 | 跳过该文件 | 该类的字段映射缺失 |
+| [8/10] | `label` | API Key 缺失 | 打印警告，所有域保持未标注 | summary.md 使用域 ID 作为名称 |
+| [8/10] | `label` | 单域标注失败 | 该域保持未标注，不影响其他域 | 部分域无 LLM 描述 |
+| [8/10] | `label` | 所有域标注失败 | 打印警告，返回未标注域 | Wiki 无业务描述 |
+| [9/10] | `export` | 磁盘满/无权限 | **终止构建**，报告 `ExportError` | Wiki 文件未写入 |
+| [9/10] | `export` | 单文件写入失败 | 跳过该文件（当前实现不保证） | 单个域缺少部分文件 |
+| [10/10] | `visualize` | 模板渲染错误 | 打印警告，跳过 | 无 domain_graph.html |
+| [10/10] | `visualize` | D3 URL 不可达 | 不影响生成（D3 在浏览器中加载） | HTML 已生成但无交互效果 |
 
 ### 7.3 降级实现原则
 
@@ -1505,15 +1602,15 @@ def _print_step(step: int, total: int, message: str, start: float | None = None)
 
 | 步骤 | 模块 | OPS 项目 (~5,000 文件) | 中型项目 (~500 文件) | 小型项目 (~100 文件) |
 |:----:|------|:---------------------:|:-------------------:|:-------------------:|
-| [1/9] | `detect` | ~2s | ~0.5s | ~0.2s |
-| [2/9] | `extract` | ~30s | ~5s | ~1s |
-| [3/9] | `build` | ~60s | ~8s | ~2s |
-| [4/9] | `cluster` | ~1s | ~0.5s | ~0.2s |
-| [5/9] | `api_mapper` | ~0.3s | ~0.2s | ~0.1s |
-| [6/9] | `field_mapper` | ~1s | ~0.5s | ~0.1s |
-| [7/9] | `label` | ~30s (25 域, 5 并行) | ~15s (10 域) | ~6s (5 域) |
-| [8/9] | `export` | ~0.5s | ~0.3s | ~0.1s |
-| [9/9] | `visualize` | ~0.1s | ~0.1s | ~0.1s |
+| [1/10] | `detect` | ~2s | ~0.5s | ~0.2s |
+| [2/10] | `extract` | ~30s | ~5s | ~1s |
+| [3/10] | `build` | ~60s | ~8s | ~2s |
+| [5/10] | `cluster` | ~1s | ~0.5s | ~0.2s |
+| [6/10] | `api_mapper` | ~0.3s | ~0.2s | ~0.1s |
+| [7/10] | `field_mapper` | ~1s | ~0.5s | ~0.1s |
+| [8/10] | `label` | ~30s (25 域, 5 并行) | ~15s (10 域) | ~6s (5 域) |
+| [9/10] | `export` | ~0.5s | ~0.3s | ~0.1s |
+| [10/10] | `visualize` | ~0.1s | ~0.1s | ~0.1s |
 | **合计** | | **~95s** | **~15s** | **~4s** |
 
 ### 10.2 增量更新耗时
@@ -1772,7 +1869,7 @@ def test_estimate_cost():
 | 日期 | 变更内容 | 版本 |
 |------|---------|:----:|
 | 2026-06-11 | 初始版本（基于架构文档 v1.0） | v1.0 |
-| 2026-06-15 | 重写：基于实际代码实现更新，补充完整 CLI 接口定义、九步流水线每步详细设计（输入/输出/错误处理/进度输出）、增量更新四阶段流程、目录发现策略、配置加载与合并、错误处理与降级表、委托策略分析（Phase 4+ 标记）、5 个测试用例、性能估计、完整输出文件清单 | v2.0 |
+| 2026-06-15 | 重写：基于实际代码实现更新，补充完整 CLI 接口定义、十步流水线每步详细设计（输入/输出/错误处理/进度输出）、增量更新四阶段流程、目录发现策略、配置加载与合并、错误处理与降级表、委托策略分析（Phase 4+ 标记）、5 个测试用例、性能估计、完整输出文件清单 | v2.0 |
 
 ---
 
@@ -1780,22 +1877,24 @@ def test_estimate_cost():
 
 | 文件 | 生成步骤 | 生成模块 | 与 build/update 关系 |
 |------|:--------:|---------|:-------------------:|
-| `graph.json` | [3/9] | `reuse.build_graph` / `reuse.merge_graph` | 全量/增量都生成 |
-| `domains.json` | [4/9] | `cluster.business_cluster` | 全量生成，增量复用 |
-| `api-map.json` | [5/9] | `api_mapper.build_api_map` | 全量生成，增量有条件重建 |
-| `field-map.json` | [6/9] | `field_mapper.build_field_map` | 全量生成，增量有条件重建 |
-| `wiki/index.md` | [8/9] | `export.export_wiki` | 全量/增量都生成 |
-| `wiki/api-index.md` | [8/9] | `export._write_api_index` | 全量/增量都生成 |
-| `wiki/{domain}/summary.md` | [7/9] | `label._write_summary` | 全量生成，增量不覆盖（除非 `--summary`） |
-| `wiki/{domain}/code-map.md` | [8/9] | `export._write_code_map` | 全量/增量都生成 |
-| `wiki/{domain}/api-docs.md` | [8/9] | `export._write_api_docs` | 全量/增量都生成 |
-| `wiki/{domain}/dependencies.md` | [8/9] | `export._write_dependencies` | 全量/增量都生成 |
-| `wiki/{domain}/data-flow.md` | [8/9] | `export._write_data_flow` | 全量/增量都生成 |
-| `wiki/{domain}/rules.md` | [8/9] | `export`（占位） | 已存在时不覆盖 |
-| `wiki/{domain}/spec.md` | [8/9] | `export`（占位） | 已存在时不覆盖 |
+| `graph-lite.json` | [4/10] | `reuse.build_light_graph` / `reuse.save_graph_artifacts` | 全量必须生成 |
+| `graph.json` | 可选 | `reuse.build_graph` | 仅显式启用完整后端时生成 |
+| `domains.json` | [5/10] | `cluster.business_cluster` | 全量生成，增量复用 |
+| `api-map.json` | [6/10] | `api_mapper.build_api_map` | 全量生成，增量有条件重建 |
+| `field-map.json` | [7/10] | `field_mapper.build_field_map` | 全量生成，空结果写 `{}` |
+| `build-report.json` | report | `pipeline._write_build_report` | 全量必须生成 |
+| `wiki/index.md` | [9/10] | `export.export_wiki` | 全量/增量都生成 |
+| `wiki/api-index.md` | [9/10] | `export._write_api_index` | 全量/增量都生成 |
+| `wiki/{domain}/summary.md` | [8/10] | `label._write_summary` | 全量生成，增量不覆盖（除非 `--summary`） |
+| `wiki/{domain}/code-map.md` | [9/10] | `export._write_code_map` | 全量/增量都生成 |
+| `wiki/{domain}/api-docs.md` | [9/10] | `export._write_api_docs` | 全量/增量都生成 |
+| `wiki/{domain}/dependencies.md` | [9/10] | `export._write_dependencies` | 全量/增量都生成 |
+| `wiki/{domain}/data-flow.md` | [9/10] | `export._write_data_flow` | 全量/增量都生成 |
+| `wiki/{domain}/rules.md` | [9/10] | `export`（占位） | 已存在时不覆盖 |
+| `wiki/{domain}/spec.md` | [9/10] | `export`（占位） | 已存在时不覆盖 |
 | `wiki/CHANGELOG.md` | update | `_write_changelog` | 仅增量生成 |
-| `domain_graph.html` | [9/9] | `visualize.export_domain_html` | 全量/增量都生成 |
-| `manifest.json` | update | `_detect_changes`（Phase 2+） | 仅增量更新使用 |
+| `domain_graph.html` | [10/10] | `visualize.export_domain_html` | 全量/增量都生成 |
+| `manifest.json` | report/build | `reuse.build_manifest` | 全量生成，后续增量使用 |
 
 ## 附录 B：退出码规范
 
@@ -1805,3 +1904,6 @@ def test_estimate_cost():
 | 1 | 通用错误 | 路径不存在、无代码文件、聚类失败 |
 | 2 | 配置错误 | 不支持的参数值、配置文件语法错误 |
 | 130 | 用户中断 | `Ctrl+C` 中断 |
+
+
+

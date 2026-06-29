@@ -11,12 +11,14 @@
 
 ### 1.1 核心职责
 
-将 graphify 构建的 NetworkX 图（~34K 节点）中的业务节点，通过**结构语义聚类**转化为**业务域**（~25 个），并从每个域中提取**业务点**（~500-800 个）。
+将 reuse 层构建的 `graph-lite.json` 轻量图中的业务节点，通过**结构语义聚类**转化为**业务域**（~25 个），并从每个域中提取**业务点**（~500-800 个）。
 
 ```
-输入:  nx.Graph (34,000 节点, 34 类边关系)
+输入:  nx.Graph (graph-lite.json, 已经过 build 前预过滤)
 输出:  list[Domain] (~25 个业务域, 每域含 ~20-50 个锚点和 ~20-40 个业务点)
 ```
+
+> 重要边界：大项目可承载性由 reuse 层的 `filter_extraction_for_wiki()` 首先保证。`cluster.filter_noise()` 是第二道防线，用于处理残余噪音和兼容旧图输入，不承担“从 20 万节点完整大图中降噪”的主要职责。
 
 ### 1.2 为什么聚类是 Graph-Wiki 的核心创新
 
@@ -42,7 +44,7 @@ Graph-Wiki 与 Graphify 的根本区别在于聚类方法：
 ### 1.3 与其他模块的关系
 
 ```
-上游: reuse.py (detect → extract → build) → nx.Graph
+上游: reuse.py (detect → extract → filter_extraction_for_wiki → build_light_graph) → nx.Graph
                               │
                               ▼
                        cluster.py          ← 本模块
@@ -86,7 +88,7 @@ def business_cluster(
 
 | 参数 | 类型 | 默认值 | 含义 |
 |------|------|--------|------|
-| `G` | `nx.Graph` | 必填 | graphify build() 输出的 NetworkX 图（无向图） |
+| `G` | `nx.Graph` | 必填 | reuse.build_light_graph() 输出的轻量 NetworkX 图（无向图） |
 | `root_path` | `Path` | 必填 | 项目根目录，用于语言检测和路径解析 |
 | `language` | `Language` | `AUTO` | 项目语言。AUTO 时自动检测，检测失败默认为 JAVA |
 | `merge_threshold` | `float` | `0.3` | 域合并密度阈值 (0-1)。越大越不易合并，越小越容易合并 |
@@ -106,8 +108,8 @@ def business_cluster(
 ```python
 def filter_noise(G: nx.Graph) -> list[dict]
     # Step 1: 噪音过滤
-    # 输入: nx.Graph (34K 节点)
-    # 输出: list[dict] (~2.8K 业务节点)
+    # 输入: nx.Graph (graph-lite.json，已预过滤)
+    # 输出: list[dict] (业务节点)
 
 def extract_anchors(business_nodes: list[dict]) -> list[dict]
     # Step 2: 锚点提取
@@ -134,11 +136,25 @@ def extract_business_points(domains: list[Domain], anchors: list[dict], G: nx.Gr
 
 ## 3. 五步法完整描述
 
+### 3.0 大项目规模约束
+
+`business_cluster()` 默认输入是 `graph-lite.json`。在进入聚类前，pipeline 应记录轻量图规模，并在 `build-report.json` 中输出：
+
+| 指标 | v1.0 建议阈值 | 超限处理 |
+|------|:--:|------|
+| light graph 节点 | < 20,000 | warning；提示预过滤规则不足 |
+| light graph 边 | < 200,000 | warning；提示 calls/imports 仍过密 |
+| 业务域数量 | 5-50 | 超出则 warning；小项目可低于 5 |
+| 单域锚点数 | 3-300 | 超出则 warning；提示域过粗或未合并 |
+| 单域业务点数 | < 300 | 超出则 warning；提示需要子域或业务点过滤 |
+
+这些阈值不是硬错误，目的是避免重新落入 Graphify 全图毛球问题：节点越多并不代表理解越好，Graph-Wiki 的价值来自压缩到人类可读的业务域。
+
 ### 3.1 总体流程
 
 ```
                     ┌──────────────┐
-                    │  nx.Graph    │  ~34,000 节点
+                    │  nx.Graph    │  graph-lite.json
                     └──────┬───────┘
                            │
               ┌────────────▼────────────┐
@@ -146,7 +162,7 @@ def extract_business_points(domains: list[Domain], anchors: list[dict], G: nx.Gr
               │  排除: 噪音/测试/        │
               │  JDK 类型/Config/Util   │
               └────────────┬────────────┘
-                           │ ~2,800 业务节点
+                           │ 业务节点
               ┌────────────▼────────────┐
               │  extract_anchors()      │  Step 2
               │  保留: CONTROLLER/      │
@@ -174,9 +190,11 @@ def extract_business_points(domains: list[Domain], anchors: list[dict], G: nx.Gr
 
 ### 3.2 Step 1: filter_noise — 噪音过滤
 
-**输入**：`nx.Graph` 全量图（约 34,000 节点）
+**输入**：`nx.Graph` 轻量图（来自 `graph-lite.json`）。旧版本完整图也可兼容，但不作为 v1.0 默认路径。
 
-**输出**：`list[dict]` 业务节点列表（约 2,800 节点）
+**输出**：`list[dict]` 业务节点列表。
+
+**定位**：二次防线。主要噪音应已在 reuse 层的 `filter_extraction_for_wiki()` 中被剔除；本步骤负责统一角色分类、兜底排除测试/工具/配置节点，并兼容历史完整图输入。
 
 **过滤规则链**（严格按优先级顺序，任一规则命中即排除）：
 
@@ -1100,9 +1118,39 @@ if not label and not source:
 
 ---
 
-## 13. 测试用例
+## 13. 聚类质量指标
 
-### 13.1 测试 Java 包路径域键提取
+聚类输出必须进入 `build-report.json`，供集成测试和人工复盘使用。v1.0 至少记录以下指标：
+
+| 指标 | 计算方式 | 目标 |
+|------|----------|------|
+| `domain_count` | `len(domains)` | 小项目可为 1；500 文件级建议 5-50 |
+| `business_point_count` | `sum(len(d.business_points) for d in domains)` | 应大于 0，且单域不应异常爆炸 |
+| `technical_name_ratio` | 技术域名数量 / 域总数 | 500 文件级应 < 30% |
+| `tiny_domain_ratio` | 锚点数 < 3 的域 / 域总数 | 500 文件级应 < 20% |
+| `max_domain_business_points` | 单域最大业务点数 | 建议 < 300 |
+| `api_uncategorized_ratio` | 由 api_mapper 提供 | 小项目 < 30%，中型前后端 < 20% |
+| `dependency_density` | 域间依赖边数 / 域数 | 过高提示域边界过碎或公共工具未过滤 |
+
+技术域名判定：
+
+- 明确技术层：`controller`、`service`、`mapper`、`dao`、`common`、`utils`、`components`
+- 版本/协议层：`api`、`v1`、`v2`、`web`
+- 业务缩写但未标注：如 `svn`、`repo` 记为 warning，不直接判 fatal
+
+质量状态建议：
+
+| 状态 | 条件 |
+|------|------|
+| `passed` | 关键阈值均通过 |
+| `warning` | build 成功，但存在技术域名或小域偏多 |
+| `failed` | 无业务点、域数量异常、或 API 大量未分类导致 Wiki 不适合交付 |
+
+---
+
+## 14. 测试用例
+
+### 14.1 测试 Java 包路径域键提取
 
 ```python
 def test_extract_domain_key_java():
@@ -1124,7 +1172,7 @@ def test_extract_domain_key_java():
     assert extract_domain_key("", Language.JAVA) is None
 ```
 
-### 13.2 测试 JS/TS 域键提取
+### 14.2 测试 JS/TS 域键提取
 
 ```python
 def test_extract_domain_key_javascript():
@@ -1145,7 +1193,7 @@ def test_extract_domain_key_javascript():
     assert extract_domain_key("", Language.JAVASCRIPT) is None
 ```
 
-### 13.3 测试预定义合并规则
+### 14.3 测试预定义合并规则
 
 ```python
 def test_apply_merge_rules():
@@ -1176,7 +1224,7 @@ def test_apply_merge_rules():
     assert "supplier" in merged
 ```
 
-### 13.4 测试 import 密度合并
+### 14.4 测试 import 密度合并
 
 ```python
 def test_import_density_merge():
@@ -1218,7 +1266,7 @@ def test_import_density_merge():
     assert len(domains2) == 2  # 保留两个域
 ```
 
-### 13.5 测试跨域调用分析
+### 14.5 测试跨域调用分析
 
 ```python
 def test_analyze_cross_domain():
@@ -1266,7 +1314,7 @@ def test_analyze_cross_domain():
     assert "domain_a" not in cross
 ```
 
-### 13.6 测试噪音过滤
+### 14.6 测试噪音过滤
 
 ```python
 def test_filter_noise_removes_non_code():
@@ -1301,7 +1349,7 @@ def test_filter_noise_removes_non_code():
     assert "n5" not in ids  # 测试路径排除
 ```
 
-### 13.7 测试角色分类（多语言）
+### 14.7 测试角色分类（多语言）
 
 ```python
 def test_classify_role_multi_language():
@@ -1334,7 +1382,7 @@ def test_classify_role_multi_language():
     assert classify_role({"label": "bin_model.py", "source_file": "..."}) == NodeRole.ENTITY
 ```
 
-### 13.8 端到端：完整从图到域的最小项目
+### 14.8 端到端：完整从图到域的最小项目
 
 ```python
 def test_business_cluster_minimal_java_project():
@@ -1386,7 +1434,7 @@ def test_business_cluster_minimal_java_project():
 
 ---
 
-## 14. 变更记录
+## 15. 变更记录
 
 | 日期 | 变更内容 | 版本 |
 |------|---------|:----:|
@@ -1435,3 +1483,5 @@ Phase 4 需要 A/B 验证聚类质量，对比方法：
    - 域内类与 ground truth 的 Jaccard 相似度
    - 人工评估：域命名是否可理解（1-5 分）
    - 处理时间（含全量 vs 增量）
+
+

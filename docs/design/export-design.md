@@ -110,7 +110,41 @@ def export_wiki(
     """
 ```
 
-### 2.2 私有辅助函数
+### 2.2 质量评估函数
+
+```python
+def evaluate_wiki_quality(
+    domains: list[Domain],
+    api_matches: list[ApiMatch],
+    field_map: dict,
+) -> dict:
+    """评估 Wiki 输出是否具备交付价值。
+
+    该函数不读取 Markdown 文件，而是基于 export 的输入数据计算质量指标，
+    供 pipeline 写入 build-report.json。
+
+    返回:
+        {
+          "domains": {
+            "count": 12,
+            "business_points": 420,
+            "technical_name_ratio": 0.18,
+            "max_domain_business_points": 88
+          },
+          "api": {
+            "total": 230,
+            "uncategorized": 31,
+            "uncategorized_ratio": 0.13
+          },
+          "quality": {
+            "status": "passed",
+            "issues": []
+          }
+        }
+    """
+```
+
+### 2.3 私有辅助函数
 
 ```python
 def _write_index(domains: list[Domain], output_dir: Path) -> None:
@@ -1195,9 +1229,79 @@ def _sanitize_dir_name(name: str) -> str:
 
 ---
 
-## 13. 测试用例
+## 13. Wiki 输出质量验收
 
-### 13.1 测试基本 Wiki 生成
+`export_wiki()` 的成功只代表文件写入成功，不代表 Wiki 已经具备业务导航价值。v1.0 必须通过 `evaluate_wiki_quality()` 输出结构化质量结果，由 pipeline 写入 `build-report.json`。
+
+### 13.1 验收指标
+
+| 指标 | 小项目 | 500 文件级项目 | 失败/警告含义 |
+|------|:--:|:--:|------|
+| build 成功 | 必须 | 必须 | 否则无 Wiki 可用 |
+| API 未分类比例 | < 30% | < 20% | API 文档无法按业务域导航 |
+| 技术域名比例 | < 50% | < 30% | 域划分仍停留在目录/技术层 |
+| 每个核心域有 code-map | 必须 | 必须 | 无法从业务域定位代码 |
+| 每个核心域有 summary 或待标注提示 | 必须 | 必须 | 人类解释层缺失 |
+| 单域业务点上限 | < 150 | < 300 | 域过粗或业务点过滤不足 |
+| 生成 build-report.json | 必须 | 必须 | 无法自动回归 |
+
+### 13.2 技术域名判定
+
+```python
+TECHNICAL_DOMAIN_NAMES = {
+    "controller", "controllers",
+    "service", "services", "service-impl",
+    "mapper", "dao",
+    "common", "utils", "util", "components",
+    "api", "web", "config", "handler",
+    "v1", "v2", "v3", "v4", "v5",
+}
+```
+
+判定规则：
+
+- 命中 `TECHNICAL_DOMAIN_NAMES` → 计入 `technical_name_ratio`
+- 纯业务缩写如 `svn`、`repo` → 计为 warning，不直接 fatal
+- 已有 `display_name` 且不是技术层名 → 不计入技术域名
+
+### 13.3 质量状态
+
+| 状态 | 条件 |
+|------|------|
+| `passed` | 必须产物完整，API 未分类比例和技术域名比例通过 |
+| `warning` | build 成功，但存在可接受问题，如 summary 缺失、业务缩写未标注 |
+| `failed` | build 成功但不适合交付，如 API 大量未分类、无业务点、核心域缺少 code-map |
+
+### 13.4 输出示例
+
+```json
+{
+  "domains": {
+    "count": 1,
+    "business_points": 77,
+    "technical_name_ratio": 1.0,
+    "max_domain_business_points": 77
+  },
+  "api": {
+    "total": 46,
+    "uncategorized": 46,
+    "uncategorized_ratio": 1.0
+  },
+  "quality": {
+    "status": "failed",
+    "issues": [
+      "api_uncategorized_ratio_too_high",
+      "domain_name_is_technical"
+    ]
+  }
+}
+```
+
+---
+
+## 14. 测试用例
+
+### 14.1 测试基本 Wiki 生成
 
 ```python
 def test_export_wiki_basic(tmp_path):
@@ -1341,7 +1445,7 @@ def test_export_wiki_basic(tmp_path):
     assert not (output_dir / "库存管理" / "data-flow.md").exists()
 ```
 
-### 13.2 测试幂等性
+### 14.2 测试幂等性
 
 ```python
 def test_export_wiki_idempotent(tmp_path):
@@ -1395,7 +1499,7 @@ def test_export_wiki_idempotent(tmp_path):
     assert (out1 / "测试域" / "code-map.md").exists()
 ```
 
-### 13.3 测试空 ApiMatch 和空 field_map
+### 14.3 测试空 ApiMatch 和空 field_map
 
 ```python
 def test_export_empty_api_and_field_map(tmp_path):
@@ -1442,7 +1546,7 @@ def test_export_empty_api_and_field_map(tmp_path):
     assert (output_dir / "测试域" / "spec.md").exists()
 ```
 
-### 13.4 测试 index.md 域名 [[双向链接]]
+### 14.4 测试 index.md 域名 [[双向链接]]
 
 ```python
 def test_index_bidirectional_links(tmp_path):
@@ -1496,7 +1600,7 @@ def test_index_bidirectional_links(tmp_path):
     assert "[[inventory]]" not in content, "不应使用 ID 作为链接显示文本"
 ```
 
-### 13.5 测试错误处理
+### 14.5 测试错误处理
 
 ```python
 def test_export_error_handling(tmp_path):
@@ -1551,9 +1655,9 @@ def test_export_error_handling(tmp_path):
 
 ---
 
-## 14. 增量更新影响
+## 15. 增量更新影响
 
-### 14.1 增量更新中各文件的处理
+### 15.1 增量更新中各文件的处理
 
 | 文件 | 全量 build | `--update`（无文件变更） | `--update`（有文件变更） |
 |------|:----------:|:-----------------------:|:-----------------------:|
@@ -1568,14 +1672,15 @@ def test_export_error_handling(tmp_path):
 | `spec.md` | 仅首次创建 | 不创建（已存在） | 不覆盖 |
 | `er-diagram.md` | 仅首次创建 | 不创建（已存在） | 不覆盖 |
 
-### 14.2 增量更新的复杂度
+### 15.2 增量更新的复杂度
 
 增量更新在 pipeline 层面控制，export 本身不感知"增量"，而是保持"全量生成但保护人工文件"的策略。pipeline 判断哪些模块需要重新执行，然后将新数据完整传入 export。
 
 ---
 
-## 15. 变更记录
+## 16. 变更记录
 
 | 日期 | 变更内容 | 原因 |
 |------|---------|------|
 | 2026-06-15 | 初始版本 | 基于架构设计文档 v1.0 §4.4、§6 和现有代码实现 |
+
