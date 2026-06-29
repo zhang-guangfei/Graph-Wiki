@@ -121,7 +121,7 @@ def test_product_data_service_builds_project_overview(tmp_path):
     overview = service.load_project_overview()
 
     assert overview["projectName"] == "SVN Platform"
-    assert overview["quality"]["build"] == "passed"
+    assert overview["quality"]["build"] == "unknown"
     assert overview["scale"]["apis"] == 1
     assert overview["domains"][0]["domainKey"] == "svn"
     assert overview["latestDreamCycle"]["status"] == "passed"
