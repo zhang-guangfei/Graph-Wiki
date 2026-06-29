@@ -95,7 +95,17 @@ def test_domain_read_model_contract_has_flow_rule_field_rule_and_evidence(tmp_pa
     assert domain["flows"] and domain["flows"][0]["steps"]
     assert domain["rules"] and domain["rules"][0]["review"]["state"] == "machine_draft"
     assert domain["fieldRules"] and domain["fieldRules"][0]["fieldId"] == "orders.customer_id"
-    assert domain["fieldRules"][0]["mapping"] == {
+    field_rule = domain["fieldRules"][0]
+    assert [item["layer"] for item in field_rule["chain"]] == ["frontend", "api", "controller", "dto", "entity", "db"]
+    assert all(item["ref"] in field_rule["evidenceRefs"] for item in field_rule["chain"])
+    assert all(item["ref"] in model["evidenceIndex"] for item in field_rule["chain"])
+    assert field_rule["status"] == "ready"
+    assert field_rule["chainCompleteness"] == {
+        "presentLayers": ["api", "controller", "db", "dto", "entity", "frontend"],
+        "missingRequiredLayers": [],
+        "missingOptionalLayers": [],
+    }
+    assert field_rule["mapping"] == {
         "api": {"method": "POST", "url": "/orders", "functionName": "createOrder"},
         "dto": {
             "className": "CreateOrderRequest",
@@ -110,7 +120,7 @@ def test_domain_read_model_contract_has_flow_rule_field_rule_and_evidence(tmp_pa
         "database": {"table": "orders", "column": "customer_id"},
         "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
     }
-    assert domain["fieldRules"][0]["chainCompleteness"]["missingRequiredLayers"] == []
+    assert field_rule["chainCompleteness"]["missingRequiredLayers"] == []
 
     claim_refs = []
     for flow in domain["flows"]:

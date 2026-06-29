@@ -4,6 +4,7 @@ import json
 import time
 import shutil
 from pathlib import Path
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -13,6 +14,7 @@ from graph_wiki.api_mapper import parse_frontend_apis, trace_frontend_callers
 from graph_wiki.models import Language
 from graph_wiki.export import export_wiki
 from graph_wiki.visualize import export_domain_html
+from graph_wiki import pipeline
 
 
 def test_svn_full_pipeline():
@@ -89,3 +91,43 @@ def test_svn_full_pipeline():
 if __name__ == "__main__":
     test_svn_full_pipeline()
     print("\nAll integration tests passed.")
+
+
+def test_svn_platform_pipeline_build_emits_domain_read_model_and_workbench_smoke(tmp_path: Path):
+    """Current release-gate smoke: full graph-wiki build emits v1 product artifacts."""
+    root = Path(__file__).parent.parent / "tests" / "svn-platform"
+    output_dir = tmp_path / "svn-output"
+
+    pipeline._cmd_build(SimpleNamespace(
+        path=root,
+        name="SVN Platform Fixture",
+        language="javascript",
+        llm_backend="claude",
+        no_llm=True,
+        output_dir=output_dir,
+    ))
+
+    domain_read_model = pipeline._read_json(output_dir / "domain-read-model.json")
+    workbench = pipeline._read_json(output_dir / "workbench-data.json")
+    report = pipeline._read_json(output_dir / "build-report.json")
+
+    assert report["build"]["status"] == "passed"
+    assert report["productQuality"]["deepReadingStatus"] != "failed"
+    assert domain_read_model["schema"]["version"] == "domain-read-model-v1"
+    assert workbench["schema"] == {
+        "version": "graph-wiki-workbench-v1",
+        "source": "domain-read-model.json",
+    }
+    assert (output_dir / "wiki" / "index.md").exists()
+    assert (output_dir / "domain_graph.html").exists()
+
+    core_domains = [domain for domain in domain_read_model["domains"] if domain["core"]]
+    assert core_domains
+    evidence_index = domain_read_model["evidenceIndex"]
+    for domain in core_domains:
+        for flow in domain["flows"]:
+            assert flow["evidenceRefs"]
+            assert all(ref in evidence_index for ref in flow["evidenceRefs"])
+        for rule in domain["rules"]:
+            assert rule["evidenceRefs"]
+            assert all(ref in evidence_index for ref in rule["evidenceRefs"])

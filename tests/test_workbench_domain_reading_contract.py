@@ -44,6 +44,11 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
                             "database": {"table": "orders", "column": "customer_id"},
                             "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
                         },
+                        "chainCompleteness": {
+                            "presentLayers": ["api", "db"],
+                            "missingRequiredLayers": [],
+                            "missingOptionalLayers": ["frontend", "controller", "dto", "entity"],
+                        },
                         "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders"],
                         "status": "ready",
                         "confidence": 1,
@@ -68,6 +73,12 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
     assert detail["flows"][0]["steps"][0]["evidenceRefs"] == ["api:POST:/orders"]
     assert detail["rules"]["items"][0]["statement"] == "创建订单必须调用后端。"
     assert detail["fieldRules"][0]["fieldId"] == "orders.customer_id"
+    assert detail["fieldRules"][0]["mapping"]["dto"] == {
+        "className": "CreateOrderRequest",
+        "field": "customerId",
+        "sourcePath": "backend/dto/CreateOrderRequest.java",
+    }
+    assert detail["fieldRules"][0]["chainCompleteness"]["missingOptionalLayers"] == ["frontend", "controller", "dto", "entity"]
     assert bundle["apis"][0]["apiId"] == "api:POST:/orders"
     assert bundle["fields"][0]["dto"] == {"className": "CreateOrderRequest", "field": "customerId"}
     assert bundle["fields"][0]["entity"] == {"className": "OrderEntity", "field": "customerId"}
