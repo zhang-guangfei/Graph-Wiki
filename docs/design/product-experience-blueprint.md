@@ -1,16 +1,17 @@
-# Product Experience Blueprint：Graph-Wiki 工作台 v0
+# Product Experience Blueprint：Graph-Wiki 工作台 v1
 
 日期：2026-06-26
+更新：2026-06-29（Domain Read Model v1 产品路径修订）
 
 ## 产品定位
 
-Graph-Wiki 工作台 v0 是一个面向研发、架构师、项目负责人和 Agent 的代码业务知识库浏览器。
+Graph-Wiki 工作台 v1 是一个面向研发、架构师、项目负责人和 Agent 的代码业务知识库浏览器。
 
 它不是源码搜索引擎，也不是普通 Markdown 文档站。它的核心价值是把代码仓库编译成业务域、API、字段流、影响分析和长期维护摘要，让用户能从业务问题进入代码证据。
 
 ## 前端技术路线
 
-工作台 v0 采用 **Vue 3 + Vite + TypeScript**。
+工作台 v1 采用 **Vue 3 + Vite + TypeScript**。
 
 选择理由：
 
@@ -20,19 +21,23 @@ Graph-Wiki 工作台 v0 是一个面向研发、架构师、项目负责人和 A
 - 组件化能支撑搜索、筛选、详情页、证据下钻和维护摘要等交互。
 - 当前项目已经有大量 Vue/SVN Platform 样本语境，前端设计和验证更顺手。
 
-首版数据模式：
+v1 数据模式：
 
 ```text
 Graph-Wiki build
         ↓
+domain-read-model.json        # v1 产品真相源
+        ↓
 ProductDataService
         ↓
-workbench-data.json
+workbench-data.json           # Vue 静态数据包
         ↓
 Vue 3 Workbench
 ```
 
-关键原则：**Wiki 每次重新编译，只替换 `workbench-data.json`，不修改前端代码。**
+关键原则：**Wiki 每次重新编译，只替换 `domain-read-model.json` / `workbench-data.json` 这一组数据产物，不修改前端代码。**
+
+旧产物（`domains.json`、`api-map.json`、`field-map.json` 等）仍可服务总览、索引、诊断和降级兼容，但业务域深度阅读主路径必须从 `domain-read-model.json` 派生。
 
 只有当前端数据契约本身发生变化时，才需要调整前端组件。
 
@@ -161,6 +166,29 @@ Graph-Wiki Workbench
 ```
 
 ## 页面蓝图
+
+
+### 0. Domain Deep Reading（v1 主路径）
+
+目标：用户打开一个业务域后，不需要阅读 raw JSON，也能按“流程 → 规则 → 字段规则 → 证据”理解业务。
+
+布局：
+
+- 顶部：业务域名称、摘要、产品质量状态。
+- 主区域：业务流程卡片，每个 step 展示关联规则与证据 chip。
+- 字段区域：字段规则与 frontend/api/controller/dto/entity/db chain。
+- 证据区域：解析后的 evidence label、sourcePath/path、confidence/status。
+
+数据约束：
+
+- `DomainDetail.flows[]`、`rules.items[]`、`fieldRules[]` 来自 `domain-read-model.json`。
+- `deepReadingPath.order` 固定为 `["flows", "rules", "evidence"]`。
+- 没有字段规则时必须展示 emptyState 或 warning，不能伪造完整链路。
+
+验收：
+
+- `tests/test_workbench_domain_reading_contract.py` 锁定 DTO 派生关系。
+- `workbench` TypeScript build 通过，证明 UI 与 DTO 契约未断裂。
 
 ### 1. Project Overview
 

@@ -38,9 +38,9 @@ tests/fixtures/fullstack-enterprise/
 | A7 | 证据可解析 | evidenceRefs 均能解析到 evidenceIndex 或源码路径 | pytest | blocker |
 | A8 | 字段链路完整度 | 存在层级必须被追踪；缺层必须 partialReason | pytest | high |
 | A9 | Workbench 派生 | workbench-data domain view 来自 domain-read-model | pytest / DTO 断言 | blocker |
-| A10 | UI 顺序 | domain page 按 flow → rules → evidence 呈现 | DOM/static render | high |
+| A10 | UI 顺序 | domain page 按 flow → rules → evidence 呈现，Workbench build 不破坏 DTO | DOM/static render / `npm run build` | high |
 | A11 | 质量报告 | build 与 productQuality 分离 | pytest | blocker |
-| A12 | 回归 | 旧测试通过或迁移理由明确 | pytest + migration note | high |
+| A12 | 回归 | 旧测试通过或迁移理由明确；Phase 3/4/5 failure 不得被误报为产品 passed | pytest + migration note + build-report 检查 | high |
 
 ---
 
@@ -75,10 +75,12 @@ tests/fixtures/fullstack-enterprise/
 
 ```text
 tests/test_domain_read_model_contract.py
-tests/test_domain_read_model_evidence.py
 tests/test_fullstack_enterprise_acceptance.py
 tests/test_product_quality_report.py
 tests/test_workbench_domain_reading_contract.py
+
+# TODO: 如需把 EvidenceRef 路径/符号解析拆成独立测试，可新增：
+# tests/test_domain_read_model_evidence.py
 ```
 
 ---
@@ -87,9 +89,10 @@ tests/test_workbench_domain_reading_contract.py
 
 ```bash
 . .venv/bin/activate
-python -m pytest -q
-graph-wiki build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/fullstack-enterprise
+python3 -m pytest -q
 cd workbench && npm ci && npm run build
+python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/fullstack-enterprise
+python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
 ```
 
 ---
@@ -100,3 +103,9 @@ cd workbench && npm ci && npm run build
 - 证据引用模型：`EvidenceRef`
 - 核心产品输入：`domain-read-model.json`
 - 产品质量状态：`productQuality.deepReadingStatus`
+
+## 7. 当前已知限制（2026-06-29）
+
+- `EvidenceRef` 当前已验证格式和 `evidenceIndex` 引用存在性；`source:<path>#<symbol>` 的符号级精确定位仍需后续独立 gate 补强。
+- Workbench 当前已展示 flow / rule chip / field rule chain；最终“证据面板”还需要继续增强为可筛选、可定位的独立面板。
+- `build.status=passed` 只代表流水线执行成功；Phase 3/4/5 acceptance 或 `productQuality` warning/failed 必须单独展示，不能被发布说明省略。
