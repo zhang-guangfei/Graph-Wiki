@@ -65,6 +65,7 @@ def test_cmd_build_writes_v1_artifacts(tmp_path, monkeypatch):
         "api-map.json",
         "field-map.json",
         "build-report.json",
+        "domain-read-model.json",
         "workbench-data.json",
         "manifest.json",
         "wiki/index.md",
@@ -72,3 +73,16 @@ def test_cmd_build_writes_v1_artifacts(tmp_path, monkeypatch):
         "domain_graph.html",
     ]:
         assert (tmp_path / artifact).exists(), artifact
+
+    domain_read_model = pipeline._read_json(tmp_path / "domain-read-model.json")
+    build_report = pipeline._read_json(tmp_path / "build-report.json")
+    workbench_data = pipeline._read_json(tmp_path / "workbench-data.json")
+
+    assert domain_read_model["schema"]["version"] == "domain-read-model-v1"
+    assert build_report["build"]["status"] == "passed"
+    assert build_report["productQuality"] == domain_read_model["quality"]
+    assert workbench_data["schema"] == {
+        "version": "graph-wiki-workbench-v1",
+        "source": "domain-read-model.json",
+    }
+    assert workbench_data["domainDetails"]["order"]["deepReadingPath"]["order"] == ["flows", "rules", "evidence"]
