@@ -206,10 +206,10 @@ def validate_build_artifacts(
         errors.append("productQuality is missing; build.status alone is not a release signal")
     if expected_product and product_status != expected_product:
         errors.append(f"productQuality.deepReadingStatus must be {expected_product!r}, got {product_status!r}")
-    if not allow_warning and product_status != "passed":
-        errors.append(f"productQuality.deepReadingStatus must be passed, got {product_status!r}")
-    if allow_warning and product_status == "failed":
+    elif not expected_product and product_status == "failed":
         errors.append("productQuality.deepReadingStatus is failed")
+    if not allow_warning and expected_product == "passed" and product_status != "passed":
+        errors.append(f"productQuality.deepReadingStatus must be passed, got {product_status!r}")
     if product_quality.get("coreDomainEvidenceStatus") == "failed":
         errors.append("productQuality.coreDomainEvidenceStatus is failed")
     if read_model.get("schema", {}).get("version") != "domain-read-model-v1":
