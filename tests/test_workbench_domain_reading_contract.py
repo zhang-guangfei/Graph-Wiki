@@ -31,7 +31,7 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
                     }
                 ],
                 "rules": [{"ruleId": "r1", "statement": "创建订单必须调用后端。", "flowRefs": ["order.createOrder"], "evidenceRefs": ["api:POST:/orders"], "status": "ready", "confidence": 1}],
-                "fieldRules": [{"fieldRuleId": "fr1", "fieldId": "orders.customer_id", "statement": "customer_id 字段链路。", "chain": [{"layer": "db", "ref": "field:orders.customer_id"}], "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders"], "status": "ready", "confidence": 1, "partialReason": ""}],
+                "fieldRules": [{"fieldRuleId": "fr1", "fieldId": "orders.customer_id", "statement": "customer_id 字段链路。", "chain": [{"layer": "frontend", "ref": "source:frontend/src/api/order.js#createOrder"}, {"layer": "dto", "ref": "source:backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java#customerId"}, {"layer": "entity", "ref": "source:backend/src/main/java/com/acme/order/entity/OrderEntity.java#customerId"}, {"layer": "db", "ref": "field:orders.customer_id"}], "api": {"method": "POST", "url": "/orders", "functionName": "createOrder"}, "dto": {"className": "CreateOrderRequest", "field": "customerId"}, "entity": {"className": "OrderEntity", "field": "customerId"}, "frontendCallers": ["frontend/src/api/order.js"], "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders", "source:frontend/src/api/order.js#createOrder"], "status": "ready", "confidence": 1, "partialReason": ""}],
                 "evidenceRefs": ["api:POST:/orders", "source:frontend/src/api/order.js#createOrder"],
                 "quality": {"deepReadingStatus": "passed"},
             }
@@ -50,3 +50,8 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
     assert detail["flows"][0]["steps"][0]["evidenceRefs"] == ["api:POST:/orders"]
     assert detail["rules"]["items"][0]["statement"] == "创建订单必须调用后端。"
     assert detail["fieldRules"][0]["fieldId"] == "orders.customer_id"
+    field_item = detail["fieldFlows"]["items"][0]
+    assert field_item["api"] == {"method": "POST", "url": "/orders", "functionName": "createOrder"}
+    assert field_item["dto"] == {"className": "CreateOrderRequest", "field": "customerId"}
+    assert field_item["entity"] == {"className": "OrderEntity", "field": "customerId"}
+    assert field_item["frontendCallers"] == ["frontend/src/api/order.js"]

@@ -95,6 +95,11 @@ def test_domain_read_model_contract_has_flow_rule_field_rule_and_evidence(tmp_pa
     assert domain["flows"] and domain["flows"][0]["steps"]
     assert domain["rules"] and domain["rules"][0]["review"]["state"] == "machine_draft"
     assert domain["fieldRules"] and domain["fieldRules"][0]["fieldId"] == "orders.customer_id"
+    field_rule = domain["fieldRules"][0]
+    assert field_rule["api"] == {"method": "POST", "url": "/orders", "functionName": "createOrder"}
+    assert field_rule["dto"] == {"className": "CreateOrderRequest", "field": "customerId"}
+    assert field_rule["entity"] == {"className": "OrderEntity", "field": "customerId"}
+    assert field_rule["frontendCallers"] == ["frontend/src/views/order/CreateOrder.vue"]
 
     claim_refs = []
     for flow in domain["flows"]:

@@ -376,6 +376,20 @@ def _build_field_rules(
             "fieldId": f"{table}.{column}",
             "statement": _field_rule_statement(entry, table, column),
             "chain": chain,
+            "api": {
+                "method": api.get("method", ""),
+                "url": api.get("url", api_url),
+                "functionName": api.get("function") or entry.get("api_function", ""),
+            },
+            "dto": {
+                "className": entry.get("dto_class", ""),
+                "field": entry.get("dto_field", ""),
+            },
+            "entity": {
+                "className": entry.get("entity_class", ""),
+                "field": entry.get("entity_field", ""),
+            },
+            "frontendCallers": [str(caller) for caller in callers],
             "evidenceRefs": _unique(evidence_refs),
             "status": status,
             "confidence": round(confidence, 4),
