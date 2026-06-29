@@ -427,7 +427,6 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
     rules = domain.get("rules", [])
     field_rules = domain.get("fieldRules", [])
     status = domain.get("quality", {}).get("deepReadingStatus", "unknown")
-    field_flow_status = _field_flow_status(field_rules)
     flow_points = [_flow_to_business_point(domain_key, flow, evidence_index) for flow in flows]
     return {
         "domainKey": domain_key,
@@ -460,7 +459,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
             "wikiPage": f"wiki/{domain_key}/rules.md",
             "items": rules,
         },
-        "spec": {"status": "ready" if flows or rules else "missing", "wikiPage": f"wiki/{domain_key}/spec.md"},
+        "spec": {"status": "placeholder", "wikiPage": f"wiki/{domain_key}/spec.md"},
         "deepReadingPath": {
             "order": ["flows", "rules", "evidence"],
             "flowCount": len(flows),
