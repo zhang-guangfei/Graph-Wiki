@@ -22,7 +22,7 @@ Domain Read Model v1 主链路保持可交付：`domain-read-model.json` 是 Wor
    - `workbench npm ci && npm run build`
    - `tests/svn-platform npm install --no-audit --no-fund && npm run build`
    - 校验 `build.status` 与 `productQuality.deepReadingStatus` 不混淆。
-2. 新增 GitHub Actions 工作流：`.github/workflows/release-quality-gate.yml`。
+2. GitHub Actions 统一入口为：`.github/workflows/ci.yml`。
 3. CLI 成功输出改为分别打印 `build.status`、`artifactStatus`、`productQuality.deepReadingStatus`。
 4. `ProductDataService` 不再用旧 `quality.status` 回退填充 `quality.build`，避免前端总览重新耦合构建状态与产物质量。
 
