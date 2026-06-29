@@ -1,14 +1,34 @@
-# Frontend Data Contract：Graph-Wiki 工作台 v0
+# Frontend Data Contract：Graph-Wiki 工作台 v1
 
-日期：2026-06-26
+日期：2026-06-26  
+更新：2026-06-29（Domain Read Model v1 兼容修订）
 
 ## 目标
 
-本文定义 Graph-Wiki 产品化工作台 v0 的前端数据契约。
+本文定义 Graph-Wiki 产品化工作台 v1 的前端数据契约，并保留 v0 降级兼容边界。
 
-目标不是把现有 JSON 原样暴露给前端，而是把 `domains.json`、`api-map.json`、`field-map.json`、`ontology.json`、`impact-analysis.json`、`dream-cycle-report.json`、`build-report.json` 聚合成稳定、业务化、可审计的页面 DTO。
+目标不是把现有 JSON 原样暴露给前端。v1 中 Workbench 的业务域深度阅读页必须以 `domain-read-model.json` 为产品真相源，再派生出稳定、业务化、可审计的 `workbench-data.json` 页面 DTO。旧产物（`domains.json`、`api-map.json`、`field-map.json`、`ontology.json`、`impact-analysis.json`、`dream-cycle-report.json`、`build-report.json`）仍可进入总览、索引、诊断或降级兼容路径，但不能绕过 `domain-read-model.json` 拼装业务域主体验。
 
 前端实现采用 **Vue 3 + Vite + TypeScript**。本契约必须能被 TypeScript 类型直接表达，确保每次 Wiki 重新编译时只替换数据包，不需要改前端代码。
+
+## v1 兼容修订摘要
+
+| 项 | v0 约定 | v1 约定 | 质量门禁 |
+| --- | --- | --- | --- |
+| 核心输入 | 多个分析 JSON 聚合 | `domain-read-model.json` 是业务域页唯一产品输入 | `workbench-data.schema.source == "domain-read-model.json"` |
+| 阅读路径 | 域概览 + API/字段索引 | `flows → rules → evidence` 连续阅读 | DomainDetail 必须暴露 `flows`、`rules.items`、`fieldRules`、`deepReadingPath` |
+| 质量状态 | `quality.status` 容易混合构建和产品质量 | `build.status` 只表示构建成功，`productQuality.*` 表示产品可读性 | `build-report.productQuality.deepReadingStatus` 必须存在 |
+| 旧产物 | 可直接驱动业务域详情 | 仅作为中间产物、诊断、索引或无 v1 模型时的降级 | 有 v1 模型时业务域详情不得直接从 legacy artifacts 拼主体验 |
+
+当前工程实现链路：
+
+```text
+domain-read-model.json
+  ↓ ProductDataService
+workbench-data.json
+  ↓ Vue DomainDetail
+业务域概览 → 业务流程 → 业务规则 → 字段规则 → 证据面板
+```
 
 ## 设计原则
 
@@ -64,15 +84,16 @@ Graph-Wiki 的可信度来自证据链。任何业务域、API、字段影响、
 
 | 源产物 | 用途 |
 | --- | --- |
-| `build-report.json` | 项目规模、质量状态、性能、阶段验收 |
-| `domains.json` | 业务域、锚点、业务点、依赖 |
-| `api-map.json` | API、前后端调用关系、业务域归属 |
-| `field-map.json` | API → DTO → Entity → DB 字段链路 |
-| `ontology.json` | typed relationships、agent scope、本体对象 |
+| `domain-read-model.json` | v1 业务域详情页主输入；提供 flow / rule / fieldRule / evidenceIndex |
+| `build-report.json` | 项目规模、构建状态、阶段验收；其中 `productQuality` 映射 domain-read-model 质量 |
+| `domains.json` | 旧业务域、锚点、业务点、依赖；v1 中作为中间/诊断/降级输入 |
+| `api-map.json` | API、前后端调用关系、业务域归属；v1 中作为 EvidenceRef 来源 |
+| `field-map.json` | API → DTO → Entity → DB 字段链路；v1 中作为 FieldRule 来源 |
+| `ontology.json` | typed relationships、agent scope、本体对象；v1 中作为证据补充 |
 | `impact-analysis.json` | 字段/API/业务点/规则/域依赖影响分析 |
 | `dream-cycle-report.json` | 维护变化、人工文件保护、孤立页面 |
 | `manifest.json` | 文件清单、域清单、构建时间 |
-| `wiki/**/*.md` | Markdown 页面链接和人工维护内容 |
+| `wiki/**/*.md` | Markdown 页面链接和人工维护内容；v1 Wiki 应从 domain-read-model 派生 |
 
 ## API 建议
 
@@ -205,6 +226,31 @@ GET /api/projects/{projectId}/search?q={query}
 
 - `displayName` 优先使用业务中文名。
 - 如果只有英文 key，前端可以显示 key，但必须标记为 `needsHumanLabel = true`。
+
+## Workbench v1 Bundle
+
+`workbench-data.json` 顶层 schema 必须表达是否启用 v1：
+
+```json
+{
+  "schema": {
+    "version": "graph-wiki-workbench-v1",
+    "source": "domain-read-model.json"
+  }
+}
+```
+
+当输出目录存在合法 `domain-read-model.json`（`schema.version = domain-read-model-v1`）时：
+
+- `domains[]` 从 `domain-read-model.domains[]` 派生。
+- `domainDetails[domainKey]` 从对应 `DomainRead` 派生。
+- `DomainDetail.flows` 原样保留 flow/step/ruleRefs/evidenceRefs。
+- `DomainDetail.rules.items` 原样保留业务规则。
+- `DomainDetail.fieldRules` 原样保留字段规则及 chain。
+- `DomainDetail.evidence` 由 `evidenceIndex` 解析，不能只展示裸 ref。
+- `DomainDetail.deepReadingPath.order` 固定为 `["flows", "rules", "evidence"]`，用于 UI 和测试共同锁定产品阅读顺序。
+
+当不存在合法 v1 模型时，允许使用旧聚合路径生成 `graph-wiki-workbench-v0`，但该路径只能作为兼容降级，不能作为 v1 交付验收依据。
 
 ## DomainDetail
 
@@ -477,3 +523,21 @@ ProductDataService
 ## 本契约的边界
 
 本文不定义最终 UI 视觉样式，不规定数据库选型，也不要求立即启动 HTTP 服务。首版可以从本地文件聚合开始，但 DTO 名称和字段语义应保持稳定。
+
+## v1 质量门禁与回归命令
+
+发布或合并前必须同时验证数据契约、前端编译和真实夹具 smoke：
+
+```bash
+python3 -m pytest -q
+cd workbench && npm ci && npm run build
+python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/fullstack-enterprise
+python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
+```
+
+最低通过条件：
+
+- `tests/test_fullstack_enterprise_acceptance.py` 证明核心域具备 flow、rule、fieldRule 和可解析 evidence。
+- `tests/test_workbench_domain_reading_contract.py` 证明 Workbench DTO 从 `domain-read-model.json` 派生。
+- Workbench TypeScript build 通过，避免 DTO 与 UI 断裂。
+- `build-report.json.build.status` 与 `build-report.json.productQuality.deepReadingStatus` 同时存在，不能用构建成功掩盖产品不可读。
