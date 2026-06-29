@@ -69,3 +69,22 @@ def test_release_gate_rejects_build_pass_without_product_quality(tmp_path: Path)
 
     assert result["status"] == "failed"
     assert "build.status alone is not a release signal" in "\n".join(result["errors"])
+
+
+def test_release_gate_copies_generated_workbench_data_for_build(tmp_path: Path):
+    gate = _load_gate_module()
+    product_output = tmp_path / "product"
+    workbench = tmp_path / "workbench"
+    product_output.mkdir()
+    (product_output / "workbench-data.json").write_text(json.dumps({
+        "schema": {"version": "graph-wiki-workbench-v1", "source": "domain-read-model.json"},
+        "project": {},
+        "domains": [],
+        "domainDetails": {},
+    }), encoding="utf-8")
+
+    action = gate.copy_workbench_data_for_build(product_output, workbench)
+
+    copied = json.loads((workbench / "public" / "workbench-data.json").read_text(encoding="utf-8"))
+    assert action["status"] == "passed"
+    assert copied["schema"]["source"] == "domain-read-model.json"
