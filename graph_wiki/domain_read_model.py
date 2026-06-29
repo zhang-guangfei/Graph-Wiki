@@ -379,6 +379,11 @@ def _build_field_rules(
             "statement": _field_rule_statement(entry, table, column),
             "chain": chain,
             "mapping": _field_rule_mapping(entry, api, api_evidence_ref, callers),
+            "chainCompleteness": {
+                "presentLayers": sorted(present_layers),
+                "missingRequiredLayers": missing_layers,
+                "missingOptionalLayers": optional_missing,
+            },
             "evidenceRefs": _unique(evidence_refs),
             "status": status,
             "confidence": round(confidence, 4),
@@ -390,29 +395,43 @@ def _build_field_rules(
 
 def _field_rule_mapping(entry: dict[str, Any], api: dict[str, Any], api_evidence_ref: str, callers: list[Any]) -> dict[str, Any]:
     """Preserve field-chain metadata for Workbench without requiring raw field-map.json."""
-    return {
-        "api": {
-            "ref": api_evidence_ref,
-            "method": api.get("method", ""),
-            "url": api.get("url", ""),
-            "functionName": entry.get("api_function") or api.get("function", ""),
-        },
-        "dto": {
-            "className": entry.get("dto_class", ""),
-            "field": entry.get("dto_field", ""),
-            "file": entry.get("dto_file", ""),
-        },
-        "entity": {
-            "className": entry.get("entity_class", ""),
-            "field": entry.get("entity_field", ""),
-            "file": entry.get("entity_file", ""),
-        },
-        "frontendCallers": [
-            caller.get("page", "") if isinstance(caller, dict) else str(caller)
-            for caller in callers
-            if caller
-        ],
-    }
+    table = entry.get("db_table") or entry.get("table") or "unknown_table"
+    column = entry.get("db_column") or entry.get("column") or "unknown_column"
+    return _field_mapping(entry, api, table, column, callers)
+
+
+def _select_api_for_field_entry(entry: dict[str, Any], api_url: str, api_views: list[tuple[dict[str, Any], Any]]) -> Any | None:
+    """Select the API item that best owns a field mapping entry.
+
+    Field-map entries can share the same URL across different actions. Prefer a
+    URL + function/method match so fieldRuleId and chain evidence stay scoped to
+    the actual business action instead of collapsing by URL only.
+    """
+    if not api_views:
+        return None
+
+    requested_url = normalize_api_path(api_url)
+    requested_function = str(entry.get("api_function") or entry.get("function") or "").strip().lower()
+    requested_method = str(entry.get("api_method") or entry.get("http_method") or entry.get("method") or "").strip().upper()
+
+    url_matches = [(view, item) for view, item in api_views if normalize_api_path(view.get("url", "")) == requested_url]
+    candidates = url_matches or api_views
+
+    if requested_function:
+        for view, item in candidates:
+            names = {
+                str(view.get("function") or "").strip().lower(),
+                str(view.get("backendMethod") or "").strip().lower(),
+            }
+            if requested_function in names:
+                return item
+
+    if requested_method:
+        for view, item in candidates:
+            if str(view.get("method") or "").strip().upper() == requested_method:
+                return item
+
+    return candidates[0][1] if candidates else None
 
 def _check_refs(
     errors: list[str],

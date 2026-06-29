@@ -146,8 +146,8 @@ export interface FieldFlowItem {
   table: string;
   column: string;
   api: { method: string; url: string; functionName: string };
-  dto: { className: string; field: string };
-  entity: { className: string; field: string };
+  dto: { className: string; field: string; file?: string };
+  entity: { className: string; field: string; file?: string };
   frontendCallers: string[];
   confidence: number;
   confidenceLabel: string;

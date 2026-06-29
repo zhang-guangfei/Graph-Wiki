@@ -248,8 +248,8 @@ class ProductDataService:
                         "table": table,
                         "column": column,
                         "api": mapping["api"],
-                        "dto": mapping["dto"],
-                        "entity": mapping["entity"],
+                        "dto": _compact_field_endpoint(mapping["dto"]),
+                        "entity": _compact_field_endpoint(mapping["entity"]),
                         "frontendCallers": mapping["frontendCallers"],
                         "confidence": rule.get("confidence", 0),
                         "confidenceLabel": _confidence_label(rule.get("confidence")),
@@ -566,14 +566,21 @@ def _field_rule_mapping_from_read_model(rule: dict[str, Any], method: str, url: 
         "dto": {
             "className": dto.get("className", ""),
             "field": dto.get("field", ""),
-            "file": dto.get("file", ""),
+            "file": dto.get("file") or dto.get("sourcePath", ""),
         },
         "entity": {
             "className": entity.get("className", ""),
             "field": entity.get("field", ""),
-            "file": entity.get("file", ""),
+            "file": entity.get("file") or entity.get("sourcePath", ""),
         },
         "frontendCallers": [str(caller) for caller in callers if caller],
+    }
+
+
+def _compact_field_endpoint(endpoint: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "className": endpoint.get("className", ""),
+        "field": endpoint.get("field", ""),
     }
 
 def _evidence_objects_from_refs(evidence_index: dict[str, Any], refs: list[str]) -> list[dict[str, Any]]:
