@@ -1,0 +1,1 @@
+const e="svn_platform_";function o(){const t=localStorage.getItem(e+"last_repo_id");return t?Number(t):null}function a(t){t&&localStorage.setItem(e+"last_repo_id",String(t))}function s(t){t&&localStorage.setItem(e+"last_repo_name",t)}function n(t){t&&t.id&&(a(t.id),s(t.name))}export{o as g,n as s};

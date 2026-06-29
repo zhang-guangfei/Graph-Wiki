@@ -23,7 +23,7 @@ class ProductDataService:
         project = build.get("project", {})
         quality = build.get("quality", {})
         product_quality = build.get("productQuality", {})
-        build_status = build.get("build", {}).get("status") or quality.get("status", "unknown")
+        build_status = build.get("build", {}).get("status", "unknown")
         scale = build.get("scale", {})
 
         return {
