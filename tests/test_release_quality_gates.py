@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import subprocess
 from pathlib import Path
 
@@ -9,14 +10,35 @@ import networkx as nx
 import pytest
 
 from graph_wiki import pipeline
+from graph_wiki.product_data import ProductDataService
 
 
 _FORBIDDEN_TRACKED_PATH_PREFIXES = (
     "tests/svn-platform/node_modules/",
+    "workbench/node_modules/",
+    "workbench/dist/",
+    "output/",
 )
 _FORBIDDEN_TRACKED_PATHS = {
     "tests/svn-platform/package-lock.json",
+    "workbench/public/workbench-data.json",
+    "api-map.json",
+    "build-report.json",
+    "domains.json",
+    "field-map.json",
+    "graph-lite.json",
+    "manifest.json",
+    "domain_graph.html",
+    "domain-read-model.json",
+    "workbench-data.json",
 }
+_FORBIDDEN_TRACKED_PATH_SUFFIXES = (
+    "/graphify-out/cache/",
+    "/graphify-out/",
+    "/output/",
+    "/.pytest_cache/",
+    "/__pycache__/",
+)
 
 
 def _git_ls_files() -> list[str]:
@@ -32,8 +54,12 @@ def _git_ls_files() -> list[str]:
     return [line.strip() for line in result.stdout.splitlines() if line.strip()]
 
 
-def test_release_gate_rejects_tracked_svn_platform_dependency_artifacts():
-    """SVN smoke fixture must stay source-only; npm install output is local state."""
+def _write_json(base: Path, name: str, payload: dict) -> None:
+    (base / name).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+def test_release_gate_rejects_tracked_generated_or_dependency_artifacts():
+    """Release fixtures must stay source-only; local installs/build outputs are not source."""
     tracked = _git_ls_files()
 
     polluted = [
@@ -41,6 +67,7 @@ def test_release_gate_rejects_tracked_svn_platform_dependency_artifacts():
         for path in tracked
         if path in _FORBIDDEN_TRACKED_PATHS
         or any(path.startswith(prefix) for prefix in _FORBIDDEN_TRACKED_PATH_PREFIXES)
+        or any(suffix in f"/{path}/" for suffix in _FORBIDDEN_TRACKED_PATH_SUFFIXES)
     ]
 
     assert polluted == []
@@ -76,6 +103,46 @@ def test_release_gate_keeps_build_status_separate_from_product_quality(tmp_path:
     assert report["build"]["status"] == "passed"
     assert report["productQuality"]["deepReadingStatus"] == "failed"
     assert report["productQuality"]["errors"] == ["没有 core=true 的业务域"]
+    assert report["quality"]["phase3"]["acceptance"]["status"] == "failed"
+    assert report["quality"]["phase4"]["acceptance"]["status"] == "failed"
+
+
+def test_release_gate_overview_surfaces_build_product_and_phase_gates_separately(tmp_path: Path):
+    """Workbench overview must not collapse build, product quality, and phase gates."""
+    _write_json(tmp_path, "build-report.json", {
+        "build": {"status": "passed"},
+        "project": {"root": "fixture", "total_files": 1, "code_files": 1},
+        "scale": {"graph_lite": {"nodes": 0, "edges": 0}},
+        "domains": {"count": 0},
+        "api": {"total": 0},
+        "field_map": {"fields": 0},
+        "productQuality": {
+            "deepReadingStatus": "failed",
+            "coreDomainEvidenceStatus": "failed",
+            "ruleCorrectnessRisk": "high",
+        },
+        "quality": {
+            "status": "passed",
+            "performance_status": "passed",
+            "phase3": {"acceptance": {"status": "failed"}},
+            "phase4": {"acceptance": {"status": "warning"}},
+            "phase5": {"dream_cycle_status": "passed"},
+        },
+    })
+    _write_json(tmp_path, "manifest.json", {"meta": {"last_full_build": "2026-06-29T00:00:00Z"}})
+    _write_json(tmp_path, "domains.json", [])
+
+    quality = ProductDataService(tmp_path).load_project_overview()["quality"]
+
+    assert quality == {
+        "build": "passed",
+        "deepReading": "failed",
+        "coreEvidence": "failed",
+        "performance": "passed",
+        "phase3": "failed",
+        "phase4": "warning",
+        "phase5": "passed",
+    }
 
 
 def test_release_gate_failure_report_marks_build_failed_and_product_unreadable(tmp_path: Path):
