@@ -378,12 +378,7 @@ def _build_field_rules(
             "fieldId": f"{table}.{column}",
             "statement": _field_rule_statement(entry, table, column),
             "chain": chain,
-            "mapping": _field_mapping(entry, api, table, column, callers),
-            "chainCompleteness": {
-                "presentLayers": sorted(present_layers),
-                "missingRequiredLayers": missing_layers,
-                "missingOptionalLayers": optional_missing,
-            },
+            "mapping": _field_rule_mapping(entry, api, api_evidence_ref, callers),
             "evidenceRefs": _unique(evidence_refs),
             "status": status,
             "confidence": round(confidence, 4),
@@ -393,30 +388,31 @@ def _build_field_rules(
 
 
 
-def _select_api_for_field_entry(
-    entry: dict[str, Any],
-    api_url: str,
-    api_views: list[tuple[dict[str, Any], Any]],
-) -> Any:
-    entry_function = str(entry.get("api_function") or "").lower()
-    entry_method = str(entry.get("api_method") or entry.get("http_method") or "").upper()
-    url_matches = [item for item in api_views if item[0].get("url") == api_url or normalize_api_path(item[0].get("url", "")) == api_url]
-    if not url_matches:
-        return None
-    if entry_function:
-        for api, raw in url_matches:
-            function = str(api.get("function") or api.get("backendMethod") or "").lower()
-            if function == entry_function:
-                return raw
-        for api, raw in url_matches:
-            function = str(api.get("function") or api.get("backendMethod") or "").lower()
-            if entry_function in function or function in entry_function:
-                return raw
-    if entry_method:
-        for api, raw in url_matches:
-            if str(api.get("method", "")).upper() == entry_method:
-                return raw
-    return url_matches[0][1]
+def _field_rule_mapping(entry: dict[str, Any], api: dict[str, Any], api_evidence_ref: str, callers: list[Any]) -> dict[str, Any]:
+    """Preserve field-chain metadata for Workbench without requiring raw field-map.json."""
+    return {
+        "api": {
+            "ref": api_evidence_ref,
+            "method": api.get("method", ""),
+            "url": api.get("url", ""),
+            "functionName": entry.get("api_function") or api.get("function", ""),
+        },
+        "dto": {
+            "className": entry.get("dto_class", ""),
+            "field": entry.get("dto_field", ""),
+            "file": entry.get("dto_file", ""),
+        },
+        "entity": {
+            "className": entry.get("entity_class", ""),
+            "field": entry.get("entity_field", ""),
+            "file": entry.get("entity_file", ""),
+        },
+        "frontendCallers": [
+            caller.get("page", "") if isinstance(caller, dict) else str(caller)
+            for caller in callers
+            if caller
+        ],
+    }
 
 def _check_refs(
     errors: list[str],

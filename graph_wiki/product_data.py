@@ -237,7 +237,24 @@ class ProductDataService:
             for domain in read_model.get("domains", []):
                 if domain_key and domain.get("domainKey") != domain_key:
                     continue
-                result.extend(_field_flow_items_from_read_model(domain, evidence_index))
+                for rule in domain.get("fieldRules", []):
+                    table, _, column = str(rule.get("fieldId", "")).partition(".")
+                    api_ref = next((ref for ref in rule.get("evidenceRefs", []) if str(ref).startswith("api:")), "")
+                    method, url = _method_url_from_api_ref(api_ref)
+                    mapping = _field_rule_mapping_from_read_model(rule, method, url)
+                    result.append({
+                        "fieldId": rule.get("fieldId", ""),
+                        "domainKey": domain.get("domainKey", ""),
+                        "table": table,
+                        "column": column,
+                        "api": mapping["api"],
+                        "dto": mapping["dto"],
+                        "entity": mapping["entity"],
+                        "frontendCallers": mapping["frontendCallers"],
+                        "confidence": rule.get("confidence", 0),
+                        "confidenceLabel": _confidence_label(rule.get("confidence")),
+                        "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
+                    })
             return result
 
         field_map = self._read_json("field-map.json", {})
@@ -518,22 +535,12 @@ def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: di
         result.append({
             "fieldId": field_id,
             "domainKey": domain.get("domainKey", ""),
-            "table": database_mapping.get("table") or table,
-            "column": database_mapping.get("column") or column,
-            "api": {
-                "method": api_mapping.get("method") or method,
-                "url": api_mapping.get("url") or url,
-                "functionName": api_mapping.get("functionName", ""),
-            },
-            "dto": {
-                "className": dto_mapping.get("className", ""),
-                "field": dto_mapping.get("field", ""),
-            },
-            "entity": {
-                "className": entity_mapping.get("className", ""),
-                "field": entity_mapping.get("field", ""),
-            },
-            "frontendCallers": mapping.get("frontendCallers", []) if isinstance(mapping.get("frontendCallers"), list) else [],
+            "table": table,
+            "column": column,
+            "api": mapping["api"],
+            "dto": mapping["dto"],
+            "entity": mapping["entity"],
+            "frontendCallers": mapping["frontendCallers"],
             "confidence": rule.get("confidence", 0),
             "confidenceLabel": _confidence_label(rule.get("confidence")),
             "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),

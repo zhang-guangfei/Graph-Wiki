@@ -45,3 +45,7 @@ workbench/public/workbench-data.json
 
 # OMX local runtime/session state
 .omx/
+
+# Local frontend dependency installs for smoke builds.
+**/node_modules/
+tests/svn-platform/package-lock.json

@@ -95,22 +95,24 @@ def test_domain_read_model_contract_has_flow_rule_field_rule_and_evidence(tmp_pa
     assert domain["flows"] and domain["flows"][0]["steps"]
     assert domain["rules"] and domain["rules"][0]["review"]["state"] == "machine_draft"
     assert domain["fieldRules"] and domain["fieldRules"][0]["fieldId"] == "orders.customer_id"
-    assert domain["fieldRules"][0]["mapping"] == {
-        "api": {"method": "POST", "url": "/orders", "functionName": "createOrder"},
-        "dto": {
-            "className": "CreateOrderRequest",
-            "field": "customerId",
-            "sourcePath": "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java",
-        },
-        "entity": {
-            "className": "OrderEntity",
-            "field": "customerId",
-            "sourcePath": "backend/src/main/java/com/acme/order/entity/OrderEntity.java",
-        },
-        "database": {"table": "orders", "column": "customer_id"},
-        "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
+    field_rule = domain["fieldRules"][0]
+    assert field_rule["mapping"]["api"] == {
+        "ref": "api:POST:/orders",
+        "method": "POST",
+        "url": "/orders",
+        "functionName": "createOrder",
     }
-    assert domain["fieldRules"][0]["chainCompleteness"]["missingRequiredLayers"] == []
+    assert field_rule["mapping"]["dto"] == {
+        "className": "CreateOrderRequest",
+        "field": "customerId",
+        "file": "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java",
+    }
+    assert field_rule["mapping"]["entity"] == {
+        "className": "OrderEntity",
+        "field": "customerId",
+        "file": "backend/src/main/java/com/acme/order/entity/OrderEntity.java",
+    }
+    assert field_rule["mapping"]["frontendCallers"] == ["frontend/src/views/order/CreateOrder.vue"]
 
     claim_refs = []
     for flow in domain["flows"]:
