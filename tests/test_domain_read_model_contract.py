@@ -147,3 +147,75 @@ def test_domain_read_model_quality_fails_when_core_rule_has_missing_evidence():
 
     assert quality["deepReadingStatus"] == "failed"
     assert any("缺少" in item for item in quality["errors"])
+
+
+def test_field_rules_are_api_scoped_and_incomplete_chains_are_partial(tmp_path: Path):
+    for file in [
+        "backend/src/main/java/com/acme/order/OrderController.java",
+        "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java",
+        "backend/src/main/java/com/acme/order/entity/OrderEntity.java",
+    ]:
+        path = tmp_path / file
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("// fixture\n", encoding="utf-8")
+
+    second_api = ApiMatch(
+        id="api-update-order",
+        frontend=FrontendApiCall(function_name="updateOrder", http_method="PUT", url="/orders", source_file=""),
+        backend=BackendEndpoint(
+            controller_file="backend/src/main/java/com/acme/order/OrderController.java",
+            controller_class="OrderController",
+            method_name="updateOrder",
+            http_method="PUT",
+            url="/orders",
+            param_type="CreateOrderRequest",
+        ),
+        match_confidence=0.92,
+        domain="order",
+    )
+    field_map = {
+        "order": {
+            "orders": {
+                "customer_id": [
+                    {
+                        "api_url": "/orders",
+                        "api_function": "createOrder",
+                        "dto_class": "CreateOrderRequest",
+                        "dto_field": "customerId",
+                        "dto_file": "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java",
+                        "entity_class": "OrderEntity",
+                        "entity_field": "customerId",
+                        "entity_file": "backend/src/main/java/com/acme/order/entity/OrderEntity.java",
+                        "db_table": "orders",
+                        "db_column": "customer_id",
+                        "confidence": 1.0,
+                    },
+                    {
+                        "api_url": "/orders",
+                        "api_function": "updateOrder",
+                        "db_table": "orders",
+                        "db_column": "customer_id",
+                        "confidence": 0.95,
+                    },
+                ]
+            }
+        }
+    }
+
+    model = build_domain_read_model(
+        project_id="fixture",
+        project_name="Fixture",
+        source_root=tmp_path,
+        domains=[_sample_domain()],
+        api_matches=[_sample_api(), second_api],
+        field_map=field_map,
+        ontology={},
+    )
+
+    field_rules = model["domains"][0]["fieldRules"]
+    rule_ids = [rule["fieldRuleId"] for rule in field_rules]
+    assert len(rule_ids) == len(set(rule_ids))
+    partial_rules = [rule for rule in field_rules if rule["status"] == "partial"]
+    assert partial_rules
+    assert all(rule["partialReason"] for rule in partial_rules)
+    assert any("dto" in rule["partialReason"] and "entity" in rule["partialReason"] for rule in partial_rules)

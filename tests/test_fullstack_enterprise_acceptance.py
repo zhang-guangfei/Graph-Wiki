@@ -49,11 +49,15 @@ def test_fullstack_enterprise_fixture_satisfies_domain_deep_reading_acceptance(t
         assert rule["flowRefs"]
         assert rule["evidenceRefs"]
         assert all(ref in evidence_index for ref in rule["evidenceRefs"])
+    field_rule_ids = [field_rule["fieldRuleId"] for field_rule in order["fieldRules"]]
+    assert len(field_rule_ids) == len(set(field_rule_ids))
     for field_rule in order["fieldRules"]:
         assert field_rule["fieldId"]
         assert field_rule["chain"]
         assert field_rule["evidenceRefs"]
         assert all(ref in evidence_index for ref in field_rule["evidenceRefs"])
+        if field_rule["status"] == "partial":
+            assert field_rule["partialReason"]
 
     detail = workbench["domainDetails"]["order"]
     assert detail["deepReadingPath"]["order"] == ["flows", "rules", "evidence"]

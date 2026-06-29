@@ -313,15 +313,14 @@ def _build_field_rules(
     root: Path,
     evidence_index: dict[str, dict[str, Any]],
 ) -> list[dict[str, Any]]:
-    api_lookup = {_api_view(api)["url"]: api for api in domain_apis}
-    api_lookup.update({normalize_api_path(_api_view(api)["url"]): api for api in domain_apis})
+    api_views = [(_api_view(api), api) for api in domain_apis]
     rules = []
     seen = set()
     for entry in entries:
         table = entry.get("db_table") or entry.get("table") or "unknown_table"
         column = entry.get("db_column") or entry.get("column") or "unknown_column"
         api_url = normalize_api_path(entry.get("api_url") or entry.get("url") or "/")
-        api_item = api_lookup.get(api_url)
+        api_item = _select_api_for_field_entry(entry, api_url, api_views)
         api = _api_view(api_item) if api_item else {
             "method": _guess_method(api_url),
             "url": api_url,
@@ -361,13 +360,16 @@ def _build_field_rules(
         present_layers = {item["layer"] for item in chain}
         missing_layers = sorted(required_layers - present_layers)
         optional_missing = [layer for layer in ["frontend", "controller", "dto", "entity"] if layer not in present_layers]
-        status = "ready" if confidence >= 0.9 and not missing_layers else "partial"
+        incomplete_layers = missing_layers + optional_missing
+        status = "ready" if confidence >= 0.9 and not incomplete_layers else "partial"
         partial_reason = ""
-        if status == "partial" or optional_missing:
-            partial_reason = "缺少可解析层级: " + ", ".join(missing_layers + optional_missing)
+        if incomplete_layers:
+            partial_reason = "缺少可解析层级: " + ", ".join(incomplete_layers)
+        elif status == "partial":
+            partial_reason = f"字段链路置信度不足: {confidence:.2f}"
 
-        rule_id = f"{domain_key}.field.{_slug(table)}.{_slug(column)}"
-        dedupe_key = (rule_id, api_evidence_ref)
+        rule_id = f"{domain_key}.field.{_slug(table)}.{_slug(column)}.{_slug(api.get('method', 'api'))}.{_slug(api.get('url', api_url))}.{_slug(api.get('function') or entry.get('api_function') or 'api')}"
+        dedupe_key = rule_id
         if dedupe_key in seen:
             continue
         seen.add(dedupe_key)
@@ -391,31 +393,30 @@ def _build_field_rules(
 
 
 
-def _field_rule_mapping(entry: dict[str, Any], api: dict[str, Any], api_evidence_ref: str, callers: list[Any]) -> dict[str, Any]:
-    """Preserve field-chain metadata for Workbench without requiring raw field-map.json."""
-    return {
-        "api": {
-            "ref": api_evidence_ref,
-            "method": api.get("method", ""),
-            "url": api.get("url", ""),
-            "functionName": entry.get("api_function") or api.get("function", ""),
-        },
-        "dto": {
-            "className": entry.get("dto_class", ""),
-            "field": entry.get("dto_field", ""),
-            "file": entry.get("dto_file", ""),
-        },
-        "entity": {
-            "className": entry.get("entity_class", ""),
-            "field": entry.get("entity_field", ""),
-            "file": entry.get("entity_file", ""),
-        },
-        "frontendCallers": [
-            caller.get("page", "") if isinstance(caller, dict) else str(caller)
-            for caller in callers
-            if caller
-        ],
-    }
+def _select_api_for_field_entry(
+    entry: dict[str, Any],
+    api_url: str,
+    api_views: list[tuple[dict[str, Any], Any]],
+) -> Any:
+    entry_function = str(entry.get("api_function") or "").lower()
+    entry_method = str(entry.get("api_method") or entry.get("http_method") or "").upper()
+    url_matches = [item for item in api_views if item[0].get("url") == api_url or normalize_api_path(item[0].get("url", "")) == api_url]
+    if not url_matches:
+        return None
+    if entry_function:
+        for api, raw in url_matches:
+            function = str(api.get("function") or api.get("backendMethod") or "").lower()
+            if function == entry_function:
+                return raw
+        for api, raw in url_matches:
+            function = str(api.get("function") or api.get("backendMethod") or "").lower()
+            if entry_function in function or function in entry_function:
+                return raw
+    if entry_method:
+        for api, raw in url_matches:
+            if str(api.get("method", "")).upper() == entry_method:
+                return raw
+    return url_matches[0][1]
 
 def _check_refs(
     errors: list[str],
