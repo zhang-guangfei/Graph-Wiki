@@ -1,77 +1,85 @@
 # Graph-Wiki
 
-Graph-Wiki builds a human-readable business Wiki from source code.
+Graph-Wiki 是一个从源代码自动构建业务知识库的工具。
 
-It analyzes a code repository, groups files into business domains, maps APIs and fields, generates impact-analysis data, and exports Markdown/JSON artifacts that can be viewed directly or through the lightweight Workbench UI.
+它会分析一个代码仓库，把代码文件归入业务域，识别 API、字段链路、代码本体和影响关系，并导出人能读懂的 Markdown Wiki 与机器可消费的 JSON 数据。项目目标不是做“源码搜索引擎”，而是把代码库编译成面向研发人员和 Agent 的业务导航系统。
 
-## What It Produces
+## 核心定位
 
-A build writes artifacts to an output directory:
+- 面向人类程序员：用业务域、业务点、API、字段影响来理解系统。
+- 兼容 Agent：输出稳定 JSON 产物，便于 Agent 做 scope reduction 和影响分析。
+- 轻量产品化：生成的 `workbench-data.json` 可以被浏览器 Workbench 直接读取。
 
-- `wiki/` business-readable Markdown Wiki
-- `domains.json` business domains
-- `api-map.json` API index and frontend/backend links
-- `field-map.json` field flow evidence
-- `ontology.json` code/business ontology
-- `impact-analysis.json` impact-analysis answers
-- `dream-cycle-report.json` maintenance report when available
-- `workbench-data.json` browser Workbench data bundle
-- `build-report.json` quality, scale, timing, and acceptance report
-- `domain_graph.html` domain-level graph view
+## 构建产物
 
-Generated artifacts are ignored by git. Keep them under `output/` or pass `--output-dir`.
+执行构建后，Graph-Wiki 会把产物写入指定输出目录：
 
-## Requirements
+- `wiki/`：业务可读的 Markdown Wiki
+- `domains.json`：业务域划分
+- `api-map.json`：API 索引与前后端调用证据
+- `field-map.json`：字段链路证据
+- `ontology.json`：代码/业务本体
+- `impact-analysis.json`：影响分析结果
+- `dream-cycle-report.json`：知识库维护报告，存在时生成
+- `workbench-data.json`：Workbench 前端数据包
+- `build-report.json`：质量、规模、耗时和验收报告
+- `domain_graph.html`：业务域级关系图
+
+生成产物默认不提交到 git。建议始终使用 `--output-dir`，例如写入 `output/xxx`。
+
+## 环境要求
 
 - Python 3.10+
-- Node.js 20+ only if you want to run the Workbench UI
+- Node.js 20+，仅在运行 Workbench 前端时需要
 
-## Install
+## 安装
 
 ```powershell
 python -m pip install -e .[dev]
 ```
 
-## Build A Wiki
+## 构建 Wiki
+
+使用内置 SVN 示例项目：
 
 ```powershell
 python -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
 ```
 
-Or, after installation:
+安装后也可以使用命令行入口：
 
 ```powershell
 graph-wiki build tests/svn-platform --no-llm --output-dir output/svn-platform
 ```
 
-Open:
+构建完成后可以查看：
 
 ```text
 output/svn-platform/wiki/index.md
 output/svn-platform/domain_graph.html
 ```
 
-## Run Tests
+## 运行测试
 
 ```powershell
 python -m pytest -q
 ```
 
-## Run The Workbench UI
+## 运行 Workbench 前端
 
-First build a product so `workbench-data.json` exists:
+先构建一份产物，确保输出目录里存在 `workbench-data.json`：
 
 ```powershell
 python -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
 ```
 
-Copy the generated Workbench data into the UI public folder:
+把数据包放到 Workbench 的 public 目录：
 
 ```powershell
 Copy-Item output/svn-platform/workbench-data.json workbench/public/workbench-data.json
 ```
 
-Start the UI:
+启动前端：
 
 ```powershell
 cd workbench
@@ -79,24 +87,33 @@ npm install
 npm run dev -- --port 5174
 ```
 
-Open:
+浏览器打开：
 
 ```text
 http://127.0.0.1:5174/
 ```
 
-## Repository Layout
+## 目录结构
 
 ```text
-graph_wiki/        core Python package
-tests/             integration tests and small fixture projects
-workbench/         lightweight Vue/Vite browser UI
-docs/              design and reference material
-pyproject.toml     Python package configuration
+graph_wiki/        Graph-Wiki Python 核心代码
+tests/             集成测试和示例项目
+workbench/         Vue/Vite 轻量浏览器工作台
+docs/architecture/ 核心架构设计
+docs/design/       模块与产品化设计
+docs/reference/    外部启发、调研和历史分析
+pyproject.toml     Python 包配置
 ```
 
-## Development Notes
+## 关键文档
 
-- `--no-llm` keeps builds deterministic and does not require an API key.
-- Use `--output-dir` for every build to avoid writing generated files to the repository root.
-- Build outputs, caches, Java `target/`, Python bytecode, Node modules, Playwright traces, and local project-management artifacts are intentionally ignored.
+- `docs/architecture/graph-wiki 架构设计.md`：项目架构真相源。
+- `docs/design/模块总体设计.md`：核心模块接口与职责。
+- `docs/reference/2026-06-23 企业知识库四层模型对 Graph-Wiki 架构启发.md`：项目从 RAG、LLM Wiki、知识图谱、本体和长期记忆系统中获得的架构启发。
+- `AGENTS.md`：项目协作规则和目录治理约定。
+
+## 开发说明
+
+- `--no-llm` 会关闭 LLM 调用，适合本地测试和 CI。
+- 每次构建建议显式传入 `--output-dir`，避免把产物写到仓库根目录。
+- 构建输出、缓存、Java `target/`、Python bytecode、Node modules、Playwright 记录、本地项目管理产物都会被 `.gitignore` 忽略。
