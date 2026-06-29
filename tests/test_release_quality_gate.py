@@ -1,5 +1,7 @@
 import json
 import importlib.util
+
+import pytest
 from pathlib import Path
 
 
@@ -15,8 +17,14 @@ def _load_gate_module():
 def _write_minimal_artifacts(output_dir: Path, *, product_quality: dict | None) -> None:
     output_dir.mkdir(parents=True)
     evidence = {"api:POST:/orders": {"id": "api:POST:/orders", "type": "api", "status": "ready"}}
+    model_quality = product_quality or {
+        "deepReadingStatus": "warning",
+        "coreDomainEvidenceStatus": "passed",
+        "ruleCorrectnessRisk": "medium",
+    }
     model = {
         "schema": {"version": "domain-read-model-v1"},
+        "quality": model_quality,
         "evidenceIndex": evidence,
         "domains": [{
             "domainKey": "order",
@@ -88,3 +96,34 @@ def test_release_gate_copies_generated_workbench_data_for_build(tmp_path: Path):
     copied = json.loads((workbench / "public" / "workbench-data.json").read_text(encoding="utf-8"))
     assert action["status"] == "passed"
     assert copied["schema"]["source"] == "domain-read-model.json"
+
+
+def test_release_gate_rejects_product_quality_that_drifted_from_read_model(tmp_path: Path):
+    gate = _load_gate_module()
+    output_dir = tmp_path / "fixture"
+    _write_minimal_artifacts(output_dir, product_quality={
+        "deepReadingStatus": "passed",
+        "coreDomainEvidenceStatus": "passed",
+        "ruleCorrectnessRisk": "low",
+    })
+    model_path = output_dir / "domain-read-model.json"
+    model = json.loads(model_path.read_text(encoding="utf-8"))
+    model["quality"] = {
+        "deepReadingStatus": "failed",
+        "coreDomainEvidenceStatus": "failed",
+        "ruleCorrectnessRisk": "high",
+    }
+    model_path.write_text(json.dumps(model), encoding="utf-8")
+
+    result = gate.validate_build_artifacts(output_dir)
+
+    assert result["status"] == "failed"
+    assert "productQuality must match domain-read-model.json quality" in "\n".join(result["errors"])
+    assert result["productQuality"]["deepReadingStatus"] == "failed"
+
+
+def test_release_gate_refuses_to_delete_repo_root():
+    gate = _load_gate_module()
+
+    with pytest.raises(gate.GateFailure, match="unsafe output directory"):
+        gate.prepare_output_dir(gate.ROOT)

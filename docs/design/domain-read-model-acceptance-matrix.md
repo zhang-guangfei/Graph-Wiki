@@ -93,7 +93,7 @@ tests/test_workbench_domain_reading_contract.py
 python3 scripts/release_quality_gate.py
 ```
 
-CI 使用同一入口：`.github/workflows/release-quality-gate.yml`。
+CI 使用同一入口：`.github/workflows/ci.yml`。
 
 该脚本必须顺序覆盖：
 

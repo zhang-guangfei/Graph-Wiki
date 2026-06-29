@@ -14,6 +14,7 @@ import json
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -23,6 +24,48 @@ DEFAULT_OUTPUT = ROOT / "output" / "release-quality-gate"
 
 class GateFailure(RuntimeError):
     """Raised when a release-gate command or artifact assertion fails."""
+
+
+def prepare_output_dir(output_dir: Path) -> Path:
+    """Create a release-gate output directory without allowing broad deletion.
+
+    Re-running the gate deletes only directories that are clearly owned by the
+    gate: the default output area, graph-wiki temp directories, or directories
+    carrying the gate marker written by a previous run. This prevents an
+    accidental `--output-dir .` from deleting the repository or a home folder.
+    """
+    output_dir = output_dir.resolve()
+    home = Path.home().resolve()
+    temp_root = Path(tempfile.gettempdir()).resolve()
+    root_output = (ROOT / "output").resolve()
+    marker = output_dir / ".graph-wiki-release-gate"
+
+    unsafe_targets = {Path(output_dir.anchor).resolve(), home, ROOT}
+    if output_dir in unsafe_targets or output_dir in ROOT.parents:
+        raise GateFailure(f"refusing to delete unsafe output directory: {output_dir}")
+
+    if output_dir.exists():
+        gate_owned = (
+            marker.exists()
+            or output_dir == DEFAULT_OUTPUT.resolve()
+            or _is_relative_to(output_dir, root_output)
+            or (_is_relative_to(output_dir, temp_root) and output_dir.name.startswith("graph-wiki-"))
+        )
+        if not gate_owned:
+            raise GateFailure(f"refusing to delete unmarked output directory: {output_dir}")
+        shutil.rmtree(output_dir)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    marker.write_text("Graph-Wiki release quality gate output\n", encoding="utf-8")
+    return output_dir
+
+
+def _is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.relative_to(parent)
+    except ValueError:
+        return False
+    return True
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -36,10 +79,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    output_dir = (args.output_dir or args.output_root or DEFAULT_OUTPUT).resolve()
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = prepare_output_dir((args.output_dir or args.output_root or DEFAULT_OUTPUT).resolve())
 
     results: dict[str, Any] = {"commands": [], "artifactChecks": {}, "actions": []}
 
@@ -189,7 +229,9 @@ def validate_build_artifacts(
     workbench = _read_json(workbench_path)
 
     build_status = report.get("build", {}).get("status")
-    product_quality = report.get("productQuality") or {}
+    reported_product_quality = report.get("productQuality") or {}
+    model_product_quality = read_model.get("quality") or {}
+    product_quality = model_product_quality if model_product_quality else reported_product_quality
     product_status = product_quality.get("deepReadingStatus")
     quality = report.get("quality") or {}
     phase_statuses = {
@@ -202,8 +244,12 @@ def validate_build_artifacts(
 
     if build_status != "passed":
         errors.append(f"build.status must be passed, got {build_status!r}")
-    if not product_quality:
+    if not reported_product_quality:
         errors.append("productQuality is missing; build.status alone is not a release signal")
+    if not model_product_quality:
+        errors.append("domain-read-model quality is missing; productQuality must be derived from domain-read-model.json")
+    elif reported_product_quality and reported_product_quality != model_product_quality:
+        errors.append("productQuality must match domain-read-model.json quality")
     if expected_product and product_status != expected_product:
         errors.append(f"productQuality.deepReadingStatus must be {expected_product!r}, got {product_status!r}")
     elif not expected_product and product_status == "failed":
@@ -248,6 +294,7 @@ def validate_build_artifacts(
         "status": "failed" if errors else "passed",
         "buildStatus": build_status,
         "productQuality": product_quality,
+        "reportedProductQuality": reported_product_quality,
         "phaseStatuses": phase_statuses,
         "errors": errors,
         "warnings": warnings,
