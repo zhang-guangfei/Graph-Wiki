@@ -56,11 +56,34 @@ def test_fullstack_enterprise_fixture_satisfies_domain_deep_reading_acceptance(t
         assert field_rule["chain"]
         assert field_rule["evidenceRefs"]
         assert all(ref in evidence_index for ref in field_rule["evidenceRefs"])
+        assert all(item["ref"] in field_rule["evidenceRefs"] for item in field_rule["chain"])
         if field_rule["status"] == "partial":
             assert field_rule["partialReason"]
+
+    customer_rule = next(rule for rule in order["fieldRules"] if rule["fieldId"] == "orders.customer_id" and rule["mapping"]["api"]["functionName"] == "createOrder")
+    assert [item["layer"] for item in customer_rule["chain"]] == ["frontend", "api", "controller", "dto", "entity", "db"]
+    assert customer_rule["status"] == "ready"
+    assert customer_rule["chainCompleteness"] == {
+        "presentLayers": ["api", "controller", "db", "dto", "entity", "frontend"],
+        "missingRequiredLayers": [],
+        "missingOptionalLayers": [],
+    }
+    assert customer_rule["mapping"]["dto"] == {
+        "className": "CreateOrderRequest",
+        "field": "customerId",
+        "sourcePath": "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java",
+    }
+    assert customer_rule["mapping"]["entity"] == {
+        "className": "OrderEntity",
+        "field": "customerId",
+        "sourcePath": "backend/src/main/java/com/acme/order/entity/OrderEntity.java",
+    }
 
     detail = workbench["domainDetails"]["order"]
     assert detail["deepReadingPath"]["order"] == ["flows", "rules", "evidence"]
     assert detail["flows"]
     assert detail["rules"]["items"]
     assert detail["fieldRules"]
+    workbench_customer_rule = next(rule for rule in detail["fieldRules"] if rule["fieldRuleId"] == customer_rule["fieldRuleId"])
+    assert workbench_customer_rule["mapping"] == customer_rule["mapping"]
+    assert workbench_customer_rule["chainCompleteness"] == customer_rule["chainCompleteness"]

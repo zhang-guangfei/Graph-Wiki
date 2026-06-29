@@ -31,7 +31,30 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
                     }
                 ],
                 "rules": [{"ruleId": "r1", "statement": "创建订单必须调用后端。", "flowRefs": ["order.createOrder"], "evidenceRefs": ["api:POST:/orders"], "status": "ready", "confidence": 1}],
-                "fieldRules": [{"fieldRuleId": "fr1", "fieldId": "orders.customer_id", "statement": "customer_id 字段链路。", "chain": [{"layer": "db", "ref": "field:orders.customer_id"}], "mapping": {"api": {"method": "POST", "url": "/orders", "functionName": "createOrder"}, "dto": {"className": "CreateOrderRequest", "field": "customerId", "file": "backend/src/main/java/com/acme/order/dto/CreateOrderRequest.java"}, "entity": {"className": "OrderEntity", "field": "customerId", "file": "backend/src/main/java/com/acme/order/entity/OrderEntity.java"}, "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"]}, "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders"], "status": "ready", "confidence": 1, "partialReason": ""}],
+                "fieldRules": [
+                    {
+                        "fieldRuleId": "fr1",
+                        "fieldId": "orders.customer_id",
+                        "statement": "customer_id 字段链路。",
+                        "chain": [{"layer": "db", "ref": "field:orders.customer_id"}],
+                        "mapping": {
+                            "api": {"method": "POST", "url": "/orders", "functionName": "createOrder"},
+                            "dto": {"className": "CreateOrderRequest", "field": "customerId", "sourcePath": "backend/dto/CreateOrderRequest.java"},
+                            "entity": {"className": "OrderEntity", "field": "customerId", "sourcePath": "backend/entity/OrderEntity.java"},
+                            "database": {"table": "orders", "column": "customer_id"},
+                            "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
+                        },
+                        "chainCompleteness": {
+                            "presentLayers": ["api", "db"],
+                            "missingRequiredLayers": [],
+                            "missingOptionalLayers": ["frontend", "controller", "dto", "entity"],
+                        },
+                        "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders"],
+                        "status": "ready",
+                        "confidence": 1,
+                        "partialReason": "",
+                    }
+                ],
                 "evidenceRefs": ["api:POST:/orders", "source:frontend/src/api/order.js#createOrder"],
                 "quality": {"deepReadingStatus": "passed"},
             }
@@ -50,10 +73,16 @@ def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path)
     assert detail["flows"][0]["steps"][0]["evidenceRefs"] == ["api:POST:/orders"]
     assert detail["rules"]["items"][0]["statement"] == "创建订单必须调用后端。"
     assert detail["fieldRules"][0]["fieldId"] == "orders.customer_id"
-    assert detail["fieldFlows"]["items"][0]["api"] == {"method": "POST", "url": "/orders", "functionName": "createOrder"}
-    assert detail["fieldFlows"]["items"][0]["dto"]["className"] == "CreateOrderRequest"
-    assert detail["fieldFlows"]["items"][0]["entity"]["field"] == "customerId"
-    assert detail["fieldFlows"]["items"][0]["frontendCallers"] == ["frontend/src/views/order/CreateOrder.vue"]
+    assert detail["fieldRules"][0]["mapping"]["dto"] == {
+        "className": "CreateOrderRequest",
+        "field": "customerId",
+        "sourcePath": "backend/dto/CreateOrderRequest.java",
+    }
+    assert detail["fieldRules"][0]["chainCompleteness"]["missingOptionalLayers"] == ["frontend", "controller", "dto", "entity"]
+    assert bundle["apis"][0]["apiId"] == "api:POST:/orders"
+    assert bundle["fields"][0]["dto"] == {"className": "CreateOrderRequest", "field": "customerId"}
+    assert bundle["fields"][0]["entity"] == {"className": "OrderEntity", "field": "customerId"}
+    assert bundle["fields"][0]["frontendCallers"] == ["frontend/src/views/order/CreateOrder.vue"]
 
 
 def test_workbench_domain_page_keeps_backward_compatible_field_mapping_fallback(tmp_path: Path):

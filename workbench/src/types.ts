@@ -42,11 +42,27 @@ export interface DomainRule {
   confidence: number;
 }
 
+export interface FieldRuleMapping {
+  api?: { method: string; url: string; functionName: string };
+  dto?: { className: string; field: string; sourcePath?: string };
+  entity?: { className: string; field: string; sourcePath?: string };
+  database?: { table: string; column: string };
+  frontendCallers?: string[];
+}
+
+export interface FieldRuleChainCompleteness {
+  presentLayers: string[];
+  missingRequiredLayers: string[];
+  missingOptionalLayers: string[];
+}
+
 export interface FieldRule {
   fieldRuleId: string;
   fieldId: string;
   statement: string;
   chain: Array<{ layer: string; ref: string }>;
+  mapping?: FieldRuleMapping;
+  chainCompleteness?: FieldRuleChainCompleteness;
   evidenceRefs: string[];
   status: Status;
   confidence: number;
