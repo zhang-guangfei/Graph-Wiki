@@ -127,7 +127,7 @@ function evidenceTone(domain: DomainDetail, ref: string) {
         <span class="brand-mark">GW</span>
         <div>
           <strong>Graph-Wiki</strong>
-          <small>Workbench v0</small>
+          <small>Workbench v1 · Domain Read Model</small>
         </div>
       </div>
 

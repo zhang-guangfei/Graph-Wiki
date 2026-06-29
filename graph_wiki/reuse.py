@@ -176,15 +176,27 @@ def merge_graph(
 # ── 图持久化 ──
 
 def save_graph(G: nx.Graph, path: Path):
-    """保存 NetworkX 图为 node-link JSON"""
-    data = nx.node_link_data(G, edges="links")
+    """保存 NetworkX 图为 node-link JSON。
+
+    NetworkX 3.x renamed the node-link edge-list keyword from ``link`` to
+    ``edges``. Support both so release gates pass on distro NetworkX 2.x and
+    newer developer environments without changing the persisted ``links``
+    schema.
+    """
+    try:
+        data = nx.node_link_data(G, edges="links")
+    except TypeError:
+        data = nx.node_link_data(G, link="links")
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def load_graph(path: Path) -> nx.Graph:
     """从 node-link JSON 加载 NetworkX 图"""
     data = json.loads(path.read_text(encoding="utf-8"))
-    return nx.node_link_graph(data, edges="links")
+    try:
+        return nx.node_link_graph(data, edges="links")
+    except TypeError:
+        return nx.node_link_graph(data, link="links")
 
 
 # ── Manifest 管理 ──

@@ -237,3 +237,16 @@ EvidenceRef / evidenceIndex
   }
 }
 ```
+
+
+## 12. Release Gate 映射
+
+`build-report.json` 必须被 release gate 按三类信号分别读取：
+
+| 信号 | JSON 路径 | 含义 | 是否可单独代表发布通过 |
+| --- | --- | --- | --- |
+| 构建执行 | `build.status` | pipeline 是否完成 | 否 |
+| 产品深读 | `productQuality.*` | flow → rules → evidence 是否可读 | 否，必须结合证据解析 |
+| 阶段能力 | `quality.phase3/4/5` 或顶层 `phase3/4/5` | ontology、impact、dream-cycle 等阶段能力 | 否 |
+
+发布脚本必须拒绝“`build.status=passed` 但缺失 `productQuality`”的输出，避免把构建成功误报为产品质量通过。
