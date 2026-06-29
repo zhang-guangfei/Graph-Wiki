@@ -42,3 +42,6 @@ workbench/public/workbench-data.json
 
 /domain-read-model.json
 /workbench-data.json
+
+# OMX local runtime/session state
+.omx/
