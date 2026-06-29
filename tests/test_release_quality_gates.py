@@ -167,3 +167,34 @@ def test_release_gate_failure_report_marks_build_failed_and_product_unreadable(t
     assert report["productQuality"]["deepReadingStatus"] == "failed"
     assert "domain-read-model.json 未生成" in report["productQuality"]["errors"]
     assert report["failure"]["step"] == "detect_corpus"
+
+
+def test_release_gate_late_failure_preserves_existing_product_quality(tmp_path: Path):
+    product_quality = {
+        "deepReadingStatus": "passed",
+        "coreDomainEvidenceStatus": "passed",
+        "ruleCorrectnessRisk": "low",
+        "warnings": [],
+        "errors": [],
+    }
+
+    report = pipeline._write_failure_report(
+        tmp_path / "build-report.json",
+        root=tmp_path,
+        corpus={"total_files": 1, "files": {"code": [str(tmp_path / "Order.java")]}},
+        filtered_extraction={"nodes": [], "edges": [], "meta": {}},
+        graph=nx.Graph(),
+        domains=[],
+        api_matches=[],
+        field_map={},
+        ontology={},
+        impact_analysis={},
+        dream_report={},
+        timings={"total_seconds": 0.01},
+        step="workbench_data",
+        error=RuntimeError("late failure"),
+        domain_read_model={"schema": {"version": "domain-read-model-v1"}, "quality": product_quality},
+    )
+
+    assert report["build"]["status"] == "failed"
+    assert report["productQuality"] == product_quality

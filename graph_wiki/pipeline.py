@@ -338,6 +338,7 @@ def _cmd_build(args):
             timings,
             current_step,
             e,
+            domain_read_model=domain_read_model,
         )
         print(f"错误: {current_step} 失败: {e}")
         sys.exit(1)
@@ -456,6 +457,7 @@ def _write_failure_report(
     timings: dict,
     step: str,
     error: Exception,
+    domain_read_model: dict | None = None,
 ) -> dict:
     graph = graph or _EmptyGraph()
     quality = evaluate_wiki_quality(domains, api_matches, field_map)
@@ -470,7 +472,7 @@ def _write_failure_report(
             "status": "failed",
             "failedStep": step,
         },
-        "productQuality": product_quality_for_report(None),
+        "productQuality": product_quality_for_report(domain_read_model),
         "project": {
             "root": str(root),
             "total_files": corpus.get("total_files", 0),

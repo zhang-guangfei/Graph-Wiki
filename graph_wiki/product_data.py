@@ -445,7 +445,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
         "flows": flows,
         "apis": _apis_from_read_model(domain, evidence_index),
         "fieldFlows": {
-            "status": "ready" if field_rules else "empty",
+            "status": _field_flows_status(field_rules),
             "items": _field_flow_items_from_read_model(domain, evidence_index),
             "emptyState": None if field_rules else _empty(
                 "No field rules were generated for this domain.",
@@ -455,11 +455,11 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
         "fieldRules": field_rules,
         "dependencies": [],
         "rules": {
-            "status": "ready" if rules else "empty",
+            "status": "ready" if rules else "missing",
             "wikiPage": f"wiki/{domain_key}/rules.md",
             "items": rules,
         },
-        "spec": {"status": "derived", "wikiPage": f"wiki/{domain_key}/spec.md"},
+        "spec": {"status": "ready" if flows or rules else "missing", "wikiPage": f"wiki/{domain_key}/spec.md"},
         "deepReadingPath": {
             "order": ["flows", "rules", "evidence"],
             "flowCount": len(flows),
@@ -468,6 +468,14 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
         },
         "evidence": _evidence_objects_from_refs(evidence_index, domain.get("evidenceRefs", [])),
     }
+
+
+def _field_flows_status(field_rules: list[dict[str, Any]]) -> str:
+    if not field_rules:
+        return "empty"
+    if any(rule.get("status") == "partial" for rule in field_rules):
+        return "partial"
+    return "ready"
 
 
 def _flow_to_business_point(domain_key: str, flow: dict[str, Any], evidence_index: dict[str, Any]) -> dict[str, Any]:
