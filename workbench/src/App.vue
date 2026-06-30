@@ -487,15 +487,24 @@ function domainQualityWarnings(domain: DomainDetail) {
                         </article>
                       </div>
                       <div class="evidence-strip">
-                        <span
-                          v-for="ref in step.evidenceRefs"
-                          :key="ref"
-                          class="evidence-chip"
-                          :class="evidenceTone(activeDomain, ref)"
-                          :title="evidenceForRef(activeDomain, ref).path || evidenceForRef(activeDomain, ref).sourcePath"
+                        <details
+                          v-for="evidence in evidenceDetails(activeDomain, step.evidenceRefs)"
+                          :key="evidence.id || evidence.label"
+                          class="evidence-inline"
+                          :class="evidenceTone(activeDomain, evidence.id || evidence.label)"
                         >
-                          {{ evidenceForRef(activeDomain, ref).label }}
-                        </span>
+                          <summary>{{ evidence.label }}</summary>
+                          <dl class="evidence-facts compact">
+                            <div v-if="evidence.id"><dt>ID</dt><dd><code>{{ evidence.id }}</code></dd></div>
+                            <div><dt>Type</dt><dd>{{ evidence.type }}</dd></div>
+                            <div v-if="evidence.path"><dt>Path</dt><dd><code>{{ evidence.path }}</code></dd></div>
+                            <div v-if="evidence.sourcePath"><dt>Source</dt><dd><code>{{ evidence.sourcePath }}</code></dd></div>
+                            <div v-if="evidence.section"><dt>Section</dt><dd>{{ evidence.section }}</dd></div>
+                            <div><dt>Confidence</dt><dd>{{ confidenceText(evidence.confidence, evidence.confidenceLabel) }}</dd></div>
+                            <div v-if="evidence.status"><dt>Status</dt><dd>{{ statusLabel(evidence.status) }}</dd></div>
+                          </dl>
+                          <button type="button" class="copy-button" @click="copyEvidence(evidence)">复制证据引用</button>
+                        </details>
                       </div>
                     </div>
                   </li>
@@ -503,29 +512,84 @@ function domainQualityWarnings(domain: DomainDetail) {
               </article>
 
               <details v-if="activeDomain.fieldRules.length" open class="field-rule-panel">
-                <summary>字段规则 {{ activeDomain.fieldRules.length }}</summary>
+                <summary>字段规则 {{ activeDomain.fieldRules.length }} · 字段链完整性</summary>
                 <article v-for="fieldRule in activeDomain.fieldRules" :key="fieldRule.fieldRuleId" class="field-rule-row">
                   <div class="field-rule-heading">
-                    <strong>{{ fieldRule.fieldId }}</strong>
+                    <div>
+                      <strong>{{ fieldRule.fieldId }}</strong>
+                      <small>{{ fieldRule.fieldRuleId }}</small>
+                    </div>
                     <span class="status" :class="statusTone(fieldRule.status)">{{ statusLabel(fieldRule.status) }}</span>
                   </div>
                   <p>{{ fieldRule.statement }}</p>
-                  <p v-if="fieldRule.partialReason" class="muted-text">部分原因：{{ fieldRule.partialReason }}</p>
-                  <div class="field-chain">
-                    <span v-for="item in fieldRule.chain" :key="fieldRule.fieldRuleId + item.layer + item.ref" :title="item.ref">
-                      {{ item.layer }}
+                  <p v-if="fieldRule.partialReason" class="muted-text">partialReason：{{ fieldRule.partialReason }}</p>
+                  <div class="chain-completeness" v-if="fieldRule.chainCompleteness">
+                    <span class="status good">已发现 {{ fieldRule.chainCompleteness.presentLayers.join(", ") || "无" }}</span>
+                    <span v-if="fieldRule.chainCompleteness.missingRequiredLayers.length" class="status bad">
+                      缺必需 {{ fieldRule.chainCompleteness.missingRequiredLayers.join(", ") }}
+                    </span>
+                    <span v-if="fieldRule.chainCompleteness.missingOptionalLayers.length" class="status warn">
+                      缺可选 {{ fieldRule.chainCompleteness.missingOptionalLayers.join(", ") }}
                     </span>
                   </div>
+                  <div class="field-chain-grid" aria-label="frontend api controller dto entity db chain">
+                    <article
+                      v-for="layer in fieldLayerOrder"
+                      :key="fieldRule.fieldRuleId + layer"
+                      class="field-layer-card"
+                      :class="fieldLayerTone(fieldLayerStatus(fieldRule, layer))"
+                    >
+                      <div class="field-layer-top">
+                        <strong>{{ fieldLayerLabels[layer] }}</strong>
+                        <span>{{ fieldLayerStatusLabel(fieldLayerStatus(fieldRule, layer)) }}</span>
+                      </div>
+                      <p v-if="fieldLayerValue(activeDomain, fieldRule, layer)"><code>{{ fieldLayerValue(activeDomain, fieldRule, layer) }}</code></p>
+                      <p v-else class="muted-text">此层暂无可展示证据</p>
+                      <ul v-if="evidenceForLayer(activeDomain, fieldRule, layer).length" class="layer-evidence-list">
+                        <li v-for="evidence in evidenceForLayer(activeDomain, fieldRule, layer)" :key="fieldRule.fieldRuleId + layer + (evidence.id || evidence.label)">
+                          <code>{{ evidence.id }}</code>
+                        </li>
+                      </ul>
+                    </article>
+                  </div>
+                  <details v-if="fieldRule.evidenceRefs.length" class="field-evidence-detail">
+                    <summary>字段规则证据 {{ fieldRule.evidenceRefs.length }}</summary>
+                    <div class="evidence-grid nested">
+                      <article v-for="evidence in fieldRuleEvidence(activeDomain, fieldRule)" :key="fieldRule.fieldRuleId + (evidence.id || evidence.label)" class="evidence-card">
+                        <span class="status" :class="statusTone(evidence.status)">{{ evidence.type }}</span>
+                        <strong>{{ evidence.label }}</strong>
+                        <dl class="evidence-facts compact">
+                          <div v-if="evidence.id"><dt>ID</dt><dd><code>{{ evidence.id }}</code></dd></div>
+                          <div v-if="evidence.path"><dt>Path</dt><dd><code>{{ evidence.path }}</code></dd></div>
+                          <div v-if="evidence.sourcePath"><dt>Source</dt><dd><code>{{ evidence.sourcePath }}</code></dd></div>
+                          <div v-if="evidence.section"><dt>Section</dt><dd>{{ evidence.section }}</dd></div>
+                          <div><dt>Confidence</dt><dd>{{ confidenceText(evidence.confidence, evidence.confidenceLabel) }}</dd></div>
+                          <div v-if="evidence.status"><dt>Status</dt><dd>{{ statusLabel(evidence.status) }}</dd></div>
+                        </dl>
+                        <button type="button" class="copy-button" @click="copyEvidence(evidence)">复制证据引用</button>
+                      </article>
+                    </div>
+                  </details>
                 </article>
               </details>
 
               <details v-if="activeDomain.evidence.length" open class="evidence-panel">
-                <summary>证据面板 {{ activeDomain.evidence.length }}</summary>
+                <summary>证据面板 {{ activeDomain.evidence.length }} · 可复制引用</summary>
                 <div class="evidence-grid">
                   <article v-for="item in activeDomain.evidence" :key="item.id || item.label" class="evidence-card">
-                    <span class="status" :class="statusTone(item.status)">{{ item.type }}</span>
+                    <div class="card-top">
+                      <span class="status" :class="statusTone(item.status)">{{ item.type }}</span>
+                      <span class="status quiet">{{ confidenceText(item.confidence, item.confidenceLabel) }}</span>
+                    </div>
                     <strong>{{ item.label }}</strong>
-                    <small>{{ item.sourcePath || item.path || item.id }}</small>
+                    <dl class="evidence-facts">
+                      <div v-if="item.id"><dt>ID</dt><dd><code>{{ item.id }}</code></dd></div>
+                      <div v-if="item.path"><dt>Path</dt><dd><code>{{ item.path }}</code></dd></div>
+                      <div v-if="item.sourcePath"><dt>Source</dt><dd><code>{{ item.sourcePath }}</code></dd></div>
+                      <div v-if="item.section"><dt>Section</dt><dd>{{ item.section }}</dd></div>
+                      <div v-if="item.status"><dt>Status</dt><dd>{{ statusLabel(item.status) }}</dd></div>
+                    </dl>
+                    <button type="button" class="copy-button" @click="copyEvidence(item)">复制证据引用</button>
                   </article>
                 </div>
               </details>
@@ -629,6 +693,15 @@ function domainQualityWarnings(domain: DomainDetail) {
               <ul>
                 <li v-for="action in item.recommendedActions" :key="action">{{ action }}</li>
               </ul>
+              <details v-if="item.evidence.length" class="impact-evidence">
+                <summary>影响分析证据 {{ item.evidence.length }}</summary>
+                <article v-for="evidence in item.evidence" :key="item.question + (evidence.id || evidence.label)" class="evidence-card compact-card">
+                  <span class="status" :class="statusTone(evidence.status)">{{ evidence.type }}</span>
+                  <strong>{{ evidence.label }}</strong>
+                  <small>{{ evidence.sourcePath || evidence.path || evidence.id }}</small>
+                  <button type="button" class="copy-button" @click="copyEvidence(evidence)">复制证据引用</button>
+                </article>
+              </details>
             </article>
           </div>
         </section>
