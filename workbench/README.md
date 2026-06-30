@@ -32,10 +32,12 @@ npm run build
 
 `graph_wiki.product_data.ProductDataService` exports `workbench-data.json` from a generated product directory.
 
-The current demo data comes from:
+Prepare demo runtime data from any `graph-wiki build` output with the repository-level helper:
 
-```text
-docs/wiki-demo/generated/svn-acceptance-audit-2026-06-26
+```bash
+python scripts/prepare_workbench_demo.py output/svn-platform
 ```
+
+The helper validates that `workbench-data.json` is a Workbench v1 bundle derived from `domain-read-model.json`, then copies it to `workbench/public/workbench-data.json`. That runtime file is ignored by git, so demos are reproducible without committing generated artifacts.
 
 The workbench treats that JSON file as the front-end contract, so future Wiki rebuilds should update data rather than require UI code changes.

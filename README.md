@@ -85,17 +85,17 @@ python scripts/release_quality_gate.py
 python -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/svn-platform
 ```
 
-把数据包放到 Workbench 的 public 目录：
+用脚本验证并准备 Workbench 运行时数据包。脚本会校验 `workbench-data.json` 确实来自 `domain-read-model.json`，再复制到被 git 忽略的 `workbench/public/workbench-data.json`：
 
 ```powershell
-Copy-Item output/svn-platform/workbench-data.json workbench/public/workbench-data.json
+python scripts/prepare_workbench_demo.py output/svn-platform
 ```
 
 启动前端：
 
 ```powershell
 cd workbench
-npm install
+npm ci
 npm run dev -- --port 5174
 ```
 
