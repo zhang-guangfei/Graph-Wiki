@@ -16,6 +16,8 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+
+from graph_wiki.evidence import is_sensitive_source_path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -276,6 +278,19 @@ def validate_build_artifacts(
     if not core_domains:
         errors.append("no core domain found")
     evidence_index = read_model.get("evidenceIndex") or {}
+    for ref, evidence in evidence_index.items():
+        if not isinstance(evidence, dict):
+            errors.append(f"evidenceIndex {ref}: evidence must be an object")
+            continue
+        evidence_path = evidence.get("sourcePath") or evidence.get("path") or ""
+        if evidence.get("redacted") or is_sensitive_source_path(evidence_path):
+            errors.append(f"evidenceIndex {ref}: sensitive source evidence is not release-trusted")
+        if evidence.get("type") == "source" and evidence_path:
+            source_path = Path(str(evidence_path))
+            if source_path.is_absolute():
+                errors.append(f"evidenceIndex {ref}: source evidence must be relative to sourceRoot")
+            if ".." in source_path.parts:
+                errors.append(f"evidenceIndex {ref}: source evidence escapes sourceRoot")
     field_rule_count = 0
     for domain in core_domains:
         domain_key = domain.get("domainKey")
