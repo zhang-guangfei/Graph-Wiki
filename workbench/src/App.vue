@@ -118,6 +118,16 @@ function evidenceTone(domain: DomainDetail, ref: string) {
   if (evidence.status === "partial" || evidence.confidenceLabel === "medium") return "warn";
   return "quiet";
 }
+
+function fieldRuleWarnings(domain: DomainDetail) {
+  return domain.fieldRules
+    .filter((rule) => rule.status === "partial" || rule.partialReason)
+    .map((rule) => rule.partialReason || `${rule.fieldId} 字段规则处于 ${statusLabel(rule.status)} 状态`);
+}
+
+function domainQualityWarnings(domain: DomainDetail) {
+  return [...domain.health.warnings, ...fieldRuleWarnings(domain)].filter(Boolean);
+}
 </script>
 
 <template>
@@ -209,6 +219,52 @@ function evidenceTone(domain: DomainDetail, ref: string) {
             </dl>
           </div>
 
+          <section v-if="overview.qualitySignals" class="quality-panel" aria-label="product quality warning summary">
+            <div class="quality-panel-header">
+              <div>
+                <p class="eyebrow">产品质量信号</p>
+                <h3>构建状态 ≠ 产品可读性</h3>
+              </div>
+              <div class="status-row">
+                <span class="status" :class="statusTone(overview.quality.build)">build {{ statusLabel(overview.quality.build) }}</span>
+                <span class="status" :class="statusTone(overview.quality.deepReading)">product {{ statusLabel(overview.quality.deepReading) }}</span>
+              </div>
+            </div>
+            <ul class="quality-facts">
+              <li v-for="item in overview.qualitySignals.statusItems" :key="item">{{ item }}</li>
+            </ul>
+            <div v-if="overview.qualitySignals.errors.length" class="quality-callout bad">
+              <strong>Errors</strong>
+              <ul>
+                <li v-for="item in overview.qualitySignals.errors" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+            <div v-if="overview.qualitySignals.warnings.length" class="quality-callout warn">
+              <strong>Warnings</strong>
+              <ul>
+                <li v-for="item in overview.qualitySignals.warnings" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+            <div v-if="overview.qualitySignals.partialDomains.length" class="quality-callout warn">
+              <strong>需要审查的业务域</strong>
+              <button
+                v-for="domain in overview.qualitySignals.partialDomains"
+                :key="domain.domainKey"
+                type="button"
+                class="inline-link"
+                @click="setDomain(domain.domainKey)"
+              >
+                {{ domain.displayName }} · {{ statusLabel(domain.status) }}
+              </button>
+            </div>
+            <div v-if="overview.qualitySignals.recommendedActions.length" class="quality-callout action">
+              <strong>下一步审查动作</strong>
+              <ol>
+                <li v-for="item in overview.qualitySignals.recommendedActions" :key="item">{{ item }}</li>
+              </ol>
+            </div>
+          </section>
+
           <div class="metric-grid">
             <div class="metric"><span>业务域</span><strong>{{ overview.scale.domains }}</strong></div>
             <div class="metric"><span>API</span><strong>{{ overview.scale.apis }}</strong></div>
@@ -255,6 +311,24 @@ function evidenceTone(domain: DomainDetail, ref: string) {
                 <span class="status" :class="statusTone(activeDomain.spec.status)">spec {{ statusLabel(activeDomain.spec.status) }}</span>
               </div>
             </header>
+
+            <section v-if="domainQualityWarnings(activeDomain).length || activeDomain.fieldFlows.emptyState" class="quality-panel domain-quality" aria-label="domain quality warnings">
+              <div class="quality-panel-header">
+                <div>
+                  <p class="eyebrow">业务域质量提示</p>
+                  <h3>缺失、partial 与下一步审查</h3>
+                </div>
+                <span class="status" :class="statusTone(activeDomain.health.status)">{{ statusLabel(activeDomain.health.status) }}</span>
+              </div>
+              <ul v-if="domainQualityWarnings(activeDomain).length" class="quality-facts">
+                <li v-for="item in domainQualityWarnings(activeDomain)" :key="item">{{ item }}</li>
+              </ul>
+              <div v-if="activeDomain.fieldFlows.emptyState" class="quality-callout warn">
+                <strong>字段链路缺失</strong>
+                <p>{{ activeDomain.fieldFlows.emptyState.reason }}</p>
+                <p class="muted-text">{{ activeDomain.fieldFlows.emptyState.recommendedAction }}</p>
+              </div>
+            </section>
 
             <section class="deep-reading-panel" aria-label="flow rules evidence reading path">
               <div class="reading-title">

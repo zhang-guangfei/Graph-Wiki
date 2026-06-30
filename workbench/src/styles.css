@@ -209,7 +209,8 @@ p {
 .state-panel,
 .summary-band,
 .table-shell,
-.impact-card {
+.impact-card,
+.quality-panel {
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
@@ -514,7 +515,8 @@ code,
   gap: 14px;
 }
 
-.impact-card {
+.impact-card,
+.quality-panel {
   padding: 18px;
 }
 
