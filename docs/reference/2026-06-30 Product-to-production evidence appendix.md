@@ -41,3 +41,21 @@ python scripts/release_quality_gate.py --output-dir output/evidence-release-gate
 ## Evidence status captured in this worker pass
 
 This appendix is evidence-only. It does not assert final product readiness by itself; readiness remains owned by the product-to-production audit and the release quality gate.
+
+## Worker-2 verification evidence (2026-06-30)
+
+| Check | Command | Result |
+| --- | --- | --- |
+| Full Python test suite | `python3 -m pytest -q` | PASS — `71 passed in 56.68s` |
+| SVN demo build | `python3 -m graph_wiki.pipeline build tests/svn-platform --no-llm --output-dir output/evidence-svn-platform` | PASS — `build.status: passed`, `productQuality.deepReadingStatus: warning` |
+| Fullstack enterprise demo build | `python3 -m graph_wiki.pipeline build tests/fixtures/fullstack-enterprise --no-llm --output-dir output/evidence-fullstack-enterprise` | PASS — `build.status: passed`, `productQuality.deepReadingStatus: passed` |
+| Workbench dependency install | `(cd workbench && npm ci)` | PASS — `added 44 packages` |
+| Workbench typecheck/build | `(cd workbench && npm run build)` | PASS — `vue-tsc --noEmit && vite build`, `✓ built` |
+| Release quality gate | `python3 scripts/release_quality_gate.py --output-dir output/evidence-release-gate` | PASS — `Release quality gate: PASS`; report at `output/evidence-release-gate/release-quality-gate-report.json` |
+| Modified-file evidence sanity | Python path/command presence check for this Markdown file | PASS — `43 lines` before this verification section |
+
+Notes:
+
+- The first attempted `python -m pytest -q` failed with `python: command not found`; all successful Python verification used `python3`.
+- The first attempted Workbench build failed with `vue-tsc: not found`; `npm ci` installed local dependencies, then the same build command passed.
+- Generated outputs remain under ignored paths (`output/`, `workbench/dist/`, `workbench/public/workbench-data.json`, fixture `node_modules/`/`dist/`) and are not intended for commit.
