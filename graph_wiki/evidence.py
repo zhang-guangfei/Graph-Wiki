@@ -21,6 +21,27 @@ _REF_PATTERNS = {
 }
 
 
+SENSITIVE_PATH_KEYWORDS = {
+    "secret", "password", "passwd", "token", "credential", "credentials",
+    "private-key", "private_key", ".env", "application-", "bootstrap-",
+    "id_rsa", "id_dsa", "keystore", "truststore",
+}
+
+
+def is_sensitive_source_path(path: str | Path | None) -> bool:
+    """Return True when a source path is likely to expose secrets/config credentials.
+
+    Evidence chains should remain auditable without linking users directly to
+    secret-bearing files. This path-level guard is intentionally conservative
+    and is shared by DRM generation and product-facing DTOs.
+    """
+    text = normalize_source_path(path or "").lower()
+    if not text:
+        return False
+    name = Path(text).name
+    return any(keyword in text or keyword in name for keyword in SENSITIVE_PATH_KEYWORDS)
+
+
 def api_ref(method: str | None, path: str | None) -> str:
     """Return a stable `api:<METHOD>:<PATH>` evidence id."""
     normalized_method = (method or "GET").strip().upper() or "GET"

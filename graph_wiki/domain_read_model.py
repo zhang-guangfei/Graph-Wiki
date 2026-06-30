@@ -14,6 +14,7 @@ from typing import Any, Iterable
 from .evidence import (
     api_ref,
     field_ref,
+    is_sensitive_source_path,
     is_valid_evidence_ref,
     make_evidence,
     normalize_api_path,
@@ -539,6 +540,19 @@ def _register_api_source_evidence(api_item: Any, root: Path, evidence_index: dic
 
 def _register_source_evidence(path: str | Path, symbol: str | int | None, root: Path, evidence_index: dict[str, dict[str, Any]]) -> str:
     normalized = _relative_or_normalized_path(path, root)
+    if is_sensitive_source_path(normalized):
+        ref = source_ref("redacted/sensitive-source", symbol or "redacted")
+        evidence_index.setdefault(ref, make_evidence(
+            ref,
+            label="敏感来源已过滤",
+            path="",
+            source_path="",
+            confidence=0.0,
+            status="missing",
+        ))
+        evidence_index[ref]["redacted"] = True
+        evidence_index[ref]["redactionReason"] = "sensitive_source_path"
+        return ref
     ref = source_ref(normalized, symbol)
     resolved = _resolve_source_path(root, normalized)
     evidence_index.setdefault(ref, make_evidence(

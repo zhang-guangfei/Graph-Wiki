@@ -254,6 +254,9 @@ class ProductDataService:
                         "dto": _compact_field_endpoint(mapping["dto"]),
                         "entity": _compact_field_endpoint(mapping["entity"]),
                         "frontendCallers": mapping["frontendCallers"],
+                        "chain": rule.get("chain", []),
+                        "chainCompleteness": _field_chain_completeness(rule),
+                        "missingLayers": _field_chain_missing_layers(rule),
                         "confidence": rule.get("confidence", 0),
                         "confidenceLabel": _confidence_label(rule.get("confidence")),
                         "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
@@ -291,6 +294,9 @@ class ProductDataService:
                                 "field": mapping.get("entity_field", ""),
                             },
                             "frontendCallers": mapping.get("callers", []),
+                            "chain": _legacy_field_chain(mapping),
+                            "chainCompleteness": _legacy_field_chain_completeness(mapping),
+                            "missingLayers": _legacy_field_chain_completeness(mapping)["missingRequiredLayers"] + _legacy_field_chain_completeness(mapping)["missingOptionalLayers"],
                             "confidence": mapping.get("confidence", 0),
                             "confidenceLabel": mapping.get("confidence_level", "unknown"),
                             "evidence": [
@@ -470,6 +476,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
             "ruleCount": len(rules),
             "evidenceCount": len(domain.get("evidenceRefs", [])),
         },
+        "agentScope": _agent_scope_from_read_model(domain, evidence_index),
         "evidence": _evidence_objects_from_refs(evidence_index, domain.get("evidenceRefs", [])),
     }
 
@@ -705,6 +712,65 @@ def _dependencies_from_read_model(domain: dict[str, Any], evidence_index: dict[s
     return deduped
 
 
+def _agent_scope_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> dict[str, Any]:
+    """Derive the Agent/CI scope from the same DRM evidence as Workbench."""
+    refs = list(domain.get("evidenceRefs", []) or [])
+    for container_name in ("flows", "rules", "fieldRules"):
+        for container in domain.get(container_name, []) or []:
+            refs.extend(container.get("evidenceRefs", []) if isinstance(container, dict) else [])
+            for step in container.get("steps", []) if isinstance(container, dict) else []:
+                refs.extend(step.get("evidenceRefs", []) if isinstance(step, dict) else [])
+    evidence = _evidence_objects_from_refs(evidence_index, _unique_strings([str(ref) for ref in refs]))
+    return {
+        "source": "domain-read-model.json",
+        "entryFiles": [item.get("sourcePath") or item.get("path") for item in evidence if item.get("type") == "source" and (item.get("sourcePath") or item.get("path"))],
+        "apis": [item.get("id") for item in evidence if item.get("type") == "api" and item.get("id")],
+        "tables": sorted({rule.get("fieldId", "").split(".", 1)[0] for rule in domain.get("fieldRules", []) if rule.get("fieldId")}),
+        "evidenceRefs": [item.get("id") for item in evidence if item.get("id")],
+    }
+
+
+def _field_chain_completeness(rule: dict[str, Any]) -> dict[str, list[str]]:
+    value = rule.get("chainCompleteness") if isinstance(rule.get("chainCompleteness"), dict) else {}
+    present = _string_list(value.get("presentLayers"))
+    missing_required = _string_list(value.get("missingRequiredLayers"))
+    missing_optional = _string_list(value.get("missingOptionalLayers"))
+    if not present:
+        present = _string_list([item.get("layer", "") for item in rule.get("chain", []) if isinstance(item, dict)])
+    return {
+        "presentLayers": present,
+        "missingRequiredLayers": missing_required,
+        "missingOptionalLayers": missing_optional,
+    }
+
+
+def _field_chain_missing_layers(rule: dict[str, Any]) -> list[str]:
+    completeness = _field_chain_completeness(rule)
+    return completeness["missingRequiredLayers"] + completeness["missingOptionalLayers"]
+
+
+def _legacy_field_chain(mapping: dict[str, Any]) -> list[dict[str, str]]:
+    candidates = [
+        ("frontend", bool(mapping.get("callers"))),
+        ("api", bool(mapping.get("api_url"))),
+        ("dto", bool(mapping.get("dto_class") or mapping.get("dto_field"))),
+        ("entity", bool(mapping.get("entity_class") or mapping.get("entity_field"))),
+        ("db", bool(mapping.get("db_table") or mapping.get("db_column"))),
+    ]
+    return [{"layer": layer, "ref": "field-map.json"} for layer, present in candidates if present]
+
+
+def _legacy_field_chain_completeness(mapping: dict[str, Any]) -> dict[str, list[str]]:
+    present = [item["layer"] for item in _legacy_field_chain(mapping)]
+    required = ["api", "db"]
+    optional = ["frontend", "controller", "dto", "entity"]
+    return {
+        "presentLayers": present,
+        "missingRequiredLayers": [layer for layer in required if layer not in present],
+        "missingOptionalLayers": [layer for layer in optional if layer not in present],
+    }
+
+
 def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[dict[str, Any]]:
     result = []
     for rule in domain.get("fieldRules", []):
@@ -727,6 +793,9 @@ def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: di
             "dto": mapping["dto"],
             "entity": mapping["entity"],
             "frontendCallers": mapping["frontendCallers"],
+            "chain": rule.get("chain", []),
+            "chainCompleteness": _field_chain_completeness(rule),
+            "missingLayers": _field_chain_missing_layers(rule),
             "confidence": rule.get("confidence", 0),
             "confidenceLabel": _confidence_label(rule.get("confidence")),
             "evidence": _evidence_objects_from_refs(evidence_index, rule.get("evidenceRefs", [])),
