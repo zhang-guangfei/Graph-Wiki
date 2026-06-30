@@ -16,9 +16,9 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 from graph_wiki.evidence import is_sensitive_source_path
-from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "output" / "release-quality-gate"

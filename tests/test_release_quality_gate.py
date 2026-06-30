@@ -181,3 +181,46 @@ def test_release_gate_records_pip_check_and_npm_audits(monkeypatch, tmp_path: Pa
     assert calls[names.index("python dependency check")][1][:4] == [gate.sys.executable, "-m", "pip", "check"]
     assert calls[names.index("workbench npm audit high")][1] == gate.npm_audit_command()
     assert calls[names.index("svn-platform npm audit high")][1] == gate.npm_audit_command()
+
+
+def test_release_gate_rejects_sensitive_and_escaping_source_evidence(tmp_path: Path):
+    gate = _load_gate_module()
+    output_dir = tmp_path / "fixture"
+    product_quality = {
+        "deepReadingStatus": "passed",
+        "coreDomainEvidenceStatus": "passed",
+        "ruleCorrectnessRisk": "low",
+    }
+    _write_minimal_artifacts(output_dir, product_quality=product_quality)
+    model_path = output_dir / "domain-read-model.json"
+    model = json.loads(model_path.read_text(encoding="utf-8"))
+    model["evidenceIndex"].update({
+        "source:redacted/sensitive-source#password": {
+            "id": "source:redacted/sensitive-source#password",
+            "type": "source",
+            "status": "missing",
+            "redacted": True,
+        },
+        "source:../outside/Controller.java#create": {
+            "id": "source:../outside/Controller.java#create",
+            "type": "source",
+            "status": "ready",
+            "path": "../outside/Controller.java",
+            "sourcePath": "../outside/Controller.java",
+        },
+        "source:backend/src/main/resources/application-prod.yml#password": {
+            "id": "source:backend/src/main/resources/application-prod.yml#password",
+            "type": "source",
+            "status": "ready",
+            "path": "backend/src/main/resources/application-prod.yml",
+            "sourcePath": "backend/src/main/resources/application-prod.yml",
+        },
+    })
+    model_path.write_text(json.dumps(model), encoding="utf-8")
+
+    result = gate.validate_build_artifacts(output_dir)
+
+    assert result["status"] == "failed"
+    errors = "\n".join(result["errors"])
+    assert "sensitive source evidence" in errors
+    assert "escapes sourceRoot" in errors
