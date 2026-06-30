@@ -457,6 +457,9 @@ def _check_evidence_source(
     if not ref.startswith("source:"):
         return
     source_path = str(evidence.get("sourcePath") or evidence.get("path") or "")
+    if evidence.get("redacted") or evidence.get("redactionReason") == "sensitive_source_path":
+        errors.append(f"EvidenceRef 指向敏感文件，已禁止作为产品证据: {ref}")
+        return
     if is_sensitive_path(source_path):
         errors.append(f"EvidenceRef 指向敏感文件，已禁止作为产品证据: {ref}")
         return

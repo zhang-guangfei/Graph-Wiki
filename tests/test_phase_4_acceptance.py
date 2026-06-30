@@ -303,6 +303,31 @@ def test_phase4_rule_spec_impacts_include_code_carriers(tmp_path):
     assert rule["evidence"]["code_map"].endswith("order/code-map.md")
 
 
+def test_phase4_single_domain_records_no_external_dependency_as_evidence(tmp_path):
+    wiki_root = tmp_path / "wiki"
+    (wiki_root / "order").mkdir(parents=True)
+
+    domain = _sample_domain()
+    domain.dependencies = []
+    domain.business_points[0].cross_domain_calls = {}
+
+    impact = build_impact_analysis(
+        domains=[domain],
+        api_matches=[_sample_api()],
+        field_map=_sample_field_map(),
+        ontology={"relationships": []},
+        wiki_root=wiki_root,
+    )
+
+    dependency = impact["impacts"]["domain_dependencies"][0]
+    assert dependency["source_domain"] == "order"
+    assert dependency["target_domain"] == "无外部域依赖"
+    assert dependency["dependency_status"] == "none_detected"
+    assert dependency["evidence"]["wiki_page"].endswith("order/dependencies.md")
+    assert "domain_dependency" in {item["type"] for item in impact["query_examples"]}
+    assert evaluate_phase4_acceptance(impact)["status"] == "passed"
+
+
 def test_phase4_field_impacts_fall_back_to_page_anchor_when_page_has_only_helpers(tmp_path):
     wiki_root = tmp_path / "wiki"
     (wiki_root / "svn").mkdir(parents=True)

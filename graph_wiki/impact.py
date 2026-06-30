@@ -386,6 +386,21 @@ def _domain_dependency_impacts(domains: list[Domain], ontology: dict, wiki_root:
                         "wiki_page": _path_str(wiki_root / source_domain / "data-flow.md"),
                     },
                 })
+    if not results:
+        for domain in domains:
+            source = domain.name or domain.id
+            if not source:
+                continue
+            results.append({
+                "source_domain": source,
+                "target_domain": "无外部域依赖",
+                "import_count": 0,
+                "dependency_status": "none_detected",
+                "evidence": {
+                    "source": "domain_dependency_scan",
+                    "wiki_page": _path_str(wiki_root / source / "dependencies.md"),
+                },
+            })
     return results
 
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import type { ApiIndexItem, DomainDetail, DomainListItem, ImpactExample, EvidenceRef, WorkbenchData } from "./types";
+import type { ApiIndexItem, DomainDetail, DomainListItem, ImpactExample, EvidenceRef, FieldRule, WorkbenchData } from "./types";
 
 type ViewKey = "overview" | "domains" | "apis" | "impact" | "maintenance";
 
