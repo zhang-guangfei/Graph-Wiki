@@ -11,6 +11,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 
 from .models import Domain
+from .trust import is_sensitive_path
 
 # ── 异常定义 ──
 
@@ -55,16 +56,9 @@ def _check_api_key() -> None:
 
 # ── 敏感路径排除 ──
 
-_SENSITIVE_PATH_KEYWORDS = {
-    "secret", "password", "token", "key", "credential",
-    ".env", "application-", "credentials",
-}
-
-
 def _is_sensitive_path(source_file: str) -> bool:
-    """检查文件路径是否包含敏感关键词（配置/密钥文件）"""
-    return any(kw in source_file.lower() for kw in _SENSITIVE_PATH_KEYWORDS)
-
+    """Backward-compatible wrapper around the shared trust policy."""
+    return is_sensitive_path(source_file)
 
 def label_domains(
     domains: list[Domain],
@@ -143,7 +137,7 @@ def _build_prompt(domain: Domain, backend_root: Path, config: LabelConfig) -> st
     service_anchors = domain.anchors.get("service_impl", [])[:2]
     for anchor in service_anchors:
         src_file = anchor.get("source_file", "")
-        if src_file:
+        if src_file and not _is_sensitive_path(src_file):
             try:
                 lines = (backend_root / src_file).read_text(encoding="utf-8").split("\n")
                 sample += f"\n## {src_file}\n" + "\n".join(lines[:config.sampling_lines])

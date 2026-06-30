@@ -21,6 +21,7 @@ from .evidence import (
     normalize_source_path,
     source_ref,
 )
+from .trust import is_sensitive_path
 
 
 def build_domain_read_model(
@@ -88,11 +89,16 @@ def evaluate_domain_read_model(model: dict[str, Any]) -> dict[str, Any]:
     warnings: list[str] = []
     evidence_index = model.get("evidenceIndex", {}) if isinstance(model.get("evidenceIndex"), dict) else {}
 
+    source_root = _model_source_root(model)
     for ref, evidence in evidence_index.items():
         if not is_valid_evidence_ref(ref):
             errors.append(f"EvidenceRef 格式非法: {ref}")
-        if isinstance(evidence, dict) and evidence.get("status") not in {"ready", "partial", "missing"}:
+        if not isinstance(evidence, dict):
+            errors.append(f"EvidenceRef 缺少证据对象: {ref}")
+            continue
+        if evidence.get("status") not in {"ready", "partial", "missing"}:
             warnings.append(f"EvidenceRef 状态未知: {ref}")
+        _check_evidence_source(errors, warnings, source_root, ref, evidence)
 
     domains = model.get("domains", []) if isinstance(model.get("domains"), list) else []
     core_domains = [domain for domain in domains if domain.get("core")]
@@ -434,6 +440,36 @@ def _select_api_for_field_entry(entry: dict[str, Any], api_url: str, api_views: 
 
     return candidates[0][1] if candidates else None
 
+
+def _model_source_root(model: dict[str, Any]) -> Path | None:
+    project = model.get("project", {}) if isinstance(model.get("project"), dict) else {}
+    root = project.get("sourceRoot")
+    return Path(root) if root else None
+
+
+def _check_evidence_source(
+    errors: list[str],
+    warnings: list[str],
+    source_root: Path | None,
+    ref: str,
+    evidence: dict[str, Any],
+) -> None:
+    if not ref.startswith("source:"):
+        return
+    source_path = str(evidence.get("sourcePath") or evidence.get("path") or "")
+    if is_sensitive_path(source_path):
+        errors.append(f"EvidenceRef 指向敏感文件，已禁止作为产品证据: {ref}")
+        return
+    if evidence.get("status") == "missing":
+        errors.append(f"EvidenceRef 源文件缺失: {ref}")
+        return
+    if evidence.get("status") == "partial":
+        warnings.append(f"EvidenceRef 源文件未解析确认: {ref}")
+    if source_root and source_path:
+        resolved = _resolve_source_path(source_root, source_path)
+        if not resolved:
+            errors.append(f"EvidenceRef 源文件不可解析: {ref}")
+
 def _check_refs(
     errors: list[str],
     warnings: list[str],
@@ -555,13 +591,14 @@ def _register_source_evidence(path: str | Path, symbol: str | int | None, root: 
         return ref
     ref = source_ref(normalized, symbol)
     resolved = _resolve_source_path(root, normalized)
+    sensitive = is_sensitive_path(normalized)
     evidence_index.setdefault(ref, make_evidence(
         ref,
         label=f"{normalized}#{symbol or 'file'}",
         path=normalized,
         source_path=normalized,
-        confidence=1.0 if resolved else 0.6,
-        status="ready" if resolved else "partial",
+        confidence=0.0 if sensitive else (1.0 if resolved else 0.6),
+        status="missing" if sensitive else ("ready" if resolved else "partial"),
     ))
     return ref
 
@@ -631,7 +668,7 @@ def _extract_code_rules(
     if not method_names:
         return rules
 
-    service_files = [path for path in root.rglob("*ServiceImpl.java") if path.is_file()]
+    service_files = [path for path in root.rglob("*ServiceImpl.java") if path.is_file() and not is_sensitive_path(path)]
     for service_file in service_files:
         try:
             source = service_file.read_text(encoding="utf-8", errors="ignore")

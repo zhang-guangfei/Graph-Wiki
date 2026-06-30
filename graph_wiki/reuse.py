@@ -8,6 +8,8 @@ from datetime import datetime, timezone
 
 import networkx as nx
 
+from .trust import filter_safe_paths, is_sensitive_path
+
 
 # ── 异常定义 ──
 
@@ -22,7 +24,7 @@ def detect_corpus(root: Path) -> dict:
     """文件检测 → {files: {code: [...], doc: [...]}, total_files, total_words}"""
     try:
         from graphify.detect import detect
-        return detect(root)
+        return _filter_sensitive_corpus(detect(root))
     except ImportError as e:
         raise DetectError(f"graphify 未安装或不可用: {e}") from e
     except Exception as e:
@@ -34,7 +36,7 @@ def extract_ast(code_files: list[Path]) -> dict:
     try:
         from graphify.extract import extract, collect_files
         files = []
-        for f in code_files:
+        for f in filter_safe_paths(code_files):
             files.extend(collect_files(f) if f.is_dir() else [f])
         return extract(files)
     except ImportError as e:
@@ -47,6 +49,25 @@ def build_graph(extraction: dict) -> nx.Graph:
     """构建 NetworkX 图（无向图）"""
     from graphify.build import build_from_json
     return build_from_json(extraction)
+
+
+def _filter_sensitive_corpus(corpus: dict) -> dict:
+    """Remove sensitive files from graphify corpus output before any analysis."""
+    files = corpus.get("files", {}) if isinstance(corpus.get("files"), dict) else {}
+    filtered_files = {}
+    removed = []
+    for kind, values in files.items():
+        safe_values = filter_safe_paths(values or [])
+        filtered_files[kind] = safe_values
+        removed.extend(str(path) for path in (values or []) if is_sensitive_path(path))
+    result = dict(corpus)
+    result["files"] = filtered_files
+    result["total_files"] = sum(len(values) for values in filtered_files.values())
+    meta = dict(result.get("meta") or {})
+    if removed:
+        meta["sensitive_files_excluded"] = sorted(removed)
+    result["meta"] = meta
+    return result
 
 
 NOISE_SOURCE_PARTS = {
@@ -103,6 +124,8 @@ def _is_wiki_relevant_node(node: dict) -> bool:
     label_lower = label.lower().strip()
 
     if not node.get("id"):
+        return False
+    if is_sensitive_path(source_file):
         return False
     if any(f"/{part}/" in f"/{source_lower}/" for part in NOISE_SOURCE_PARTS):
         return False
@@ -206,7 +229,7 @@ def build_manifest(files: list[Path], domains: list) -> dict:
     返回格式见架构文档 §6.4
     """
     manifest_files = {}
-    for f in files:
+    for f in filter_safe_paths(files):
         try:
             content = f.read_bytes()
             file_hash = hashlib.sha256(content).hexdigest()[:16]
@@ -238,7 +261,7 @@ def build_manifest(files: list[Path], domains: list) -> dict:
         "domains": manifest_domains,
         "meta": {
             "last_full_build": datetime.now(timezone.utc).isoformat(),
-            "total_files": len(files),
+            "total_files": len(manifest_files),
         },
     }
 
@@ -253,7 +276,7 @@ def detect_incremental(root: Path, manifest_path: Path) -> dict:
 
     try:
         from graphify.detect import detect
-        corpus = detect(root)
+        corpus = _filter_sensitive_corpus(detect(root))
         current_files = set(corpus.get("files", {}).get("code", []))
     except Exception:
         return {"new_files": [], "deleted_files": [], "unchanged_files": [], "new_total": 0}
