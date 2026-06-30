@@ -126,7 +126,7 @@ function fieldRuleWarnings(domain: DomainDetail) {
 }
 
 function domainQualityWarnings(domain: DomainDetail) {
-  return [...domain.health.warnings, ...fieldRuleWarnings(domain)].filter(Boolean);
+  return Array.from(new Set([...domain.health.warnings, ...fieldRuleWarnings(domain)].filter(Boolean)));
 }
 </script>
 
