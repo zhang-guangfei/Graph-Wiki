@@ -194,3 +194,86 @@ def test_api_docs_link_mutation_apis_to_core_business_points(tmp_path):
 
     assert "POST /requirement\n\n- 用途：提交需求管理相关数据或执行关键变更\n- 关联业务点：handleSubmit()" in api_docs
     assert "DELETE /requirement/${requirementId}\n\n- 用途：删除需求管理相关数据\n- 关联业务点：handleDelete()" in api_docs
+
+
+def test_export_wiki_writes_domain_read_model_sections(tmp_path):
+    from graph_wiki.export import export_wiki
+
+    domain = Domain(id="order", name="order", display_name="订单管理", anchors={"controller": [{"id": "OrderController"}]})
+    read_model = {
+        "schema": {"version": "domain-read-model-v1"},
+        "quality": {"deepReadingStatus": "passed", "coreDomainEvidenceStatus": "passed"},
+        "domains": [
+            {
+                "domainKey": "order",
+                "displayName": "订单管理",
+                "summary": "处理订单创建、校验和落库。",
+                "core": True,
+                "quality": {"deepReadingStatus": "passed"},
+                "evidenceRefs": ["api:POST:/orders"],
+                "flows": [
+                    {
+                        "flowId": "order.create",
+                        "title": "创建订单",
+                        "status": "ready",
+                        "evidenceRefs": ["api:POST:/orders"],
+                        "steps": [
+                            {
+                                "stepId": "order.create.submit",
+                                "title": "提交订单",
+                                "ruleRefs": ["order.create.rule"],
+                                "evidenceRefs": ["source:backend/OrderController.java#createOrder"],
+                            }
+                        ],
+                    }
+                ],
+                "rules": [
+                    {
+                        "ruleId": "order.create.rule",
+                        "ruleType": "validation",
+                        "status": "ready",
+                        "confidence": 0.9,
+                        "statement": "创建订单前必须校验库存。",
+                        "flowRefs": ["order.create"],
+                        "evidenceRefs": ["source:backend/OrderController.java#createOrder"],
+                    }
+                ],
+                "fieldRules": [
+                    {
+                        "ruleId": "order.customer_id.field",
+                        "fieldId": "orders.customer_id",
+                        "status": "ready",
+                        "confidence": 1.0,
+                        "chainCompleteness": {"presentLayers": ["api", "dto", "entity", "db"], "missingRequiredLayers": []},
+                        "chain": [{"layer": "api", "ref": "api:POST:/orders", "label": "POST /orders"}],
+                        "evidenceRefs": ["field:orders.customer_id", "api:POST:/orders"],
+                    }
+                ],
+            }
+        ],
+        "evidenceIndex": {
+            "api:POST:/orders": {"id": "api:POST:/orders", "label": "POST /orders"},
+            "source:backend/OrderController.java#createOrder": {"id": "source:backend/OrderController.java#createOrder", "label": "OrderController#createOrder"},
+            "field:orders.customer_id": {"id": "field:orders.customer_id", "label": "orders.customer_id"},
+        },
+    }
+
+    export_wiki([domain], [], {}, tmp_path, domain_read_model=read_model)
+
+    index = (tmp_path / "index.md").read_text(encoding="utf-8")
+    summary = (tmp_path / "order" / "summary.md").read_text(encoding="utf-8")
+    drm_page = (tmp_path / "order" / "domain-read-model.md").read_text(encoding="utf-8")
+    rules_page = (tmp_path / "order" / "rules.md").read_text(encoding="utf-8")
+
+    assert "schema: `domain-read-model-v1`" in index
+    assert "DRM 流程**: 1" in summary
+    assert "[[domain-read-model]]" in summary
+    for expected in [
+        "order.create",
+        "order.create.rule",
+        "orders.customer_id",
+        "api:POST:/orders",
+        "source:backend/OrderController.java#createOrder",
+    ]:
+        assert expected in drm_page
+        assert expected in rules_page or expected == "api:POST:/orders"

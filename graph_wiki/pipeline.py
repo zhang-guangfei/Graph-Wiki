@@ -62,8 +62,10 @@ def main():
     up.add_argument("--summary", action="store_true")
 
     # query / path / explain
-    qp = sub.add_parser("query", help="BFS 图遍历查询")
+    qp = sub.add_parser("query", help="DRM-first Agent/CI query; falls back to graphify")
     qp.add_argument("question", type=str)
+    qp.add_argument("--output-dir", type=Path, default=Path("."), help="构建产物目录，默认当前目录")
+    qp.add_argument("--output", choices=["text", "json"], default="text", help="输出格式")
 
     pp = sub.add_parser("path", help="最短路径查询")
     pp.add_argument("source", type=str)
@@ -79,7 +81,7 @@ def main():
     elif args.command == "update":
         _cmd_update(args)
     elif args.command == "query":
-        _run_graphify("query", args.question)
+        _cmd_query(args)
     elif args.command == "path":
         _run_graphify("path", args.source, args.target)
     elif args.command == "explain":
@@ -226,15 +228,39 @@ def _cmd_build(args):
             f"{ontology['coverage']['relationship_types_count']} 类关系"
         )
 
+        current_step = "domain_read_model"
+        started = time.perf_counter()
+        print(f"[10/14] Domain Read Model...")
+        domain_read_model = build_domain_read_model(
+            project_id=output_base.name,
+            project_name=name,
+            source_root=root,
+            domains=domains,
+            api_matches=api_matches,
+            field_map=field_map,
+            ontology=ontology,
+        )
+        _write_json(output_base / "domain-read-model.json", domain_read_model)
+        timings[current_step] = round(time.perf_counter() - started, 4)
+        print(f"  domain-read-model.json: {domain_read_model['quality']['deepReadingStatus']}")
+
         current_step = "export_wiki"
         started = time.perf_counter()
-        print(f"[10/13] Wiki 导出...")
-        export_wiki(domains, api_matches, field_map, output_base / "wiki", clean_stale=True, ontology=ontology)
+        print(f"[11/14] Wiki 导出...")
+        export_wiki(
+            domains,
+            api_matches,
+            field_map,
+            output_base / "wiki",
+            clean_stale=True,
+            ontology=ontology,
+            domain_read_model=domain_read_model,
+        )
         timings[current_step] = round(time.perf_counter() - started, 4)
 
         current_step = "impact_analysis"
         started = time.perf_counter()
-        print(f"[11/13] Phase 4 影响分析...")
+        print(f"[12/14] Phase 4 影响分析...")
         impact_analysis = build_impact_analysis(
             domains=domains,
             api_matches=api_matches,
@@ -252,7 +278,7 @@ def _cmd_build(args):
 
         current_step = "visualize"
         started = time.perf_counter()
-        print(f"[12/13] 域级可视化...")
+        print(f"[13/14] 域级可视化...")
         export_domain_html(domains, output_base / "domain_graph.html")
         timings[current_step] = round(time.perf_counter() - started, 4)
 
@@ -269,7 +295,7 @@ def _cmd_build(args):
 
         current_step = "dream_cycle"
         started = time.perf_counter()
-        print(f"[13/13] Phase 5 Dream Cycle...")
+        print(f"[14/14] Phase 5 Dream Cycle...")
         dream_report = build_dream_cycle_report(
             wiki_root=output_base / "wiki",
             domains=domains,
@@ -283,21 +309,6 @@ def _cmd_build(args):
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  dream-cycle-report.json: {dream_report['quality']['status']}")
 
-        current_step = "domain_read_model"
-        started = time.perf_counter()
-        print(f"[v1] Domain Read Model...")
-        domain_read_model = build_domain_read_model(
-            project_id=output_base.name,
-            project_name=name,
-            source_root=root,
-            domains=domains,
-            api_matches=api_matches,
-            field_map=field_map,
-            ontology=ontology,
-        )
-        _write_json(output_base / "domain-read-model.json", domain_read_model)
-        timings[current_step] = round(time.perf_counter() - started, 4)
-        print(f"  domain-read-model.json: {domain_read_model['quality']['deepReadingStatus']}")
 
         timings["total_seconds"] = round(time.perf_counter() - total_started, 4)
         report = _write_build_report(
@@ -343,6 +354,109 @@ def _cmd_build(args):
         print(f"错误: {current_step} 失败: {e}")
         sys.exit(1)
 
+
+
+def _cmd_query(args) -> None:
+    output_base = Path(getattr(args, "output_dir", Path("."))).resolve()
+    read_model_path = output_base / "domain-read-model.json"
+    if read_model_path.exists():
+        payload = _query_domain_read_model(_read_json(read_model_path), args.question)
+        if getattr(args, "output", "text") == "json":
+            print(json.dumps(payload, ensure_ascii=False, indent=2))
+        else:
+            _print_drm_query(payload)
+        return
+    _run_graphify("query", args.question)
+
+
+def _query_domain_read_model(read_model: dict, question: str) -> dict:
+    needle = str(question or "").lower().strip()
+    evidence_index = read_model.get("evidenceIndex", {}) if isinstance(read_model.get("evidenceIndex"), dict) else {}
+    matches = []
+    for domain in read_model.get("domains", []) if isinstance(read_model.get("domains"), list) else []:
+        if not isinstance(domain, dict):
+            continue
+        score = _query_score(needle, [domain.get("domainKey", ""), domain.get("displayName", ""), domain.get("summary", "")])
+        domain_refs = list(domain.get("evidenceRefs", []) or [])
+        flow_hits = []
+        for flow in domain.get("flows", []) if isinstance(domain.get("flows"), list) else []:
+            if not isinstance(flow, dict):
+                continue
+            flow_score = _query_score(needle, [flow.get("flowId", ""), flow.get("title", ""), flow.get("summary", "")])
+            if flow_score or not needle:
+                flow_hits.append(flow)
+            score += flow_score
+            domain_refs.extend(flow.get("evidenceRefs", []) or [])
+            for step in flow.get("steps", []) if isinstance(flow.get("steps"), list) else []:
+                if isinstance(step, dict):
+                    score += _query_score(needle, [step.get("title", ""), step.get("description", "")])
+                    domain_refs.extend(step.get("evidenceRefs", []) or [])
+        rule_hits = []
+        for rule in [*domain.get("rules", []), *domain.get("fieldRules", [])]:
+            if not isinstance(rule, dict):
+                continue
+            rule_score = _query_score(needle, [rule.get("ruleId", ""), rule.get("title", ""), rule.get("statement", ""), rule.get("fieldId", "")])
+            if rule_score or not needle:
+                rule_hits.append(rule)
+            score += rule_score
+            domain_refs.extend(rule.get("evidenceRefs", []) or [])
+        if score or not needle:
+            refs = _unique_values(domain_refs)[:20]
+            matches.append({
+                "domainKey": domain.get("domainKey", ""),
+                "displayName": domain.get("displayName", domain.get("domainKey", "")),
+                "summary": domain.get("summary", ""),
+                "quality": domain.get("quality", {}),
+                "flows": flow_hits[:5],
+                "rules": rule_hits[:8],
+                "fieldRules": [rule for rule in rule_hits if rule.get("fieldId")][:8],
+                "evidenceRefs": refs,
+                "evidence": [evidence_index.get(ref, {"id": ref}) for ref in refs],
+                "score": score,
+            })
+    matches.sort(key=lambda item: item.get("score", 0), reverse=True)
+    return {
+        "schema": {"version": "graph-wiki-agent-query-v1", "source": "domain-read-model.json"},
+        "question": question,
+        "productQuality": read_model.get("quality", {}),
+        "matches": matches[:10],
+    }
+
+
+def _query_score(needle: str, values: list) -> int:
+    if not needle:
+        return 1
+    score = 0
+    terms = [term for term in needle.replace("/", " ").replace("_", " ").split() if term]
+    text = " ".join(str(value or "").lower() for value in values)
+    for term in terms or [needle]:
+        if term in text:
+            score += 3 if term == needle else 1
+    return score
+
+
+def _unique_values(values: list) -> list:
+    result = []
+    for value in values:
+        if value and value not in result:
+            result.append(value)
+    return result
+
+
+def _print_drm_query(payload: dict) -> None:
+    print(f"Domain Read Model query: {payload.get('question', '')}")
+    print(f"source: {payload.get('schema', {}).get('source')}")
+    print(f"deepReadingStatus: {payload.get('productQuality', {}).get('deepReadingStatus', 'unknown')}")
+    for item in payload.get("matches", [])[:5]:
+        print(f"- {item.get('domainKey')}: {item.get('displayName')} (score={item.get('score')})")
+        if item.get("summary"):
+            print(f"  summary: {item.get('summary')}")
+        if item.get("flows"):
+            print(f"  flows: {', '.join(str(flow.get('flowId')) for flow in item.get('flows', [])[:3])}")
+        if item.get("rules"):
+            print(f"  rules: {', '.join(str(rule.get('ruleId')) for rule in item.get('rules', [])[:3])}")
+        if item.get("evidenceRefs"):
+            print(f"  evidenceRefs: {', '.join(item.get('evidenceRefs', [])[:5])}")
 
 def _cmd_update(args):
     root = args.path.resolve()

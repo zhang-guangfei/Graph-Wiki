@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 from datetime import datetime
 from collections import Counter
+from typing import Any
 
 from .models import Domain, ApiMatch, BusinessPoint, FrontendApiCall
 
@@ -45,12 +46,15 @@ def export_wiki(
     output_dir: Path = Path("wiki"),
     clean_stale: bool = False,
     ontology: dict | None = None,
+    domain_read_model: dict | None = None,
 ):
     output_dir.mkdir(parents=True, exist_ok=True)
     if clean_stale:
         _archive_stale_domain_dirs(domains, output_dir)
 
-    _write_index(domains, output_dir)
+    read_model_domains = _read_model_domains_by_key(domain_read_model or {})
+    evidence_index = (domain_read_model or {}).get("evidenceIndex", {})
+    _write_index(domains, output_dir, domain_read_model=domain_read_model)
     _write_api_index(api_matches, output_dir)
 
     for domain in domains:
@@ -58,7 +62,8 @@ def export_wiki(
         domain_dir = output_dir / dir_name
         domain_dir.mkdir(parents=True, exist_ok=True)
 
-        _write_summary(domain, api_matches, domain_dir)
+        read_model_domain = read_model_domains.get(domain.name or domain.id) or read_model_domains.get(domain.id)
+        _write_summary(domain, api_matches, domain_dir, read_model_domain=read_model_domain)
         _write_code_map(domain, domain_dir)
         _write_api_docs(domain, api_matches, domain_dir)
         _write_dependencies(domain, domain_dir, domains=domains, ontology=ontology or {}, field_map=field_map)
@@ -66,6 +71,8 @@ def export_wiki(
 
         if domain.id in field_map or domain.name in field_map:
             _write_data_flow(domain, field_map, domain_dir)
+        if read_model_domain:
+            _write_domain_read_model_pages(read_model_domain, evidence_index, domain_dir)
 
         # 占位文件（人工填写）
         for fname in ("rules.md", "spec.md"):
@@ -208,12 +215,20 @@ def _count_field_entries(field_map: dict) -> int:
     return count
 
 
-def _write_index(domains: list[Domain], output_dir: Path):
+def _write_index(domains: list[Domain], output_dir: Path, domain_read_model: dict | None = None):
+    product_quality = (domain_read_model or {}).get("quality", {}) if isinstance(domain_read_model, dict) else {}
     lines = [
         f"# 业务域目录",
         f"",
         f"> {len(domains)} 个业务域 | 自动生成于 {datetime.now():%Y-%m-%d}",
         f"",
+        "## Domain Read Model 对齐",
+        "",
+        f"- 真相源: `../domain-read-model.json`",
+        f"- schema: `{(domain_read_model or {}).get('schema', {}).get('version', 'legacy') if isinstance(domain_read_model, dict) else 'legacy'}`",
+        f"- deepReadingStatus: `{product_quality.get('deepReadingStatus', 'unknown')}`",
+        f"- coreDomainEvidenceStatus: `{product_quality.get('coreDomainEvidenceStatus', 'unknown')}`",
+        "",
         f"| 业务域 | 锚点 | 文件 | 依赖域 |",
         f"|--------|------|------|--------|",
     ]
@@ -225,7 +240,12 @@ def _write_index(domains: list[Domain], output_dir: Path):
     (output_dir / "index.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def _write_summary(domain: Domain, api_matches: list[ApiMatch], domain_dir: Path) -> None:
+def _write_summary(
+    domain: Domain,
+    api_matches: list[ApiMatch],
+    domain_dir: Path,
+    read_model_domain: dict | None = None,
+) -> None:
     label = _domain_display_name(domain)
     domain_apis = _domain_api_matches(domain, api_matches)
     core_points = [
@@ -254,6 +274,9 @@ def _write_summary(domain: Domain, api_matches: list[ApiMatch], domain_dir: Path
         f"- **查询/交互动作**: {len(interaction_points)} 个",
         f"- **辅助方法**: {len(helper_points)} 个",
         f"- **相关 API**: {len(domain_apis)} 个",
+        f"- **DRM 流程**: {len((read_model_domain or {}).get('flows', []))} 个",
+        f"- **DRM 业务规则**: {len((read_model_domain or {}).get('rules', []))} 条",
+        f"- **DRM 字段规则**: {len((read_model_domain or {}).get('fieldRules', []))} 条",
         "",
         "## 阅读入口",
         "",
@@ -261,6 +284,7 @@ def _write_summary(domain: Domain, api_matches: list[ApiMatch], domain_dir: Path
         f"- [[api-docs]]: 查看 {label} 的接口用途和调用入口",
         f"- [[ontology]]: 查看 {label} 的本体对象和 typed relationships",
         f"- [[dependencies]]: 查看 {label} 与其他业务域的依赖",
+        f"- [[domain-read-model]]: 查看从 `domain-read-model.json` 派生的流程、规则、字段规则和证据",
     ]
     (domain_dir / "summary.md").write_text("\n".join(lines), encoding="utf-8")
 
@@ -544,6 +568,181 @@ def _filter_reliable_field_tables(tables: dict) -> dict:
             result[table] = kept_columns
     return result
 
+
+
+def _read_model_domains_by_key(domain_read_model: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    result: dict[str, dict[str, Any]] = {}
+    for domain in domain_read_model.get("domains", []) if isinstance(domain_read_model, dict) else []:
+        if not isinstance(domain, dict):
+            continue
+        for key in (domain.get("domainKey"), domain.get("id"), domain.get("name")):
+            if key:
+                result[str(key)] = domain
+    return result
+
+
+def _write_domain_read_model_pages(
+    domain: dict[str, Any],
+    evidence_index: dict[str, Any],
+    domain_dir: Path,
+) -> None:
+    lines = _domain_read_model_markdown(domain, evidence_index)
+    (domain_dir / "domain-read-model.md").write_text("\n".join(lines), encoding="utf-8")
+    _write_drm_rules_page(domain, evidence_index, domain_dir)
+
+
+def _domain_read_model_markdown(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[str]:
+    key = str(domain.get("domainKey") or "unknown")
+    lines = [
+        f"# {key} — Domain Read Model",
+        "",
+        "> 本页从 `domain-read-model.json` 派生，是 Wiki 与 Agent/CI 共享的产品语义视图。",
+        "",
+        "## Domain",
+        "",
+        f"- displayName: {domain.get('displayName', key)}",
+        f"- core: `{domain.get('core', False)}`",
+        f"- deepReadingStatus: `{(domain.get('quality') or {}).get('deepReadingStatus', 'unknown') if isinstance(domain.get('quality'), dict) else domain.get('quality', 'unknown')}`",
+        f"- summary: {domain.get('summary', '')}",
+        "",
+        "## Flows",
+        "",
+    ]
+    flows = domain.get("flows", []) if isinstance(domain.get("flows"), list) else []
+    if not flows:
+        lines.append("*未生成业务流程。*")
+    for flow in flows:
+        if not isinstance(flow, dict):
+            continue
+        lines += [
+            f"### {flow.get('title') or flow.get('flowId')}",
+            "",
+            f"- flowId: `{flow.get('flowId', '')}`",
+            f"- status: `{flow.get('status', 'unknown')}`",
+            f"- evidenceRefs: {_format_refs(flow.get('evidenceRefs', []))}",
+            "",
+        ]
+        for idx, step in enumerate(flow.get("steps", []) if isinstance(flow.get("steps"), list) else [], start=1):
+            if not isinstance(step, dict):
+                continue
+            lines.append(f"{idx}. {step.get('title') or step.get('description') or step.get('stepId', '')}")
+            if step.get("ruleRefs"):
+                lines.append(f"   - ruleRefs: {_format_refs(step.get('ruleRefs', []))}")
+            lines.append(f"   - evidenceRefs: {_format_refs(step.get('evidenceRefs', []))}")
+        lines.append("")
+
+    lines += ["## Business Rules", ""]
+    rules = domain.get("rules", []) if isinstance(domain.get("rules"), list) else []
+    if not rules:
+        lines.append("*未生成业务规则。*")
+    for rule in rules:
+        if not isinstance(rule, dict):
+            continue
+        lines += _rule_markdown(rule)
+
+    lines += ["## Field Rules", ""]
+    field_rules = domain.get("fieldRules", []) if isinstance(domain.get("fieldRules"), list) else []
+    if not field_rules:
+        lines.append("*未生成字段规则。*")
+    for rule in field_rules:
+        if not isinstance(rule, dict):
+            continue
+        lines += _field_rule_markdown(rule)
+
+    lines += ["## Evidence", ""]
+    refs = _domain_claim_refs(domain)
+    if not refs:
+        lines.append("*无证据引用。*")
+    for ref in refs:
+        evidence = evidence_index.get(ref, {}) if isinstance(evidence_index.get(ref), dict) else {}
+        label = evidence.get("label") or evidence.get("sourcePath") or evidence.get("path") or ref
+        lines.append(f"- `{ref}` — {label}")
+    return lines
+
+
+def _write_drm_rules_page(domain: dict[str, Any], evidence_index: dict[str, Any], domain_dir: Path) -> None:
+    p = domain_dir / "rules.md"
+    if p.exists() and "<!-- GRAPH_WIKI_DRM_RULES:START -->" not in p.read_text(encoding="utf-8"):
+        return
+    lines = [
+        f"# {domain.get('domainKey', 'unknown')} — RULES",
+        "",
+        "<!-- GRAPH_WIKI_DRM_RULES:START -->",
+        "## DRM-derived Business Rules",
+        "",
+    ]
+    rules = domain.get("rules", []) if isinstance(domain.get("rules"), list) else []
+    lines += [line for rule in rules if isinstance(rule, dict) for line in _rule_markdown(rule)] or ["*未生成业务规则。*", ""]
+    lines += ["## DRM-derived Field Rules", ""]
+    field_rules = domain.get("fieldRules", []) if isinstance(domain.get("fieldRules"), list) else []
+    lines += [line for rule in field_rules if isinstance(rule, dict) for line in _field_rule_markdown(rule)] or ["*未生成字段规则。*", ""]
+    lines += ["<!-- GRAPH_WIKI_DRM_RULES:END -->", ""]
+    p.write_text("\n".join(lines), encoding="utf-8")
+
+
+def _rule_markdown(rule: dict[str, Any]) -> list[str]:
+    return [
+        f"### {rule.get('title') or rule.get('ruleId')}",
+        "",
+        f"- ruleId: `{rule.get('ruleId', '')}`",
+        f"- type: `{rule.get('ruleType', rule.get('type', 'business'))}`",
+        f"- status: `{rule.get('status', 'unknown')}`",
+        f"- confidence: `{rule.get('confidence', '')}`",
+        f"- statement: {rule.get('statement') or rule.get('summary') or ''}",
+        f"- flowRefs: {_format_refs(rule.get('flowRefs', []))}",
+        f"- evidenceRefs: {_format_refs(rule.get('evidenceRefs', []))}",
+        "",
+    ]
+
+
+def _field_rule_markdown(rule: dict[str, Any]) -> list[str]:
+    completeness = rule.get("chainCompleteness", {}) if isinstance(rule.get("chainCompleteness"), dict) else {}
+    lines = [
+        f"### {rule.get('fieldId') or rule.get('ruleId')}",
+        "",
+        f"- ruleId: `{rule.get('ruleId', '')}`",
+        f"- status: `{rule.get('status', 'unknown')}`",
+        f"- confidence: `{rule.get('confidence', '')}`",
+        f"- presentLayers: {_format_refs(completeness.get('presentLayers', []))}",
+        f"- missingRequiredLayers: {_format_refs(completeness.get('missingRequiredLayers', []))}",
+        f"- partialReason: {rule.get('partialReason', '') or '—'}",
+        f"- evidenceRefs: {_format_refs(rule.get('evidenceRefs', []))}",
+        "",
+    ]
+    chain = rule.get("chain", []) if isinstance(rule.get("chain"), list) else []
+    if chain:
+        lines += ["| layer | ref | label |", "|---|---|---|"]
+        for item in chain:
+            if not isinstance(item, dict):
+                continue
+            lines.append(f"| {item.get('layer', '')} | `{item.get('ref', '')}` | {item.get('label', '')} |")
+        lines.append("")
+    return lines
+
+
+def _domain_claim_refs(domain: dict[str, Any]) -> list[str]:
+    refs: list[str] = []
+    containers = [domain, *domain.get("flows", []), *domain.get("rules", []), *domain.get("fieldRules", [])]
+    for container in containers:
+        if not isinstance(container, dict):
+            continue
+        for ref in container.get("evidenceRefs", []) or []:
+            if ref not in refs:
+                refs.append(ref)
+        for step in container.get("steps", []) if isinstance(container.get("steps"), list) else []:
+            if isinstance(step, dict):
+                for ref in step.get("evidenceRefs", []) or []:
+                    if ref not in refs:
+                        refs.append(ref)
+    return refs
+
+
+def _format_refs(refs: Any) -> str:
+    if not refs:
+        return "—"
+    if not isinstance(refs, list):
+        refs = [refs]
+    return ", ".join(f"`{ref}`" for ref in refs if ref) or "—"
 
 def _field_confidence_label(entry: dict) -> str:
     labels = {"high": "高", "medium": "中", "low": "低"}
