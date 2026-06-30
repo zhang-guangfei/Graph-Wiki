@@ -157,15 +157,127 @@ def test_workbench_read_model_statuses_use_contract_values_and_preserve_partial_
     assert detail["rules"]["status"] == "missing"
     assert detail["spec"]["status"] in {"placeholder", "ready", "missing"}
     assert detail["fieldFlows"]["status"] == "partial"
-    assert "No business flows were generated for this domain." in detail["health"]["warnings"]
-    assert "No business rules were generated for this domain." in detail["health"]["warnings"]
-    assert "Partial field rule: 缺少 DTO/entity 映射" in detail["health"]["warnings"]
 
-    signals = ProductDataService(tmp_path).export_workbench_data()["overview"]["qualitySignals"]
-    assert signals["statusItems"] == [
-        "build.status=passed",
-        "productQuality.deepReadingStatus=warning",
-        "productQuality.coreDomainEvidenceStatus=warning",
+
+def test_workbench_v1_api_and_dependency_dtos_use_read_model_metadata(tmp_path: Path):
+    model = {
+        "schema": {"version": "domain-read-model-v1"},
+        "project": {"projectName": "Fixture", "sourceRoot": "fixture"},
+        "evidenceIndex": {
+            "api:POST:/orders": {
+                "id": "api:POST:/orders",
+                "type": "api",
+                "label": "POST /orders",
+                "path": "api-map.json",
+                "sourcePath": "frontend/src/api/order.js",
+                "confidence": 0.92,
+                "status": "ready",
+                "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
+                "backend": {
+                    "controller": "OrderController.java",
+                    "controllerPath": "backend/src/OrderController.java",
+                    "method": "createOrder",
+                    "serviceCall": "orderService.createOrder()",
+                },
+                "dto": "CreateOrderRequest",
+            },
+            "source:backend/src/OrderController.java#createOrder": {
+                "id": "source:backend/src/OrderController.java#createOrder",
+                "type": "source",
+                "label": "OrderController#createOrder",
+                "path": "backend/src/OrderController.java",
+                "sourcePath": "backend/src/OrderController.java",
+                "confidence": 0.9,
+                "status": "ready",
+            },
+            "source:frontend/src/views/order/CreateOrder.vue#createOrder": {
+                "id": "source:frontend/src/views/order/CreateOrder.vue#createOrder",
+                "type": "source",
+                "label": "CreateOrder.vue",
+                "path": "frontend/src/views/order/CreateOrder.vue",
+                "sourcePath": "frontend/src/views/order/CreateOrder.vue",
+                "confidence": 0.9,
+                "status": "ready",
+            },
+            "ontology:order-depends-payment": {
+                "id": "ontology:order-depends-payment",
+                "type": "ontology",
+                "label": "order depends on payment",
+                "path": "ontology.json",
+                "confidence": 0.8,
+                "status": "ready",
+                "targetDomain": "payment",
+                "reason": "订单创建后触发支付。",
+                "strength": "medium",
+            },
+        },
+        "domains": [
+            {
+                "domainKey": "order",
+                "displayName": "订单管理",
+                "summary": "处理订单。",
+                "core": True,
+                "flows": [{
+                    "flowId": "order.createOrder",
+                    "title": "创建订单",
+                    "summary": "提交订单表单。",
+                    "steps": [],
+                    "evidenceRefs": [
+                        "api:POST:/orders",
+                        "source:backend/src/OrderController.java#createOrder",
+                        "source:frontend/src/views/order/CreateOrder.vue#createOrder",
+                    ],
+                    "status": "ready",
+                    "confidence": 0.92,
+                }],
+                "rules": [],
+                "fieldRules": [{
+                    "fieldRuleId": "fr1",
+                    "fieldId": "orders.customer_id",
+                    "statement": "customer_id 字段链路。",
+                    "chain": [],
+                    "mapping": {
+                        "api": {"method": "POST", "url": "/orders", "functionName": "createOrder"},
+                        "dto": {"className": "CreateOrderRequest", "field": "customerId", "sourcePath": "backend/dto/CreateOrderRequest.java"},
+                        "frontendCallers": ["frontend/src/views/order/CreateOrder.vue"],
+                    },
+                    "evidenceRefs": ["api:POST:/orders"],
+                    "status": "ready",
+                    "confidence": 0.92,
+                }],
+                "dependencies": [{"domain": "inventory", "reason": "订单校验库存。", "import_count": 3}],
+                "dependencyRefs": ["ontology:order-depends-payment"],
+                "evidenceRefs": ["api:POST:/orders", "ontology:order-depends-payment"],
+                "quality": {"deepReadingStatus": "passed"},
+            }
+        ],
+        "quality": {"deepReadingStatus": "passed", "coreDomainEvidenceStatus": "passed", "ruleCorrectnessRisk": "low", "warnings": [], "errors": []},
+    }
+    (tmp_path / "domain-read-model.json").write_text(json.dumps(model, ensure_ascii=False), encoding="utf-8")
+    (tmp_path / "build-report.json").write_text(json.dumps({"project": {"root": "fixture"}, "build": {"status": "passed"}, "quality": {"status": "passed"}, "productQuality": model["quality"]}, ensure_ascii=False), encoding="utf-8")
+
+    bundle = ProductDataService(tmp_path).export_workbench_data()
+    domain = bundle["domains"][0]
+    detail = bundle["domainDetails"]["order"]
+    api = bundle["apis"][0]
+
+    assert domain["dependencyCount"] == 2
+    assert detail["dependencies"] == [
+        {"domain": "inventory", "reason": "订单校验库存。", "import_count": 3},
+        {"domain": "payment", "reason": "订单创建后触发支付。", "strength": "medium", "evidenceRef": "ontology:order-depends-payment"},
     ]
-    assert signals["partialDomains"] == [{"domainKey": "order", "displayName": "订单管理", "status": "warning"}]
-    assert signals["recommendedActions"]
+    assert api["frontendCallers"] == ["frontend/src/views/order/CreateOrder.vue"]
+    assert api["frontendCallerStatus"] == "detected"
+    assert api["backend"] == {
+        "controller": "OrderController.java",
+        "controllerPath": "backend/src/OrderController.java",
+        "method": "createOrder",
+        "serviceCall": "orderService.createOrder()",
+    }
+    assert api["dto"] == "CreateOrderRequest"
+    assert api["confidence"] == 0.92
+    assert [item["id"] for item in api["evidence"]] == [
+        "api:POST:/orders",
+        "source:backend/src/OrderController.java#createOrder",
+        "source:frontend/src/views/order/CreateOrder.vue#createOrder",
+    ]

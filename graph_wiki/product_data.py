@@ -95,7 +95,7 @@ class ProductDataService:
                     "businessPointCount": len(domain.get("flows", [])),
                     "apiCount": len(_api_refs_for_domain(domain)),
                     "fieldFlowCount": len(domain.get("fieldRules", [])),
-                    "dependencyCount": 0,
+                    "dependencyCount": len(_dependencies_from_read_model(domain, evidence_index)),
                     "quality": domain.get("quality", {}).get("deepReadingStatus", "unknown"),
                     "evidence": _evidence_objects_from_refs(evidence_index, evidence_refs),
                 })
@@ -457,7 +457,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
             ),
         },
         "fieldRules": field_rules,
-        "dependencies": [],
+        "dependencies": _dependencies_from_read_model(domain, evidence_index),
         "rules": {
             "status": "ready" if rules else "missing",
             "wikiPage": f"wiki/{domain_key}/rules.md",
@@ -576,21 +576,133 @@ def _apis_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]
     result = []
     for ref in api_refs:
         method, url = _method_url_from_api_ref(ref)
-        evidence = evidence_index.get(ref, {})
+        evidence = evidence_index.get(ref, {}) if isinstance(evidence_index.get(ref), dict) else {}
+        related_refs = _api_related_evidence_refs(domain, ref)
+        metadata = _api_metadata_from_read_model(domain, ref, method, url, evidence, evidence_index, related_refs)
         result.append({
             "apiId": ref,
-            "method": method,
-            "url": url,
+            "method": metadata["method"],
+            "url": metadata["url"],
             "domainKey": domain.get("domainKey", ""),
-            "businessUse": evidence.get("label", f"{method} {url}"),
-            "frontendCallers": [],
-            "frontendCallerStatus": "derived_from_domain_read_model",
-            "backend": {"controller": "", "controllerPath": "", "method": "", "serviceCall": ""},
-            "dto": "",
-            "confidence": evidence.get("confidence", 0),
-            "evidence": _evidence_objects_from_refs(evidence_index, [ref]),
+            "businessUse": evidence.get("label", f"{metadata['method']} {metadata['url']}"),
+            "frontendCallers": metadata["frontendCallers"],
+            "frontendCallerStatus": "detected" if metadata["frontendCallers"] else "derived_from_domain_read_model",
+            "backend": metadata["backend"],
+            "dto": metadata["dto"],
+            "confidence": evidence.get("confidence", metadata["confidence"]),
+            "evidence": _evidence_objects_from_refs(evidence_index, related_refs),
         })
     return result
+
+
+def _api_related_evidence_refs(domain: dict[str, Any], api_ref: str) -> list[str]:
+    refs: list[str] = [api_ref]
+    containers: list[dict[str, Any]] = [*domain.get("flows", []), *domain.get("rules", []), *domain.get("fieldRules", [])]
+    for container in containers:
+        if not isinstance(container, dict) or api_ref not in (container.get("evidenceRefs") or []):
+            continue
+        for ref in container.get("evidenceRefs") or []:
+            if ref not in refs:
+                refs.append(ref)
+        for step in container.get("steps", []) if isinstance(container.get("steps"), list) else []:
+            if isinstance(step, dict) and api_ref in (step.get("evidenceRefs") or []):
+                for ref in step.get("evidenceRefs") or []:
+                    if ref not in refs:
+                        refs.append(ref)
+    return refs
+
+
+def _api_metadata_from_read_model(
+    domain: dict[str, Any],
+    api_ref: str,
+    method: str,
+    url: str,
+    evidence: dict[str, Any],
+    evidence_index: dict[str, Any],
+    related_refs: list[str],
+) -> dict[str, Any]:
+    backend = _normalize_backend(evidence.get("backend") if isinstance(evidence.get("backend"), dict) else {})
+    callers = _string_list(evidence.get("frontendCallers") or evidence.get("frontend_callers") or evidence.get("callers"))
+    dto = str(evidence.get("dto") or evidence.get("requestDto") or evidence.get("requestDTO") or "")
+    confidence = evidence.get("confidence", 0)
+
+    for rule in domain.get("fieldRules", []) if isinstance(domain.get("fieldRules"), list) else []:
+        if not isinstance(rule, dict) or api_ref not in (rule.get("evidenceRefs") or []):
+            continue
+        mapping = _field_rule_mapping_from_read_model(rule, method, url)
+        callers = _unique_strings([*callers, *mapping.get("frontendCallers", [])])
+        if not dto:
+            dto = mapping.get("dto", {}).get("className", "")
+        if not confidence:
+            confidence = rule.get("confidence", 0)
+
+    for source in _evidence_objects_from_refs(evidence_index, related_refs):
+        if source.get("type") != "source":
+            continue
+        path = source.get("sourcePath") or source.get("path") or ""
+        label = source.get("label", "")
+        if _looks_like_frontend_path(path):
+            callers = _unique_strings([*callers, path])
+        if _looks_like_backend_path(path) and not backend.get("controllerPath"):
+            backend["controllerPath"] = path
+            backend["controller"] = Path(path).name
+            backend["method"] = _method_from_source_label(label) or backend.get("method", "")
+
+    return {
+        "method": evidence.get("method") or method,
+        "url": evidence.get("url") or url,
+        "frontendCallers": _unique_strings(callers),
+        "backend": backend,
+        "dto": dto,
+        "confidence": confidence or 0,
+    }
+
+
+def _normalize_backend(backend: dict[str, Any]) -> dict[str, str]:
+    controller_path = str(backend.get("controllerPath") or backend.get("controller_file") or backend.get("path") or "")
+    controller = str(backend.get("controller") or (Path(controller_path).name if controller_path else ""))
+    return {
+        "controller": controller,
+        "controllerPath": controller_path,
+        "method": str(backend.get("method") or backend.get("method_name") or ""),
+        "serviceCall": str(backend.get("serviceCall") or backend.get("service_call") or ""),
+    }
+
+
+def _dependencies_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    for item in domain.get("dependencies", []) if isinstance(domain.get("dependencies"), list) else []:
+        if isinstance(item, dict):
+            dep = dict(item)
+        else:
+            dep = {"domain": str(item)}
+        if dep.get("domain"):
+            result.append(dep)
+
+    for ref in domain.get("dependencyRefs", []) if isinstance(domain.get("dependencyRefs"), list) else []:
+        evidence = evidence_index.get(ref, {}) if isinstance(evidence_index.get(ref), dict) else {}
+        target = evidence.get("targetDomain") or evidence.get("target_domain") or evidence.get("domain")
+        if not target:
+            continue
+        dep = {
+            "domain": str(target),
+            "reason": evidence.get("reason") or evidence.get("label", ""),
+            "evidenceRef": ref,
+        }
+        if evidence.get("strength"):
+            dep["strength"] = evidence.get("strength")
+        if evidence.get("import_count") is not None:
+            dep["import_count"] = evidence.get("import_count")
+        result.append(dep)
+
+    deduped: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for dep in result:
+        key = (str(dep.get("domain", "")), str(dep.get("evidenceRef", "")))
+        if key[0] and key not in seen:
+            seen.add(key)
+            deduped.append(dep)
+    return deduped
 
 
 def _field_flow_items_from_read_model(domain: dict[str, Any], evidence_index: dict[str, Any]) -> list[dict[str, Any]]:
@@ -695,6 +807,40 @@ def _first_source_path(evidence_index: dict[str, Any], refs: list[str]) -> str:
     for evidence in _evidence_objects_from_refs(evidence_index, refs):
         if evidence.get("type") == "source":
             return evidence.get("sourcePath") or evidence.get("path") or ""
+    return ""
+
+
+def _string_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value if item]
+    if value:
+        return [str(value)]
+    return []
+
+
+def _unique_strings(values: list[str]) -> list[str]:
+    result: list[str] = []
+    for value in values:
+        text = str(value).strip()
+        if text and text not in result:
+            result.append(text)
+    return result
+
+
+def _looks_like_frontend_path(path: str) -> bool:
+    text = str(path).replace("\\", "/").lower()
+    return any(marker in text for marker in ["frontend/", "/src/views/", "/views/", ".vue", ".tsx", ".jsx"])
+
+
+def _looks_like_backend_path(path: str) -> bool:
+    text = str(path).replace("\\", "/").lower()
+    return any(marker in text for marker in ["controller", "backend/", "/src/main/java/"])
+
+
+def _method_from_source_label(label: str) -> str:
+    text = str(label or "")
+    if "#" in text:
+        return text.rsplit("#", 1)[-1]
     return ""
 
 
