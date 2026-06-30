@@ -33,6 +33,7 @@ from .dream import build_dream_cycle_report, render_changelog
 from .product_data import ProductDataService
 from .domain_read_model import build_domain_read_model, product_quality_for_report
 from .visualize import export_domain_html
+from .trust import is_sensitive_path
 
 try:
     from .label import label_domains, LabelConfig, LlmBackend
@@ -645,7 +646,7 @@ def _build_service_impl_capacity(root: Path, threshold_lines: int = 2000) -> dic
     service_files = []
     for java_file in root.rglob("*ServiceImpl.java"):
         source = str(java_file).replace("\\", "/")
-        if any(part in source for part in ("/target/", "/build/", "/.git/", "/graphify-out/")):
+        if is_sensitive_path(java_file) or any(part in source for part in ("/target/", "/build/", "/.git/", "/graphify-out/")):
             continue
         try:
             line_count = len(java_file.read_text(encoding="utf-8", errors="ignore").splitlines())

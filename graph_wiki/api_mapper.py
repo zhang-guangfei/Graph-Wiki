@@ -5,6 +5,7 @@ from pathlib import Path
 from collections import defaultdict
 from typing import Optional
 
+from .trust import is_sensitive_path
 from .models import ApiMatch, FrontendApiCall, BackendEndpoint, Domain
 
 JAVA_NON_BUSINESS_TYPES = {
@@ -88,6 +89,8 @@ def trace_frontend_callers(
         api_index[module_name].append(call)
 
     for vue_file in views_dir.rglob("*.vue"):
+        if is_sensitive_path(vue_file):
+            continue
         try:
             source = vue_file.read_text(encoding="utf-8")
         except (IOError, UnicodeDecodeError):

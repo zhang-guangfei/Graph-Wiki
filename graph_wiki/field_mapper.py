@@ -2,6 +2,8 @@
 
 import re
 from pathlib import Path
+
+from .trust import is_sensitive_path
 from collections import defaultdict
 
 from .models import ApiMatch
