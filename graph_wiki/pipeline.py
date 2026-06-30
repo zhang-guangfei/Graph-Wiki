@@ -118,7 +118,7 @@ def _cmd_build(args):
 
         current_step = "detect_corpus"
         started = time.perf_counter()
-        print(f"[1/13] 文件检测: {root}")
+        print(f"[1/14] 文件检测: {root}")
         corpus = detect_corpus(root)
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  语料库: {corpus['total_files']} 文件, ~{corpus['total_words']:,} 词")
@@ -129,14 +129,14 @@ def _cmd_build(args):
 
         current_step = "extract_ast"
         started = time.perf_counter()
-        print(f"[2/13] AST 提取 ({len(code_files)} 文件)...")
+        print(f"[2/14] AST 提取 ({len(code_files)} 文件)...")
         extraction = extract_ast(code_files)
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  {len(extraction['nodes'])} 节点, {len(extraction['edges'])} 边")
 
         current_step = "filter_extraction"
         started = time.perf_counter()
-        print(f"[3/13] Wiki 预过滤...")
+        print(f"[3/14] Wiki 预过滤...")
         filtered_extraction = filter_extraction_for_wiki(extraction, root)
         timings[current_step] = round(time.perf_counter() - started, 4)
         meta = filtered_extraction.get("meta", {})
@@ -147,7 +147,7 @@ def _cmd_build(args):
 
         current_step = "build_light_graph"
         started = time.perf_counter()
-        print(f"[4/13] 轻量图构建...")
+        print(f"[4/14] 轻量图构建...")
         G = build_light_graph(filtered_extraction)
         save_graph_artifacts(None, G, output_base)
         timings[current_step] = round(time.perf_counter() - started, 4)
@@ -155,7 +155,7 @@ def _cmd_build(args):
 
         current_step = "business_cluster"
         started = time.perf_counter()
-        print(f"[5/13] 业务域聚类...")
+        print(f"[5/14] 业务域聚类...")
         try:
             lang = Language(args.language) if args.language != "auto" else Language.AUTO
         except ValueError:
@@ -170,7 +170,7 @@ def _cmd_build(args):
 
         current_step = "api_map"
         started = time.perf_counter()
-        print(f"[6/13] API 映射...")
+        print(f"[6/14] API 映射...")
         frontend_api = _find_dir(root, "src/api")
         frontend_views = _find_dir(root, "src/views")
         backend_src = _find_dir(root, "src/main/java")
@@ -185,7 +185,7 @@ def _cmd_build(args):
 
         current_step = "field_map"
         started = time.perf_counter()
-        print(f"[7/13] 字段映射...")
+        print(f"[7/14] 字段映射...")
         entity_dirs = list(root.rglob("entity")) + list(root.rglob("domain"))
         dto_dirs = list(root.rglob("dto")) + list(root.rglob("vo"))
         entity_dir = entity_dirs[0] if entity_dirs else root
@@ -201,7 +201,7 @@ def _cmd_build(args):
         current_step = "llm_label"
         started = time.perf_counter()
         if not args.no_llm:
-            print(f"[8/13] LLM 标注...")
+            print(f"[8/14] LLM 标注...")
             try:
                 backend = (
                     LlmBackend.CLAUDE if args.llm_backend == "claude"
@@ -215,12 +215,12 @@ def _cmd_build(args):
             except Exception as e:
                 print(f"  跳过 (LLM 标注失败: {e})")
         else:
-            print(f"[8/13] LLM 标注: 跳过 (--no-llm)")
+            print(f"[8/14] LLM 标注: 跳过 (--no-llm)")
         timings[current_step] = round(time.perf_counter() - started, 4)
 
         current_step = "ontology"
         started = time.perf_counter()
-        print(f"[9/13] Code Ontology v0...")
+        print(f"[9/14] Code Ontology v0...")
         ontology = build_code_ontology(domains, api_matches, field_map)
         _write_json(output_base / "ontology.json", ontology)
         timings[current_step] = round(time.perf_counter() - started, 4)
