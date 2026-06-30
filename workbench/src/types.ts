@@ -127,6 +127,7 @@ export interface DomainDetail {
   fieldRules: FieldRule[];
   spec: { status: Status; wikiPage: string };
   deepReadingPath?: { order: string[]; flowCount: number; ruleCount: number; evidenceCount: number };
+  agentScope?: { source?: string; entryFiles?: string[]; apis?: string[]; tables?: string[]; evidenceRefs?: string[] };
   evidence: EvidenceRef[];
 }
 
@@ -158,6 +159,9 @@ export interface FieldFlowItem {
   dto: { className: string; field: string; file?: string };
   entity: { className: string; field: string; file?: string };
   frontendCallers: string[];
+  chain?: Array<{ layer: string; ref: string }>;
+  chainCompleteness?: FieldRuleChainCompleteness;
+  missingLayers?: string[];
   confidence: number;
   confidenceLabel: string;
   evidence: EvidenceRef[];
