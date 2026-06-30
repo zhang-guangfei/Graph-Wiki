@@ -26,7 +26,7 @@ from .cluster import business_cluster, Language
 from .api_mapper import build_api_map
 from .field_mapper import build_field_map
 from .label import label_domains, LabelConfig, LlmBackend
-from .export import evaluate_wiki_quality, export_wiki
+from .export import evaluate_wiki_quality, export_domain_read_model_wiki, export_wiki
 from .ontology import build_code_ontology, collect_wiki_evidence, evaluate_phase3_acceptance
 from .impact import build_impact_analysis, evaluate_phase4_acceptance, write_impact_wiki
 from .dream import build_dream_cycle_report, render_changelog
@@ -310,6 +310,22 @@ def _cmd_build(args):
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  dream-cycle-report.json: {dream_report['quality']['status']}")
 
+        current_step = "domain_read_model"
+        started = time.perf_counter()
+        print(f"[v1] Domain Read Model...")
+        domain_read_model = build_domain_read_model(
+            project_id=output_base.name,
+            project_name=name,
+            source_root=root,
+            domains=domains,
+            api_matches=api_matches,
+            field_map=field_map,
+            ontology=ontology,
+        )
+        _write_json(output_base / "domain-read-model.json", domain_read_model)
+        export_domain_read_model_wiki(domain_read_model, output_base / "wiki")
+        timings[current_step] = round(time.perf_counter() - started, 4)
+        print(f"  domain-read-model.json: {domain_read_model['quality']['deepReadingStatus']}")
 
         timings["total_seconds"] = round(time.perf_counter() - total_started, 4)
         report = _write_build_report(

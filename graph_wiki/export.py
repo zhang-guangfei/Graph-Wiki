@@ -950,3 +950,82 @@ def _describe_api_chain(frontend_api: FrontendApiCall, backend) -> str:
     backend_label = f"{backend.controller_class}.{backend.method_name}()"
     service = " → ".join(getattr(backend, "service_chain", []) or [])
     return f"{frontend} → {backend_label}" + (f" → {service}" if service else "")
+
+
+def export_domain_read_model_wiki(read_model: dict, wiki_root: Path) -> None:
+    """Write DRM-derived Markdown pages without overwriting manual rules/spec.
+
+    These generated pages are the Markdown/Agent counterpart of the Workbench
+    read model, keeping flows/rules/fieldRules/evidence IDs consistent across
+    product surfaces while preserving hand-authored `rules.md` and `spec.md`.
+    """
+    if not isinstance(read_model, dict) or read_model.get("schema", {}).get("version") != "domain-read-model-v1":
+        return
+    wiki_root.mkdir(parents=True, exist_ok=True)
+    evidence_index = read_model.get("evidenceIndex", {}) if isinstance(read_model.get("evidenceIndex"), dict) else {}
+    for domain in read_model.get("domains", []) if isinstance(read_model.get("domains"), list) else []:
+        domain_key = str(domain.get("domainKey") or "unknown")
+        domain_dir = wiki_root / domain_key
+        domain_dir.mkdir(parents=True, exist_ok=True)
+        lines = [
+            f"# {domain.get('displayName', domain_key)} — Domain Read Model",
+            "",
+            "> 自动生成页；人工定稿仍在 `rules.md` / `spec.md`。Workbench、Wiki、Agent 应以本页引用的 DRM 证据 ID 为一致语义入口。",
+            "",
+            "## 流程 → 规则 → 证据",
+            "",
+        ]
+        for flow in domain.get("flows", []) or []:
+            lines += [f"### {flow.get('title') or flow.get('flowId')}", "", flow.get("summary", ""), ""]
+            for step in flow.get("steps", []) or []:
+                refs = ", ".join(f"`{ref}`" for ref in step.get("evidenceRefs", []) or []) or "—"
+                rules = ", ".join(f"`{ref}`" for ref in step.get("ruleRefs", []) or []) or "—"
+                lines.append(f"- {step.get('order', '-')}. {step.get('text', '')}")
+                lines.append(f"  - rules: {rules}")
+                lines.append(f"  - evidence: {refs}")
+            lines.append("")
+        lines += ["## 业务规则", ""]
+        for rule in domain.get("rules", []) or []:
+            refs = ", ".join(f"`{ref}`" for ref in rule.get("evidenceRefs", []) or []) or "—"
+            lines.append(f"- `{rule.get('ruleId')}` {rule.get('statement', '')}")
+            lines.append(f"  - status: {rule.get('status', 'unknown')} / confidence: {rule.get('confidence', 'unknown')}")
+            lines.append(f"  - evidence: {refs}")
+        lines += ["", "## 字段规则", ""]
+        for field_rule in domain.get("fieldRules", []) or []:
+            completeness = field_rule.get("chainCompleteness", {}) if isinstance(field_rule.get("chainCompleteness"), dict) else {}
+            refs = ", ".join(f"`{ref}`" for ref in field_rule.get("evidenceRefs", []) or []) or "—"
+            missing = list(completeness.get("missingRequiredLayers", []) or []) + list(completeness.get("missingOptionalLayers", []) or [])
+            chain = " → ".join(f"{item.get('layer')}(`{item.get('ref')}`)" for item in field_rule.get("chain", []) or []) or "—"
+            lines.append(f"- `{field_rule.get('fieldId')}` {field_rule.get('statement', '')}")
+            lines.append(f"  - chain: {chain}")
+            lines.append(f"  - missing: {', '.join(missing) or '—'}")
+            lines.append(f"  - evidence: {refs}")
+        lines += ["", "## 证据索引", ""]
+        domain_refs = []
+        for container_name in ("evidenceRefs",):
+            domain_refs.extend(domain.get(container_name, []) or [])
+        for container_name in ("flows", "rules", "fieldRules"):
+            for item in domain.get(container_name, []) or []:
+                domain_refs.extend(item.get("evidenceRefs", []) if isinstance(item, dict) else [])
+                for step in item.get("steps", []) if isinstance(item, dict) else []:
+                    domain_refs.extend(step.get("evidenceRefs", []) if isinstance(step, dict) else [])
+        seen = set()
+        for ref in domain_refs:
+            if not ref or ref in seen:
+                continue
+            seen.add(ref)
+            evidence = evidence_index.get(ref, {}) if isinstance(evidence_index.get(ref), dict) else {}
+            path = evidence.get("sourcePath") or evidence.get("path") or ""
+            lines.append(f"- `{ref}` — {evidence.get('label', ref)} ({evidence.get('status', 'unknown')}) {path}")
+        (domain_dir / "domain-read-model.md").write_text("\n".join(lines), encoding="utf-8")
+
+    agent_lines = ["# Agent / CI Domain Read Model Contract", "", "- source: `domain-read-model.json`", ""]
+    for domain in read_model.get("domains", []) if isinstance(read_model.get("domains"), list) else []:
+        domain_key = str(domain.get("domainKey") or "unknown")
+        agent_lines.append(f"## {domain_key}")
+        agent_lines.append(f"- flows: {len(domain.get('flows', []) or [])}")
+        agent_lines.append(f"- rules: {len(domain.get('rules', []) or [])}")
+        agent_lines.append(f"- fieldRules: {len(domain.get('fieldRules', []) or [])}")
+        agent_lines.append(f"- generated page: `wiki/{domain_key}/domain-read-model.md`")
+        agent_lines.append("")
+    (wiki_root / "agent-contract.md").write_text("\n".join(agent_lines), encoding="utf-8")
