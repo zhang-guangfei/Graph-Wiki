@@ -1,6 +1,6 @@
 # Export 模块详细设计
 
-> 对应总体设计：第四章 [4.4 节](../architecture/graph-wiki%20架构设计.md#44-wiki-导出模块-export)、[第六章 输出规范](../architecture/graph-wiki%20架构设计.md#六输出规范)
+> 对应总体设计：第七章 [7.8 节](../architecture/graph-wiki%20工程架构设计.md#44-wiki-导出模块-export)、[第六章 数据契约与输出规范](../architecture/graph-wiki%20工程架构设计.md#六输出规范)
 > 状态：详细设计阶段（v2.0，重写）
 > 依赖：`models.py`（Domain / ApiMatch / BusinessPoint）、`label.py`（summary.md 前提）
 > 参考：`models-design.md`（数据模型）、`api-mapper-design.md`（ApiMatch 来源）、`field-mapper-design.md`（field_map 来源）
@@ -489,7 +489,7 @@ source: llm
 2. 如果没有 label 数据，生成空的 summary.md 反而让用户误以为"这个东西没用"
 3. 让 summary.md 的缺失成为显式的信号，提示用户需要执行标注步骤
 
-> 参见架构设计[决策 5](../architecture/graph-wiki%20架构设计.md#决策-5rulesmd-和-specmd-不由-llm-生成)：rules.md 和 spec.md 不由 LLM 生成。summary.md 是 LLM 生成的边界。
+> 参见架构设计[决策 5](../architecture/graph-wiki%20工程架构设计.md#决策-5rulesmd-和-specmd-不由-llm-生成)：rules.md 和 spec.md 不由 LLM 生成。summary.md 是 LLM 生成的边界。
 
 ---
 
@@ -1012,7 +1012,7 @@ def _write_dependencies(domain: Domain, domain_dir: Path):
 
 ### 11.1 设计原则
 
-根据架构设计 [决策 5](../architecture/graph-wiki%20架构设计.md#决策-5rulesmd-和-specmd-不由-llm-生成)：
+根据架构设计 [决策 5](../architecture/graph-wiki%20工程架构设计.md#决策-5rulesmd-和-specmd-不由-llm-生成)：
 
 > rules.md 和 spec.md 记录的是业务需求层面的权威信息——业务规则来自产品文档、需求规格来自 PRD。LLM 对这些内容的"猜测"可能不准确，甚至产生误导。因此 Graph-Wiki 的定位是**提供框架，不填充内容**。
 

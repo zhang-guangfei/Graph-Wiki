@@ -1,6 +1,6 @@
 # Reuse 模块详细设计
 
-> 对应总体设计：第四章 4.1 节、第六章 6.4 节、第八章 8.4 节  
+> 对应总体设计：[第七章 7.1 节](../architecture/graph-wiki%20工程架构设计.md#41-复用层-reuse-layer)、[第六章 6.5 节](../architecture/graph-wiki%20工程架构设计.md#65-manifestjson-规范)、[第四章 4.6 节](../architecture/graph-wiki%20工程架构设计.md#46-graphjson-内部结构)
 > 状态：详细设计阶段  
 > 被依赖：`cluster.py`, `api_mapper.py`, `field_mapper.py`, `label.py`, `pipeline.py`
 
@@ -512,7 +512,7 @@ def save_graph(
         output_path: 输出路径。默认当前目录下的 graph.json。
 
     保存的 graph.json 是 Graph-Wiki 后续模块的数据源，
-    也是 Agent 查询的入口点（参见总体设计 §8）。
+    也是 Agent 查询的入口点（参见工程架构设计“graph.json 内部结构”）。
 
     graph.json 的磁盘占用：
         - 34K 节点 + 88K 边 = ~57MB

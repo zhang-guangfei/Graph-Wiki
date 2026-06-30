@@ -111,7 +111,7 @@ http://127.0.0.1:5174/
 graph_wiki/        Graph-Wiki Python 核心代码
 tests/             集成测试和示例项目
 workbench/         Vue/Vite 轻量浏览器工作台
-docs/architecture/ 核心架构设计
+docs/architecture/ 产品架构与工程架构设计
 docs/design/       模块与产品化设计
 docs/reference/    外部启发、调研和历史分析
 pyproject.toml     Python 包配置
@@ -119,11 +119,12 @@ pyproject.toml     Python 包配置
 
 ## 关键文档
 
-- `docs/architecture/graph-wiki 架构设计.md`：项目架构真相源。
+- `docs/architecture/graph-wiki 架构设计.md`：产品架构与产品验收真相源。
+- `docs/architecture/graph-wiki 工程架构设计.md`：模块、代码、流水线、数据结构和工程质量设计。
 - `docs/architecture/domain-read-model-v1-architecture.md`：v1 业务域深度阅读详细架构。
 - `docs/design/domain-read-model-contract.md`：`domain-read-model.json` 数据契约。
 - `docs/design/domain-read-model-acceptance-matrix.md`：v1 验收矩阵和企业全栈夹具说明。
-- `docs/design/模块总体设计.md`：核心模块接口与职责。
+- `docs/design/模块总体设计.md`：核心模块接口与职责，受工程架构文档约束。
 - `docs/reference/2026-06-23 企业知识库四层模型对 Graph-Wiki 架构启发.md`：项目从 RAG、LLM Wiki、知识图谱、本体和长期记忆系统中获得的架构启发。
 - `AGENTS.md`：项目协作规则和目录治理约定。
 

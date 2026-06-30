@@ -1,6 +1,6 @@
 # Visualize 模块详细设计
 
-> 对应总体设计：[第四章 4.5 节](../architecture/graph-wiki%20架构设计.md#45-可视化模块-visualize)
+> 对应总体设计：[第七章 7.9 节](../architecture/graph-wiki%20工程架构设计.md#45-可视化模块-visualize)
 > 状态：详细设计阶段（v1.0，根据实际代码实现更新）
 > 依赖：`models.py`（数据模型：`Domain`）
 > 参考：`models-design.md`（`Domain` 类型定义）、`cluster-design.md`（上游模块输出的域结构）

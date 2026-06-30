@@ -1,6 +1,6 @@
 # API Mapper 模块详细设计
 
-> 对应总体设计：第四章 [4.6 节](../architecture/graph-wiki%20架构设计.md#46-api-映射模块-apimapper)
+> 对应总体设计：第七章 [7.6 节](../architecture/graph-wiki%20工程架构设计.md#46-api-映射模块-apimapper)
 > 状态：详细设计阶段（v2.0，重写）
 > 依赖：`reuse.py`（复用层）、`cluster.py`（域划分结果）、`models.py`（数据模型）
 > 参考：`models-design.md`（API Mapper 相关数据类：`FrontendApiCall`、`BackendEndpoint`、`ApiMatch`）

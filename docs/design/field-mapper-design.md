@@ -1,6 +1,6 @@
 # Field Mapper 模块详细设计
 
-> 对应总体设计：[第四章 4.7 节](../architecture/graph-wiki%20架构设计.md#47-字段映射模块-fieldmapper)
+> 对应总体设计：[第七章 7.5 节](../architecture/graph-wiki%20工程架构设计.md#47-字段映射模块-fieldmapper)
 > 状态：详细设计阶段（v2.0，重写）
 > 依赖：`reuse.py`（复用层）、`api_mapper.py`（API 映射输出）、`models.py`（数据模型）
 > 参考：`models-design.md`（`ApiMatch`）、`api-mapper-design.md`（上游模块设计）

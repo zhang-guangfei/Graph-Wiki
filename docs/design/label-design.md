@@ -1,6 +1,6 @@
 # Label 模块详细设计
 
-> 对应总体设计：第四章 4.3 节（标注模块）  
+> 对应总体设计：[第七章 7.7 节](../architecture/graph-wiki%20工程架构设计.md#43-标注模块-label)（标注模块）
 > 状态：详细设计阶段（v2.0 重写，基于实际代码实现更新）  
 > 依赖：`cluster.py`（域划分 + 业务点）、`models.py`（Domain / BusinessPoint）  
 > 参考：`models-design.md`（数据模型）、`cluster-design.md`（上游模块设计）

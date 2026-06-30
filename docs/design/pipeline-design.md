@@ -1,9 +1,9 @@
 # Pipeline 模块详细设计
 
-> 对应总体设计：[第四章 4.8 节](../architecture/graph-wiki%20架构设计.md#48-流水线模块-pipeline)
+> 对应总体设计：[第七章 7.10 节](../architecture/graph-wiki%20工程架构设计.md#48-流水线模块-pipeline)
 > 状态：详细设计阶段（v2.0，重写）
 > 依赖：`reuse.py`、`cluster.py`、`api_mapper.py`、`field_mapper.py`、`label.py`、`export.py`、`visualize.py`（全部 7 个上游模块）
-> 参考：`cluster-design.md`、`api-mapper-design.md`、`field-mapper-design.md`、`label-design.md`、`架构设计.md §4.8、§5、§6、§16`
+> 参考：`cluster-design.md`、`api-mapper-design.md`、`field-mapper-design.md`、`label-design.md`、`graph-wiki 工程架构设计.md` 第五章/第三章/第四章/第七章
 
 ---
 

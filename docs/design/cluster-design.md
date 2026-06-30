@@ -1,6 +1,6 @@
 # Cluster 模块详细设计
 
-> 对应总体设计：第四章 4.2 节、第十二章 三层粒度模型
+> 对应总体设计：[第七章 7.2 节](../architecture/graph-wiki%20工程架构设计.md#42-聚类模块-cluster)、[第四章 4.8–4.14 三层粒度模型](../architecture/graph-wiki%20工程架构设计.md#48-为什么不能只用类级)
 > 状态：详细设计阶段（v2.0，重写）
 > 依赖：`reuse.py`（graphify API 封装）、`models.py`（数据模型）
 > 参考：`models-design.md`（数据模型设计，本模块使用的类型定义以此为据）
