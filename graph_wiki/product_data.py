@@ -26,20 +26,23 @@ class ProductDataService:
         build_status = build.get("build", {}).get("status", "unknown")
         scale = build.get("scale", {})
 
+        quality_map = {
+            "build": build_status,
+            "deepReading": product_quality.get("deepReadingStatus", "unknown"),
+            "coreEvidence": product_quality.get("coreDomainEvidenceStatus", "unknown"),
+            "performance": quality.get("performance_status", "unknown"),
+            "phase3": _nested_status(quality, ["phase3", "acceptance", "status"]),
+            "phase4": _nested_status(quality, ["phase4", "acceptance", "status"]),
+            "phase5": _nested_status(quality, ["phase5", "dream_cycle_status"]),
+        }
+
         return {
             "projectId": self.output_dir.name,
             "projectName": _project_name(project.get("root") or self.output_dir.name),
             "generatedAt": manifest.get("meta", {}).get("last_full_build"),
             "sourceRoot": project.get("root", ""),
-            "quality": {
-                "build": build_status,
-                "deepReading": product_quality.get("deepReadingStatus", "unknown"),
-                "coreEvidence": product_quality.get("coreDomainEvidenceStatus", "unknown"),
-                "performance": quality.get("performance_status", "unknown"),
-                "phase3": _nested_status(quality, ["phase3", "acceptance", "status"]),
-                "phase4": _nested_status(quality, ["phase4", "acceptance", "status"]),
-                "phase5": _nested_status(quality, ["phase5", "dream_cycle_status"]),
-            },
+            "quality": quality_map,
+            "qualitySignals": _overview_quality_signals(quality_map, product_quality, domains),
             "scale": {
                 "totalFiles": project.get("total_files") or scale.get("files", {}).get("total", 0),
                 "codeFiles": project.get("code_files") or scale.get("files", {}).get("code", 0),
@@ -427,6 +430,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
     rules = domain.get("rules", [])
     field_rules = domain.get("fieldRules", [])
     status = domain.get("quality", {}).get("deepReadingStatus", "unknown")
+    health_warnings = _read_model_domain_warnings(domain, flows, rules, field_rules)
     flow_points = [_flow_to_business_point(domain_key, flow, evidence_index) for flow in flows]
     return {
         "domainKey": domain_key,
@@ -434,7 +438,7 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
         "businessMeaning": domain.get("summary", ""),
         "health": {
             "status": status,
-            "warnings": domain.get("quality", {}).get("warnings", []),
+            "warnings": health_warnings,
         },
         "entryFiles": _entry_files_from_evidence(evidence_index, domain.get("evidenceRefs", [])),
         "businessPoints": {
@@ -469,6 +473,68 @@ def _domain_detail_from_read_model(domain: dict[str, Any], read_model: dict[str,
         "evidence": _evidence_objects_from_refs(evidence_index, domain.get("evidenceRefs", [])),
     }
 
+
+def _overview_quality_signals(
+    quality: dict[str, Any],
+    product_quality: dict[str, Any],
+    domains: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Summarize build/product quality distinctions for Workbench warning panels."""
+    warnings = [str(item) for item in product_quality.get("warnings", []) if item]
+    errors = [str(item) for item in product_quality.get("errors", []) if item]
+    partial_domains = [
+        {
+            "domainKey": domain.get("domainKey", "unknown"),
+            "displayName": domain.get("displayName", domain.get("domainKey", "unknown")),
+            "status": domain.get("quality", "unknown"),
+        }
+        for domain in domains
+        if domain.get("quality") not in {"passed", "ready"}
+    ]
+    status_items = [
+        f"build.status={quality.get('build', 'unknown')}",
+        f"productQuality.deepReadingStatus={quality.get('deepReading', 'unknown')}",
+        f"productQuality.coreDomainEvidenceStatus={quality.get('coreEvidence', 'unknown')}",
+    ]
+    recommended_actions: list[str] = []
+    if quality.get("build") == "passed" and quality.get("deepReading") not in {"passed", "ready"}:
+        recommended_actions.append("构建已通过，但产品阅读质量未通过；请优先审查 productQuality warnings/errors。")
+    if partial_domains:
+        recommended_actions.append("打开 warning/partial 业务域，检查字段规则、证据链和机器草稿状态。")
+    if warnings or errors:
+        recommended_actions.append("按 warning/error 文案补齐缺失证据或字段链路后重新运行 graph-wiki build。")
+    return {
+        "statusItems": status_items,
+        "warnings": warnings,
+        "errors": errors,
+        "partialDomains": partial_domains,
+        "recommendedActions": recommended_actions,
+    }
+
+
+def _read_model_domain_warnings(
+    domain: dict[str, Any],
+    flows: list[dict[str, Any]],
+    rules: list[dict[str, Any]],
+    field_rules: list[dict[str, Any]],
+) -> list[str]:
+    """Expose partial/missing deep-reading reasons in the Workbench domain page."""
+    quality = domain.get("quality", {}) if isinstance(domain.get("quality"), dict) else {}
+    warnings = [str(item) for item in quality.get("warnings", []) if item]
+    if not flows:
+        warnings.append("No business flows were generated for this domain.")
+    if not rules:
+        warnings.append("No business rules were generated for this domain.")
+    if not field_rules:
+        warnings.append("No field rules were generated for this domain.")
+    partial_reasons = [
+        str(rule.get("partialReason"))
+        for rule in field_rules
+        if rule.get("status") == "partial" and rule.get("partialReason")
+    ]
+    for reason in partial_reasons:
+        warnings.append(f"Partial field rule: {reason}")
+    return list(dict.fromkeys(warnings))
 
 def _field_flows_status(field_rules: list[dict[str, Any]]) -> str:
     if not field_rules:
