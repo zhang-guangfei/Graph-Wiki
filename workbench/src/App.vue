@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import type { ApiIndexItem, DomainDetail, DomainListItem, ImpactExample, WorkbenchData } from "./types";
+import type { ApiIndexItem, DomainDetail, DomainListItem, EvidenceRef, FieldRule, ImpactExample, WorkbenchData } from "./types";
 
 type ViewKey = "overview" | "domains" | "apis" | "impact" | "maintenance";
 
@@ -68,6 +68,130 @@ function setView(view: ViewKey) {
 function setDomain(domainKey: string) {
   activeDomainKey.value = domainKey;
   activeView.value = "domains";
+}
+
+
+const fieldLayerOrder = ["frontend", "api", "controller", "dto", "entity", "db"] as const;
+const fieldLayerLabels: Record<string, string> = {
+  frontend: "Frontend",
+  api: "API",
+  controller: "Controller",
+  dto: "DTO",
+  entity: "Entity",
+  db: "DB",
+  database: "DB",
+};
+
+function compactText(value: unknown) {
+  if (Array.isArray(value)) return value.filter(Boolean).join(", ");
+  if (value === null || value === undefined) return "";
+  return String(value);
+}
+
+function confidenceText(value: number | null | undefined, label?: string) {
+  if (typeof value !== "number") return label || "unknown";
+  return `${Math.round(value * 100)}%${label ? ` · ${label}` : ""}`;
+}
+
+function evidenceCopyText(evidence: EvidenceRef) {
+  return [
+    `id=${evidence.id ?? ""}`,
+    `type=${evidence.type ?? ""}`,
+    `label=${evidence.label ?? ""}`,
+    `path=${evidence.path ?? ""}`,
+    `sourcePath=${evidence.sourcePath ?? ""}`,
+    `section=${evidence.section ?? ""}`,
+    `confidence=${confidenceText(evidence.confidence, evidence.confidenceLabel)}`,
+    `status=${evidence.status ?? ""}`,
+  ]
+    .filter((line) => !line.endsWith("=") && !line.endsWith("=unknown"))
+    .join("\n");
+}
+
+async function copyEvidence(evidence: EvidenceRef) {
+  const text = evidenceCopyText(evidence);
+  if (!text) return;
+  await navigator.clipboard?.writeText(text);
+}
+
+function evidenceDetails(domain: DomainDetail, refs: string[]) {
+  return refs.map((ref) => evidenceForRef(domain, ref));
+}
+
+function fieldRuleEvidence(domain: DomainDetail, fieldRule: FieldRule) {
+  return evidenceDetails(domain, fieldRule.evidenceRefs ?? []);
+}
+
+function evidenceForLayer(domain: DomainDetail, fieldRule: FieldRule, layer: string) {
+  const normalized = layer === "db" ? "field" : layer;
+  const refs = (fieldRule.chain ?? [])
+    .filter((item) => item.layer === layer || (layer === "db" && item.layer === "database"))
+    .map((item) => item.ref);
+  if (layer === "api") {
+    refs.push(...(fieldRule.evidenceRefs ?? []).filter((ref) => ref.startsWith("api:")));
+  }
+  if (layer === "db") {
+    refs.push(...(fieldRule.evidenceRefs ?? []).filter((ref) => ref.startsWith("field:")));
+  }
+  return evidenceDetails(domain, Array.from(new Set(refs))).filter((item) => item.type === normalized || refs.includes(item.id ?? ""));
+}
+
+function fieldLayerValue(domain: DomainDetail, fieldRule: FieldRule, layer: string) {
+  const mapping = fieldRule.mapping;
+  if (layer === "frontend") return compactText(mapping?.frontendCallers);
+  if (layer === "api") {
+    const api = mapping?.api;
+    return api ? compactText([api.method, api.url, api.functionName].filter(Boolean).join(" ")) : "";
+  }
+  if (layer === "controller") {
+    const controller = mapping?.controller;
+    if (controller) return compactText([controller.className, controller.method, controller.sourcePath].filter(Boolean).join(" · "));
+    return fieldRuleEvidence(domain, fieldRule)
+      .filter((item) => /controller/i.test(`${item.label} ${item.path} ${item.sourcePath ?? ""}`))
+      .map((item) => item.label || item.sourcePath || item.path)
+      .join(", ");
+  }
+  if (layer === "dto") {
+    const dto = mapping?.dto;
+    return dto ? compactText([dto.className, dto.field, dto.sourcePath].filter(Boolean).join(" · ")) : "";
+  }
+  if (layer === "entity") {
+    const entity = mapping?.entity;
+    return entity ? compactText([entity.className, entity.field, entity.sourcePath].filter(Boolean).join(" · ")) : "";
+  }
+  if (layer === "db") {
+    const database = mapping?.database;
+    return database ? compactText([database.table, database.column].filter(Boolean).join(".")) : "";
+  }
+  return "";
+}
+
+function fieldLayerStatus(fieldRule: FieldRule, layer: string) {
+  const completeness = fieldRule.chainCompleteness;
+  const presentLayers = new Set((completeness?.presentLayers ?? fieldRule.chain.map((item) => item.layer)).map((item) => (item === "database" ? "db" : item)));
+  const missingRequired = new Set((completeness?.missingRequiredLayers ?? []).map((item) => (item === "database" ? "db" : item)));
+  const missingOptional = new Set((completeness?.missingOptionalLayers ?? []).map((item) => (item === "database" ? "db" : item)));
+  if (presentLayers.has(layer)) return "present";
+  if (missingRequired.has(layer)) return "missing-required";
+  if (missingOptional.has(layer)) return "missing-optional";
+  return "unknown";
+}
+
+function fieldLayerStatusLabel(status: string) {
+  const labels: Record<string, string> = {
+    present: "有证据",
+    "missing-required": "缺必需层",
+    "missing-optional": "缺可选层",
+    unknown: "未确认",
+  };
+  return labels[status] ?? status;
+}
+
+function fieldLayerTone(status: string) {
+  if (status === "present") return "good";
+  if (status === "missing-required") return "bad";
+  if (status === "missing-optional") return "warn";
+  return "quiet";
 }
 
 function statusLabel(status: string | undefined) {
