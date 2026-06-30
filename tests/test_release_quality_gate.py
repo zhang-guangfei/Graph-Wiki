@@ -127,3 +127,57 @@ def test_release_gate_refuses_to_delete_repo_root():
 
     with pytest.raises(gate.GateFailure, match="unsafe output directory"):
         gate.prepare_output_dir(gate.ROOT)
+
+
+def test_release_gate_pins_npm_audit_to_official_registry():
+    gate = _load_gate_module()
+
+    command = gate.npm_audit_command()
+
+    assert command == [
+        "npm",
+        "audit",
+        "--registry",
+        "https://registry.npmjs.org",
+        "--audit-level=high",
+        "--omit=dev",
+    ]
+
+
+def test_release_gate_records_pip_check_and_npm_audits(monkeypatch, tmp_path: Path):
+    gate = _load_gate_module()
+    output = tmp_path / "gate"
+    calls = []
+
+    def fake_prepare_output_dir(path):
+        output.mkdir(parents=True, exist_ok=True)
+        return output
+
+    def fake_run_command(name, command, cwd):
+        calls.append((name, command, cwd))
+        return {
+            "name": name,
+            "command": " ".join(command),
+            "cwd": str(cwd),
+            "returncode": 0,
+            "status": "passed",
+            "outputTail": "",
+        }
+
+    def fake_validate_build_artifacts(*args, **kwargs):
+        return {"status": "passed"}
+
+    monkeypatch.setattr(gate, "prepare_output_dir", fake_prepare_output_dir)
+    monkeypatch.setattr(gate, "run_command", fake_run_command)
+    monkeypatch.setattr(gate, "validate_build_artifacts", fake_validate_build_artifacts)
+    monkeypatch.setattr(gate, "copy_workbench_data_for_build", lambda *args: {"status": "passed"})
+
+    assert gate.main(["--output-dir", str(output)]) == 0
+
+    names = [name for name, _, _ in calls]
+    assert "python dependency check" in names
+    assert "workbench npm audit high" in names
+    assert "svn-platform npm audit high" in names
+    assert calls[names.index("python dependency check")][1][:4] == [gate.sys.executable, "-m", "pip", "check"]
+    assert calls[names.index("workbench npm audit high")][1] == gate.npm_audit_command()
+    assert calls[names.index("svn-platform npm audit high")][1] == gate.npm_audit_command()
