@@ -1,0 +1,10 @@
+# Release-critical ownership for Graph-Wiki.
+* @OPS-Team
+
+/scripts/release_quality_gate.py @OPS-Team
+/.github/workflows/ci.yml @OPS-Team
+/pyproject.toml @OPS-Team
+/workbench/ @OPS-Team
+/graph_wiki/ @OPS-Team
+/docs/architecture/ @OPS-Team
+/docs/design/ @OPS-Team

@@ -20,6 +20,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "output" / "release-quality-gate"
+NPM_AUDIT_REGISTRY = "https://registry.npmjs.org"
 
 
 class GateFailure(RuntimeError):
@@ -85,6 +86,7 @@ def main(argv: list[str] | None = None) -> int:
 
     core_checks: list[tuple[str, list[str], Path]] = [
         ("pytest", [sys.executable, "-m", "pytest", "-q"], ROOT),
+        ("python dependency check", [sys.executable, "-m", "pip", "check"], ROOT),
         (
             "fullstack-enterprise build",
             [
@@ -133,6 +135,7 @@ def main(argv: list[str] | None = None) -> int:
         if not args.skip_frontend_installs:
             frontend_checks: list[tuple[str, list[str], Path]] = [
                 ("workbench npm ci", ["npm", "ci"], ROOT / "workbench"),
+                ("workbench npm audit high", npm_audit_command(), ROOT / "workbench"),
             ]
             for name, command, cwd in frontend_checks:
                 results["commands"].append(run_command(name, command, cwd))
@@ -145,6 +148,7 @@ def main(argv: list[str] | None = None) -> int:
                 # tests/svn-platform/package-lock.json is deliberately not required/tracked;
                 # use npm install for the fixture smoke and keep node_modules untracked.
                 ("svn-platform npm install", ["npm", "install", "--no-audit", "--no-fund"], ROOT / "tests" / "svn-platform"),
+                ("svn-platform npm audit high", npm_audit_command(), ROOT / "tests" / "svn-platform"),
                 ("svn-platform frontend build", ["npm", "run", "build"], ROOT / "tests" / "svn-platform"),
             ]:
                 results["commands"].append(run_command(name, command, cwd))
@@ -162,6 +166,11 @@ def main(argv: list[str] | None = None) -> int:
         results["report"] = str(report_path)
         report_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
         print(json.dumps({"status": results.get("status", "failed"), "report": str(report_path)}, ensure_ascii=False, indent=2))
+
+
+def npm_audit_command() -> list[str]:
+    """Return a reproducible npm audit command independent of local registry mirrors."""
+    return ["npm", "audit", "--registry", NPM_AUDIT_REGISTRY, "--audit-level=high", "--omit=dev"]
 
 
 def run_command(name: str, command: list[str], cwd: Path) -> dict[str, Any]:
