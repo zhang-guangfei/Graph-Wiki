@@ -157,3 +157,15 @@ def test_workbench_read_model_statuses_use_contract_values_and_preserve_partial_
     assert detail["rules"]["status"] == "missing"
     assert detail["spec"]["status"] in {"placeholder", "ready", "missing"}
     assert detail["fieldFlows"]["status"] == "partial"
+    assert "No business flows were generated for this domain." in detail["health"]["warnings"]
+    assert "No business rules were generated for this domain." in detail["health"]["warnings"]
+    assert "Partial field rule: 缺少 DTO/entity 映射" in detail["health"]["warnings"]
+
+    signals = ProductDataService(tmp_path).export_workbench_data()["overview"]["qualitySignals"]
+    assert signals["statusItems"] == [
+        "build.status=passed",
+        "productQuality.deepReadingStatus=warning",
+        "productQuality.coreDomainEvidenceStatus=warning",
+    ]
+    assert signals["partialDomains"] == [{"domainKey": "order", "displayName": "订单管理", "status": "warning"}]
+    assert signals["recommendedActions"]
