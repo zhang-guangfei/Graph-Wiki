@@ -69,6 +69,14 @@ export interface FieldRule {
   partialReason?: string;
 }
 
+export interface QualitySignals {
+  statusItems: string[];
+  warnings: string[];
+  errors: string[];
+  partialDomains: Array<{ domainKey: string; displayName: string; status: Status }>;
+  recommendedActions: string[];
+}
+
 export interface DomainListItem {
   domainKey: string;
   displayName: string;
@@ -170,6 +178,7 @@ export interface WorkbenchData {
     generatedAt?: string;
     sourceRoot: string;
     quality: Record<string, Status>;
+    qualitySignals?: QualitySignals;
     scale: {
       totalFiles: number;
       codeFiles: number;
