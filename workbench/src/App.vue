@@ -13,6 +13,7 @@ const apiDomainFilter = ref("all");
 const query = ref("");
 const selectedEvidence = ref<EvidenceRef | null>(null);
 const copiedEvidenceId = ref("");
+const copyFeedback = ref("");
 
 const navItems: Array<{ key: ViewKey; label: string; hint: string }> = [
   { key: "overview", label: "总览", hint: "质量、规模、业务版图" },
@@ -113,7 +114,14 @@ function evidenceCopyText(evidence: EvidenceRef) {
 async function copyEvidence(evidence: EvidenceRef) {
   const text = evidenceCopyText(evidence);
   if (!text) return;
-  await navigator.clipboard?.writeText(text);
+  try {
+    await writeClipboard(text);
+    copiedEvidenceId.value = evidence.id ?? "__details__";
+    copyFeedback.value = "已复制证据详情。";
+  } catch {
+    copiedEvidenceId.value = "";
+    copyFeedback.value = "复制失败，请手动选择证据详情。";
+  }
 }
 
 function evidenceDetails(domain: DomainDetail, refs: string[]) {
@@ -258,6 +266,7 @@ function domainQualityWarnings(domain: DomainDetail) {
 function openEvidence(evidence: EvidenceRef) {
   selectedEvidence.value = evidence;
   copiedEvidenceId.value = "";
+  copyFeedback.value = "";
 }
 
 function closeEvidence() {
@@ -267,11 +276,18 @@ function closeEvidence() {
 async function copyEvidenceRef(evidence: EvidenceRef | null) {
   if (!evidence?.id) return;
   try {
-    await navigator.clipboard?.writeText(evidence.id);
+    await writeClipboard(evidence.id);
     copiedEvidenceId.value = evidence.id;
+    copyFeedback.value = "已复制证据引用。";
   } catch {
-    copiedEvidenceId.value = evidence.id;
+    copiedEvidenceId.value = "";
+    copyFeedback.value = "复制失败，请手动复制证据 ID。";
   }
+}
+
+async function writeClipboard(text: string) {
+  if (!navigator.clipboard) throw new Error("clipboard unavailable");
+  await navigator.clipboard.writeText(text);
 }
 
 function evidencePath(evidence: EvidenceRef | null) {
@@ -765,7 +781,7 @@ function allFieldLayers(rule: DomainDetail["fieldRules"][number]) {
         <button type="button" class="copy-button" @click="copyEvidence(selectedEvidence)">复制详情</button>
         <button type="button" class="copy-button" @click="copyEvidenceRef(selectedEvidence)">复制引用</button>
       </div>
-      <p v-if="copiedEvidenceId === selectedEvidence.id" class="muted-text">已复制引用。</p>
+      <p v-if="copyFeedback" class="muted-text">{{ copyFeedback }}</p>
     </aside>
   </main>
 </template>
