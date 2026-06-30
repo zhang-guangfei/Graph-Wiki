@@ -38,15 +38,14 @@ _EXPLICIT_SAFE_MARKERS = {
     "samples",
     "template",
     "templates",
-    "fixture",
-    "fixtures",
     "mock",
     "mocks",
     "dummy",
-    "test",
-    "tests",
-    "readme",
 }
+_CONFIG_SECRET_EXTENSIONS = {
+    "", ".env", ".properties", ".yml", ".yaml", ".json", ".xml", ".toml", ".ini", ".conf", ".config", ".pem", ".key", ".crt"
+}
+_DOC_EXTENSIONS = {".md", ".rst", ".txt", ".adoc"}
 _SAFE_SUFFIXES = (".example", ".sample", ".template", ".dist")
 
 
@@ -60,9 +59,11 @@ def is_explicitly_safe_sensitive_path(path: str | Path) -> bool:
     if not text:
         return False
     name = Path(text).name
-    parts = [part for part in re.split(r"[/._-]+", text) if part]
+    name_parts = [part for part in re.split(r"[._-]+", name) if part]
     return (
-        any(marker in parts for marker in _EXPLICIT_SAFE_MARKERS)
+        "/tests/fixtures/" in f"/{text}"
+        or "/fixtures/" in f"/{text}"
+        or any(marker in name_parts for marker in _EXPLICIT_SAFE_MARKERS)
         or any(name.endswith(suffix) for suffix in _SAFE_SUFFIXES)
     )
 
@@ -75,7 +76,11 @@ def is_sensitive_path(path: str | Path) -> bool:
     name = Path(text).name
     if name in _SENSITIVE_FILENAMES or name.startswith(".env."):
         return True
-    return bool(_SENSITIVE_NAME_RE.search(name))
+    suffixes = Path(name).suffixes
+    suffix = suffixes[-1] if suffixes else ""
+    if suffix in _DOC_EXTENSIONS:
+        return False
+    return suffix in _CONFIG_SECRET_EXTENSIONS and bool(_SENSITIVE_NAME_RE.search(name))
 
 
 def filter_safe_paths(paths: Iterable[T]) -> list[T]:

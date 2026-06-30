@@ -59,22 +59,20 @@ def test_wiki_extraction_and_manifest_exclude_sensitive_sources(tmp_path: Path):
 
 
 def test_llm_prompt_sampling_skips_sensitive_service_sources(tmp_path: Path):
-    secret_file = "src/main/java/com/acme/payment/PaymentSecretServiceImpl.java"
+    secret_file = ".env"
     path = tmp_path / secret_file
-    path.parent.mkdir(parents=True)
-    path.write_text("REAL_TOKEN = 'should-not-leak'\nclass PaymentSecretServiceImpl {}", encoding="utf-8")
+    path.write_text("REAL_TOKEN=should-not-leak\n", encoding="utf-8")
 
     prompt = _build_prompt(_domain_with_anchor(secret_file), tmp_path, LabelConfig())
 
     assert "should-not-leak" not in prompt
-    assert "PaymentSecretServiceImpl" in prompt  # anchor label is fine; source sample is not
+    assert ".env" in prompt  # anchor label is fine; source sample is not
 
 
 def test_domain_read_model_rejects_sensitive_source_evidence(tmp_path: Path):
-    secret_file = "src/main/java/com/acme/payment/PaymentTokenServiceImpl.java"
+    secret_file = ".env"
     path = tmp_path / secret_file
-    path.parent.mkdir(parents=True)
-    path.write_text("class PaymentTokenServiceImpl {}", encoding="utf-8")
+    path.write_text("REAL_TOKEN=should-not-leak\n", encoding="utf-8")
 
     model = build_domain_read_model(
         project_id="fixture",
@@ -88,7 +86,7 @@ def test_domain_read_model_rejects_sensitive_source_evidence(tmp_path: Path):
 
     assert model["quality"]["deepReadingStatus"] == "failed"
     assert any("敏感文件" in item for item in model["quality"]["errors"])
-    assert all("PaymentTokenServiceImpl" not in ref or model["evidenceIndex"][ref]["status"] == "missing" for ref in model["evidenceIndex"])
+    assert all(".env" not in ref or model["evidenceIndex"][ref]["status"] == "missing" for ref in model["evidenceIndex"])
 
 
 def test_domain_read_model_flags_unresolvable_source_refs():
