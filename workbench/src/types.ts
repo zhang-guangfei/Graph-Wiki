@@ -44,6 +44,7 @@ export interface DomainRule {
 
 export interface FieldRuleMapping {
   api?: { method: string; url: string; functionName: string };
+  controller?: { className?: string; method?: string; sourcePath?: string };
   dto?: { className: string; field: string; sourcePath?: string };
   entity?: { className: string; field: string; sourcePath?: string };
   database?: { table: string; column: string };
@@ -60,7 +61,7 @@ export interface FieldRule {
   fieldRuleId: string;
   fieldId: string;
   statement: string;
-  chain: Array<{ layer: string; ref: string }>;
+  chain: Array<{ layer: string; ref: string; sourcePath?: string }>;
   mapping?: FieldRuleMapping;
   chainCompleteness?: FieldRuleChainCompleteness;
   evidenceRefs: string[];
