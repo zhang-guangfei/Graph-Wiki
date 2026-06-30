@@ -120,3 +120,39 @@ def test_domain_read_model_flags_unresolvable_source_refs():
     assert quality["deepReadingStatus"] == "failed"
     assert any("源文件不可解析" in item for item in quality["errors"])
     assert any("源文件未解析确认" in item for item in quality["warnings"])
+
+
+def test_domain_read_model_evaluator_rejects_existing_sensitive_config_source(tmp_path: Path):
+    sensitive = tmp_path / "backend" / "src" / "main" / "resources" / "application-prod.yml"
+    sensitive.parent.mkdir(parents=True)
+    sensitive.write_text("token: real-secret\n", encoding="utf-8")
+    ref = "source:backend/src/main/resources/application-prod.yml#token"
+    model = {
+        "schema": {"version": "domain-read-model-v1"},
+        "project": {"sourceRoot": str(tmp_path)},
+        "domains": [
+            {
+                "domainKey": "order",
+                "core": True,
+                "flows": [{"flowId": "order.create", "steps": [{"stepId": "s1", "evidenceRefs": [ref], "ruleRefs": ["r1"]}], "evidenceRefs": [ref]}],
+                "rules": [{"ruleId": "r1", "flowRefs": ["order.create"], "statement": "rule", "evidenceRefs": [ref]}],
+                "fieldRules": [],
+                "evidenceRefs": [ref],
+                "quality": {},
+            }
+        ],
+        "evidenceIndex": {
+            ref: {
+                "id": ref,
+                "type": "source",
+                "path": "backend/src/main/resources/application-prod.yml",
+                "sourcePath": "backend/src/main/resources/application-prod.yml",
+                "status": "ready",
+            }
+        },
+    }
+
+    quality = evaluate_domain_read_model(model)
+
+    assert quality["deepReadingStatus"] == "failed"
+    assert any("敏感文件" in item for item in quality["errors"])

@@ -18,9 +18,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from graph_wiki.evidence import is_sensitive_source_path
 
-ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "output" / "release-quality-gate"
 NPM_AUDIT_REGISTRY = "https://registry.npmjs.org"
 
@@ -313,6 +316,8 @@ def validate_build_artifacts(
     for name, status in phase_statuses.items():
         if not status:
             warnings.append(f"{name} status not found; keep phase gates separate from build.status")
+        elif expected_product == "passed" and status == "failed":
+            errors.append(f"{name} status is failed")
 
     result = {
         "status": "failed" if errors else "passed",

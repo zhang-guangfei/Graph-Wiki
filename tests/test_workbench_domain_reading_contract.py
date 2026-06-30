@@ -4,6 +4,15 @@ from pathlib import Path
 from graph_wiki.product_data import ProductDataService
 
 
+def test_workbench_renders_selected_evidence_drawer():
+    app = Path("workbench/src/App.vue").read_text(encoding="utf-8")
+
+    assert 'v-if="selectedEvidence"' in app
+    assert 'class="evidence-drawer"' in app
+    assert "copyEvidence(selectedEvidence)" in app
+    assert "copyEvidenceRef(selectedEvidence)" in app
+
+
 def test_workbench_domain_page_is_derived_from_domain_read_model(tmp_path: Path):
     model = {
         "schema": {"version": "domain-read-model-v1"},

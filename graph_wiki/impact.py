@@ -458,6 +458,11 @@ def _has_evidence_paths(impact: dict[str, Any]) -> bool:
             return False
         if not any(str(value) for value in evidence.values()):
             return False
+        for key, value in evidence.items():
+            text = str(value or "")
+            if key.endswith("page") or text.endswith(".md"):
+                if not text or not Path(text).exists():
+                    return False
     return True
 
 

@@ -310,22 +310,12 @@ def _cmd_build(args):
         timings[current_step] = round(time.perf_counter() - started, 4)
         print(f"  dream-cycle-report.json: {dream_report['quality']['status']}")
 
-        current_step = "domain_read_model"
+        current_step = "domain_read_model_wiki"
         started = time.perf_counter()
-        print(f"[v1] Domain Read Model...")
-        domain_read_model = build_domain_read_model(
-            project_id=output_base.name,
-            project_name=name,
-            source_root=root,
-            domains=domains,
-            api_matches=api_matches,
-            field_map=field_map,
-            ontology=ontology,
-        )
-        _write_json(output_base / "domain-read-model.json", domain_read_model)
+        print(f"[v1] Domain Read Model Wiki...")
         export_domain_read_model_wiki(domain_read_model, output_base / "wiki")
         timings[current_step] = round(time.perf_counter() - started, 4)
-        print(f"  domain-read-model.json: {domain_read_model['quality']['deepReadingStatus']}")
+        print(f"  domain-read-model.md: {domain_read_model['quality']['deepReadingStatus']}")
 
         timings["total_seconds"] = round(time.perf_counter() - total_started, 4)
         report = _write_build_report(

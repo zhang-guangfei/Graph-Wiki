@@ -122,6 +122,26 @@ def test_release_gate_rejects_product_quality_that_drifted_from_read_model(tmp_p
     assert result["productQuality"]["deepReadingStatus"] == "failed"
 
 
+def test_release_gate_rejects_failed_phase_for_main_product_acceptance(tmp_path: Path):
+    gate = _load_gate_module()
+    output_dir = tmp_path / "fixture"
+    product_quality = {
+        "deepReadingStatus": "passed",
+        "coreDomainEvidenceStatus": "passed",
+        "ruleCorrectnessRisk": "low",
+    }
+    _write_minimal_artifacts(output_dir, product_quality=product_quality)
+    report_path = output_dir / "build-report.json"
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    report["quality"]["phase4"]["acceptance"]["status"] = "failed"
+    report_path.write_text(json.dumps(report), encoding="utf-8")
+
+    result = gate.validate_build_artifacts(output_dir, expected_product="passed")
+
+    assert result["status"] == "failed"
+    assert "phase4 status is failed" in "\n".join(result["errors"])
+
+
 def test_release_gate_refuses_to_delete_repo_root():
     gate = _load_gate_module()
 

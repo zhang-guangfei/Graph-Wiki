@@ -100,13 +100,16 @@ def _sample_field_map():
     }
 
 
+def _write_phase4_wiki_pages(wiki_root, domain="order"):
+    domain_dir = wiki_root / domain
+    domain_dir.mkdir(parents=True, exist_ok=True)
+    for name in ("summary.md", "rules.md", "spec.md", "data-flow.md", "api-docs.md", "code-map.md", "dependencies.md"):
+        (domain_dir / name).write_text(f"# {domain} {name}\n", encoding="utf-8")
+
+
 def test_phase4_impact_analysis_covers_five_board_questions(tmp_path):
     wiki_root = tmp_path / "wiki"
-    domain_dir = wiki_root / "order"
-    domain_dir.mkdir(parents=True)
-    (domain_dir / "summary.md").write_text("# order\n", encoding="utf-8")
-    (domain_dir / "rules.md").write_text("# order rules\n\n- 订单号必须唯一\n", encoding="utf-8")
-    (domain_dir / "spec.md").write_text("# order spec\n\n- 支持订单创建\n", encoding="utf-8")
+    _write_phase4_wiki_pages(wiki_root)
     ontology = {
         "schema": {"version": "code-ontology-v0"},
         "relationships": [
@@ -305,7 +308,7 @@ def test_phase4_rule_spec_impacts_include_code_carriers(tmp_path):
 
 def test_phase4_single_domain_records_no_external_dependency_as_evidence(tmp_path):
     wiki_root = tmp_path / "wiki"
-    (wiki_root / "order").mkdir(parents=True)
+    _write_phase4_wiki_pages(wiki_root)
 
     domain = _sample_domain()
     domain.dependencies = []
@@ -326,6 +329,25 @@ def test_phase4_single_domain_records_no_external_dependency_as_evidence(tmp_pat
     assert dependency["evidence"]["wiki_page"].endswith("order/dependencies.md")
     assert "domain_dependency" in {item["type"] for item in impact["query_examples"]}
     assert evaluate_phase4_acceptance(impact)["status"] == "passed"
+
+
+
+def test_phase4_acceptance_rejects_missing_wiki_evidence_pages(tmp_path):
+    wiki_root = tmp_path / "wiki"
+    (wiki_root / "order").mkdir(parents=True)
+
+    impact = build_impact_analysis(
+        domains=[_sample_domain()],
+        api_matches=[_sample_api()],
+        field_map=_sample_field_map(),
+        ontology={"relationships": []},
+        wiki_root=wiki_root,
+    )
+
+    audit = evaluate_phase4_acceptance(impact)
+
+    assert audit["status"] == "failed"
+    assert next(item for item in audit["items"] if item["id"] == "evidence_paths")["status"] == "failed"
 
 
 def test_phase4_field_impacts_fall_back_to_page_anchor_when_page_has_only_helpers(tmp_path):

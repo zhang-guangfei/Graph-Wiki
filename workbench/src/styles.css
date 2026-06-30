@@ -768,6 +768,20 @@ code,
   color: var(--bad);
 }
 
+.field-chain span.missing-required {
+  border-style: dashed;
+  border-color: rgba(166, 66, 54, 0.35);
+  background: #fff0ed;
+  color: var(--bad);
+}
+
+.field-chain span.missing-optional {
+  border-style: dashed;
+  border-color: rgba(148, 112, 37, 0.35);
+  background: #fff7e0;
+  color: var(--warn);
+}
+
 .field-chain span.unknown {
   color: var(--muted);
 }
@@ -809,6 +823,12 @@ code,
 .evidence-drawer dd {
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .drawer-close,

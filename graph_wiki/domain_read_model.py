@@ -460,7 +460,7 @@ def _check_evidence_source(
     if evidence.get("redacted") or evidence.get("redactionReason") == "sensitive_source_path":
         errors.append(f"EvidenceRef 指向敏感文件，已禁止作为产品证据: {ref}")
         return
-    if is_sensitive_path(source_path):
+    if is_sensitive_path(source_path) or is_sensitive_source_path(source_path):
         errors.append(f"EvidenceRef 指向敏感文件，已禁止作为产品证据: {ref}")
         return
     if evidence.get("status") == "missing":

@@ -726,5 +726,46 @@ function allFieldLayers(rule: DomainDetail["fieldRules"][number]) {
         </section>
       </template>
     </section>
+
+    <aside v-if="selectedEvidence" class="evidence-drawer" aria-label="证据详情面板">
+      <button type="button" class="drawer-close" @click="closeEvidence">关闭</button>
+      <p class="eyebrow">证据详情</p>
+      <h2>{{ selectedEvidence.label || selectedEvidence.id }}</h2>
+      <dl>
+        <div>
+          <dt>ID</dt>
+          <dd><code>{{ selectedEvidence.id || "—" }}</code></dd>
+        </div>
+        <div>
+          <dt>类型</dt>
+          <dd>{{ selectedEvidence.type || "unknown" }}</dd>
+        </div>
+        <div>
+          <dt>路径</dt>
+          <dd>{{ selectedEvidence.path || "—" }}</dd>
+        </div>
+        <div>
+          <dt>源码路径</dt>
+          <dd>{{ selectedEvidence.sourcePath || "—" }}</dd>
+        </div>
+        <div v-if="selectedEvidence.section">
+          <dt>章节</dt>
+          <dd>{{ selectedEvidence.section }}</dd>
+        </div>
+        <div>
+          <dt>可信度</dt>
+          <dd>{{ confidenceText(selectedEvidence.confidence, selectedEvidence.confidenceLabel) }}</dd>
+        </div>
+        <div>
+          <dt>状态</dt>
+          <dd><span class="status" :class="statusTone(selectedEvidence.status)">{{ statusLabel(selectedEvidence.status) }}</span></dd>
+        </div>
+      </dl>
+      <div class="drawer-actions">
+        <button type="button" class="copy-button" @click="copyEvidence(selectedEvidence)">复制详情</button>
+        <button type="button" class="copy-button" @click="copyEvidenceRef(selectedEvidence)">复制引用</button>
+      </div>
+      <p v-if="copiedEvidenceId === selectedEvidence.id" class="muted-text">已复制引用。</p>
+    </aside>
   </main>
 </template>
